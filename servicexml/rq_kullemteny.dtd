@@ -1,0 +1,10 @@
+<!ELEMENT request (body)>
+	<!ATTLIST request type    CDATA #REQUIRED>
+	<!ATTLIST request id      CDATA #REQUIRED>
+	<!ATTLIST request userid  CDATA #REQUIRED>
+
+<!ELEMENT body (teny)>
+
+<!ELEMENT teny EMPTY>
+	<!ATTLIST teny tenaz CDATA #REQUIRED>
+

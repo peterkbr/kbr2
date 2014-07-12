@@ -1,0 +1,8 @@
+<!ELEMENT response (body)>
+	<!ATTLIST response type           CDATA #REQUIRED>
+	<!ATTLIST response id             CDATA #REQUIRED>
+	<!ATTLIST response userid         CDATA #REQUIRED>
+	<!ATTLIST response result_code    CDATA #REQUIRED>
+	<!ATTLIST response result_message CDATA #IMPLIED>
+
+<!ELEMENT body EMPTY>

@@ -1,0 +1,26 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kbr="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/felvesz"
+        android:title="@string/teny_menu_felvesz"
+        kbr:showAsAction="always"/>
+    <item
+        android:id="@+id/letoltes"
+        android:title="@string/teny_menu_letoltes"
+        kbr:showAsAction="always"/>
+
+    <item
+        android:id="@+id/a_More"
+        android:icon="@drawable/moreoverflow"
+        android:title="More"
+        kbr:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/torles"
+                android:title="@string/teny_menu_torles"/>
+        </menu>
+    </item>
+
+</menu>

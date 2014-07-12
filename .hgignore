@@ -1,0 +1,6 @@
+syntax: glob
+gen-external-apklibs/
+out/
+.idea/
+target/
+kbr2.iml

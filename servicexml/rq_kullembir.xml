@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<request id="id" type="type" userid="userid">
+    <body>
+        <biral akako="akako" azono="azono" birda="birda" birti="birti" ert01="ert01" ert02="ert02" ert03="ert03" ert04="ert04" ert05="ert05" ert06="ert06"
+               ert07="ert07" ert08="ert08" ert09="ert09" ert10="ert10" ert11="ert11" ert12="ert12" ert13="ert13" ert14="ert14" ert15="ert15" ert16="ert16"
+               ert17="ert17" ert18="ert18" ert19="ert19" ert20="ert20" ert21="ert21" ert22="ert22" ert23="ert23" ert24="ert24" ert25="ert25" ert26="ert26"
+               ert27="ert27" ert28="ert28" ert29="ert29" ert30="ert30" kod01="kod01" kod02="kod02" kod03="kod03" kod04="kod04" kod05="kod05" kod06="kod06"
+               kod07="kod07" kod08="kod08" kod09="kod09" kod10="kod10" kod11="kod11" kod12="kod12" kod13="kod13" kod14="kod14" kod15="kod15" kod16="kod16"
+               kod17="kod17" kod18="kod18" kod19="kod19" kod20="kod20" kod21="kod21" kod22="kod22" kod23="kod23" kod24="kod24" kod25="kod25" kod26="kod26"
+               kod27="kod27" kod28="kod28" kod29="kod29" kod30="kod30" kulaz="kulaz" orsko="orsko" tenaz="tenaz"></biral>
+    </body>
+</request>

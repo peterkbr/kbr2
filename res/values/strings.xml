@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Küllemi bírálat</string>
+    <string name="hello">Hello kbr2!</string>
+    <string name="action_settings">Settings</string>
+
+    <!--BASIC INTERFACE-->
+    <string name="ok">OK</string>
+    <string name="cancel">Mégse</string>
+
+    <!--MENU-->
+    <string name="menu_title">Küllemi Bírálati információs rendszer</string>
+    <string name="menu_tenyeszetek">Tenyészetek kezelése</string>
+    <string name="menu_egyedek">Egyedek leválogatása</string>
+    <string name="menu_biralat">Bírálatok</string>
+    <string name="menu_biralat_b">Bírálatböngésző</string>
+
+    <!--TENYESZET-->
+    <string name="teny_menu_felvesz">Felvesz</string>
+    <string name="teny_menu_letoltes">Letöltés</string>
+    <string name="teny_menu_torles">Törlés</string>
+
+    <string name="teny_felvesz_title">Kérjük adja meg a tenyészet kódját!</string>
+    <string name="teny_felvesz_error_invalid">Nem megfelelő a tenyészetkód formátuma!</string>
+    <string name="teny_felvesz_error_duplicate">Ez a tenyészet már szerepel a rendszerben!</string>
+
+    <string name="teny_torles_title">Törli a kiválasztott telepeket?</string>
+
+    <string name="teny_notification_delete_biralat_title">A tenyészet feltöltetlen bírálatot tartalmaz!</string>
+    <string name="teny_notification_delete_biralat_message">A tenyészet nem törölhető!</string>
+
+    <string name="teny_notification_download_error_biralat_title">Addig nem lehet letölteni a tenyészetet, amíg a bírálatok feltöltése nem történt meg!</string>
+
+    <string name="teny_notification_download_ok_title">Megérkeztek a letöltés adatai.</string>
+    <string name="teny_notification_download_error_title">Sikertelen letöltés!</string>
+
+    <!--BÍRÁLAT-->
+    <string name="bir_menu_torles">Leválogatás törlése</string>
+    <string name="bir_menu_biral">Bírál</string>
+
+</resources>

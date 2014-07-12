@@ -1,0 +1,91 @@
+<!ELEMENT response (body)>
+       <!ATTLIST response type           CDATA #REQUIRED>
+       <!ATTLIST response id             CDATA #REQUIRED>
+       <!ATTLIST response userid         CDATA #REQUIRED>
+       <!ATTLIST response result_code    CDATA #REQUIRED>
+       <!ATTLIST response result_message CDATA #IMPLIED>
+
+<!ELEMENT body (teny)*>
+
+<!ELEMENT teny (egyed)*>
+     <!ATTLIST  teny tenaz  CDATA  #REQUIRED>
+      <!ATTLIST teny tarto  CDATA  #REQUIRED>
+      <!ATTLIST teny tecim  CDATA  #REQUIRED>
+      <!ATTLIST teny ledat  CDATA  #REQUIRED>
+
+<!ELEMENT egyed EMPTY>
+      <!ATTLIST egyed  tenaz  CDATA  #REQUIRED>
+      <!ATTLIST egyed  orsko  CDATA  #REQUIRED>
+      <!ATTLIST egyed  azono  CDATA  #REQUIRED>
+      <!ATTLIST egyed  ellso  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ellda  CDATA  #IMPLIED>
+      <!ATTLIST egyed  szuld  CDATA  #REQUIRED>
+      <!ATTLIST egyed  fajko  CDATA  #IMPLIED>
+      <!ATTLIST egyed  konsk  CDATA  #IMPLIED>
+      <!ATTLIST egyed  szine  CDATA  #REQUIRED>
+      <!ATTLIST egyed  itvje  (I|N)  #REQUIRED>
+
+      <!ATTLIST egyed  birda  CDATA  #IMPLIED>
+      <!ATTLIST egyed  birti  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kulaz  CDATA  #IMPLIED>
+      <!ATTLIST egyed  akako  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod01  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert01  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod02  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert02  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod03  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert03  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod04  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert04  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod05  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert05  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod06  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert06  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod07  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert07  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod08  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert08  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod09  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert09  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod10  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert10  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod11  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert11  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod12  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert12  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod13  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert13  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod14  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert14  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod15  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert15  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod16  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert16  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod17  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert17  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod18  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert18  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod19  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert19  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod20  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert20  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod21  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert21  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod22  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert22  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod23  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert23  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod24  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert24  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod25  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert25  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod26  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert26  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod27  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert27  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod28  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert28  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod29  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert29  CDATA  #IMPLIED>
+      <!ATTLIST egyed  kod30  CDATA  #IMPLIED>
+      <!ATTLIST egyed  ert30  CDATA  #IMPLIED>
