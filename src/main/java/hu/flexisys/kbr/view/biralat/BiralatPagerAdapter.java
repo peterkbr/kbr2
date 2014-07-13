@@ -23,6 +23,7 @@ public class BiralatPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 fragment = new BiralFragment();
                 break;
+            default:
         }
         return fragment;
     }

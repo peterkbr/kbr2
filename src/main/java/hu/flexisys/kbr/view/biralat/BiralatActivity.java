@@ -19,7 +19,7 @@ public class BiralatActivity extends KbrActivity {
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         setContentView(R.layout.activity_biralat);
 
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
 
         pager = (ViewPager) findViewById(R.id.biralat_pager);
@@ -28,9 +28,12 @@ public class BiralatActivity extends KbrActivity {
         BiralatPageChangeListener biralatPageChangeListener = new BiralatPageChangeListener(actionBar);
         pager.setOnPageChangeListener(biralatPageChangeListener);
 
-        BiralatTabListener biralatTabListener = new BiralatTabListener(pager);
+        BiralatTabListener biralatTabListener = new BiralatTabListener(this, pager);
+
+        actionBar.addTab(actionBar.newTab().setIcon(R.drawable.back).setTabListener(biralatTabListener));
         actionBar.addTab(actionBar.newTab().setText("Kereső").setTabListener(biralatTabListener));
         actionBar.addTab(actionBar.newTab().setText("Bírál").setTabListener(biralatTabListener));
+        actionBar.selectTab(actionBar.getTabAt(1));
 
     }
 

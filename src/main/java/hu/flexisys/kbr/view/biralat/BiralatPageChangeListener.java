@@ -15,8 +15,8 @@ public class BiralatPageChangeListener implements ViewPager.OnPageChangeListener
     }
 
     @Override
-    public void onPageSelected(int arg0) {
-        actionBar.setSelectedNavigationItem(arg0);
+    public void onPageSelected(int index) {
+        actionBar.setSelectedNavigationItem(++index);
     }
 
     @Override
