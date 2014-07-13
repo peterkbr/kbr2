@@ -22,7 +22,7 @@ import java.io.IOException;
  */
 public class DownloadTenyeszetArrayTask extends AsyncTask<Object, Void, Void> {
 
-    public static String TAG = "downloadTenyeszet";
+    public static String TAG = "KBR_downloadTenyeszet";
     private KbrApplication app;
     private ProgressHandler progressHandler;
 

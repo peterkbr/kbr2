@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class DBController {
 
-    public static final String TAG = "DBController";
+    public static final String TAG = "KBR_DBController";
 
     private static String DB_NAME = "KBR2_DB";
     private static int DB_VERSION = 1;
