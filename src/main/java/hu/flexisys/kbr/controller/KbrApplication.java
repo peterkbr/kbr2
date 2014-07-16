@@ -33,6 +33,10 @@ public class KbrApplication extends Application {
         }
     }
 
+    public void insertEgyed(Egyed egyed){
+        dbController.addEgyed(egyed);
+    }
+
     public void insertTenyeszetWithChildren(Tenyeszet tenyeszet) {
         dbController.addTenyeszet(tenyeszet);
         for (Egyed egyed : tenyeszet.getEgyedList()) {

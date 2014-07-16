@@ -37,9 +37,15 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
         actionBar.setDisplayShowTitleEnabled(false);
 
         ListView listView = (ListView) findViewById(R.id.teny_list);
-        reloadData();
         adapter = new TenyeszetAdapter(this, R.layout.list_tenyeszet, tenyeszetList, selectedList);
         listView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        reloadData();
+        adapter.notifyDataSetChanged();
     }
 
     @Override

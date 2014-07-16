@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.view.KbrDialog;
+import hu.flexisys.kbr.view.numpad.NumPad;
 import hu.flexisys.kbr.view.numpad.NumPadInput;
 
 import java.util.ArrayList;
@@ -22,16 +23,18 @@ public class BirKerNotfoundDialog extends KbrDialog {
 
     private BirKerNotfoundListener listener;
     private long[] selectedTenazArray;
+    private String hasznalatiSzamValue;
 
-    private NumPadInput azonEditText;
+    private NumPadInput azonNumPadInput;
     private Spinner tenazSpinner;
     private Spinner orskoSpinner;
 
-    public static BirKerNotfoundDialog newInstance(BirKerNotfoundListener listener, long[] selectedTenazArray) {
+    public static BirKerNotfoundDialog newInstance(BirKerNotfoundListener listener, long[] selectedTenazArray, String hasznalatiSzamValue) {
         BirKerNotfoundDialog f = new BirKerNotfoundDialog();
         f.layoutResId = R.layout.dialog_bir_ker_notfound;
         f.listener = listener;
         f.selectedTenazArray = selectedTenazArray;
+        f.hasznalatiSzamValue = hasznalatiSzamValue;
         return f;
     }
 
@@ -48,7 +51,10 @@ public class BirKerNotfoundDialog extends KbrDialog {
 
         orskoSpinner = (Spinner) v.findViewById(R.id.bir_ker_dialog_notfound_orsko_spinner);
 
-        azonEditText = (NumPadInput) v.findViewById(R.id.bir_ker_dialog_notfound_azon);
+        azonNumPadInput = (NumPadInput) v.findViewById(R.id.bir_ker_dialog_notfound_azon);
+        NumPad numpad = (NumPad) v.findViewById(R.id.bir_ker_dialog_notfound_numpad);
+        numpad.setNumPadInput(azonNumPadInput);
+        azonNumPadInput.setText(hasznalatiSzamValue);
 
         Button ok = (Button) v.findViewById(R.id.bir_ker_dialog_notfound_ok);
         ok.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +62,7 @@ public class BirKerNotfoundDialog extends KbrDialog {
             public void onClick(View v) {
                 String tenaz = String.valueOf(tenazSpinner.getSelectedItem());
                 String orsko = String.valueOf(orskoSpinner.getSelectedItem());
-                String azon = azonEditText.getText().toString();
+                String azon = azonNumPadInput.getText().toString();
                 if (azon != null && !azon.isEmpty() && tenaz != null && !tenaz.isEmpty() && orsko != null && !orsko.isEmpty()) {
                     listener.onAdd(tenaz, orsko, azon);
                 }

@@ -39,6 +39,18 @@
     <string name="bir_menu_torles">Leválogatás törlése</string>
     <string name="bir_menu_biral">Bírál</string>
 
+    <string name="bir_ker_check_hu_label">HU</string>
+    <string name="bir_ker_check_ku_label">KU</string>
+    <string name="bir_ker_keres">OK</string>
+    <string name="bir_ker_biral">Bírál</string>
+    <string name="bir_ker_itv_label">ITV</string>
+    <string name="bir_ker_det_laktnapok_label">Lakt.napok:</string>
+    <string name="bir_ker_det_laktszam_label">Lakt.szám:</string>
+    <string name="bir_ker_det_elles_datuma_label">Ellés dátuma:</string>
+    <string name="bir_ker_det_szuletes_label">Születés:</string>
+    <string name="bir_ker_det_konstrkod_label">Konstr.kód:</string>
+    <string name="bir_ker_det_szinkod_label">Színkód:</string>
+
     <string name="bir_ker_dialog_multi_title">Válasszon ENAR számot!</string>
     <string name="bir_ker_dialog_notfound_title">Nincs találat. Felvesz új egyedet?</string>
 
