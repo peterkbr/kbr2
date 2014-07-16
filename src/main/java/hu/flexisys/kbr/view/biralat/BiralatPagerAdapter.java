@@ -9,8 +9,13 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 public class BiralatPagerAdapter extends FragmentPagerAdapter {
 
-    public BiralatPagerAdapter(FragmentManager fm) {
+    private KeresoFragment keresoFragment;
+    private BiralFragment biralFragment;
+
+    public BiralatPagerAdapter(FragmentManager fm, BiralatActivity biralatActivity) {
         super(fm);
+        keresoFragment = KeresoFragment.newInstance(biralatActivity);
+        biralFragment = BiralFragment.newInstance(biralatActivity);
     }
 
     @Override
@@ -18,10 +23,10 @@ public class BiralatPagerAdapter extends FragmentPagerAdapter {
         Fragment fragment = null;
         switch (position) {
             case 0:
-                fragment = new KeresoFragment();
+                fragment = keresoFragment;
                 break;
             case 1:
-                fragment = new BiralFragment();
+                fragment = biralFragment;
                 break;
             default:
         }
@@ -32,4 +37,13 @@ public class BiralatPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return 2;
     }
+
+    public KeresoFragment getKeresoFragment() {
+        return keresoFragment;
+    }
+
+    public BiralFragment getBiralFragment() {
+        return biralFragment;
+    }
+
 }

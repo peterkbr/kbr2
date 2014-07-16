@@ -12,6 +12,14 @@ import hu.flexisys.kbr.R;
  */
 public class BiralFragment extends Fragment {
 
+    private BiralatActivity activity;
+
+    public static BiralFragment newInstance(BiralatActivity activity) {
+        BiralFragment fragment = new BiralFragment();
+        fragment.activity = activity;
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_biralat_biral, container, false);

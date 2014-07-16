@@ -23,6 +23,7 @@ import java.util.List;
  */
 public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlertListener {
 
+    public static String EXTRAKEY_SELECTEDTENAZLIST = "selectedTenazArray";
     private final List<TenyeszetListModel> tenyeszetList = new ArrayList<TenyeszetListModel>();
     private final List<Long> selectedList = new ArrayList<Long>();
     private TenyeszetAdapter adapter;
@@ -102,6 +103,13 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
             return;
         }
         Intent intent = new Intent(this, BiralatActivity.class);
+        Bundle extras = new Bundle();
+        long[] selectedTenazArray = new long[selectedList.size()];
+        for (int i = 0; i < selectedList.size(); i++) {
+            selectedTenazArray[i] = selectedList.get(i);
+        }
+        extras.putLongArray(EXTRAKEY_SELECTEDTENAZLIST, selectedTenazArray);
+        intent.putExtras(extras);
         startActivity(intent);
     }
 

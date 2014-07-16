@@ -20,62 +20,84 @@
             android:orientation="vertical"
             android:padding="10dp">
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="7">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="left|center_vertical"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="HU"
-                            android:textSize="20sp"/>
-
-                        <RadioButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="KU"
-                            android:textSize="20sp"/>
-                    </LinearLayout>
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:gravity="center"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="10dp"
-                        android:text="0195"
-                        android:textSize="40sp"/>
-                </LinearLayout>
+                android:weightSum="10">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="4"
-                    android:orientation="vertical"
-                    android:paddingLeft="10dp">
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|left"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/bir_ker_check_hu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="huClicked"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="HU"
+                            android:textSize="16sp"/>
+
+                        <RadioButton
+                            android:id="@+id/bir_ker_check_ku"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="huClicked"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="KU"
+                            android:textSize="16sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/keret"
+                        android:gravity="center"
+                        android:padding="5dp">
+
+                        <hu.flexisys.kbr.view.numpad.NumPadInput
+                            android:id="@+id/bir_hasznalatiInput"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/keret"
+                            android:gravity="center"
+                            android:maxLength="4"
+                            android:paddingBottom="5dp"
+                            android:paddingTop="5dp"
+                            android:text="0195"
+                            android:textSize="40sp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -85,35 +107,38 @@
                         android:orientation="horizontal">
 
                         <Button
+                            android:id="@+id/bir_ker_b1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="20+15"
-                            android:textSize="20sp"/>
+                            android:text="999+999"
+                            android:textSize="19sp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="/"
-                            android:textSize="20sp"/>
+                            android:textSize="19sp"/>
 
                         <Button
+                            android:id="@+id/bir_ker_b2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="360"
-                            android:textSize="20sp"/>
-
+                            android:text="9999"
+                            android:textSize="19sp"/>
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:orientation="horizontal">
 
                         <Button
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:width="80dp"
+                            android:onClick="okClicked"
                             android:text="OK"
                             android:textSize="25sp"/>
 
@@ -130,32 +155,198 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left|center_vertical"
                 android:orientation="horizontal"
                 android:weightSum="7">
 
                 <TextView
+                    android:id="@+id/bir_ker_enar"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="5"
-                    android:background="@color/green"/>
+                    android:background="@color/green"
+                    android:gravity="center"
+                    android:text="33091956"
+                    android:textSize="22sp"/>
 
-                <CheckBox
+                <LinearLayout
+                    android:id="@+id/bir_ker_itvLayout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="match_parent"
+                    android:gravity="bottom">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ITV"
-                    android:textSize="18sp"/>
+                    <CheckBox
+                        android:id="@+id/bir_ker_itvCheckBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ITV"
+                        android:textSize="17sp"/>
+                </LinearLayout>
+
             </LinearLayout>
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <LinearLayout
+                android:id="@+id/bir_ker_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="5">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lakt.napok:"
+                        android:textSize="17sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ellés dátuma:"
+                        android:textSize="17sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Születés:"
+                        android:textSize="17sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Konstr.kód:"
+                        android:textSize="17sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/bir_ker_laktNapok"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="313"
+                            android:textSize="17sp"
+                            android:textStyle="bold"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lakt.szám:"
+                            android:textSize="17sp"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:id="@+id/bir_ker_laktSzam"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="6"
+                            android:textSize="17sp"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/bir_ker_ellesDatuma"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2006-10-26"
+                        android:textSize="17sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/bir_ker_szuletes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1998-05-23"
+                        android:textSize="17sp"
+                        android:textStyle="bold"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/bir_ker_konstrKod"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="221"
+                            android:textSize="17sp"
+                            android:textStyle="bold"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Színkód:"
+                            android:textSize="17sp"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:id="@+id/bir_ker_szinkod"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1"
+                            android:textSize="17sp"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
         </LinearLayout>
 
-        <hu.flexisys.kbr.view.biralat.NumPad
+        <hu.flexisys.kbr.view.numpad.NumPad
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>

@@ -107,7 +107,11 @@ public class DBController {
     }
 
     public List<Egyed> getEgyedByTenyeszet(Tenyeszet tenyeszet) {
-        return innerConnector.getEgyedByTENAZ(tenyeszet.getTENAZ());
+        return getEgyedByTENAZ(tenyeszet.getTENAZ());
+    }
+
+    public List<Egyed> getEgyedByTENAZ(long tenaz) {
+        return innerConnector.getEgyedByTENAZ(tenaz);
     }
 
     public List<Egyed> getEgyedByTenyeszetAndKivalasztott(Tenyeszet tenyeszet, boolean kivalasztott) {

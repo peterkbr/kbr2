@@ -173,7 +173,8 @@ public class XmlUtil {
                         } else if (xpp.getAttributeName(i).equals(TN_EGYED_SZINE)) {
                             egyed.setSZINE(Integer.valueOf(xpp.getAttributeValue(i)));
                         } else if (xpp.getAttributeName(i).equals(TN_EGYED_ITVJE)) {
-                            egyed.setITVJE(xpp.getAttributeValue(i));
+                            String itv = xpp.getAttributeValue(i);
+                            egyed.setITVJE(itv.equals("i") || itv.equals("I"));
                         } else if (xpp.getAttributeName(i).equals(TN_EGYED_BIRDA)) {
                             biralat.setBIRDA(DateUtil.getDateFromDateString(xpp.getAttributeValue(i)));
                         } else if (xpp.getAttributeName(i).equals(TN_EGYED_BIRTI)) {
@@ -318,6 +319,7 @@ public class XmlUtil {
                     }
                     // TODO uncomment
                     // egyed.setKIVALASZTOTT(false);
+                    egyed.setUJ(false);
                     tenyeszet.addEgyed(egyed);
                 }
             } else if (eventType == XmlPullParser.END_TAG) {

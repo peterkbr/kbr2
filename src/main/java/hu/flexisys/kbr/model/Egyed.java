@@ -18,8 +18,9 @@ public class Egyed {
     private Integer FAJKO;
     private Integer KONSK;
     private Integer SZINE;
-    private String ITVJE;
+    private Boolean ITVJE;
     private Boolean KIVALASZTOTT;
+    private Boolean UJ;
 
     private List<Biralat> biralatList;
 
@@ -105,11 +106,11 @@ public class Egyed {
         this.SZINE = SZINE;
     }
 
-    public String getITVJE() {
+    public Boolean getITVJE() {
         return ITVJE;
     }
 
-    public void setITVJE(String ITVJE) {
+    public void setITVJE(Boolean ITVJE) {
         this.ITVJE = ITVJE;
     }
 
@@ -119,6 +120,14 @@ public class Egyed {
 
     public void setKIVALASZTOTT(Boolean KIVALASZTOTT) {
         this.KIVALASZTOTT = KIVALASZTOTT;
+    }
+
+    public Boolean getUJ() {
+        return UJ;
+    }
+
+    public void setUJ(Boolean UJ) {
+        this.UJ = UJ;
     }
 
     public List<Biralat> getBiralatList() {

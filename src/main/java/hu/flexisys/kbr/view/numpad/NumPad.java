@@ -1,4 +1,4 @@
-package hu.flexisys.kbr.view.biralat;
+package hu.flexisys.kbr.view.numpad;
 
 import android.content.Context;
 import android.util.AttributeSet;

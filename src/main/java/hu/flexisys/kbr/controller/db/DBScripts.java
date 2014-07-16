@@ -29,13 +29,15 @@ public class DBScripts {
     public static final String COLUMN_EGYED_SZINE = "SZINE";
     public static final String COLUMN_EGYED_ITVJE = "ITVJE";
     public static final String COLUMN_EGYED_KIVALASZTOTT = "KIVALASZTOTT";
+    public static final String COLUMN_EGYED_UJ = "UJ";
     public static final String[] COLUMNS_EGYED = new String[]{COLUMN_EGYED_AZONO, COLUMN_EGYED_TENAZ, COLUMN_EGYED_ORSKO, COLUMN_EGYED_ELLSO,
-            COLUMN_EGYED_ELLDA, COLUMN_EGYED_SZULD, COLUMN_EGYED_FAJKO, COLUMN_EGYED_KONSK, COLUMN_EGYED_SZINE, COLUMN_EGYED_ITVJE, COLUMN_EGYED_KIVALASZTOTT};
+            COLUMN_EGYED_ELLDA, COLUMN_EGYED_SZULD, COLUMN_EGYED_FAJKO, COLUMN_EGYED_KONSK, COLUMN_EGYED_SZINE, COLUMN_EGYED_ITVJE,
+            COLUMN_EGYED_KIVALASZTOTT, COLUMN_EGYED_UJ};
 
     public static final String TABLE_BIRALAT = "biralat";
+    public static final String COLUMN_BIRALAT_AZONO = "AZONO";
     public static final String COLUMN_BIRALAT_TENAZ = "TENAZ";
     public static final String COLUMN_BIRALAT_ORSKO = "ORSKO";
-    public static final String COLUMN_BIRALAT_AZONO = "AZONO";
     public static final String COLUMN_BIRALAT_BIRDA = "BIRDA";
     public static final String COLUMN_BIRALAT_BIRTI = "BIRTI";
     public static final String COLUMN_BIRALAT_KULAZ = "KULAZ";
@@ -138,8 +140,9 @@ public class DBScripts {
         builder.append(COLUMN_EGYED_FAJKO).append(" INTEGER, ");
         builder.append(COLUMN_EGYED_KONSK).append(" INTEGER, ");
         builder.append(COLUMN_EGYED_SZINE).append(" INTEGER, ");
-        builder.append(COLUMN_EGYED_ITVJE).append(" TEXT, ");
-        builder.append(COLUMN_EGYED_KIVALASZTOTT).append(" BOOLEAN ");
+        builder.append(COLUMN_EGYED_ITVJE).append(" BOOLEAN, ");
+        builder.append(COLUMN_EGYED_KIVALASZTOTT).append(" BOOLEAN, ");
+        builder.append(COLUMN_EGYED_UJ).append(" BOOLEAN ");
         builder.append(");");
         strings.add(builder.toString());
 

@@ -133,17 +133,18 @@ public class DBConnector {
 
     private Egyed getEgyedFromCursor(Cursor cursor) {
         Egyed egyed = new Egyed();
-        egyed.setTENAZ(cursor.getLong(0));
-        egyed.setORSKO(cursor.getString(1));
-        egyed.setAZONO(cursor.getLong(2));
+        egyed.setAZONO(cursor.getLong(0));
+        egyed.setTENAZ(cursor.getLong(1));
+        egyed.setORSKO(cursor.getString(2));
         egyed.setELLSO(cursor.getInt(3));
         egyed.setELLDA(new Date(cursor.getLong(4)));
         egyed.setSZULD(new Date(cursor.getLong(5)));
         egyed.setFAJKO(cursor.getInt(6));
         egyed.setKONSK(cursor.getInt(7));
         egyed.setSZINE(cursor.getInt(8));
-        egyed.setITVJE(cursor.getString(9));
+        egyed.setITVJE(cursor.getInt(9) != 0);
         egyed.setKIVALASZTOTT(cursor.getInt(10) != 0);
+        egyed.setUJ(cursor.getInt(11) != 0);
         return egyed;
     }
 

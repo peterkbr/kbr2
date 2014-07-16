@@ -39,4 +39,17 @@
     <string name="bir_menu_torles">Leválogatás törlése</string>
     <string name="bir_menu_biral">Bírál</string>
 
+    <string name="bir_ker_dialog_multi_title">Válasszon ENAR számot!</string>
+    <string name="bir_ker_dialog_notfound_title">Nincs találat. Felvesz új egyedet?</string>
+
+    <string-array name="bir_ker_dialog_notfound_orsko_list">
+        <item>HU</item>
+        <item>DE</item>
+        <item>AT</item>
+        <item>SK</item>
+        <item>CZ</item>
+        <item>PL</item>
+        <item>UA</item>
+    </string-array>
+
 </resources>

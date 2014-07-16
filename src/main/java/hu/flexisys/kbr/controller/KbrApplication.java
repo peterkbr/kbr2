@@ -130,6 +130,14 @@ public class KbrApplication extends Application {
         return list;
     }
 
+    public List<Egyed> getEgyedListByTENAZArray(long[] tenazArray) {
+        List<Egyed> egyedList = new ArrayList<Egyed>();
+        for (long tenaz : tenazArray) {
+            egyedList.addAll(dbController.getEgyedByTENAZ(tenaz));
+        }
+        return egyedList;
+    }
+
     // GETTERS, SETTERS
 
     public String getUserId() {
