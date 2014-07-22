@@ -262,6 +262,11 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
             app.insertBiralat(biralat);
 
             reloadData();
+            for (Egyed egyed : egyedList) {
+                if (egyed.getAZONO().equals(selectedEgyedForKereso.getAZONO())) {
+                    selectedEgyedForKereso = egyed;
+                }
+            }
             keresoFragment.updateKeresoButtons(egyedList);
             keresoFragment.updateDetails(selectedEgyedForKereso);
             actionBar.selectTab(actionBar.getTabAt(1));

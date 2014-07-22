@@ -94,7 +94,7 @@ public class TenyeszetActivity extends KbrActivity implements FelveszListener, T
     public void onFelvesz(String tenaz) {
         if (tenaz == null || tenaz.isEmpty()) {
             toast(R.string.teny_felvesz_error_invalid);
-        } else if (isDuplicate(Long.valueOf(tenaz))) {
+        } else if (isDuplicate(tenaz)) {
             toast(R.string.teny_felvesz_error_duplicate);
         } else {
             Tenyeszet tenyeszet = new Tenyeszet(tenaz);
@@ -109,7 +109,7 @@ public class TenyeszetActivity extends KbrActivity implements FelveszListener, T
         }
     }
 
-    private Boolean isDuplicate(Long tenaz) {
+    private Boolean isDuplicate(String tenaz) {
         for (TenyeszetListModel tenyeszet : tenyeszetList) {
             if (tenaz.equals(tenyeszet.getTENAZ())) {
                 return true;
