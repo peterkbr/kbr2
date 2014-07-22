@@ -45,6 +45,10 @@
     <string name="lev_menu_mentes_kilepes">Mentés és kilépés</string>
     <string name="lev_menu_mentes">Mentés</string>
 
+    <string name="lev_szuk_menu_szukit">Szűkít</string>
+    <string name="lev_szuk_menu_levalogatas_torlese">Leválogatás törlése</string>
+    <string name="lev_szuk_menu_urit">Ürít</string>
+
 
     <!--BÍRÁLAT-->
     <string name="bir_menu_torles">Leválogatás törlése</string>
