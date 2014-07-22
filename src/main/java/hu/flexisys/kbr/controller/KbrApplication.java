@@ -56,7 +56,7 @@ public class KbrApplication extends Application {
         }
     }
 
-    public int updateTenyeszetByTENAZWithERVENYES(Long TENAZ, Boolean ERVENYES) {
+    public int updateTenyeszetByTENAZWithERVENYES(String TENAZ, Boolean ERVENYES) {
         int count = dbController.updateTenyeszetByTENAZWithERVENYES(TENAZ, ERVENYES);
         try {
             dbController.checkDbConsistency();
@@ -76,7 +76,7 @@ public class KbrApplication extends Application {
         return count;
     }
 
-    public void deleteTenyeszet(Long tenaz) {
+    public void deleteTenyeszet(String tenaz) {
         dbController.removeTenyeszet(tenaz);
         try {
             dbController.checkDbConsistency();
@@ -85,7 +85,7 @@ public class KbrApplication extends Application {
         }
     }
 
-    public void removeSelectionFromTenyeszet(Long tenaz) {
+    public void removeSelectionFromTenyeszet(String tenaz) {
         dbController.removeSelectionFromTenyeszet(tenaz);
         try {
             dbController.checkDbConsistency();
@@ -138,23 +138,23 @@ public class KbrApplication extends Application {
         return list;
     }
 
-    public List<Tenyeszet> getTenyeszetListByTENAZArray(long[] tenazArray) {
+    public List<Tenyeszet> getTenyeszetListByTENAZArray(String[] tenazArray) {
         List<Tenyeszet> tenyeszetList = new ArrayList<Tenyeszet>();
-        for (long tenaz : tenazArray) {
+        for (String tenaz : tenazArray) {
             tenyeszetList.add(dbController.getTenyeszetByTENAZ(tenaz));
         }
         return tenyeszetList;
     }
 
-    public List<Egyed> getEgyedListByTENAZArray(long[] tenazArray) {
+    public List<Egyed> getEgyedListByTENAZArray(String[] tenazArray) {
         List<Egyed> egyedList = new ArrayList<Egyed>();
-        for (long tenaz : tenazArray) {
+        for (String tenaz : tenazArray) {
             egyedList.addAll(dbController.getEgyedByTENAZ(tenaz));
         }
         return egyedList;
     }
 
-    public int updateEgyedWithSelection(long azono, Boolean selection) {
+    public int updateEgyedWithSelection(String azono, Boolean selection) {
         int count = dbController.updateEgyedByAZONOWithKIVALASZTOTT(azono, selection);
         try {
             dbController.checkDbConsistency();
@@ -164,9 +164,9 @@ public class KbrApplication extends Application {
         return count;
     }
 
-    public List<Biralat> getBiralatListByTENAZArray(long[] tenazArray) {
+    public List<Biralat> getBiralatListByTENAZArray(String[] tenazArray) {
         List<Biralat> biralatList = new ArrayList<Biralat>();
-        for (long tenaz : tenazArray) {
+        for (String tenaz : tenazArray) {
             biralatList.addAll(dbController.getBiralatByTENAZ(tenaz));
         }
         return biralatList;

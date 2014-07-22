@@ -25,7 +25,7 @@ import java.util.List;
 public class LevalogatasActivity extends KbrActivity {
 
     private static final String TAG = "KBR_LevalogatasActivity";
-    private long[] selectedTenazArray;
+    private String[] selectedTenazArray;
     private List<Egyed> egyedList;
     private Integer selectedEgyedCounter;
     private LevalogatasListViewAdapter adapter;
@@ -43,7 +43,7 @@ public class LevalogatasActivity extends KbrActivity {
 
         filter = new Filter();
 
-        selectedTenazArray = getIntent().getExtras().getLongArray(BiralatTenyeszetActivity.EXTRAKEY_SELECTEDTENAZLIST);
+        selectedTenazArray = getIntent().getExtras().getStringArray(BiralatTenyeszetActivity.EXTRAKEY_SELECTEDTENAZLIST);
         egyedList = new ArrayList<Egyed>();
         reloadData();
 
@@ -141,9 +141,9 @@ public class LevalogatasActivity extends KbrActivity {
             Log.i(TAG, "Üres az egyedlista!");
         } else {
             List<Biralat> biralatList = app.getBiralatListByTENAZArray(selectedTenazArray);
-            HashMap<Long, ArrayList<Biralat>> biralatMap = new HashMap<Long, ArrayList<Biralat>>();
+            HashMap<String, ArrayList<Biralat>> biralatMap = new HashMap<String, ArrayList<Biralat>>();
             for (Biralat biralat : biralatList) {
-                Long azono = biralat.getAZONO();
+                String azono = biralat.getAZONO();
                 if (biralatMap.get(azono) == null) {
                     biralatMap.put(azono, new ArrayList<Biralat>());
                 }

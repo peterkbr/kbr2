@@ -13,8 +13,10 @@
         android:padding="3dp"/>
 
     <LinearLayout
+        android:id="@+id/tenyeszetList_textLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:clickable="true"
         android:orientation="vertical">
 
         <TextView

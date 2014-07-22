@@ -50,14 +50,14 @@ public class DBController {
         sdCardConnector.addTenyeszet(tenyeszet);
     }
 
-    public void removeTenyeszet(Long TENAZ) {
+    public void removeTenyeszet(String TENAZ) {
         Log.i(TAG, "removeTenyeszet from innerConnector:" + TENAZ);
         removeTenyeszet(innerConnector, TENAZ);
         Log.i(TAG, "removeTenyeszet from sdCardConnector:" + TENAZ);
         removeTenyeszet(sdCardConnector, TENAZ);
     }
 
-    private void removeTenyeszet(DBConnector connector, Long TENAZ) {
+    private void removeTenyeszet(DBConnector connector, String TENAZ) {
         int ok = connector.removeTenyeszet(TENAZ);
         Log.i(TAG, "removeTenyeszet:" + TENAZ + " - tenyeszet:" + ok);
         if (ok == 1) {
@@ -74,13 +74,13 @@ public class DBController {
         return innerCount;
     }
 
-    public int updateTenyeszetByTENAZWithERVENYES(Long TENAZ, Boolean ERVENYES) {
+    public int updateTenyeszetByTENAZWithERVENYES(String TENAZ, Boolean ERVENYES) {
         int innerCount = innerConnector.updateTenyeszetByTENAZWithERVENYES(TENAZ, ERVENYES);
         sdCardConnector.updateTenyeszetByTENAZWithERVENYES(TENAZ, ERVENYES);
         return innerCount;
     }
 
-    public int removeSelectionFromTenyeszet(Long TENAZ) {
+    public int removeSelectionFromTenyeszet(String TENAZ) {
         int innerCount = innerConnector.removeSelectionFromTenyeszet(TENAZ);
         sdCardConnector.removeSelectionFromTenyeszet(TENAZ);
         return innerCount;
@@ -91,7 +91,7 @@ public class DBController {
         sdCardConnector.addEgyed(egyed);
     }
 
-    public int updateEgyedByAZONOWithKIVALASZTOTT(Long AZONO, Boolean KIVALASZTOTT) {
+    public int updateEgyedByAZONOWithKIVALASZTOTT(String AZONO, Boolean KIVALASZTOTT) {
         int count = innerConnector.updateEgyedByAZONOWithKIVALASZTOTT(AZONO, KIVALASZTOTT);
         sdCardConnector.updateEgyedByAZONOWithKIVALASZTOTT(AZONO, KIVALASZTOTT);
         return count;
@@ -104,7 +104,7 @@ public class DBController {
 
     // READ FROM DB
 
-    public Tenyeszet getTenyeszetByTENAZ(long tenaz) {
+    public Tenyeszet getTenyeszetByTENAZ(String tenaz) {
         return innerConnector.getTenyeszetByTENAZ(tenaz);
     }
 
@@ -120,7 +120,7 @@ public class DBController {
         return getEgyedByTENAZ(tenyeszet.getTENAZ());
     }
 
-    public List<Egyed> getEgyedByTENAZ(long tenaz) {
+    public List<Egyed> getEgyedByTENAZ(String tenaz) {
         return innerConnector.getEgyedByTENAZ(tenaz);
     }
 
@@ -132,7 +132,7 @@ public class DBController {
         return innerConnector.getBiralatAll();
     }
 
-    public List<Biralat> getBiralatByTENAZ(long tenaz) {
+    public List<Biralat> getBiralatByTENAZ(String tenaz) {
         return innerConnector.getBiralatByTENAZ(tenaz);
     }
 

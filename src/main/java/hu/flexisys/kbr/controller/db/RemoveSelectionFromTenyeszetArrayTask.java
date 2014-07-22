@@ -20,7 +20,7 @@ public class RemoveSelectionFromTenyeszetArrayTask extends AsyncTask<Object, Voi
     @Override
     protected Void doInBackground(Object... params) {
         for (Object param : params) {
-            app.removeSelectionFromTenyeszet((Long) param);
+            app.removeSelectionFromTenyeszet((String) param);
         }
         return null;
     }

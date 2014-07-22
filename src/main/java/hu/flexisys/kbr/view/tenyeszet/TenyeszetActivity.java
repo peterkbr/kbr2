@@ -26,9 +26,9 @@ import java.util.List;
 public class TenyeszetActivity extends KbrActivity implements FelveszListener, TorlesAlertListener {
 
     private final List<TenyeszetListModel> tenyeszetList = new ArrayList<TenyeszetListModel>();
-    private final List<Long> selectedList = new ArrayList<Long>();
+    private final List<String> selectedList = new ArrayList<String>();
     private TenyeszetAdapter adapter;
-    private List<Long> origOrder;
+    private List<String> origOrder;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,7 +76,7 @@ public class TenyeszetActivity extends KbrActivity implements FelveszListener, T
     }
 
     private void setOrigOrder() {
-        origOrder = new ArrayList<Long>();
+        origOrder = new ArrayList<String>();
         for (TenyeszetListModel tenyeszet : tenyeszetList) {
             origOrder.add(tenyeszet.getTENAZ());
         }
@@ -97,7 +97,7 @@ public class TenyeszetActivity extends KbrActivity implements FelveszListener, T
         } else if (isDuplicate(Long.valueOf(tenaz))) {
             toast(R.string.teny_felvesz_error_duplicate);
         } else {
-            Tenyeszet tenyeszet = new Tenyeszet(Long.valueOf(tenaz));
+            Tenyeszet tenyeszet = new Tenyeszet(tenaz);
             tenyeszet.setERVENYES(false);
             tenyeszet.setLEDAT(new Date(1));
             app.insertTenyeszetWithChildren(tenyeszet);
@@ -144,7 +144,7 @@ public class TenyeszetActivity extends KbrActivity implements FelveszListener, T
                 for (int j = 0; j < origOrder.size(); j++) {
                     tenyeszetList.add(null);
                 }
-                ArrayList<Long> errorList = new ArrayList<Long>();
+                ArrayList<String> errorList = new ArrayList<String>();
 
                 List<TenyeszetListModel> newList = app.getTenyeszetListModels();
                 for (TenyeszetListModel newTenyeszet : newList) {
@@ -164,7 +164,7 @@ public class TenyeszetActivity extends KbrActivity implements FelveszListener, T
                 } else {
                     title = getString(R.string.teny_notification_download_error_title);
                     StringBuilder errorMessageBuilder = new StringBuilder();
-                    for (Long tezan : errorList) {
+                    for (String tezan : errorList) {
                         if (errorMessageBuilder.length() != 0) {
                             errorMessageBuilder.append("\n");
                         }
@@ -206,7 +206,7 @@ public class TenyeszetActivity extends KbrActivity implements FelveszListener, T
     public void onTorles() {
         dialog.dismiss();
         startProgressDialog();
-        for (Long tenaz : selectedList) {
+        for (String tenaz : selectedList) {
             tenyeszetList.remove(new TenyeszetListModel(tenaz));
         }
         adapter.notifyDataSetChanged();

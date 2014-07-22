@@ -34,10 +34,9 @@ public class DownloadTenyeszetArrayTask extends AsyncTask<Object, Void, Void> {
     @Override
     protected Void doInBackground(Object... params) {
         for (Object param : params) {
-            Long TENAZ = (Long) param;
+            String TENAZ = (String) param;
             Log.i(TAG, "DOWNLOAD STARTED:" + TENAZ + ":" + DateUtil.getRequestId());
-            String tenaz = String.valueOf(TENAZ);
-            String requestXml = NetworkUtil.getKullemtenyRequestBody(app.getUserId(), tenaz);
+            String requestXml = NetworkUtil.getKullemtenyRequestBody(app.getUserId(), TENAZ);
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost post = new HttpPost(NetworkUtil.SERVICE_URL);
             String responseValue = null;
@@ -58,7 +57,7 @@ public class DownloadTenyeszetArrayTask extends AsyncTask<Object, Void, Void> {
                     app.insertTenyeszetWithChildren(tenyeszet);
                     Log.i(TAG, "INSERTED:" + TENAZ + ":" + DateUtil.getRequestId());
                 } catch (Exception e) {
-                    app.updateTenyeszetByTENAZWithERVENYES(Long.valueOf(tenaz), false);
+                    app.updateTenyeszetByTENAZWithERVENYES(TENAZ, false);
                     Log.e(TAG, "parsing xml", e);
                 }
             }

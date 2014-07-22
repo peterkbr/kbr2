@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Tenyeszet {
 
-    private Long TENAZ;
+    private String TENAZ;
     private String TARTO;
     private String TECIM;
     private Date LEDAT;
@@ -22,7 +22,7 @@ public class Tenyeszet {
         ERVENYES = true;
     }
 
-    public Tenyeszet(Long TENAZ) {
+    public Tenyeszet(String TENAZ) {
         this();
         this.TENAZ = TENAZ;
     }
@@ -53,11 +53,11 @@ public class Tenyeszet {
 
     // GETTERS, SETTERS
 
-    public Long getTENAZ() {
+    public String getTENAZ() {
         return TENAZ;
     }
 
-    public void setTENAZ(Long TENAZ) {
+    public void setTENAZ(String TENAZ) {
         this.TENAZ = TENAZ;
     }
 

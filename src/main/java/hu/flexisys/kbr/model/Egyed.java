@@ -9,8 +9,8 @@ import java.util.List;
  */
 public class Egyed {
 
-    private Long AZONO;
-    private Long TENAZ;
+    private String AZONO;
+    private String TENAZ;
     private String ORSKO;
     private Integer ELLSO;
     private Date ELLDA;
@@ -34,11 +34,11 @@ public class Egyed {
 
     // GETTERS, SETTERS
 
-    public Long getTENAZ() {
+    public String getTENAZ() {
         return TENAZ;
     }
 
-    public void setTENAZ(Long TENAZ) {
+    public void setTENAZ(String TENAZ) {
         this.TENAZ = TENAZ;
     }
 
@@ -50,11 +50,11 @@ public class Egyed {
         this.ORSKO = ORSKO;
     }
 
-    public Long getAZONO() {
+    public String getAZONO() {
         return AZONO;
     }
 
-    public void setAZONO(Long AZONO) {
+    public void setAZONO(String AZONO) {
         this.AZONO = AZONO;
     }
 

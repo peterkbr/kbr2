@@ -134,6 +134,6 @@ public class LevalogatasListViewAdapter extends ArrayAdapter<Egyed> {
 
     @Override
     public long getItemId(int position) {
-        return egyedList.get(position).getAZONO();
+        return Long.valueOf(egyedList.get(position).getAZONO());
     }
 }

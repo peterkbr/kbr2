@@ -20,9 +20,9 @@ public class TenyeszetAdapter extends ArrayAdapter<TenyeszetListModel> {
 
     protected final Context context;
     protected final List<TenyeszetListModel> tenyeszetList;
-    protected final List<Long> selectedList;
+    protected final List<String> selectedList;
 
-    public TenyeszetAdapter(Context context, int resource, List<TenyeszetListModel> tenyeszetList, List<Long> selectedList) {
+    public TenyeszetAdapter(Context context, int resource, List<TenyeszetListModel> tenyeszetList, List<String> selectedList) {
         super(context, resource);
         this.context = context;
         this.tenyeszetList = tenyeszetList;
@@ -42,7 +42,7 @@ public class TenyeszetAdapter extends ArrayAdapter<TenyeszetListModel> {
             rowView.setBackgroundColor(context.getResources().getColor(R.color.pink));
         }
 
-        CheckBox checkBox = (CheckBox) rowView.findViewById(R.id.tenyeszetList_checkBox);
+        final CheckBox checkBox = (CheckBox) rowView.findViewById(R.id.tenyeszetList_checkBox);
         checkBox.setChecked(selectedList.contains(model.getTENAZ()));
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -56,25 +56,32 @@ public class TenyeszetAdapter extends ArrayAdapter<TenyeszetListModel> {
                 }
             }
         });
+        View view = rowView.findViewById(R.id.tenyeszetList_textLayout);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkBox.setChecked(!checkBox.isChecked());
+            }
+        });
 
         TextView textView_0 = (TextView) rowView.findViewById(R.id.tenyeszetList_0);
         TextView textView_1 = (TextView) rowView.findViewById(R.id.tenyeszetList_1);
         TextView textView_2 = (TextView) rowView.findViewById(R.id.tenyeszetList_2);
 
         String text = "";
-        if (model.getERVENYES()!=null && model.getERVENYES() && model.getTARTO() != null) {
+        if (model.getERVENYES() != null && model.getERVENYES() && model.getTARTO() != null) {
             text = model.getTARTO();
         }
         textView_0.setText(text);
 
         text = String.valueOf(model.getTENAZ());
-        if (model.getERVENYES()!=null && model.getERVENYES() && model.getTelepules() != null) {
+        if (model.getERVENYES() != null && model.getERVENYES() && model.getTelepules() != null) {
             text = model.getTENAZ() + ", " + model.getTelepules();
         }
         textView_1.setText(text);
 
         text = "";
-        if (model.getERVENYES()!=null && model.getERVENYES() && model.getEgyedCount() != null) {
+        if (model.getERVENYES() != null && model.getERVENYES() && model.getEgyedCount() != null) {
             text = model.getEgyedCount() + "/" + model.getSelectedEgyedCount() + "/" + model.getBiralatWaitingForUpload();
         }
         textView_2.setText(text);
@@ -89,6 +96,6 @@ public class TenyeszetAdapter extends ArrayAdapter<TenyeszetListModel> {
 
     @Override
     public long getItemId(int i) {
-        return tenyeszetList.get(i).getTENAZ();
+        return Long.valueOf(tenyeszetList.get(i).getTENAZ());
     }
 }

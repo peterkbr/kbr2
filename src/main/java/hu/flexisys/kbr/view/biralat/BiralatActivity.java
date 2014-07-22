@@ -26,7 +26,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
 
     private static final String TAG = "KBR_BiralatActivity";
 
-    private long[] selectedTenazArray;
+    private String[] selectedTenazArray;
     private ViewPager pager;
     private BiralatPagerAdapter adapter;
     private NumPadInput hasznalatiInput;
@@ -63,7 +63,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         actionBar.addTab(actionBar.newTab().setText("Bírál").setTabListener(biralatTabListener));
         actionBar.selectTab(actionBar.getTabAt(1));
 
-        selectedTenazArray = getIntent().getExtras().getLongArray(BiralatTenyeszetActivity.EXTRAKEY_SELECTEDTENAZLIST);
+        selectedTenazArray = getIntent().getExtras().getStringArray(BiralatTenyeszetActivity.EXTRAKEY_SELECTEDTENAZLIST);
         reloadData();
 
         hu = true;
@@ -78,9 +78,9 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
             Log.i(TAG, "Üres az egyedlista!");
         } else {
             List<Biralat> biralatList = app.getBiralatListByTENAZArray(selectedTenazArray);
-            HashMap<Long, ArrayList<Biralat>> biralatMap = new HashMap<Long, ArrayList<Biralat>>();
+            HashMap<String, ArrayList<Biralat>> biralatMap = new HashMap<String, ArrayList<Biralat>>();
             for (Biralat biralat : biralatList) {
-                Long azono = biralat.getAZONO();
+                String azono = biralat.getAZONO();
                 if (biralatMap.get(azono) == null) {
                     biralatMap.put(azono, new ArrayList<Biralat>());
                 }
@@ -197,9 +197,9 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         }
 
         Egyed egyed = new Egyed();
-        egyed.setTENAZ(Long.valueOf(tenaz));
+        egyed.setTENAZ(tenaz);
         egyed.setORSKO(orsko);
-        egyed.setAZONO(Long.valueOf(azono));
+        egyed.setAZONO(azono);
         egyed.setKIVALASZTOTT(false);
         egyed.setUJ(true);
         app.insertEgyed(egyed);

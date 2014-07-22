@@ -19,7 +19,7 @@ public class TenyeszetListModel {
         this.tenyeszet = tenyeszet;
     }
 
-    public TenyeszetListModel(Long TENAZ) {
+    public TenyeszetListModel(String TENAZ) {
         tenyeszet = new Tenyeszet(TENAZ);
     }
 
@@ -53,7 +53,7 @@ public class TenyeszetListModel {
         this.tenyeszet = tenyeszet;
     }
 
-    public Long getTENAZ() {
+    public String getTENAZ() {
         return tenyeszet.getTENAZ();
     }
 

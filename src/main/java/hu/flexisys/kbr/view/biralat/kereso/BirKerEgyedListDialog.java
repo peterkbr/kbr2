@@ -87,7 +87,7 @@ public class BirKerEgyedListDialog extends KbrDialog {
 
         @Override
         public long getItemId(int position) {
-            return selectedEgyedList.get(position).getAZONO();
+            return Long.valueOf(selectedEgyedList.get(position).getAZONO());
         }
     }
 

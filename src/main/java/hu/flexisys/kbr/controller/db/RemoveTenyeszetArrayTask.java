@@ -20,7 +20,7 @@ public class RemoveTenyeszetArrayTask extends AsyncTask<Object, Void, Void> {
     @Override
     protected Void doInBackground(Object... params) {
         for (Object param : params) {
-            app.deleteTenyeszet((Long) param);
+            app.deleteTenyeszet((String) param);
         }
         return null;
     }

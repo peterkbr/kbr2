@@ -7,14 +7,15 @@ import java.util.Date;
  */
 public class Biralat {
 
-    private Long AZONO;
-    private Long TENAZ;
+    private String AZONO;
+    private String TENAZ;
     private String ORSKO;
     private Date BIRDA;
     private Integer BIRTI;
     private String KULAZ;
     private Integer AKAKO;
     private Boolean FELTOLTETLEN;
+    private Boolean EXPORTALT;
     private String KOD01;
     private String ERT01;
     private String KOD02;
@@ -81,11 +82,11 @@ public class Biralat {
 
     // GETTERS, SETTERS
 
-    public Long getTENAZ() {
+    public String getTENAZ() {
         return TENAZ;
     }
 
-    public void setTENAZ(Long TENAZ) {
+    public void setTENAZ(String TENAZ) {
         this.TENAZ = TENAZ;
     }
 
@@ -97,11 +98,11 @@ public class Biralat {
         this.ORSKO = ORSKO;
     }
 
-    public Long getAZONO() {
+    public String getAZONO() {
         return AZONO;
     }
 
-    public void setAZONO(Long AZONO) {
+    public void setAZONO(String AZONO) {
         this.AZONO = AZONO;
     }
 
@@ -143,6 +144,14 @@ public class Biralat {
 
     public void setFELTOLTETLEN(Boolean FELTOLTETLEN) {
         this.FELTOLTETLEN = FELTOLTETLEN;
+    }
+
+    public Boolean getEXPORTALT() {
+        return EXPORTALT;
+    }
+
+    public void setEXPORTALT(Boolean EXPORTALT) {
+        this.EXPORTALT = EXPORTALT;
     }
 
     public String getKOD01() {

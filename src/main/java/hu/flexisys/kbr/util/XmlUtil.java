@@ -140,7 +140,7 @@ public class XmlUtil {
                     int count = xpp.getAttributeCount();
                     for (int i = 0; i < count; i++) {
                         if (xpp.getAttributeName(i).equals(TN_TENY_TENAZ)) {
-                            tenyeszet.setTENAZ(Long.valueOf(xpp.getAttributeValue(i)));
+                            tenyeszet.setTENAZ(xpp.getAttributeValue(i));
                         } else if (xpp.getAttributeName(i).equals(TN_TENY_LEDAT)) {
                             tenyeszet.setLEDAT(DateUtil.getDateFromTimestampString(xpp.getAttributeValue(i)));
                         } else if (xpp.getAttributeName(i).equals(TN_TENY_TARTO)) {
@@ -155,11 +155,11 @@ public class XmlUtil {
                     int count = xpp.getAttributeCount();
                     for (int i = 0; i < count; i++) {
                         if (xpp.getAttributeName(i).equals(TN_EGYED_TENAZ)) {
-                            egyed.setTENAZ(Long.valueOf(xpp.getAttributeValue(i)));
+                            egyed.setTENAZ(xpp.getAttributeValue(i));
                         } else if (xpp.getAttributeName(i).equals(TN_EGYED_ORSKO)) {
                             egyed.setORSKO(xpp.getAttributeValue(i));
                         } else if (xpp.getAttributeName(i).equals(TN_EGYED_AZONO)) {
-                            egyed.setAZONO(Long.valueOf(xpp.getAttributeValue(i)));
+                            egyed.setAZONO(xpp.getAttributeValue(i));
                         } else if (xpp.getAttributeName(i).equals(TN_EGYED_ELLSO)) {
                             egyed.setELLSO(Integer.valueOf(xpp.getAttributeValue(i)));
                         } else if (xpp.getAttributeName(i).equals(TN_EGYED_ELLDA)) {
@@ -310,15 +310,10 @@ public class XmlUtil {
                         biralat.setTENAZ(egyed.getTENAZ());
                         biralat.setORSKO(egyed.getORSKO());
                         biralat.setFELTOLTETLEN(false);
+                        biralat.setEXPORTALT(false);
                         egyed.addBiralat(biralat);
-                        // TODO remove "egyed.setKIVALASZTOTT(false);"
-                        egyed.setKIVALASZTOTT(false);
-                    } // TODO remove else
-                    else {
-                        egyed.setKIVALASZTOTT(true);
                     }
-                    // TODO uncomment
-                    // egyed.setKIVALASZTOTT(false);
+                    egyed.setKIVALASZTOTT(false);
                     egyed.setUJ(false);
                     tenyeszet.addEgyed(egyed);
                 }

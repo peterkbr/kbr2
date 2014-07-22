@@ -33,12 +33,12 @@ public class DBConnector {
     }
 
     // TODO log
-    public int removeTenyeszet(Long TENAZ) {
+    public int removeTenyeszet(String TENAZ) {
         int removedCount = database.delete(DBScripts.TABLE_TENYESZET, DBScripts.COLUMN_TENYESZET_TENAZ + " = " + TENAZ, null);
         return removedCount;
     }
 
-    public int removeSelectionFromTenyeszet(Long TENAZ) {
+    public int removeSelectionFromTenyeszet(String TENAZ) {
         ContentValues values = new ContentValues();
         values.put(DBScripts.COLUMN_EGYED_KIVALASZTOTT, false);
         int count = database.update(DBScripts.TABLE_EGYED, values, DBScripts.COLUMN_EGYED_TENAZ + " = " + TENAZ, null);
@@ -51,14 +51,14 @@ public class DBConnector {
         return count;
     }
 
-    public int updateTenyeszetByTENAZWithERVENYES(Long TENAZ, Boolean ERVENYES) {
+    public int updateTenyeszetByTENAZWithERVENYES(String TENAZ, Boolean ERVENYES) {
         ContentValues values = new ContentValues();
         values.put(DBScripts.COLUMN_TENYESZET_ERVENYES, ERVENYES);
         int count = database.update(DBScripts.TABLE_TENYESZET, values, DBScripts.COLUMN_TENYESZET_TENAZ + " = " + TENAZ, null);
         return count;
     }
 
-    public Tenyeszet getTenyeszetByTENAZ(long TENAZ) {
+    public Tenyeszet getTenyeszetByTENAZ(String TENAZ) {
         String query = DBScripts.COLUMN_TENYESZET_TENAZ + "=" + TENAZ;
         Cursor cursor = database.query(DBScripts.TABLE_TENYESZET, DBScripts.COLUMNS_TENYESZET, query, null, null, null, null);
         if (cursor.getCount() == 1) {
@@ -83,7 +83,7 @@ public class DBConnector {
 
     private Tenyeszet getTenyeszetFromCursor(Cursor cursor) {
         Tenyeszet tenyeszet = new Tenyeszet();
-        tenyeszet.setTENAZ(cursor.getLong(0));
+        tenyeszet.setTENAZ(cursor.getString(0));
         tenyeszet.setTARTO(cursor.getString(1));
         tenyeszet.setTECIM(cursor.getString(2));
         tenyeszet.setLEDAT(new Date(cursor.getLong(3)));
@@ -104,12 +104,12 @@ public class DBConnector {
         return removedCount;
     }
 
-    public int removeEgyedByTENAZ(Long TENAZ) {
+    public int removeEgyedByTENAZ(String TENAZ) {
         int removedCount = database.delete(DBScripts.TABLE_EGYED, DBScripts.COLUMN_EGYED_TENAZ + " = " + TENAZ, null);
         return removedCount;
     }
 
-    public int updateEgyedByAZONOWithKIVALASZTOTT(Long AZONO, Boolean KIVALASZTOTT) {
+    public int updateEgyedByAZONOWithKIVALASZTOTT(String AZONO, Boolean KIVALASZTOTT) {
         ContentValues values = new ContentValues();
         values.put(DBScripts.COLUMN_EGYED_KIVALASZTOTT, KIVALASZTOTT);
         int count = database.update(DBScripts.TABLE_EGYED, values, DBScripts.COLUMN_EGYED_AZONO + " = " + AZONO, null);
@@ -121,13 +121,13 @@ public class DBConnector {
         return getEgyedListFromCursor(cursor);
     }
 
-    public List<Egyed> getEgyedByTENAZ(Long TENAZ) {
+    public List<Egyed> getEgyedByTENAZ(String TENAZ) {
         Cursor cursor = database.query(DBScripts.TABLE_EGYED, DBScripts.COLUMNS_EGYED, DBScripts.COLUMN_EGYED_TENAZ + "=?",
                 new String[]{String.valueOf(TENAZ)}, null, null, null);
         return getEgyedListFromCursor(cursor);
     }
 
-    public List<Egyed> getEgyedByTENAZAndKIVALASZTOTT(Long TENAZ, Boolean KIVALASZTOTT) {
+    public List<Egyed> getEgyedByTENAZAndKIVALASZTOTT(String TENAZ, Boolean KIVALASZTOTT) {
         StringBuilder selectBuilder = new StringBuilder();
         selectBuilder.append(DBScripts.COLUMN_EGYED_TENAZ).append("=").append(TENAZ);
         selectBuilder.append(" AND ");
@@ -150,8 +150,8 @@ public class DBConnector {
 
     private Egyed getEgyedFromCursor(Cursor cursor) {
         Egyed egyed = new Egyed();
-        egyed.setAZONO(cursor.getLong(0));
-        egyed.setTENAZ(cursor.getLong(1));
+        egyed.setAZONO(cursor.getString(0));
+        egyed.setTENAZ(cursor.getString(1));
         egyed.setORSKO(cursor.getString(2));
         egyed.setELLSO(cursor.getInt(3));
         egyed.setELLDA(new Date(cursor.getLong(4)));
@@ -173,7 +173,7 @@ public class DBConnector {
         return id;
     }
 
-    public int removeBiralatByTENAZ(Long TENAZ) {
+    public int removeBiralatByTENAZ(String TENAZ) {
         int removedCount = database.delete(DBScripts.TABLE_BIRALAT, DBScripts.COLUMN_BIRALAT_TENAZ + " = " + TENAZ, null);
         return removedCount;
     }
@@ -183,13 +183,13 @@ public class DBConnector {
         return getBiralatListFromCursor(cursor);
     }
 
-    public List<Biralat> getBiralatByTENAZ(Long TENAZ) {
+    public List<Biralat> getBiralatByTENAZ(String TENAZ) {
         Cursor cursor = database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, DBScripts.COLUMN_BIRALAT_TENAZ + "=?",
                 new String[]{String.valueOf(TENAZ)}, null, null, null);
         return getBiralatListFromCursor(cursor);
     }
 
-    public List<Biralat> getBiralatByTENAZAndFELTOLTETLEN(Long TENAZ, boolean FELTOLTETLEN) {
+    public List<Biralat> getBiralatByTENAZAndFELTOLTETLEN(String TENAZ, boolean FELTOLTETLEN) {
         StringBuilder selectBuilder = new StringBuilder();
         selectBuilder.append(DBScripts.COLUMN_BIRALAT_TENAZ).append("=").append(TENAZ);
         selectBuilder.append(" AND ");
@@ -212,8 +212,8 @@ public class DBConnector {
 
     private Biralat getBiralatFromCursor(Cursor cursor) {
         Biralat biralat = new Biralat();
-        biralat.setAZONO(cursor.getLong(0));
-        biralat.setTENAZ(cursor.getLong(1));
+        biralat.setAZONO(cursor.getString(0));
+        biralat.setTENAZ(cursor.getString(1));
         biralat.setORSKO(cursor.getString(2));
         biralat.setBIRDA(new Date(cursor.getLong(3)));
         biralat.setBIRTI(cursor.getInt(4));

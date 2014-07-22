@@ -22,14 +22,14 @@ import java.util.List;
 public class BirKerNotfoundDialog extends KbrDialog {
 
     private BirKerNotfoundListener listener;
-    private long[] selectedTenazArray;
+    private String[] selectedTenazArray;
     private String hasznalatiSzamValue;
 
     private NumPadInput azonNumPadInput;
     private Spinner tenazSpinner;
     private Spinner orskoSpinner;
 
-    public static BirKerNotfoundDialog newInstance(BirKerNotfoundListener listener, long[] selectedTenazArray, String hasznalatiSzamValue) {
+    public static BirKerNotfoundDialog newInstance(BirKerNotfoundListener listener, String[] selectedTenazArray, String hasznalatiSzamValue) {
         BirKerNotfoundDialog f = new BirKerNotfoundDialog();
         f.layoutResId = R.layout.dialog_bir_ker_notfound;
         f.listener = listener;
@@ -44,8 +44,8 @@ public class BirKerNotfoundDialog extends KbrDialog {
 
         tenazSpinner = (Spinner) v.findViewById(R.id.bir_ker_dialog_notfound_tenaz_spinner);
         List<String> list = new ArrayList<String>();
-        for (long tenaz : selectedTenazArray) {
-            list.add(String.valueOf(tenaz));
+        for (String tenaz : selectedTenazArray) {
+            list.add(tenaz);
         }
         tenazSpinner.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, list));
 
