@@ -1,0 +1,22 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kbr="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/torles"
+        android:title="@string/lev_menu_torles"
+        kbr:showAsAction="always"/>
+    <item
+        android:id="@+id/levalogatas_torles"
+        android:title="@string/lev_menu_levalogatas_torlese"
+        kbr:showAsAction="always"/>
+
+    <item
+        android:id="@+id/mentes_kilepes"
+        android:title="@string/lev_menu_mentes_kilepes"
+        kbr:showAsAction="always"/>
+    <item
+        android:id="@+id/mentes"
+        android:title="@string/lev_menu_mentes"
+        kbr:showAsAction="always"/>
+</menu>

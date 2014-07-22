@@ -27,7 +27,6 @@ public class TenyeszetActivity extends KbrActivity implements FelveszListener, T
 
     private final List<TenyeszetListModel> tenyeszetList = new ArrayList<TenyeszetListModel>();
     private final List<Long> selectedList = new ArrayList<Long>();
-    private KbrApplication app;
     private TenyeszetAdapter adapter;
     private List<Long> origOrder;
 
@@ -39,10 +38,7 @@ public class TenyeszetActivity extends KbrActivity implements FelveszListener, T
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
 
-        app = (KbrApplication) getApplication();
-
         ListView listView = (ListView) findViewById(R.id.teny_list);
-        KbrApplication app = (KbrApplication) getApplication();
         tenyeszetList.addAll(app.getTenyeszetListModels());
         for (TenyeszetListModel model : tenyeszetList) {
             if (model.getERVENYES() != null && !model.getERVENYES()) {

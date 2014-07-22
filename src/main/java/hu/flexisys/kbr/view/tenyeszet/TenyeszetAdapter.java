@@ -18,9 +18,9 @@ import java.util.List;
  */
 public class TenyeszetAdapter extends ArrayAdapter<TenyeszetListModel> {
 
-    private final Context context;
-    private final List<TenyeszetListModel> tenyeszetList;
-    private final List<Long> selectedList;
+    protected final Context context;
+    protected final List<TenyeszetListModel> tenyeszetList;
+    protected final List<Long> selectedList;
 
     public TenyeszetAdapter(Context context, int resource, List<TenyeszetListModel> tenyeszetList, List<Long> selectedList) {
         super(context, resource);

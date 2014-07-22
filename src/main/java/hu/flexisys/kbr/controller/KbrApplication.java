@@ -33,8 +33,12 @@ public class KbrApplication extends Application {
         }
     }
 
-    public void insertEgyed(Egyed egyed){
+    public void insertEgyed(Egyed egyed) {
         dbController.addEgyed(egyed);
+    }
+
+    public void insertBiralat(Biralat biralat) {
+        dbController.addBiralat(biralat);
     }
 
     public void insertTenyeszetWithChildren(Tenyeszet tenyeszet) {
@@ -134,12 +138,38 @@ public class KbrApplication extends Application {
         return list;
     }
 
+    public List<Tenyeszet> getTenyeszetListByTENAZArray(long[] tenazArray) {
+        List<Tenyeszet> tenyeszetList = new ArrayList<Tenyeszet>();
+        for (long tenaz : tenazArray) {
+            tenyeszetList.add(dbController.getTenyeszetByTENAZ(tenaz));
+        }
+        return tenyeszetList;
+    }
+
     public List<Egyed> getEgyedListByTENAZArray(long[] tenazArray) {
         List<Egyed> egyedList = new ArrayList<Egyed>();
         for (long tenaz : tenazArray) {
             egyedList.addAll(dbController.getEgyedByTENAZ(tenaz));
         }
         return egyedList;
+    }
+
+    public int updateEgyedWithSelection(long azono, Boolean selection) {
+        int count = dbController.updateEgyedByAZONOWithKIVALASZTOTT(azono, selection);
+        try {
+            dbController.checkDbConsistency();
+        } catch (Exception e) {
+            Log.e(TAG, "checkDbConsistency", e);
+        }
+        return count;
+    }
+
+    public List<Biralat> getBiralatListByTENAZArray(long[] tenazArray) {
+        List<Biralat> biralatList = new ArrayList<Biralat>();
+        for (long tenaz : tenazArray) {
+            biralatList.addAll(dbController.getBiralatByTENAZ(tenaz));
+        }
+        return biralatList;
     }
 
     // GETTERS, SETTERS

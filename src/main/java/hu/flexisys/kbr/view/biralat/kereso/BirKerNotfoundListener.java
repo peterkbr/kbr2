@@ -5,5 +5,5 @@ package hu.flexisys.kbr.view.biralat.kereso;
  */
 public interface BirKerNotfoundListener {
 
-    public void onAdd(String tenaz, String orsko, String azono);
+    public void onAddNewEgyed(String tenaz, String orsko, String azono);
 }

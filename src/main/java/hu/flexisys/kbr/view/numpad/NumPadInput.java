@@ -2,7 +2,6 @@ package hu.flexisys.kbr.view.numpad;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.TextView;
 import hu.flexisys.kbr.R;
 
@@ -37,13 +36,6 @@ public class NumPadInput extends TextView {
         content = "";
         selected = false;
         updateColor();
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selected = !selected;
-                updateColor();
-            }
-        });
     }
 
     private void updateColor() {
@@ -66,5 +58,20 @@ public class NumPadInput extends TextView {
             content = content.substring(0, maxLength);
         }
         setText(content);
+    }
+
+    public void select() {
+        selected = true;
+        updateColor();
+    }
+
+    public void unSelect() {
+        selected = false;
+        updateColor();
+    }
+
+    public void invertSelection() {
+        selected = !selected;
+        updateColor();
     }
 }

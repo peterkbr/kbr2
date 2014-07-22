@@ -58,6 +58,16 @@ public class DBConnector {
         return count;
     }
 
+    public Tenyeszet getTenyeszetByTENAZ(long TENAZ) {
+        String query = DBScripts.COLUMN_TENYESZET_TENAZ + "=" + TENAZ;
+        Cursor cursor = database.query(DBScripts.TABLE_TENYESZET, DBScripts.COLUMNS_TENYESZET, query, null, null, null, null);
+        if (cursor.getCount() == 1) {
+            cursor.moveToFirst();
+            return getTenyeszetFromCursor(cursor);
+        }
+        return null;
+    }
+
     public List<Tenyeszet> getTenyeszetAll() {
         List<Tenyeszet> tenyeszetList = new ArrayList<Tenyeszet>();
         Cursor cursor = database.query(DBScripts.TABLE_TENYESZET, DBScripts.COLUMNS_TENYESZET, null, null, null, null, null);
@@ -97,6 +107,13 @@ public class DBConnector {
     public int removeEgyedByTENAZ(Long TENAZ) {
         int removedCount = database.delete(DBScripts.TABLE_EGYED, DBScripts.COLUMN_EGYED_TENAZ + " = " + TENAZ, null);
         return removedCount;
+    }
+
+    public int updateEgyedByAZONOWithKIVALASZTOTT(Long AZONO, Boolean KIVALASZTOTT) {
+        ContentValues values = new ContentValues();
+        values.put(DBScripts.COLUMN_EGYED_KIVALASZTOTT, KIVALASZTOTT);
+        int count = database.update(DBScripts.TABLE_EGYED, values, DBScripts.COLUMN_EGYED_AZONO + " = " + AZONO, null);
+        return count;
     }
 
     public List<Egyed> getEgyedAll() {
@@ -267,5 +284,4 @@ public class DBConnector {
         biralat.setERT30(cursor.getString(++i));
         return biralat;
     }
-
 }

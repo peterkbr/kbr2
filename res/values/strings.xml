@@ -35,6 +35,17 @@
     <string name="teny_notification_download_ok_title">Megérkeztek a letöltés adatai.</string>
     <string name="teny_notification_download_error_title">Sikertelen letöltés!</string>
 
+    <!--LEVÁLOGATÁS-->
+    <string name="lev_teny_menu_torles">Leválogatás törlése</string>
+    <string name="lev_teny_menu_kuld">Küld</string>
+    <string name="lev_teny_menu_tovabb">Tovább</string>
+
+    <string name="lev_menu_torles">Törlés</string>
+    <string name="lev_menu_levalogatas_torlese">Leválogatás törlése</string>
+    <string name="lev_menu_mentes_kilepes">Mentés és kilépés</string>
+    <string name="lev_menu_mentes">Mentés</string>
+
+
     <!--BÍRÁLAT-->
     <string name="bir_menu_torles">Leválogatás törlése</string>
     <string name="bir_menu_biral">Bírál</string>

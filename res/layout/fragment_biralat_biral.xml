@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:background="@color/black"
     android:orientation="vertical">
 
     <LinearLayout
@@ -27,7 +27,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/bir_ker_enar"
+                    android:id="@+id/bir_bir_enar"
                     android:layout_width="180dp"
                     android:layout_height="50dp"
                     android:background="@color/green"
@@ -43,7 +43,7 @@
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:onClick="keres"
+                        android:onClick="saveBiralat"
                         android:text="@string/bir_ker_keres"
                         android:textSize="25sp"/>
                 </LinearLayout>
@@ -57,6 +57,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/bir_bir_lastbir"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2003-05-26"/>
@@ -69,7 +70,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Lakt.: 313"/>
+                    android:text="Lakt.: "/>
+
+                <TextView
+                    android:id="@+id/bir_bir_lakt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="313"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -79,7 +86,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ES: 7"/>
+                    android:text="ES: "/>
+
+                <TextView
+                    android:id="@+id/bir_bir_es"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="7"/>
             </LinearLayout>
 
             <LinearLayout
@@ -108,13 +121,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="FM "/>
+                            android:text="FM "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_1"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -129,13 +148,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="ER "/>
+                            android:text="ER "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_2"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -150,13 +175,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="TR "/>
+                            android:text="TR "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_3"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -171,13 +202,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="EL "/>
+                            android:text="EL "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_4"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -192,13 +229,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="KO "/>
+                            android:text="KO "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_5"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -213,13 +256,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="FL "/>
+                            android:text="FL "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_6"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -234,13 +283,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="FS "/>
+                            android:text="FS "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_7"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -264,13 +319,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="HO "/>
+                            android:text="HO "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_8"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -285,13 +346,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="HH "/>
+                            android:text="HH "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_9"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -306,13 +373,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="LM "/>
+                            android:text="LM "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_10"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -327,13 +400,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="KS "/>
+                            android:text="KS "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_11"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -348,13 +427,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="EI "/>
+                            android:text="EI "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_12"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -369,13 +454,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="HM "/>
+                            android:text="HM "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_13"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -390,13 +481,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="HS "/>
+                            android:text="HS "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_14"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -420,13 +517,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="TF "/>
+                            android:text="TF "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_15"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -441,13 +544,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="TM "/>
+                            android:text="TM "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_16"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -462,13 +571,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="BS "/>
+                            android:text="BS "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_17"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -483,13 +598,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="BH "/>
+                            android:text="BH "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_18"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
 
@@ -505,13 +626,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="HB "/>
+                            android:text="HB "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_19"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -535,13 +662,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="TK "/>
+                            android:text="TK "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_20"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -556,13 +689,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="TE "/>
+                            android:text="TE "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_21"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -577,13 +716,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="TJ "/>
+                            android:text="TJ "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_22"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -598,13 +743,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="LP "/>
+                            android:text="LP "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_23"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -619,13 +770,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="TO "/>
+                            android:text="TO "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_24"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -640,13 +797,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="VP "/>
+                            android:text="VP "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_25"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -661,13 +824,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="AK "/>
+                            android:text="AK "
+                            android:textSize="16sp"/>
 
-                        <EditText
+                        <hu.flexisys.kbr.view.numpad.NumPadInput android:textSize="16sp"
+                            android:id="@+id/bir_bir_input_26"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@color/white"/>
+                            android:background="@color/white"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:maxLength="1"
+                            android:onClick="selectBiralatInput"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

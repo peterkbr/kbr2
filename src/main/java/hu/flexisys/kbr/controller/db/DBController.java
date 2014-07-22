@@ -91,12 +91,22 @@ public class DBController {
         sdCardConnector.addEgyed(egyed);
     }
 
+    public int updateEgyedByAZONOWithKIVALASZTOTT(Long AZONO, Boolean KIVALASZTOTT) {
+        int count = innerConnector.updateEgyedByAZONOWithKIVALASZTOTT(AZONO, KIVALASZTOTT);
+        sdCardConnector.updateEgyedByAZONOWithKIVALASZTOTT(AZONO, KIVALASZTOTT);
+        return count;
+    }
+
     public void addBiralat(Biralat biralat) {
         innerConnector.addBiralat(biralat);
         sdCardConnector.addBiralat(biralat);
     }
 
     // READ FROM DB
+
+    public Tenyeszet getTenyeszetByTENAZ(long tenaz) {
+        return innerConnector.getTenyeszetByTENAZ(tenaz);
+    }
 
     public List<Tenyeszet> getTenyeszetAll() {
         return innerConnector.getTenyeszetAll();
@@ -122,8 +132,8 @@ public class DBController {
         return innerConnector.getBiralatAll();
     }
 
-    public List<Biralat> getBiralatByTenyeszet(Tenyeszet tenyeszet) {
-        return innerConnector.getBiralatByTENAZ(tenyeszet.getTENAZ());
+    public List<Biralat> getBiralatByTENAZ(long tenaz) {
+        return innerConnector.getBiralatByTENAZ(tenaz);
     }
 
     public List<Biralat> getBiralatByTenyeszetAndToUpload(Tenyeszet tenyeszet, boolean toUpload) {

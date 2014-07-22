@@ -64,7 +64,7 @@ public class BirKerNotfoundDialog extends KbrDialog {
                 String orsko = String.valueOf(orskoSpinner.getSelectedItem());
                 String azon = azonNumPadInput.getText().toString();
                 if (azon != null && !azon.isEmpty() && tenaz != null && !tenaz.isEmpty() && orsko != null && !orsko.isEmpty()) {
-                    listener.onAdd(tenaz, orsko, azon);
+                    listener.onAddNewEgyed(tenaz, orsko, azon);
                 }
             }
         });

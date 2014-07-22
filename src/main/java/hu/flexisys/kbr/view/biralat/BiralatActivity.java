@@ -4,14 +4,11 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.text.Html;
-import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
-import android.widget.*;
 import hu.flexisys.kbr.R;
+import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
-import hu.flexisys.kbr.util.DateUtil;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.biralat.kereso.*;
 import hu.flexisys.kbr.view.numpad.NumPad;
@@ -19,6 +16,7 @@ import hu.flexisys.kbr.view.numpad.NumPadInput;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -35,8 +33,11 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     private List<Egyed> egyedList;
     private List<Egyed> biraltEgyedList;
     private List<Egyed> biralandoEgyedList;
-    private Egyed selectedEgyed;
+    private Egyed selectedEgyedForKereso;
+    private Egyed selectedEgyedForBiral;
     private Boolean hu;
+    private KeresoFragment keresoFragment;
+    private BiralFragment biralFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         setContentView(R.layout.activity_biralat);
 
         actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
 
         pager = (ViewPager) findViewById(R.id.biralat_pager);
@@ -71,14 +73,37 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         egyedList = app.getEgyedListByTENAZArray(selectedTenazArray);
         biraltEgyedList = new ArrayList<Egyed>();
         biralandoEgyedList = new ArrayList<Egyed>();
+
         if (egyedList.isEmpty()) {
             Log.i(TAG, "Üres az egyedlista!");
         } else {
+            List<Biralat> biralatList = app.getBiralatListByTENAZArray(selectedTenazArray);
+            HashMap<Long, ArrayList<Biralat>> biralatMap = new HashMap<Long, ArrayList<Biralat>>();
+            for (Biralat biralat : biralatList) {
+                Long azono = biralat.getAZONO();
+                if (biralatMap.get(azono) == null) {
+                    biralatMap.put(azono, new ArrayList<Biralat>());
+                }
+                biralatMap.get(azono).add(biralat);
+            }
+
             for (int i = 0; i < egyedList.size(); i++) {
                 Egyed egyed = egyedList.get(i);
-                if (!egyed.getBiralatList().isEmpty()) {
-                    biraltEgyedList.add(egyed);
-                } else if (egyed.getKIVALASZTOTT()) {
+                List<Biralat> currentBiralatList = biralatMap.get(egyed.getAZONO());
+                if (currentBiralatList == null) {
+                    currentBiralatList = new ArrayList<Biralat>();
+                }
+                egyed.setBiralatList(currentBiralatList);
+
+                Boolean biralt = false;
+                for (Biralat biralat : egyed.getBiralatList()) {
+                    if (biralat.getFELTOLTETLEN()) {
+                        biraltEgyedList.add(egyed);
+                        biralt = true;
+                        break;
+                    }
+                }
+                if (egyed.getKIVALASZTOTT() && !biralt) {
                     biralandoEgyedList.add(egyed);
                 }
             }
@@ -86,12 +111,17 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     }
 
     public void onKeresoFragmentResume() {
-        updateHURadio();
+        keresoFragment = adapter.getKeresoFragment();
+        keresoFragment.updateHURadio(hu);
         hasznalatiInput = (NumPadInput) adapter.getKeresoFragment().getView().findViewById(R.id.bir_hasznalatiInput);
         NumPad numpad = (NumPad) adapter.getKeresoFragment().getView().findViewById(R.id.bir_ker_numpad);
         numpad.setNumPadInput(hasznalatiInput);
-        updateKeresoButtons();
-        updateDetails();
+        keresoFragment.updateKeresoButtons(egyedList);
+        keresoFragment.updateDetails(selectedEgyedForKereso);
+    }
+
+    public void onBiralFragmentResume() {
+        biralFragment = adapter.getBiralFragment();
     }
 
     public List<Egyed> filterByHasznalati(Boolean hu, String hasznalatiSzamString) {
@@ -112,11 +142,15 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     public void huClicked(View view) {
         if (view.getId() == R.id.bir_ker_check_hu && !hu) {
             hu = true;
-            updateHURadio();
+            keresoFragment.updateHURadio(hu);
         } else if (view.getId() == R.id.bir_ker_check_ku && hu) {
             hu = false;
-            updateHURadio();
+            keresoFragment.updateHURadio(hu);
         }
+    }
+
+    public void selectHasznalatiInput(View view) {
+        hasznalatiInput.invertSelection();
     }
 
     public void keres(View view) {
@@ -129,149 +163,31 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         }
         List<Egyed> foundList = filterByHasznalati(hu, hasznalatiSzamValue);
         if (foundList.size() == 1) {
-            selectedEgyed = foundList.get(0);
+            selectedEgyedForKereso = foundList.get(0);
         } else if (foundList.size() > 1) {
-            // TODO dialog
-            selectedEgyed = null;
+            selectedEgyedForKereso = null;
             FragmentTransaction ft = getFragmentTransactionWithTag("multi");
             dialog = BirKerMultiDialog.newInstance(this, foundList);
             dialog.show(ft, "multi");
         } else {
-            selectedEgyed = null;
+            selectedEgyedForKereso = null;
             FragmentTransaction ft = getFragmentTransactionWithTag("notfound");
             dialog = BirKerNotfoundDialog.newInstance(this, selectedTenazArray, hasznalatiSzamValue);
             dialog.show(ft, "notfound");
         }
-        updateDetails();
+        keresoFragment.updateDetails(selectedEgyedForKereso);
     }
 
-    // UPDATE THE VIEWS
-
-    private void updateHURadio() {
-        View view = adapter.getKeresoFragment().getView();
-        RadioButton radio = (RadioButton) view.findViewById(R.id.bir_ker_check_hu);
-        radio.setChecked(hu);
-        radio = (RadioButton) view.findViewById(R.id.bir_ker_check_ku);
-        radio.setChecked(!hu);
-    }
-
-    private void updateKeresoButtons() {
-        Integer biralt = 0;
-        Integer biraltPlusz = 0;
-        Integer biralando = 0;
-        for (Egyed egyed : egyedList) {
-            if (!egyed.getBiralatList().isEmpty()) {
-                if (egyed.getKIVALASZTOTT()) {
-                    ++biralt;
-                } else {
-                    ++biraltPlusz;
-                }
-            }
-            if (egyed.getKIVALASZTOTT()) {
-                ++biralando;
-            }
-        }
-        biralando -= biralt;
-
-        View view = adapter.getKeresoFragment().getView();
-        Button button = (Button) view.findViewById(R.id.bir_ker_b1);
-        button.setText(biralt + (biraltPlusz > 0 ? ("+" + biraltPlusz) : ""));
-        button = (Button) view.findViewById(R.id.bir_ker_b2);
-        button.setText(String.valueOf(biralando));
-    }
-
-    private void updateDetails() {
-        View view = adapter.getKeresoFragment().getView();
-        LinearLayout itvLayout = (LinearLayout) view.findViewById(R.id.bir_ker_itvLayout);
-        LinearLayout detailsLayout = (LinearLayout) view.findViewById(R.id.bir_ker_details);
-        if (selectedEgyed == null) {
-            hu = true;
-            updateHURadio();
-            itvLayout.setVisibility(View.INVISIBLE);
-            detailsLayout.setVisibility(View.INVISIBLE);
-            TextView textView = (TextView) view.findViewById(R.id.bir_ker_enar);
-            textView.setBackgroundColor(getResources().getColor(R.color.green));
-            textView.setText("");
-        } else {
-            itvLayout.setVisibility(View.VISIBLE);
-            detailsLayout.setVisibility(View.VISIBLE);
-
-            hu = selectedEgyed.getORSKO().equals("HU");
-            updateHURadio();
-
-            CheckBox itvCheckBox = (CheckBox) view.findViewById(R.id.bir_ker_itvCheckBox);
-            if (selectedEgyed.getITVJE() == null) {
-                itvLayout.setVisibility(View.INVISIBLE);
-            } else {
-                itvCheckBox.setChecked(selectedEgyed.getITVJE());
-            }
-
-            TextView textView = (TextView) view.findViewById(R.id.bir_ker_enar);
-            String text = String.valueOf(selectedEgyed.getAZONO());
-            if (text.length() == 10) {
-                Spanned spanned = Html.fromHtml(text.substring(0, 5) + " <b>" + text.substring(5, 9) + "</b> " + text.substring(9));
-                textView.setText(spanned);
-            } else {
-                textView.setText(text);
-            }
-            if (selectedEgyed.getUJ()) {
-                textView.setBackgroundColor(getResources().getColor(R.color.red));
-            } else if (!selectedEgyed.getBiralatList().isEmpty()) {
-                textView.setBackgroundColor(getResources().getColor(R.color.blue));
-            } else if (selectedEgyed.getKIVALASZTOTT()) {
-                textView.setBackgroundColor(getResources().getColor(R.color.green));
-            } else {
-                textView.setBackgroundColor(getResources().getColor(R.color.gray));
-            }
-
-            textView = (TextView) view.findViewById(R.id.bir_ker_laktNapok);
-            text = "0";
-            if (selectedEgyed.getELLDA() != null && selectedEgyed.getELLDA().getTime() > 1) {
-                long diff = (new Date().getTime() - selectedEgyed.getELLDA().getTime()) / (1000 * 60 * 60 * 24);
-                int diffInDays = Math.round(diff);
-                text = String.valueOf(diffInDays);
-            }
-            textView.setText(text);
-
-            textView = (TextView) view.findViewById(R.id.bir_ker_laktSzam);
-            text = "-";
-            if (selectedEgyed.getELLSO() != null) {
-                text = String.valueOf(selectedEgyed.getELLSO());
-            }
-            textView.setText(text);
-
-            textView = (TextView) view.findViewById(R.id.bir_ker_ellesDatuma);
-            text = "Nem ellett";
-            if (selectedEgyed.getELLDA() != null && selectedEgyed.getELLDA().getTime() > 1) {
-                text = DateUtil.formatDate(selectedEgyed.getELLDA());
-            }
-            textView.setText(text);
-
-            textView = (TextView) view.findViewById(R.id.bir_ker_szuletes);
-            text = "-";
-            if (selectedEgyed.getSZULD() != null) {
-                text = DateUtil.formatDate(selectedEgyed.getSZULD());
-            }
-            textView.setText(text);
-
-            textView = (TextView) view.findViewById(R.id.bir_ker_konstrKod);
-            text = "-";
-            if (selectedEgyed.getKONSK() != null) {
-                text = String.valueOf(selectedEgyed.getKONSK());
-            }
-            textView.setText(text);
-
-            textView = (TextView) view.findViewById(R.id.bir_ker_szinkod);
-            text = "-";
-            if (selectedEgyed.getSZINE() != null) {
-                text = String.valueOf(selectedEgyed.getSZINE());
-            }
-            textView.setText(text);
+    public void biral(View view) {
+        if (selectedEgyedForKereso != null) {
+            selectedEgyedForBiral = selectedEgyedForKereso;
+            biralFragment.updateDetails(selectedEgyedForBiral);
+            actionBar.selectTab(actionBar.getTabAt(2));
         }
     }
 
     @Override
-    public void onAdd(String tenaz, String orsko, String azono) {
+    public void onAddNewEgyed(String tenaz, String orsko, String azono) {
         if (azono.length() <= 4) {
             hasznalatiInput.setText(azono);
         } else if (azono.length() == 10) {
@@ -289,8 +205,8 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         app.insertEgyed(egyed);
 
         reloadData();
-        updateKeresoButtons();
-        updateDetails();
+        keresoFragment.updateKeresoButtons(egyedList);
+        keresoFragment.updateDetails(selectedEgyedForKereso);
         dismissDialog();
 
         // TODO hmm
@@ -307,8 +223,8 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         } else {
             hasznalatiInput.setText(azono.substring(0, 4));
         }
-        selectedEgyed = egyed;
-        updateDetails();
+        selectedEgyedForKereso = egyed;
+        keresoFragment.updateDetails(selectedEgyedForKereso);
         dismissDialog();
     }
 
@@ -325,6 +241,30 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
             FragmentTransaction ft = getFragmentTransactionWithTag("biralando");
             dialog = BirKerEgyedListDialog.newInstance(biralandoEgyedList);
             dialog.show(ft, "biralando");
+        }
+    }
+
+    // BÍRÁLAT
+
+    public void selectBiralatInput(View view) {
+        biralFragment.selectInput(view);
+    }
+
+    public void saveBiralat(View view) {
+        if (selectedEgyedForBiral != null) {
+            Biralat biralat = new Biralat();
+            biralat.setTENAZ(selectedEgyedForBiral.getTENAZ());
+            biralat.setAZONO(selectedEgyedForBiral.getAZONO());
+            biralat.setFELTOLTETLEN(true);
+            biralat.setORSKO(selectedEgyedForBiral.getORSKO());
+            biralat.setKULAZ(app.getUserId());
+            biralat.setBIRDA(new Date());
+            app.insertBiralat(biralat);
+
+            reloadData();
+            keresoFragment.updateKeresoButtons(egyedList);
+            keresoFragment.updateDetails(selectedEgyedForKereso);
+            actionBar.selectTab(actionBar.getTabAt(1));
         }
     }
 }

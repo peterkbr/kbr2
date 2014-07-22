@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.view.biralat.BiralatTenyeszetActivity;
+import hu.flexisys.kbr.view.levalogatas.LevalogatasTenyeszetActivity;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetActivity;
 
 public class MenuActivity extends KbrActivity {
@@ -22,6 +23,8 @@ public class MenuActivity extends KbrActivity {
     }
 
     public void startLevalogatas(View view) {
+        Intent intent = new Intent(this, LevalogatasTenyeszetActivity.class);
+        startActivity(intent);
     }
 
     public void startBiralatok(View view) {
