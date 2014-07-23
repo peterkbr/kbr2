@@ -7,40 +7,15 @@
     android:padding="10dp"
     android:weightSum="7">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/lev_szuk_telep_name"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
         android:layout_weight="1"
-        android:gravity="center_vertical|right"
-        android:orientation="horizontal"
-        android:paddingRight="10dp">
-
-        <TextView
-            android:id="@+id/lev_szuk_selected_egyed_counter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textSize="15sp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" / "
-            android:textSize="15sp"/>
-
-        <TextView
-            android:id="@+id/lev_szuk_egyed_counter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textSize="15sp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" db"
-            android:textSize="15sp"/>
-    </LinearLayout>
+        android:gravity="center"
+        android:textSize="15sp"
+        android:textStyle="italic"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -179,7 +154,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.8"
-            android:background="@drawable/keret"/>
+            android:background="@drawable/keret"
+            android:inputType="number"/>
     </LinearLayout>
 
     <LinearLayout
@@ -206,7 +182,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
-                android:background="@drawable/keret"/>
+                android:background="@drawable/keret"
+                android:inputType="date"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -220,7 +197,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
-                android:background="@drawable/keret"/>
+                android:background="@drawable/keret"
+                android:inputType="date"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -256,7 +234,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
-                android:background="@drawable/keret"/>
+                android:background="@drawable/keret"
+                android:inputType="date"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -270,7 +249,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
-                android:background="@drawable/keret"/>
+                android:background="@drawable/keret"
+                android:inputType="date"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -306,7 +286,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
-                android:background="@drawable/keret"/>
+                android:background="@drawable/keret"
+                android:inputType="number"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -320,7 +301,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
-                android:background="@drawable/keret"/>
+                android:background="@drawable/keret"
+                android:inputType="number"/>
 
             <TextView
                 android:layout_width="0dp"

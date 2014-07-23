@@ -2,13 +2,10 @@ package hu.flexisys.kbr.view.levalogatas;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.*;
 import android.widget.ListView;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.view.KbrActivity;
-import hu.flexisys.kbr.view.tenyeszet.TenyeszetAdapter;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
 
 import java.util.*;
@@ -21,7 +18,7 @@ public class LevalogatasTenyeszetActivity extends KbrActivity {
     public static String EXTRAKEY_SELECTEDTENAZLIST = "selectedTenazArray";
     private final List<TenyeszetListModel> tenyeszetList = new ArrayList<TenyeszetListModel>();
     private final List<String> selectedList = new ArrayList<String>();
-    private TenyeszetAdapter adapter;
+    private LevalogatasTenyeszetAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,7 +29,7 @@ public class LevalogatasTenyeszetActivity extends KbrActivity {
         actionBar.setDisplayShowTitleEnabled(false);
 
         ListView listView = (ListView) findViewById(R.id.teny_list);
-        adapter = new TenyeszetAdapter(this, R.layout.list_tenyeszet, tenyeszetList, selectedList);
+        adapter = new LevalogatasTenyeszetAdapter(this, R.layout.list_tenyeszet, tenyeszetList, selectedList);
         listView.setAdapter(adapter);
     }
 

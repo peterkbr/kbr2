@@ -11,7 +11,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import hu.flexisys.kbr.R;
-import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.DateUtil;
 
@@ -24,11 +23,13 @@ public class LevalogatasListViewAdapter extends ArrayAdapter<Egyed> {
 
     protected final Context context;
     protected final List<Egyed> egyedList;
+    private final OnSelectionChangedListener listener;
 
-    public LevalogatasListViewAdapter(Context context, int resource, List<Egyed> egyedList) {
+    public LevalogatasListViewAdapter(Context context, int resource, List<Egyed> egyedList, OnSelectionChangedListener listener) {
         super(context, resource);
         this.context = context;
         this.egyedList = egyedList;
+        this.listener = listener;
     }
 
     @Override
@@ -39,24 +40,22 @@ public class LevalogatasListViewAdapter extends ArrayAdapter<Egyed> {
         Egyed egyed = egyedList.get(position);
 
         Integer color = null;
-        for (Biralat biralat : egyed.getBiralatList()) {
-            if (biralat.getFELTOLTETLEN()) {
-                color = context.getResources().getColor(R.color.green);
-                break;
-            }
+        if (!egyed.getBiralatList().isEmpty()) {
+            color = context.getResources().getColor(R.color.green);
         }
 
         CheckBox selected = (CheckBox) v.findViewById(R.id.lev_selected);
         selected.setChecked(egyed.getKIVALASZTOTT());
-        if (color != null) {
-            colorParent(selected, color);
-        }
         selected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 egyedList.get(position).setKIVALASZTOTT(isChecked);
+                listener.onSelectionChanged();
             }
         });
+        if (color != null) {
+            colorParent(selected, color);
+        }
 
         TextView num = (TextView) v.findViewById(R.id.lev_num);
         num.setText(String.valueOf(position));

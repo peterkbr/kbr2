@@ -3,21 +3,34 @@
     xmlns:kbr="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/torles"
-        android:title="@string/lev_menu_torles"
-        kbr:showAsAction="always"/>
-    <item
-        android:id="@+id/levalogatas_torles"
-        android:title="@string/lev_menu_levalogatas_torlese"
-        kbr:showAsAction="always"/>
-
-    <item
-        android:id="@+id/mentes_kilepes"
-        android:title="@string/lev_menu_mentes_kilepes"
+        android:id="@+id/szukites"
+        android:title="@string/lev_menu_szukites"
         kbr:showAsAction="always"/>
 
     <item
         android:id="@+id/mentes"
         android:title="@string/lev_menu_mentes"
         kbr:showAsAction="always"/>
+
+    <item
+        android:id="@+id/a_More"
+        android:icon="@drawable/moreoverflow"
+        android:title="More"
+        kbr:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/mentes_kilepes"
+                android:title="@string/lev_menu_mentes_kilepes"
+                kbr:showAsAction="always"/>
+
+            <item
+                android:id="@+id/torles"
+                android:title="@string/lev_menu_torles"
+                kbr:showAsAction="always"/>
+            <item
+                android:id="@+id/levalogatas_torles"
+                android:title="@string/lev_menu_levalogatas_torlese"
+                kbr:showAsAction="always"/>
+        </menu>
+    </item>
 </menu>

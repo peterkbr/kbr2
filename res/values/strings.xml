@@ -26,6 +26,7 @@
     <string name="teny_felvesz_error_duplicate">Ez a tenyészet már szerepel a rendszerben!</string>
 
     <string name="teny_torles_title">Törli a kiválasztott telepeket?</string>
+    <string name="teny_levalogatas_torles_title">Törli a tenyészet(ek)hez tartozó leválogatás(oka)t?</string>
 
     <string name="teny_notification_delete_biralat_title">A tenyészet feltöltetlen bírálatot tartalmaz!</string>
     <string name="teny_notification_delete_biralat_message">A tenyészet nem törölhető!</string>
@@ -44,11 +45,16 @@
     <string name="lev_menu_levalogatas_torlese">Leválogatás törlése</string>
     <string name="lev_menu_mentes_kilepes">Mentés és kilépés</string>
     <string name="lev_menu_mentes">Mentés</string>
+    <string name="lev_menu_szukites">Szűkítés</string>
 
     <string name="lev_szuk_menu_szukit">Szűkít</string>
     <string name="lev_szuk_menu_levalogatas_torlese">Leválogatás törlése</string>
     <string name="lev_szuk_menu_urit">Ürít</string>
 
+    <string name="lev_selection_changed_dialog_title">Nem mentette el a leválogatást!</string>
+    <string name="lev_selection_changed_dialog_message">Elmenti?</string>
+    <string name="lev_selection_changed_dialog_mentes_kilepes">Mentés és kilépés</string>
+    <string name="lev_selection_changed_dialog_kilepes">Kilépés</string>
 
     <!--BÍRÁLAT-->
     <string name="bir_menu_torles">Leválogatás törlése</string>

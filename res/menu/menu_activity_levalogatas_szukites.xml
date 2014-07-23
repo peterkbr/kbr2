@@ -6,13 +6,22 @@
         android:id="@+id/szukit"
         android:title="@string/lev_szuk_menu_szukit"
         kbr:showAsAction="always"/>
-    <item
-        android:id="@+id/levalogatas_torles"
-        android:title="@string/lev_menu_levalogatas_torlese"
-        kbr:showAsAction="always"/>
 
     <item
-        android:id="@+id/urit"
-        android:title="@string/lev_szuk_menu_urit"
-        kbr:showAsAction="always"/>
+        android:id="@+id/a_More"
+        android:icon="@drawable/moreoverflow"
+        android:title="More"
+        kbr:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/levalogatas_torles"
+                android:title="@string/lev_menu_levalogatas_torlese"
+                kbr:showAsAction="always"/>
+
+            <item
+                android:id="@+id/urit"
+                android:title="@string/lev_szuk_menu_urit"
+                kbr:showAsAction="always"/>
+        </menu>
+    </item>
 </menu>

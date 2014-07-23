@@ -10,9 +10,9 @@ import android.widget.ListView;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.db.RemoveSelectionFromTenyeszetArrayTask;
 import hu.flexisys.kbr.view.KbrActivity;
+import hu.flexisys.kbr.view.tenyeszet.LevalogatasTorlesAlertDialog;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetAdapter;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
-import hu.flexisys.kbr.view.tenyeszet.TorlesAlertDialog;
 import hu.flexisys.kbr.view.tenyeszet.TorlesAlertListener;
 
 import java.util.ArrayList;
@@ -76,7 +76,7 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
             return;
         }
         FragmentTransaction ft = getFragmentTransactionWithTag("torlesDialog");
-        dialog = TorlesAlertDialog.newInstance(this);
+        dialog = LevalogatasTorlesAlertDialog.newInstance(this);
         dialog.show(ft, "torlesDialog");
     }
 

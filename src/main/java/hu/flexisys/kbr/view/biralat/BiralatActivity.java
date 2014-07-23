@@ -48,6 +48,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayUseLogoEnabled(false);
 
         pager = (ViewPager) findViewById(R.id.biralat_pager);
         adapter = new BiralatPagerAdapter(getSupportFragmentManager(), this);

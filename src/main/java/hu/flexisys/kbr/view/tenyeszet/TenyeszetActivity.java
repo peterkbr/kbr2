@@ -204,7 +204,7 @@ public class TenyeszetActivity extends KbrActivity implements FelveszListener, T
 
     @Override
     public void onTorles() {
-        dialog.dismiss();
+        dismissDialog();
         startProgressDialog();
         for (String tenaz : selectedList) {
             tenyeszetList.remove(new TenyeszetListModel(tenaz));
