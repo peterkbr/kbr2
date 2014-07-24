@@ -53,7 +53,7 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_YEAR, -14);
         for (TenyeszetListModel model : rawList) {
-            if (model.getLEDAT() != null && model.getLEDAT().getTime() > 1 && model.getERVENYES()) {
+            if (model.getEgyedCount() > 0 && model.getLEDAT() != null && model.getLEDAT().getTime() > 1 && model.getERVENYES()) {
                 if (model.getLEDAT().before(cal.getTime())) {
                     oldList.add(model);
                 } else {
