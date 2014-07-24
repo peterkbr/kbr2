@@ -15,10 +15,7 @@ import hu.flexisys.kbr.view.biralat.BiralatTenyeszetActivity;
 import hu.flexisys.kbr.view.tenyeszet.LevalogatasTorlesAlertDialog;
 import hu.flexisys.kbr.view.tenyeszet.TorlesAlertListener;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Peter on 2014.07.21..
@@ -34,6 +31,10 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
     private SlidingPaneLayout pane;
     private Filter filter;
     private Boolean selectionChanged = false;
+    private String currentOrderBy;
+    private Boolean asc;
+
+    // MENU IN ACTIONBAR
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
         selectedTenazArray = getIntent().getExtras().getStringArray(BiralatTenyeszetActivity.EXTRAKEY_SELECTEDTENAZLIST);
         egyedList = new ArrayList<Egyed>();
         reloadData();
+        reorderData(getString(R.string.lev_grid_header_szuletett));
 
         pane = (SlidingPaneLayout) findViewById(R.id.sp);
         pane.setPanelSlideListener(new SlidingPaneLayout.PanelSlideListener() {
@@ -151,6 +153,20 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
         }
     }
 
+    // onHomeClicked
+    @Override
+    public void onKilepes() {
+        dismissDialog();
+        finish();
+    }
+
+    // onHomeClicked
+    @Override
+    public void onMentesEsKilepes() {
+        dismissDialog();
+        mentes_kilepes();
+    }
+
     private void reloadData() {
         egyedList.clear();
         List<Egyed> rawList = app.getEgyedListByTENAZArray(selectedTenazArray);
@@ -185,6 +201,60 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
                 egyed.setBiralatList(currentBiralatList);
             }
         }
+    }
+
+    private void reorderData(String orderBy) {
+        if (asc == null || currentOrderBy == null || !currentOrderBy.equals(orderBy)) {
+            currentOrderBy = orderBy;
+            asc = true;
+        } else {
+            asc = !asc;
+        }
+
+        final Comparator<Egyed> comparator = new Comparator<Egyed>() {
+            @Override
+            public int compare(Egyed leftEgyed, Egyed rightEgyed) {
+                int value = 0;
+                if (currentOrderBy.equals(getString(R.string.lev_grid_header_ok))) {
+                    if (!leftEgyed.getORSKO().equals("HU") && rightEgyed.getORSKO().equals("HU")) {
+                        value = -1;
+                    } else if (leftEgyed.getORSKO().equals("HU") && !rightEgyed.getORSKO().equals("HU")) {
+                        value = 1;
+                    }
+                } else if (currentOrderBy.equals(getString(R.string.lev_grid_header_enar))) {
+                    value = Long.valueOf(leftEgyed.getAZONO()).compareTo(Long.valueOf(rightEgyed.getAZONO()));
+                } else if (currentOrderBy.equals(getString(R.string.lev_grid_header_es))) {
+                    value = leftEgyed.getELLSO().compareTo(rightEgyed.getELLSO());
+                } else if (currentOrderBy.equals(getString(R.string.lev_grid_header_elles_datuma))) {
+                    value = leftEgyed.getELLDA().compareTo(rightEgyed.getELLDA());
+                } else if (currentOrderBy.equals(getString(R.string.lev_grid_header_szuletett))) {
+                    value = leftEgyed.getSZULD().compareTo(rightEgyed.getSZULD());
+                } else if (currentOrderBy.equals(getString(R.string.lev_grid_header_kon))) {
+                    value = leftEgyed.getKONSK().compareTo(rightEgyed.getKONSK());
+                } else if (currentOrderBy.equals(getString(R.string.lev_grid_header_itv))) {
+                    value = leftEgyed.getITVJE().compareTo(rightEgyed.getITVJE());
+                }
+                if (!asc) {
+                    value *= -1;
+                }
+                return value;
+            }
+        };
+
+        startProgressDialog();
+        EmptyTask task = new EmptyTask(new Executable() {
+            @Override
+            public void execute() {
+                Collections.sort(egyedList, comparator);
+            }
+        }, new ExecutableFinishedListener() {
+            @Override
+            public void onFinished() {
+                adapter.notifyDataSetChanged();
+                dismissDialog();
+            }
+        });
+        task.execute();
     }
 
     private boolean applyFilter(Egyed egyed) {
@@ -224,22 +294,37 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
         selectionChanged = true;
     }
 
-    @Override
-    public void onKilepes() {
-        dismissDialog();
-        finish();
+
+    public void levalogatasTorles() {
+        FragmentTransaction ft = getFragmentTransactionWithTag("levalogatasTorlesDialog");
+        dialog = LevalogatasTorlesAlertDialog.newInstance(this);
+        dialog.show(ft, "levalogatasTorlesDialog");
     }
 
+    // levalogatasTorlese
     @Override
-    public void onMentesEsKilepes() {
+    public void onTorles() {
         dismissDialog();
-        mentes_kilepes();
+        startProgressDialog();
+        EmptyTask task = new EmptyTask(new Executable() {
+            @Override
+            public void execute() {
+                app.removeSelectionFromTenyeszetList(selectedTenazArray);
+                reloadData();
+            }
+        }, new ExecutableFinishedListener() {
+            @Override
+            public void onFinished() {
+                updateCounters();
+                adapter.notifyDataSetChanged();
+                dismissDialog();
+            }
+        });
+        task.execute();
     }
 
     // LEVÁLOGATÁS
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    // MENU IN ACTIONBAR
 
     public void mentes_kilepes() {
         startProgressDialog();
@@ -307,32 +392,10 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
         task.execute();
     }
 
-    public void levalogatasTorles() {
-        FragmentTransaction ft = getFragmentTransactionWithTag("levalogatasTorlesDialog");
-        dialog = LevalogatasTorlesAlertDialog.newInstance(this);
-        dialog.show(ft, "levalogatasTorlesDialog");
-    }
-
-    // levalogatasTorlese
-    @Override
-    public void onTorles() {
-        dismissDialog();
-        startProgressDialog();
-        EmptyTask task = new EmptyTask(new Executable() {
-            @Override
-            public void execute() {
-                app.removeSelectionFromTenyeszetList(selectedTenazArray);
-                reloadData();
-            }
-        }, new ExecutableFinishedListener() {
-            @Override
-            public void onFinished() {
-                updateCounters();
-                adapter.notifyDataSetChanged();
-                dismissDialog();
-            }
-        });
-        task.execute();
+    public void reorder(View view) {
+        TextView orderByTV = (TextView) view;
+        String orderBy = orderByTV.getText().toString();
+        reorderData(orderBy);
     }
 
     // SZŰKÍTÉS

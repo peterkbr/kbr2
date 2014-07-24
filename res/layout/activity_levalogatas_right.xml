@@ -45,7 +45,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="#"
+                    android:text="@string/lev_grid_header_num"
                     android:textStyle="bold"/>
             </LinearLayout>
 
@@ -61,7 +61,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="OK"
+                    android:clickable="true"
+                    android:onClick="reorder"
+                    android:text="@string/lev_grid_header_ok"
                     android:textStyle="bold"/>
             </LinearLayout>
 
@@ -77,7 +79,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ENAR"
+                    android:clickable="true"
+                    android:onClick="reorder"
+                    android:text="@string/lev_grid_header_enar"
                     android:textStyle="bold"/>
             </LinearLayout>
 
@@ -93,7 +97,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ES"
+                    android:clickable="true"
+                    android:onClick="reorder"
+                    android:text="@string/lev_grid_header_es"
                     android:textStyle="bold"/>
             </LinearLayout>
 
@@ -109,7 +115,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ellés Dátuma"
+                    android:clickable="true"
+                    android:onClick="reorder"
+                    android:text="@string/lev_grid_header_elles_datuma"
                     android:textStyle="bold"/>
             </LinearLayout>
 
@@ -125,7 +133,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Született"
+                    android:clickable="true"
+                    android:onClick="reorder"
+                    android:text="@string/lev_grid_header_szuletett"
                     android:textStyle="bold"/>
             </LinearLayout>
 
@@ -141,7 +151,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Kon"
+                    android:clickable="true"
+                    android:onClick="reorder"
+                    android:text="@string/lev_grid_header_kon"
                     android:textStyle="bold"/>
             </LinearLayout>
 
@@ -156,7 +168,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ITV"
+                    android:clickable="true"
+                    android:onClick="reorder"
+                    android:text="@string/lev_grid_header_itv"
                     android:textStyle="bold"/>
             </LinearLayout>
         </LinearLayout>
@@ -172,7 +186,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
-            android:text="A kiválasztás nem tartalmaz egyedeket."
+            android:text="@string/lev_grid_empty"
             android:visibility="gone">
         </TextView>
     </LinearLayout>

@@ -47,6 +47,16 @@
     <string name="lev_menu_mentes">Mentés</string>
     <string name="lev_menu_szukites">Szűkítés</string>
 
+    <string name="lev_grid_header_num">#</string>
+    <string name="lev_grid_header_ok">OK</string>
+    <string name="lev_grid_header_enar">ENAR</string>
+    <string name="lev_grid_header_es">ES</string>
+    <string name="lev_grid_header_elles_datuma">Ellés Dátuma</string>
+    <string name="lev_grid_header_szuletett">Született</string>
+    <string name="lev_grid_header_kon">Kon</string>
+    <string name="lev_grid_header_itv">ITV</string>
+    <string name="lev_grid_empty">A kiválasztás nem tartalmaz egyedeket.</string>
+
     <string name="lev_szuk_menu_szukit">Szűkít</string>
     <string name="lev_szuk_menu_levalogatas_torlese">Leválogatás törlése</string>
     <string name="lev_szuk_menu_urit">Ürít</string>
