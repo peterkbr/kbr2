@@ -10,6 +10,9 @@ import android.widget.ListView;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.db.RemoveSelectionFromTenyeszetArrayTask;
 import hu.flexisys.kbr.view.KbrActivity;
+import hu.flexisys.kbr.view.levalogatas.EmptyTask;
+import hu.flexisys.kbr.view.levalogatas.Executable;
+import hu.flexisys.kbr.view.levalogatas.ExecutableFinishedListener;
 import hu.flexisys.kbr.view.tenyeszet.LevalogatasTorlesAlertDialog;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetAdapter;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
@@ -62,7 +65,7 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
                 biral();
                 return true;
             case R.id.torles:
-                torles();
+                levalogatasTorlese();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -71,7 +74,7 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
 
     // LEVÁLOGATÁSOK TÖRLÉSE
 
-    public void torles() {
+    public void levalogatasTorlese() {
         if (selectedList.isEmpty()) {
             return;
         }
@@ -80,16 +83,25 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
         dialog.show(ft, "torlesDialog");
     }
 
+    // levalogatasTorlese
     @Override
     public void onTorles() {
-        dialog.dismiss();
+        dismissDialog();
         startProgressDialog();
-
-        RemoveSelectionFromTenyeszetArrayTask removeSelectionFromTenyeszetArrayTask = new RemoveSelectionFromTenyeszetArrayTask(app, this);
-        removeSelectionFromTenyeszetArrayTask.execute(selectedList.toArray());
-
-        reloadData();
-        adapter.notifyDataSetChanged();
+        EmptyTask task = new EmptyTask(new Executable() {
+            @Override
+            public void execute() {
+                app.removeSelectionFromTenyeszetList(selectedList);
+                reloadData();
+            }
+        }, new ExecutableFinishedListener() {
+            @Override
+            public void onFinished() {
+                adapter.notifyDataSetChanged();
+                dismissDialog();
+            }
+        });
+        task.execute();
     }
 
     private void reloadData() {

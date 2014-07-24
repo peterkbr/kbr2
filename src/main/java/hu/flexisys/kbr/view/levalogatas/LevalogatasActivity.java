@@ -16,6 +16,7 @@ import hu.flexisys.kbr.view.tenyeszet.LevalogatasTorlesAlertDialog;
 import hu.flexisys.kbr.view.tenyeszet.TorlesAlertListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -241,19 +242,17 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
     // MENU IN ACTIONBAR
 
     public void mentes_kilepes() {
-        Log.i(TAG, "saveLevalogatasStarted");
         startProgressDialog();
         EmptyTask task = new EmptyTask(new Executable() {
             @Override
             public void execute() {
                 saveEgyedList();
+                selectionChanged = false;
             }
         }, new ExecutableFinishedListener() {
             @Override
             public void onFinished() {
-                selectionChanged = false;
                 dismissDialog();
-                Log.i(TAG, "saveLevalogatasEnded");
                 finish();
             }
         });
@@ -261,13 +260,14 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
     }
 
     public void mentes() {
-        Log.i(TAG, "saveLevalogatasStarted");
         startProgressDialog();
         EmptyTask task = new EmptyTask(new Executable() {
             @Override
             public void execute() {
                 saveEgyedList();
+                filter.clear();
                 reloadData();
+                selectionChanged = false;
             }
         }, new ExecutableFinishedListener() {
             @Override
@@ -275,9 +275,7 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
                 updateCounters();
                 adapter.notifyDataSetChanged();
                 urit();
-                selectionChanged = false;
                 dismissDialog();
-                Log.i(TAG, "saveLevalogatasEnded");
             }
         });
         task.execute();
@@ -290,12 +288,13 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
     }
 
     public void torles() {
-        filter.clear();
         startProgressDialog();
         EmptyTask task = new EmptyTask(new Executable() {
             @Override
             public void execute() {
+                filter.clear();
                 reloadData();
+                selectionChanged = false;
             }
         }, new ExecutableFinishedListener() {
             @Override
@@ -314,6 +313,7 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
         dialog.show(ft, "levalogatasTorlesDialog");
     }
 
+    // levalogatasTorlese
     @Override
     public void onTorles() {
         dismissDialog();
@@ -321,9 +321,7 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
         EmptyTask task = new EmptyTask(new Executable() {
             @Override
             public void execute() {
-                for (String TENAZ : selectedTenazArray) {
-                    app.removeSelectionFromTenyeszet(TENAZ);
-                }
+                app.removeSelectionFromTenyeszetList(selectedTenazArray);
                 reloadData();
             }
         }, new ExecutableFinishedListener() {
@@ -349,7 +347,6 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
         String esFilter = esET.getText().toString();
         filter.put(Filter.ELLES_SORSZAMAI, esFilter);
 
-        Log.i(TAG, "szukitLevalogatasStarted");
         startProgressDialog();
         EmptyTask task = new EmptyTask(new Executable() {
             @Override
@@ -362,7 +359,6 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
                 updateCounters();
                 adapter.notifyDataSetChanged();
                 dismissDialog();
-                Log.i(TAG, "szukitLevalogatasEnded");
             }
         });
         task.execute();

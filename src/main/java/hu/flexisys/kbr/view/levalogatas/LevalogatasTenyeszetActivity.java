@@ -2,18 +2,23 @@ package hu.flexisys.kbr.view.levalogatas;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.*;
+import android.support.v4.app.FragmentTransaction;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.view.KbrActivity;
+import hu.flexisys.kbr.view.tenyeszet.LevalogatasTorlesAlertDialog;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
+import hu.flexisys.kbr.view.tenyeszet.TorlesAlertListener;
 
 import java.util.*;
 
 /**
  * Created by Peter on 2014.07.04..
  */
-public class LevalogatasTenyeszetActivity extends KbrActivity {
+public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesAlertListener {
 
     public static String EXTRAKEY_SELECTEDTENAZLIST = "selectedTenazArray";
     private final List<TenyeszetListModel> tenyeszetList = new ArrayList<TenyeszetListModel>();
@@ -36,6 +41,11 @@ public class LevalogatasTenyeszetActivity extends KbrActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        reloadData();
+        adapter.notifyDataSetChanged();
+    }
+
+    private void reloadData() {
         tenyeszetList.clear();
         selectedList.clear();
         List<TenyeszetListModel> rawList = app.getTenyeszetListModels();
@@ -64,7 +74,6 @@ public class LevalogatasTenyeszetActivity extends KbrActivity {
             }
         });
         tenyeszetList.addAll(oldList);
-        adapter.notifyDataSetChanged();
     }
 
     // MENU IN ACTIONBAR
@@ -86,7 +95,7 @@ public class LevalogatasTenyeszetActivity extends KbrActivity {
                 kuld();
                 return true;
             case R.id.torles:
-                torles();
+                levalogatasTorlese();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -110,16 +119,39 @@ public class LevalogatasTenyeszetActivity extends KbrActivity {
         startActivity(intent);
     }
 
-    //    KÜLDÉS
+    // KÜLDÉS
 
     public void kuld() {
         toast("Not implemented jet!");
     }
 
-    // TENYÉSZETEK TÖRLÉSE
+    // LEVÁLOGATÁS TÖRLÉSE
 
-    public void torles() {
-        toast("Not implemented jet!");
+    public void levalogatasTorlese() {
+        FragmentTransaction ft = getFragmentTransactionWithTag("levalogatasTorlesDialog");
+        dialog = LevalogatasTorlesAlertDialog.newInstance(this);
+        dialog.show(ft, "levalogatasTorlesDialog");
+    }
+
+    // levalogatasTorlese
+    @Override
+    public void onTorles() {
+        dismissDialog();
+        startProgressDialog();
+        EmptyTask task = new EmptyTask(new Executable() {
+            @Override
+            public void execute() {
+                app.removeSelectionFromTenyeszetList(selectedList);
+                reloadData();
+            }
+        }, new ExecutableFinishedListener() {
+            @Override
+            public void onFinished() {
+                adapter.notifyDataSetChanged();
+                dismissDialog();
+            }
+        });
+        task.execute();
     }
 
 

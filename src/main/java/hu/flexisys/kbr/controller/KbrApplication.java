@@ -85,6 +85,28 @@ public class KbrApplication extends Application {
         }
     }
 
+    public void removeSelectionFromTenyeszetList(List<String> tenazList) {
+        for (String tenaz : tenazList) {
+            dbController.removeSelectionFromTenyeszet(tenaz);
+        }
+        try {
+            dbController.checkDbConsistency();
+        } catch (Exception e) {
+            Log.e(TAG, "checkDbConsistency", e);
+        }
+    }
+
+    public void removeSelectionFromTenyeszetList(String[] tenazArray) {
+        for (String tenaz : tenazArray) {
+            dbController.removeSelectionFromTenyeszet(tenaz);
+        }
+        try {
+            dbController.checkDbConsistency();
+        } catch (Exception e) {
+            Log.e(TAG, "checkDbConsistency", e);
+        }
+    }
+
     public void removeSelectionFromTenyeszet(String tenaz) {
         dbController.removeSelectionFromTenyeszet(tenaz);
         try {
@@ -177,5 +199,4 @@ public class KbrApplication extends Application {
     public String getUserId() {
         return userId;
     }
-
 }
