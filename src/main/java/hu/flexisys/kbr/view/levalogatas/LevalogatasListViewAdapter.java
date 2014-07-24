@@ -71,8 +71,9 @@ public class LevalogatasListViewAdapter extends ArrayAdapter<Egyed> {
 
         TextView enar = (TextView) v.findViewById(R.id.lev_enar);
         String text = String.valueOf(egyed.getAZONO());
-        if (text.length() == 10) {
-            Spanned spanned = Html.fromHtml(text.substring(0, 5) + " <b>" + text.substring(5, 9) + "</b> " + text.substring(9));
+        if (text.length() == 10 && egyed.getORSKO().equals("HU")) {
+            Spanned spanned = Html.fromHtml(text.substring(0, 5) + " <b><font color='red'>" + text.substring(5, 9) + "</font></b> " + text.substring(9));
+
             enar.setText(spanned);
         } else {
             enar.setText(text);
