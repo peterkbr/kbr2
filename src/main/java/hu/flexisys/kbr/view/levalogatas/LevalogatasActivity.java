@@ -10,11 +10,13 @@ import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
+import hu.flexisys.kbr.util.DateUtil;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.biralat.BiralatTenyeszetActivity;
 import hu.flexisys.kbr.view.tenyeszet.LevalogatasTorlesAlertDialog;
 import hu.flexisys.kbr.view.tenyeszet.TorlesAlertListener;
 
+import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -100,6 +102,25 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
         adapter = new LevalogatasListViewAdapter(this, R.layout.list_levalogatas, egyedList, this);
         listView.setAdapter(adapter);
 
+        final RadioButton huButton = (RadioButton) findViewById(R.id.lev_szuk_hu_radio);
+        final RadioButton kuButton = (RadioButton) findViewById(R.id.lev_szuk_ku_radio);
+        huButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    kuButton.setChecked(false);
+                }
+            }
+        });
+        kuButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    huButton.setChecked(false);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -169,36 +190,30 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
 
     private void reloadData() {
         egyedList.clear();
+        selectedEgyedCounter = 0;
         List<Egyed> rawList = app.getEgyedListByTENAZArray(selectedTenazArray);
+
+        List<Biralat> biralatList = app.getBiralatListByTENAZArray(selectedTenazArray);
+        HashMap<String, ArrayList<Biralat>> biralatMap = new HashMap<String, ArrayList<Biralat>>();
+        for (Biralat biralat : biralatList) {
+            String azono = biralat.getAZONO();
+            if (biralatMap.get(azono) == null) {
+                biralatMap.put(azono, new ArrayList<Biralat>());
+            }
+            biralatMap.get(azono).add(biralat);
+        }
+
         for (Egyed egyed : rawList) {
+            List<Biralat> currentBiralatList = biralatMap.get(egyed.getAZONO());
+            if (currentBiralatList == null) {
+                currentBiralatList = new ArrayList<Biralat>();
+            }
+            egyed.setBiralatList(currentBiralatList);
             if (applyFilter(egyed)) {
                 egyedList.add(egyed);
-            }
-        }
-        selectedEgyedCounter = 0;
-
-        if (egyedList.isEmpty()) {
-            Log.i(TAG, "Üres az egyedlista!");
-        } else {
-            List<Biralat> biralatList = app.getBiralatListByTENAZArray(selectedTenazArray);
-            HashMap<String, ArrayList<Biralat>> biralatMap = new HashMap<String, ArrayList<Biralat>>();
-            for (Biralat biralat : biralatList) {
-                String azono = biralat.getAZONO();
-                if (biralatMap.get(azono) == null) {
-                    biralatMap.put(azono, new ArrayList<Biralat>());
-                }
-                biralatMap.get(azono).add(biralat);
-            }
-            for (int i = 0; i < egyedList.size(); i++) {
-                Egyed egyed = egyedList.get(i);
                 if (egyed.getKIVALASZTOTT()) {
                     selectedEgyedCounter++;
                 }
-                List<Biralat> currentBiralatList = biralatMap.get(egyed.getAZONO());
-                if (currentBiralatList == null) {
-                    currentBiralatList = new ArrayList<Biralat>();
-                }
-                egyed.setBiralatList(currentBiralatList);
             }
         }
     }
@@ -258,27 +273,67 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
     }
 
     private boolean applyFilter(Egyed egyed) {
+        Boolean marEllett = (Boolean) filter.get(Filter.MAR_ELLETT);
+        if (marEllett != null && marEllett && (egyed.getELLDA() == null || egyed.getELLDA().getTime() <= 1)) {
+            return false;
+        }
+
+        Boolean nemBiralt = (Boolean) filter.get(Filter.NEM_BIRALT);
+        if (nemBiralt != null && nemBiralt && !egyed.getBiralatList().isEmpty()) {
+            return false;
+        }
+
+        Boolean itv = (Boolean) filter.get(Filter.ITV);
+        if (itv != null && itv && (egyed.getITVJE() == null || !egyed.getITVJE())) {
+            return false;
+        }
+
+        Boolean hu = (Boolean) filter.get(Filter.HU);
+        if (hu != null && ((hu && !egyed.getORSKO().equals("HU")) || (!hu && egyed.getORSKO().equals("HU")))) {
+            return false;
+        }
+
         String esFilter = (String) filter.get(Filter.ELLES_SORSZAMAI);
         if (esFilter != null && !esFilter.isEmpty()) {
             String[] esArray = esFilter.split(",");
-            Boolean cool = false;
+            Boolean pass = false;
             for (String es : esArray) {
                 if (Integer.valueOf(es).equals(egyed.getELLSO())) {
-                    cool = true;
+                    pass = true;
                     break;
                 }
             }
-            if (!cool) {
+            if (!pass) {
                 return false;
             }
         }
 
         String enar = (String) filter.get(Filter.ENAR);
-        if (enar != null && !enar.isEmpty()) {
-            if (egyed.getAZONO() == null || !enar.equals(String.valueOf(egyed.getAZONO()))) {
-                return false;
-            }
+        if (enar != null && !enar.isEmpty() && (egyed.getAZONO() == null || !egyed.getAZONO().contains(String.valueOf(enar)))) {
+            return false;
         }
+
+        Long szuletesTol = (Long) filter.get(Filter.SZULETES_TOL);
+        Long szuletesIg = (Long) filter.get(Filter.SZULETES_IG);
+        Long szuletes = egyed.getSZULD().getTime();
+        if ((szuletesTol != null && szuletes < szuletesTol) || (szuletesIg != null && szuletes > szuletesIg)) {
+            return false;
+        }
+
+        Long utolsoEllesTol = (Long) filter.get(Filter.UTOLSO_ELLES_TOL);
+        Long utolsoEllesIg = (Long) filter.get(Filter.UTOLSO_ELLES_IG);
+        Long utolsoElles = egyed.getELLDA().getTime();
+        if ((utolsoEllesTol != null && utolsoElles < utolsoEllesTol) || (utolsoEllesIg != null && utolsoElles > utolsoEllesIg)) {
+            return false;
+        }
+
+        Integer konTol = (Integer) filter.get(Filter.KONSTRUKCIOS_TOL);
+        Integer konIg = (Integer) filter.get(Filter.KONSTRUKCIOS_IG);
+        Integer kon = egyed.getKONSK();
+        if ((konTol != null && kon < konTol) || (konIg != null && kon > konIg)) {
+            return false;
+        }
+
         return true;
     }
 
@@ -402,15 +457,8 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
     public void szukit() {
-        EditText enarET = (EditText) findViewById(R.id.lev_szuk_enar);
-        String enarFilter = enarET.getText().toString();
-        filter.put(Filter.ENAR, enarFilter);
-
-        EditText esET = (EditText) findViewById(R.id.lev_szuk_elles_sorszamai);
-        String esFilter = esET.getText().toString();
-        filter.put(Filter.ELLES_SORSZAMAI, esFilter);
-
         startProgressDialog();
+        updateFilterValues();
         EmptyTask task = new EmptyTask(new Executable() {
             @Override
             public void execute() {
@@ -427,6 +475,83 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
         task.execute();
     }
 
+    private void updateFilterValues() {
+        Boolean marEllett = getBooleanFromCheckBox(R.id.lev_szuk_mar_ellett_chb);
+        filter.put(Filter.MAR_ELLETT, marEllett);
+
+        Boolean nemBiralt = getBooleanFromCheckBox(R.id.lev_szuk_nem_biralt_chb);
+        filter.put(Filter.NEM_BIRALT, nemBiralt);
+
+        Boolean itv = getBooleanFromCheckBox(R.id.lev_szuk_itv_chb);
+        filter.put(Filter.ITV, itv);
+
+        RadioButton huRadioButton = (RadioButton) findViewById(R.id.lev_szuk_hu_radio);
+        RadioButton kuRadioButton = (RadioButton) findViewById(R.id.lev_szuk_ku_radio);
+        if (huRadioButton.isChecked()) {
+            filter.put(Filter.HU, true);
+        } else if (kuRadioButton.isChecked()) {
+            filter.put(Filter.HU, false);
+        } else {
+            filter.put(Filter.HU, null);
+        }
+
+        String ellesSorszamai = getStringFromEditText(R.id.lev_szuk_elles_sorszamai);
+        filter.put(Filter.ELLES_SORSZAMAI, ellesSorszamai);
+
+        String enar = getStringFromEditText(R.id.lev_szuk_enar);
+        filter.put(Filter.ENAR, enar);
+
+        String konTol = getStringFromEditText(R.id.lev_szuk_konstrukcios_tol);
+        filter.put(Filter.KONSTRUKCIOS_TOL, konTol == null ? null : Integer.valueOf(konTol));
+
+        String konIg = getStringFromEditText(R.id.lev_szuk_konstrukcios_ig);
+        filter.put(Filter.KONSTRUKCIOS_IG, konIg == null ? null : Integer.valueOf(konIg));
+
+        Long ellesTol = getDateInLongFromTextView(R.id.lev_szuk_utolso_elles_tol);
+        filter.put(Filter.UTOLSO_ELLES_TOL, ellesTol);
+
+        Long ellesIg = getDateInLongFromTextView(R.id.lev_szuk_utolso_elles_ig);
+        filter.put(Filter.UTOLSO_ELLES_IG, ellesIg);
+
+        Long szuletesTol = getDateInLongFromTextView(R.id.lev_szuk_szuletes_tol);
+        filter.put(Filter.SZULETES_TOL, szuletesTol);
+
+        Long szuletesIg = getDateInLongFromTextView(R.id.lev_szuk_szuletes_ig);
+        filter.put(Filter.SZULETES_IG, szuletesIg);
+    }
+
+    private Boolean getBooleanFromCheckBox(int resId) {
+        CheckBox checkBox = (CheckBox) findViewById(resId);
+        Boolean checkValue = checkBox.isChecked();
+        if (!checkValue) {
+            checkValue = null;
+        }
+        return checkValue;
+    }
+
+    private String getStringFromEditText(int resId) {
+        EditText editText = (EditText) findViewById(resId);
+        String filterValue = editText.getText().toString();
+        if (filterValue == null || filterValue.isEmpty()) {
+            filterValue = null;
+        }
+        return filterValue;
+    }
+
+    private Long getDateInLongFromTextView(int resId) {
+        TextView textView = (TextView) findViewById(resId);
+        String filterValue = String.valueOf(textView.getText());
+        Long longValue = null;
+        try {
+            if (filterValue != null && !filterValue.isEmpty()) {
+                longValue = DateUtil.getDateFromDateString(filterValue).getTime();
+            }
+        } catch (ParseException e) {
+            Log.e(TAG, "Date parse error", e);
+        }
+        return longValue;
+    }
+
     public void urit() {
         clearCheckBox(R.id.lev_szuk_mar_ellett_chb);
         clearCheckBox(R.id.lev_szuk_nem_biralt_chb);
@@ -434,12 +559,13 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
 
         clearEditText(R.id.lev_szuk_elles_sorszamai);
         clearEditText(R.id.lev_szuk_enar);
-        clearEditText(R.id.lev_szuk_utolso_elles_tol);
-        clearEditText(R.id.lev_szuk_utolso_elles_ig);
-        clearEditText(R.id.lev_szuk_szuletes_tol);
-        clearEditText(R.id.lev_szuk_szuletes_ig);
         clearEditText(R.id.lev_szuk_konstrukcios_tol);
         clearEditText(R.id.lev_szuk_konstrukcios_ig);
+
+        clearTextView(R.id.lev_szuk_utolso_elles_tol);
+        clearTextView(R.id.lev_szuk_utolso_elles_ig);
+        clearTextView(R.id.lev_szuk_szuletes_tol);
+        clearTextView(R.id.lev_szuk_szuletes_ig);
 
         clearRadioButton(R.id.lev_szuk_hu_radio);
         clearRadioButton(R.id.lev_szuk_ku_radio);
@@ -455,6 +581,11 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
         editText.setText("");
     }
 
+    private void clearTextView(int resId) {
+        TextView textView = (TextView) findViewById(resId);
+        textView.setText("");
+    }
+
     private void clearRadioButton(int resId) {
         RadioButton radioButton = (RadioButton) findViewById(resId);
         radioButton.setChecked(false);
@@ -462,6 +593,31 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
 
     public void showSzukites() {
         pane.openPane();
+    }
+
+    public void pickDate(final View view) {
+        final TextView dateEditText = (TextView) view;
+        final Calendar c = Calendar.getInstance();
+        int mYear = c.get(Calendar.YEAR);
+        int mMonth = c.get(Calendar.MONTH);
+        int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+        FragmentTransaction ft = getFragmentTransactionWithTag("datePickerDialog");
+        dialog = KbrDatePickerDialog.newInstance(new DatePickedListener() {
+            @Override
+            public void onClear() {
+                dateEditText.setText("");
+                dismissDialog();
+            }
+
+            @Override
+            public void onDatePicked(int year, int monthOfYear, int dayOfMonth) {
+                dateEditText.setText(year + "." + (monthOfYear + 1) + "." + dayOfMonth);
+                dismissDialog();
+            }
+        }, mYear, mMonth, mDay);
+        dialog.show(ft, "datePickerDialog");
+
     }
 
 }

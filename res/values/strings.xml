@@ -8,6 +8,7 @@
     <!--BASIC INTERFACE-->
     <string name="ok">OK</string>
     <string name="cancel">Mégse</string>
+    <string name="clear">Törlés</string>
 
     <!--MENU-->
     <string name="menu_title">Küllemi Bírálati információs rendszer</string>

@@ -81,21 +81,24 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/input_height"
             android:layout_weight="1"
+            android:gravity="center_vertical"
             android:text="Ellés sorszáma(i):"/>
 
         <EditText
             android:id="@+id/lev_szuk_elles_sorszamai"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/input_height"
             android:layout_weight="1"
-            android:background="@drawable/keret"/>
+            android:background="@drawable/keret"
+            android:gravity="center_vertical"/>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.8">
+            android:layout_weight="0.8"
+            android:gravity="center_vertical">
 
             <TextView
                 android:layout_width="0dp"
@@ -144,17 +147,19 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/input_height"
             android:layout_weight="1"
+            android:gravity="center_vertical"
             android:text="ENAR szám:"/>
 
 
         <EditText
             android:id="@+id/lev_szuk_enar"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/input_height"
             android:layout_weight="1.8"
             android:background="@drawable/keret"
+            android:gravity="center_vertical"
             android:inputType="number"/>
     </LinearLayout>
 
@@ -168,41 +173,47 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/input_height"
             android:layout_weight="1"
+            android:gravity="center_vertical"
             android:text="Utolsó ellés dátuma:"/>
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2">
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center_vertical">
 
-            <EditText
+            <TextView
                 android:id="@+id/lev_szuk_utolso_elles_tol"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/input_height"
                 android:layout_weight="0.8"
                 android:background="@drawable/keret"
-                android:inputType="date"/>
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:onClick="pickDate"/>
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/input_height"
                 android:layout_weight="0.2"
                 android:gravity="center_vertical"
                 android:text="-tól"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/lev_szuk_utolso_elles_ig"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/input_height"
                 android:layout_weight="0.8"
                 android:background="@drawable/keret"
-                android:inputType="date"/>
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:onClick="pickDate"/>
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/input_height"
                 android:layout_weight="0.2"
                 android:gravity="center_vertical"
                 android:text="-ig"/>
@@ -220,41 +231,48 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/input_height"
             android:layout_weight="1"
+            android:gravity="center_vertical"
             android:text="Születés dátuma:"/>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2">
+            android:layout_weight="2"
+            android:gravity="center_vertical">
 
-            <EditText
+            <TextView
                 android:id="@+id/lev_szuk_szuletes_tol"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/input_height"
                 android:layout_weight="0.8"
                 android:background="@drawable/keret"
-                android:inputType="date"/>
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:onClick="pickDate"/>
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/input_height"
                 android:layout_weight="0.2"
                 android:gravity="center_vertical"
                 android:text="-tól"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/lev_szuk_szuletes_ig"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/input_height"
                 android:layout_weight="0.8"
                 android:background="@drawable/keret"
-                android:inputType="date"/>
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:inputType="date"
+                android:onClick="pickDate"/>
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/input_height"
                 android:layout_weight="0.2"
                 android:gravity="center_vertical"
                 android:text="-ig"/>
@@ -272,26 +290,29 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/input_height"
             android:layout_weight="1"
+            android:gravity="center_vertical"
             android:text="Konstrukciós kód:"/>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2">
+            android:layout_weight="2"
+            android:gravity="center_vertical">
 
             <EditText
                 android:id="@+id/lev_szuk_konstrukcios_tol"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/input_height"
                 android:layout_weight="0.8"
                 android:background="@drawable/keret"
+                android:gravity="center_vertical"
                 android:inputType="number"/>
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/input_height"
                 android:layout_weight="0.2"
                 android:gravity="center_vertical"
                 android:text="-tól"/>
@@ -299,18 +320,18 @@
             <EditText
                 android:id="@+id/lev_szuk_konstrukcios_ig"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/input_height"
                 android:layout_weight="0.8"
                 android:background="@drawable/keret"
+                android:gravity="center_vertical"
                 android:inputType="number"/>
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/input_height"
                 android:layout_weight="0.2"
                 android:gravity="center_vertical"
                 android:text="-ig"/>
         </LinearLayout>
-
     </LinearLayout>
 </LinearLayout>

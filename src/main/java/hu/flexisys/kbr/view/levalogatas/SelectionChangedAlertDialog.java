@@ -42,6 +42,14 @@ public class SelectionChangedAlertDialog extends KbrDialog {
                 listener.onKilepes();
             }
         });
+
+        Button cancel = (Button) v.findViewById(R.id.lev_selection_changed_dialog_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
         return v;
     }
 
