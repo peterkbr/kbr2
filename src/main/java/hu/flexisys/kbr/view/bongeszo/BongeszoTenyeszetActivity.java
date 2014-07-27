@@ -58,7 +58,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
         List<TenyeszetListModel> oldList = new ArrayList<TenyeszetListModel>();
         for (TenyeszetListModel model : rawList) {
             if (model.getERVENYES()) {
-                Boolean hasBiralat = model.getBiralatWaitingForUpload() > 0;
+                Boolean hasBiralat = model.getBiralatCount() > 0;
                 if (!hasBiralat) {
                     for (Egyed egyed : model.getTenyeszet().getEgyedList()) {
                         if (egyed.getBiralatList().size() > 0) {
@@ -135,6 +135,10 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
     // KÜLDÉS
 
     public void kuld() {
+        if (selectedList.isEmpty()) {
+            return;
+        }
+
         Boolean hasBiralatlessTenyeszet = false;
         Boolean hasUnexportedBiralat = false;
 

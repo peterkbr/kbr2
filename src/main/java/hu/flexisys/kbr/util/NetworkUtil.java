@@ -37,10 +37,13 @@ public class NetworkUtil {
         requestBuilder.append("<body>");
         for (Egyed egyed : egyedList) {
             for (Biralat biralat : egyed.getBiralatList()) {
+                if (!biralat.getFELTOLTETLEN()) {
+                    continue;
+                }
                 requestBuilder.append("<biral ");
-                requestBuilder.append(" tenaz = \"").append(egyed.getTENAZ()).append("\" ");
-                requestBuilder.append(" orsko = \"").append(egyed.getORSKO()).append("\" ");
-                requestBuilder.append(" azono = \"").append(egyed.getAZONO()).append("\" ");
+                requestBuilder.append(" tenaz = \"").append(biralat.getTENAZ()).append("\" ");
+                requestBuilder.append(" orsko = \"").append(biralat.getORSKO()).append("\" ");
+                requestBuilder.append(" azono = \"").append(biralat.getAZONO()).append("\" ");
                 requestBuilder.append(" birda = \"").append(biralat.getBIRDA()).append("\" ");
                 requestBuilder.append(" birti = \"").append(biralat.getBIRTI()).append("\" ");
                 requestBuilder.append(" kulaz = \"").append(biralat.getKULAZ()).append("\" ");
