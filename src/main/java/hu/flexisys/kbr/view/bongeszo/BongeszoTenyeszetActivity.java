@@ -1,13 +1,19 @@
 package hu.flexisys.kbr.view.bongeszo;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.model.Egyed;
+import hu.flexisys.kbr.model.Tenyeszet;
 import hu.flexisys.kbr.view.KbrActivity;
+import hu.flexisys.kbr.view.NotificationDialog;
+import hu.flexisys.kbr.view.levalogatas.EmptyTask;
+import hu.flexisys.kbr.view.levalogatas.Executable;
+import hu.flexisys.kbr.view.levalogatas.ExecutableFinishedListener;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
 
 import java.util.ArrayList;
@@ -90,7 +96,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_activity_levalogatas_tenyeszet, menu);
+        inflater.inflate(R.menu.menu_activity_bongeszo_tenyeszet, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -129,7 +135,52 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
     // KÜLDÉS
 
     public void kuld() {
-        toast("Not implemented jet!");
+        Boolean hasBiralatlessTenyeszet = false;
+        Boolean hasUnexportedBiralat = false;
+
+        List<Tenyeszet> selectedTenyeszetList = new ArrayList<Tenyeszet>();
+        for (TenyeszetListModel model : tenyeszetList) {
+            if (selectedList.contains(model.getTENAZ())) {
+                if (model.getBiralatWaitingForUpload() < 1) {
+                    hasBiralatlessTenyeszet = true;
+                    break;
+                } else if (model.getBiralatUnexportedCount() > 0) {
+                    hasUnexportedBiralat = true;
+                    break;
+                } else {
+                    selectedTenyeszetList.add(model.getTenyeszet());
+                }
+            }
+        }
+        if (hasBiralatlessTenyeszet || hasUnexportedBiralat) {
+            String title = null;
+            if (hasBiralatlessTenyeszet) {
+                title = getString(R.string.bong_teny_kuld_error_nincs_friss_biralat);
+            } else if (hasUnexportedBiralat) {
+                title = getString(R.string.bong_teny_kuld_error_unexported_biralat);
+            }
+            if (title != null) {
+                FragmentTransaction ft = getFragmentTransactionWithTag("notificationDialog");
+                dialog = NotificationDialog.newInstance(title, null);
+                dialog.show(ft, "notificationDialog");
+            }
+            return;
+        }
+
+        startProgressDialog();
+        new EmptyTask(new Executable() {
+            @Override
+            public void execute() {
+                // TODO küldés
+                reloadData();
+                adapter.notifyDataSetChanged();
+            }
+        }, new ExecutableFinishedListener() {
+            @Override
+            public void onFinished() {
+                dismissDialog();
+            }
+        });
     }
 
 }

@@ -14,6 +14,8 @@ public class TenyeszetListModel {
     private Integer egyedCount;
     private Integer selectedEgyedCount;
     private Integer biralatWaitingForUpload;
+    private Integer biralatUnexportedCount;
+    private Integer biralatCount;
 
     public TenyeszetListModel(Tenyeszet tenyeszet) {
         this.tenyeszet = tenyeszet;
@@ -103,5 +105,21 @@ public class TenyeszetListModel {
 
     public void setBiralatWaitingForUpload(Integer biralatWaitingForUpload) {
         this.biralatWaitingForUpload = biralatWaitingForUpload;
+    }
+
+    public Integer getBiralatUnexportedCount() {
+        return biralatUnexportedCount;
+    }
+
+    public void setBiralatUnexportedCount(Integer biralatUnexportedCount) {
+        this.biralatUnexportedCount = biralatUnexportedCount;
+    }
+
+    public Integer getBiralatCount() {
+        return biralatCount;
+    }
+
+    public void setBiralatCount(Integer biralatCount) {
+        this.biralatCount = biralatCount;
     }
 }

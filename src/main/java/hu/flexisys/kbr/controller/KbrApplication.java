@@ -129,6 +129,10 @@ public class KbrApplication extends Application {
 
             List<Biralat> biralatList = dbController.getBiralatByTenyeszetAndToUpload(tenyeszet, true);
             model.setBiralatWaitingForUpload(biralatList.size());
+            biralatList = dbController.getBiralatByTENAZ(tenyeszet.getTENAZ());
+            model.setBiralatCount(biralatList.size());
+            biralatList = dbController.getBiralatByTenyeszetAndExported(tenyeszet.getTENAZ(), false);
+            model.setBiralatUnexportedCount(biralatList.size());
 
             String cim = tenyeszet.getTECIM();
             if (cim != null && !cim.isEmpty()) {

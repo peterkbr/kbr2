@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kbr="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/tovabb"
+        android:title="@string/lev_teny_menu_tovabb"
+        kbr:showAsAction="always" />
+    <item
+        android:id="@+id/kuld"
+        android:title="@string/lev_teny_menu_kuld"
+        kbr:showAsAction="always" />
+</menu>

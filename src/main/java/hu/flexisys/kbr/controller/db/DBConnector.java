@@ -198,6 +198,16 @@ public class DBConnector {
         return getBiralatListFromCursor(cursor);
     }
 
+
+    public List<Biralat> getBiralatByTenyeszetAndExported(String TENAZ, boolean EXPORTED) {
+        StringBuilder selectBuilder = new StringBuilder();
+        selectBuilder.append(DBScripts.COLUMN_BIRALAT_TENAZ).append("=").append(TENAZ);
+        selectBuilder.append(" AND ");
+        selectBuilder.append(DBScripts.COLUMN_BIRALAT_EXPORTALT).append(EXPORTED ? "=1" : "=0");
+        Cursor cursor = database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, selectBuilder.toString(), null, null, null, null);
+        return getBiralatListFromCursor(cursor);
+    }
+
     private List<Biralat> getBiralatListFromCursor(Cursor cursor) {
         List<Biralat> list = new ArrayList<Biralat>();
         cursor.moveToFirst();

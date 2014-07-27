@@ -140,6 +140,10 @@ public class DBController {
         return innerConnector.getBiralatByTENAZAndFELTOLTETLEN(tenyeszet.getTENAZ(), toUpload);
     }
 
+    public List<Biralat> getBiralatByTenyeszetAndExported(String TENAZ, boolean unexported) {
+        return innerConnector.getBiralatByTenyeszetAndExported(TENAZ, unexported);
+    }
+
     // DB CONSISTENCY
 
     public void checkDbConsistency() throws Exception {
