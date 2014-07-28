@@ -8,7 +8,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 import hu.flexisys.kbr.R;
-import hu.flexisys.kbr.controller.db.RemoveSelectionFromTenyeszetArrayTask;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.levalogatas.EmptyTask;
 import hu.flexisys.kbr.view.levalogatas.Executable;
@@ -107,9 +106,19 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
     private void reloadData() {
         tenyeszetList.clear();
         selectedList.clear();
+
+        List<TenyeszetListModel> emptyTenyeszetList = new ArrayList<TenyeszetListModel>();
+
         for (TenyeszetListModel model : app.getTenyeszetListModels()) {
-            if (model.getERVENYES() && model.getSelectedEgyedCount() != null && model.getSelectedEgyedCount() > 0) {
-                tenyeszetList.add(model);
+//            if (model.getERVENYES() && model.getSelectedEgyedCount() != null && model.getSelectedEgyedCount() > 0) {
+//                tenyeszetList.add(model);
+//            }
+            if (model.getERVENYES()) {
+                if (model.getSelectedEgyedCount() != null && model.getSelectedEgyedCount() > 0) {
+                    tenyeszetList.add(model);
+                } else {
+                    emptyTenyeszetList.add(model);
+                }
             }
         }
     }
@@ -122,6 +131,7 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
         }
         Intent intent = new Intent(this, BiralatActivity.class);
         Bundle extras = new Bundle();
+
         String[] selectedTenazArray = new String[selectedList.size()];
         for (int i = 0; i < selectedList.size(); i++) {
             selectedTenazArray[i] = selectedList.get(i);
