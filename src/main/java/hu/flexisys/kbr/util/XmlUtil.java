@@ -5,9 +5,12 @@ import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.IOException;
 import java.io.StringReader;
+import java.text.ParseException;
 
 /**
  * Created by Peter on 2014.07.02..
@@ -104,7 +107,7 @@ public class XmlUtil {
     private static final String TN_EGYED_KOD30 = "kod30";
     private static final String TN_EGYED_ERT30 = "ert30";
 
-    public static Tenyeszet parseKullemtenyXml(String xml) throws Exception {
+    public static Tenyeszet parseKullemtenyXml(String xml) throws XmlUtilException, XmlPullParserException, ParseException, IOException {
         Tenyeszet tenyeszet = new Tenyeszet();
 
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -134,7 +137,7 @@ public class XmlUtil {
                         }
                     }
                     if (response.getResult_code() == null || !response.getResult_code().equals("0")) {
-                        throw new Exception("ERROR PARSING KULLEMTENY RESPONSE:" + response.getResult_message());
+                        throw new XmlUtilException(response.getResult_code() + " \"" + response.getResult_message() + "\"");
                     }
                 } else if (xpp.getName().equals(TN_TENY)) {
                     int count = xpp.getAttributeCount();

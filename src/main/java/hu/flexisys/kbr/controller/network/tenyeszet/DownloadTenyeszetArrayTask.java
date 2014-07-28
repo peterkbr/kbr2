@@ -7,7 +7,7 @@ import hu.flexisys.kbr.model.Tenyeszet;
 import hu.flexisys.kbr.util.DateUtil;
 import hu.flexisys.kbr.util.NetworkUtil;
 import hu.flexisys.kbr.util.XmlUtil;
-import hu.flexisys.kbr.view.ProgressHandler;
+import hu.flexisys.kbr.util.XmlUtilException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -16,6 +16,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Created by Peter on 2014.07.02..
@@ -23,12 +24,14 @@ import java.io.IOException;
 public class DownloadTenyeszetArrayTask extends AsyncTask<Object, Void, Void> {
 
     public static String TAG = "KBR_downloadTenyeszet";
+    private final DownloadTenyeszetHandler downloadTenyeszetHandler;
+    private HashMap<String, String> resultMap;
     private KbrApplication app;
-    private ProgressHandler progressHandler;
 
-    public DownloadTenyeszetArrayTask(KbrApplication app, ProgressHandler progressHandler) {
+    public DownloadTenyeszetArrayTask(KbrApplication app, DownloadTenyeszetHandler downloadTenyeszetHandler) {
         this.app = app;
-        this.progressHandler = progressHandler;
+        resultMap = new HashMap<String, String>();
+        this.downloadTenyeszetHandler = downloadTenyeszetHandler;
     }
 
     @Override
@@ -56,8 +59,14 @@ public class DownloadTenyeszetArrayTask extends AsyncTask<Object, Void, Void> {
                     Log.i(TAG, "OLD TENYESZET DATA REMOVED:" + TENAZ + ":" + DateUtil.getRequestId());
                     app.insertTenyeszetWithChildren(tenyeszet);
                     Log.i(TAG, "INSERTED:" + TENAZ + ":" + DateUtil.getRequestId());
+                    resultMap.put(TENAZ, "Sikeres letöltés");
+                } catch (XmlUtilException xmlE) {
+                    app.updateTenyeszetByTENAZWithERVENYES(TENAZ, false);
+                    resultMap.put(TENAZ, "Sikertelen letöltés : \n" + xmlE.getMessage());
+                    Log.e(TAG, "parsing xml", xmlE);
                 } catch (Exception e) {
                     app.updateTenyeszetByTENAZWithERVENYES(TENAZ, false);
+                    resultMap.put(TENAZ, "Sikertelen letöltés");
                     Log.e(TAG, "parsing xml", e);
                 }
             }
@@ -68,6 +77,6 @@ public class DownloadTenyeszetArrayTask extends AsyncTask<Object, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        progressHandler.onProgressEnded();
+        downloadTenyeszetHandler.onDownloadFinished(resultMap);
     }
 }

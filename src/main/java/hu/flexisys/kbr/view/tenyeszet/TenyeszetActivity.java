@@ -2,22 +2,21 @@ package hu.flexisys.kbr.view.tenyeszet;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 import hu.flexisys.kbr.R;
-import hu.flexisys.kbr.controller.KbrApplication;
 import hu.flexisys.kbr.controller.db.RemoveTenyeszetArrayTask;
 import hu.flexisys.kbr.controller.network.tenyeszet.DownloadTenyeszetArrayTask;
+import hu.flexisys.kbr.controller.network.tenyeszet.DownloadTenyeszetHandler;
 import hu.flexisys.kbr.model.Tenyeszet;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.NotificationDialog;
-import hu.flexisys.kbr.view.ProgressHandler;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -137,41 +136,35 @@ public class TenyeszetActivity extends KbrActivity implements FelveszListener, T
 
         startProgressDialog();
         setOrigOrder();
-        DownloadTenyeszetArrayTask downloadTenyeszetArrayTask = new DownloadTenyeszetArrayTask(app, new ProgressHandler() {
+        DownloadTenyeszetArrayTask downloadTenyeszetArrayTask = new DownloadTenyeszetArrayTask(app, new DownloadTenyeszetHandler() {
             @Override
-            public void onProgressEnded() {
+            public void onDownloadFinished(HashMap<String, String> resultMap) {
                 tenyeszetList.clear();
                 for (int j = 0; j < origOrder.size(); j++) {
                     tenyeszetList.add(null);
                 }
-                ArrayList<String> errorList = new ArrayList<String>();
 
                 List<TenyeszetListModel> newList = app.getTenyeszetListModels();
                 for (TenyeszetListModel newTenyeszet : newList) {
                     int index = origOrder.indexOf(newTenyeszet.getTENAZ());
-                    if (selectedList.contains(newTenyeszet.getTENAZ()) && !newTenyeszet.getERVENYES()) {
-                        errorList.add(newTenyeszet.getTENAZ());
-                    }
                     tenyeszetList.set(index, newTenyeszet);
                 }
                 adapter.notifyDataSetChanged();
                 dismissDialog();
 
-                String title = null;
-                String message = null;
-                if (errorList.isEmpty()) {
-                    title = getString(R.string.teny_notification_download_ok_title);
-                } else {
-                    title = getString(R.string.teny_notification_download_error_title);
-                    StringBuilder errorMessageBuilder = new StringBuilder();
-                    for (String tezan : errorList) {
-                        if (errorMessageBuilder.length() != 0) {
-                            errorMessageBuilder.append("\n");
+                StringBuilder messageBuilder = new StringBuilder();
+                for (String TENAZ : origOrder) {
+                    String messageRow = resultMap.get(TENAZ);
+                    if (messageRow != null && !messageRow.isEmpty()) {
+                        if (messageBuilder.length() != 0) {
+                            messageBuilder.append("\n");
                         }
-                        errorMessageBuilder.append(tezan);
+                        messageBuilder.append("\n").append(TENAZ).append("\n").append(messageRow);
                     }
-                    message = errorMessageBuilder.toString();
                 }
+                messageBuilder.append("\n");
+                String title = getString(R.string.teny_notification_download_title);
+                String message = messageBuilder.toString();
 
                 FragmentTransaction ft = getFragmentTransactionWithTag("notificationDialog");
                 dialog = NotificationDialog.newInstance(title, message);

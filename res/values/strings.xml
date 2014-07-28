@@ -34,6 +34,7 @@
 
     <string name="teny_notification_download_error_biralat_title">Addig nem lehet letölteni a tenyészetet, amíg a bírálatok feltöltése nem történt meg!</string>
 
+    <string name="teny_notification_download_title">A letöltés eredménye</string>
     <string name="teny_notification_download_ok_title">Megérkeztek a letöltés adatai.</string>
     <string name="teny_notification_download_error_title">Sikertelen letöltés!</string>
 
