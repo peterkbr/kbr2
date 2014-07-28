@@ -164,7 +164,8 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         }
         List<Egyed> foundList = filterByHasznalati(hu, hasznalatiSzamValue);
         if (foundList.size() == 1) {
-            selectedEgyedForKereso = foundList.get(0);
+            Egyed egyed = foundList.get(0);
+            onSingleSelect(egyed);
         } else if (foundList.size() > 1) {
             selectedEgyedForKereso = null;
             FragmentTransaction ft = getFragmentTransactionWithTag("multi");
@@ -179,54 +180,73 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         keresoFragment.updateDetails(selectedEgyedForKereso);
     }
 
+    @Override
+    public void onAddNewEgyed(String tenaz, String orsko, String azono) {
+        Egyed egyed = new Egyed();
+        if (orsko.equals("HU") && tenaz.length() < 4) {
+            while (tenaz.length() < 4) {
+                tenaz = "0" + tenaz;
+            }
+        }
+        egyed.setTENAZ(tenaz);
+        egyed.setORSKO(orsko);
+        egyed.setAZONO(azono);
+        egyed.setKIVALASZTOTT(true);
+        egyed.setUJ(true);
+        app.insertEgyed(egyed);
+        reloadData();
+        keresoFragment.updateKeresoButtons(egyedList);
+        dismissDialog();
+
+        onSingleSelect(egyed);
+    }
+
+    @Override
+    public void onSelect(Egyed egyed) {
+        onSingleSelect(egyed);
+    }
+
+    private void onSingleSelect(Egyed egyed) {
+        String azono = String.valueOf(egyed.getAZONO());
+        if (azono.length() <= 4 || !hu) {
+            hasznalatiInput.setText(azono);
+        } else if (azono.length() == 10) {
+            hasznalatiInput.setText(azono.substring(5, 9));
+        } else {
+            hasznalatiInput.setText(azono.substring(0, 4));
+        }
+        dismissDialog();
+
+        if (!egyed.getKIVALASZTOTT()) {
+            FragmentTransaction ft = getFragmentTransactionWithTag("BirKerNotSelectedDialog");
+            dialog = BirKerNotSelectedDialog.newInstance(new BirKerNotselectedListener() {
+                @Override
+                public void onBiralSelected(Egyed egyed) {
+                    selectedEgyedForKereso = egyed;
+                    keresoFragment.updateDetails(selectedEgyedForKereso);
+                    dismissDialog();
+                }
+
+                @Override
+                public void onCancelSelection() {
+                    selectedEgyedForKereso = null;
+                    keresoFragment.updateDetails(selectedEgyedForKereso);
+                    dismissDialog();
+                }
+            }, egyed);
+            dialog.show(ft, "BirKerNotSelectedDialog");
+        } else {
+            selectedEgyedForKereso = egyed;
+            keresoFragment.updateDetails(selectedEgyedForKereso);
+        }
+    }
+
     public void biral(View view) {
         if (selectedEgyedForKereso != null) {
             selectedEgyedForBiral = selectedEgyedForKereso;
             biralFragment.updateDetails(selectedEgyedForBiral);
             actionBar.selectTab(actionBar.getTabAt(2));
         }
-    }
-
-    @Override
-    public void onAddNewEgyed(String tenaz, String orsko, String azono) {
-        if (azono.length() <= 4) {
-            hasznalatiInput.setText(azono);
-        } else if (azono.length() == 10) {
-            hasznalatiInput.setText(azono.substring(5, 9));
-        } else {
-            hasznalatiInput.setText(azono.substring(0, 4));
-        }
-
-        Egyed egyed = new Egyed();
-        egyed.setTENAZ(tenaz);
-        egyed.setORSKO(orsko);
-        egyed.setAZONO(azono);
-        egyed.setKIVALASZTOTT(false);
-        egyed.setUJ(true);
-        app.insertEgyed(egyed);
-
-        reloadData();
-        keresoFragment.updateKeresoButtons(egyedList);
-        keresoFragment.updateDetails(selectedEgyedForKereso);
-        dismissDialog();
-
-        // TODO hmm
-        keres(null);
-    }
-
-    @Override
-    public void onSelect(Egyed egyed) {
-        String azono = String.valueOf(egyed.getAZONO());
-        if (azono.length() <= 4) {
-            hasznalatiInput.setText(azono);
-        } else if (azono.length() == 10) {
-            hasznalatiInput.setText(azono.substring(5, 9));
-        } else {
-            hasznalatiInput.setText(azono.substring(0, 4));
-        }
-        selectedEgyedForKereso = egyed;
-        keresoFragment.updateDetails(selectedEgyedForKereso);
-        dismissDialog();
     }
 
     public void showBiraltList(View view) {

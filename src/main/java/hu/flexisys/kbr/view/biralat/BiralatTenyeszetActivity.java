@@ -110,9 +110,6 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
         List<TenyeszetListModel> emptyTenyeszetList = new ArrayList<TenyeszetListModel>();
 
         for (TenyeszetListModel model : app.getTenyeszetListModels()) {
-//            if (model.getERVENYES() && model.getSelectedEgyedCount() != null && model.getSelectedEgyedCount() > 0) {
-//                tenyeszetList.add(model);
-//            }
             if (model.getERVENYES()) {
                 if (model.getSelectedEgyedCount() != null && model.getSelectedEgyedCount() > 0) {
                     tenyeszetList.add(model);
@@ -121,6 +118,7 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
                 }
             }
         }
+        tenyeszetList.addAll(emptyTenyeszetList);
     }
 
     // BÍRÁLAT

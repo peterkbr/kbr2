@@ -86,15 +86,19 @@
 
     <string name="bir_ker_dialog_multi_title">Válasszon ENAR számot!</string>
     <string name="bir_ker_dialog_notfound_title">Nincs találat. Felvesz új egyedet?</string>
+    <string name="bir_ker_dialog_notselected_title">Az egyed nincs kiválasztva bírálatra!</string>
+    <string name="bir_ker_dialog_notselected_message">Kívánja bírálni?</string>
 
     <string-array name="bir_ker_dialog_notfound_orsko_list">
         <item>HU</item>
-        <item>DE</item>
         <item>AT</item>
-        <item>SK</item>
-        <item>CZ</item>
-        <item>PL</item>
         <item>UA</item>
+        <item>SK</item>
+        <item>HR</item>
+        <item>PL</item>
+        <item>RO</item>
+        <item>DE</item>
+        <item>CZ</item>
     </string-array>
 
     <!--BÖNGÉSZŐ-->
