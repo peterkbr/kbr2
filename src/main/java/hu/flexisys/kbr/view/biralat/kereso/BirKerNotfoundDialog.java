@@ -10,8 +10,8 @@ import android.widget.Button;
 import android.widget.Spinner;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.view.KbrDialog;
-import hu.flexisys.kbr.view.numpad.NumPad;
-import hu.flexisys.kbr.view.numpad.NumPadInput;
+import hu.flexisys.kbr.view.component.numpad.NumPad;
+import hu.flexisys.kbr.view.component.numpad.NumPadInput;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -31,7 +31,7 @@ public class BiralatTipusUtil {
     private static void loadBiralatTipusMap(Context context) {
         if (biralatTipusMap == null) {
             biralatTipusMap = new HashMap<String, BiralatTipus>();
-            InputStream inputStream = context.getResources().openRawResource(R.raw.biralat_szempontok);
+            InputStream inputStream = context.getResources().openRawResource(R.raw.biralat_tipusok);
             InputStreamReader inputreader = new InputStreamReader(inputStream);
             BufferedReader buffreader = new BufferedReader(inputreader);
             String line;

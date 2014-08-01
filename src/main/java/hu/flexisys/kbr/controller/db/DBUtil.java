@@ -39,6 +39,7 @@ public class DBUtil {
         values.put(DBScripts.COLUMN_EGYED_SZINE, egyed.getSZINE());
         values.put(DBScripts.COLUMN_EGYED_ITVJE, egyed.getITVJE());
         values.put(DBScripts.COLUMN_EGYED_KIVALASZTOTT, egyed.getKIVALASZTOTT());
+        values.put(DBScripts.COLUMN_EGYED_UJ, egyed.getUJ());
         return values;
     }
 

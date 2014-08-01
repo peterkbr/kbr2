@@ -9,10 +9,12 @@ import android.view.View;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
+import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
+import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.biralat.kereso.*;
-import hu.flexisys.kbr.view.numpad.NumPad;
-import hu.flexisys.kbr.view.numpad.NumPadInput;
+import hu.flexisys.kbr.view.component.numpad.NumPad;
+import hu.flexisys.kbr.view.component.numpad.NumPadInput;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,7 +29,6 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     private static final String TAG = "KBR_BiralatActivity";
 
     private String[] selectedTenazArray;
-    private ViewPager pager;
     private BiralatPagerAdapter adapter;
     private NumPadInput hasznalatiInput;
     private List<Egyed> egyedList;
@@ -35,6 +36,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     private List<Egyed> biralandoEgyedList;
     private Egyed selectedEgyedForKereso;
     private Egyed selectedEgyedForBiral;
+    private Biralat biralat;
     private Boolean hu;
     private KeresoFragment keresoFragment;
     private BiralFragment biralFragment;
@@ -49,8 +51,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayUseLogoEnabled(false);
-
-        pager = (ViewPager) findViewById(R.id.biralat_pager);
+        ViewPager pager = (ViewPager) findViewById(R.id.biralat_pager);
         adapter = new BiralatPagerAdapter(getSupportFragmentManager(), this);
         pager.setAdapter(adapter);
 
@@ -68,6 +69,9 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         reloadData();
 
         hu = true;
+
+        BiralatSzempontUtil.initBiralatSzempontUtil(getApplicationContext());
+        BiralatTipusUtil.initBiralatTipusUtil(getApplicationContext());
     }
 
     private void reloadData() {
@@ -191,14 +195,14 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         egyed.setTENAZ(tenaz);
         egyed.setORSKO(orsko);
         egyed.setAZONO(azono);
-        egyed.setKIVALASZTOTT(true);
+        egyed.setKIVALASZTOTT(false);
         egyed.setUJ(true);
         app.insertEgyed(egyed);
         reloadData();
         keresoFragment.updateKeresoButtons(egyedList);
         dismissDialog();
 
-        onSingleSelect(egyed);
+        onSingleSelect(egyed, true);
     }
 
     @Override
@@ -206,7 +210,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         onSingleSelect(egyed);
     }
 
-    private void onSingleSelect(Egyed egyed) {
+    private void onSingleSelect(Egyed egyed, Boolean forceSelection) {
         String azono = String.valueOf(egyed.getAZONO());
         if (azono.length() <= 4 || !hu) {
             hasznalatiInput.setText(azono);
@@ -217,7 +221,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         }
         dismissDialog();
 
-        if (!egyed.getKIVALASZTOTT()) {
+        if (!egyed.getKIVALASZTOTT() && !forceSelection) {
             FragmentTransaction ft = getFragmentTransactionWithTag("BirKerNotSelectedDialog");
             dialog = BirKerNotSelectedDialog.newInstance(new BirKerNotselectedListener() {
                 @Override
@@ -241,10 +245,14 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         }
     }
 
+    private void onSingleSelect(Egyed egyed) {
+        onSingleSelect(egyed, false);
+    }
+
     public void biral(View view) {
         if (selectedEgyedForKereso != null) {
             selectedEgyedForBiral = selectedEgyedForKereso;
-            biralFragment.updateDetails(selectedEgyedForBiral);
+            biralFragment.updateView(selectedEgyedForBiral);
             actionBar.selectTab(actionBar.getTabAt(2));
         }
     }
@@ -267,8 +275,8 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
 
     // BÍRÁLAT
 
-    public void selectBiralatInput(View view) {
-        biralFragment.selectInput(view);
+    public void selectBiralatInput(View inputView) {
+        biralFragment.selectInput(biralFragment.getView(), inputView);
     }
 
     public void saveBiralat(View view) {

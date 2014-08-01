@@ -1,4 +1,4 @@
-package hu.flexisys.kbr.view.numpad;
+package hu.flexisys.kbr.view.component.numpad;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -37,7 +37,7 @@ public class NumPad extends LinearLayout {
                 public void onClick(View view) {
                     TextView tv = (TextView) view;
                     String text = tv.getText().toString();
-                    numPadInput.onInput(Integer.valueOf(text));
+                    numPadInput.onInput(text);
                 }
             });
         }
