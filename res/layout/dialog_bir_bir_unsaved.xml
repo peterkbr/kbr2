@@ -14,7 +14,7 @@
         android:layout_marginBottom="@dimen/dialog_title_margin"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/bir_ker_dialog_notselected_title"
+        android:text="@string/bir_bir_dialog_unsaved_title"
         android:textSize="@dimen/dialog_title_textSize" />
 
     <TextView
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/bir_ker_dialog_notselected_message"
+        android:text="@string/bir_bir_dialog_unsaved_message"
         android:textSize="@dimen/dialog_message_textSize" />
 
     <LinearLayout
@@ -36,7 +36,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/dialog_menu_height"
             android:layout_weight="1"
-            android:text="@string/no"
+            android:text="@string/cancel"
             android:textSize="@dimen/dialog_menu_textsize" />
 
         <Button

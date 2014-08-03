@@ -1,4 +1,4 @@
-package hu.flexisys.kbr.view.biralat;
+package hu.flexisys.kbr.view.biralat.kereso;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +12,7 @@ import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.DateUtil;
+import hu.flexisys.kbr.view.biralat.BiralatActivity;
 
 import java.util.Date;
 import java.util.List;
@@ -84,25 +85,18 @@ public class KeresoFragment extends Fragment {
         View view = getView();
         LinearLayout itvLayout = (LinearLayout) view.findViewById(R.id.bir_ker_itvLayout);
         LinearLayout detailsLayout = (LinearLayout) view.findViewById(R.id.bir_ker_details);
+        itvLayout.setVisibility(View.INVISIBLE);
+        detailsLayout.setVisibility(View.INVISIBLE);
         if (selectedEgyedForKereso == null) {
-            itvLayout.setVisibility(View.INVISIBLE);
-            detailsLayout.setVisibility(View.INVISIBLE);
             TextView textView = (TextView) view.findViewById(R.id.bir_ker_enar);
             textView.setBackgroundColor(getResources().getColor(R.color.green));
             textView.setText("");
         } else {
-            itvLayout.setVisibility(View.VISIBLE);
-            detailsLayout.setVisibility(View.VISIBLE);
+            TextView textView;
+            String text;
 
-            CheckBox itvCheckBox = (CheckBox) view.findViewById(R.id.bir_ker_itvCheckBox);
-            if (selectedEgyedForKereso.getITVJE() == null) {
-                itvLayout.setVisibility(View.INVISIBLE);
-            } else {
-                itvCheckBox.setChecked(selectedEgyedForKereso.getITVJE());
-            }
-
-            TextView textView = (TextView) view.findViewById(R.id.bir_ker_enar);
-            String text = String.valueOf(selectedEgyedForKereso.getAZONO());
+            textView = (TextView) view.findViewById(R.id.bir_ker_enar);
+            text = String.valueOf(selectedEgyedForKereso.getAZONO());
             if (text.length() == 10) {
                 Spanned spanned = Html.fromHtml(text.substring(0, 5) + " <b>" + text.substring(5, 9) + "</b> " + text.substring(9));
                 textView.setText(spanned);
@@ -127,49 +121,62 @@ public class KeresoFragment extends Fragment {
                 textView.setBackgroundColor(getResources().getColor(R.color.gray));
             }
 
-            textView = (TextView) view.findViewById(R.id.bir_ker_laktNapok);
-            text = "0";
-            if (selectedEgyedForKereso.getELLDA() != null && selectedEgyedForKereso.getELLDA().getTime() > 1) {
-                long diff = (new Date().getTime() - selectedEgyedForKereso.getELLDA().getTime()) / (1000 * 60 * 60 * 24);
-                int diffInDays = Math.round(diff);
-                text = String.valueOf(diffInDays);
-            }
-            textView.setText(text);
 
-            textView = (TextView) view.findViewById(R.id.bir_ker_laktSzam);
-            text = "-";
-            if (selectedEgyedForKereso.getELLSO() != null) {
-                text = String.valueOf(selectedEgyedForKereso.getELLSO());
-            }
-            textView.setText(text);
+            if (!selectedEgyedForKereso.getUJ()) {
+                itvLayout.setVisibility(View.VISIBLE);
+                detailsLayout.setVisibility(View.VISIBLE);
 
-            textView = (TextView) view.findViewById(R.id.bir_ker_ellesDatuma);
-            text = "Nem ellett";
-            if (selectedEgyedForKereso.getELLDA() != null && selectedEgyedForKereso.getELLDA().getTime() > 1) {
-                text = DateUtil.formatDate(selectedEgyedForKereso.getELLDA());
-            }
-            textView.setText(text);
+                CheckBox itvCheckBox = (CheckBox) view.findViewById(R.id.bir_ker_itvCheckBox);
+                if (selectedEgyedForKereso.getITVJE() == null) {
+                    itvLayout.setVisibility(View.INVISIBLE);
+                } else {
+                    itvCheckBox.setChecked(selectedEgyedForKereso.getITVJE());
+                }
 
-            textView = (TextView) view.findViewById(R.id.bir_ker_szuletes);
-            text = "-";
-            if (selectedEgyedForKereso.getSZULD() != null) {
-                text = DateUtil.formatDate(selectedEgyedForKereso.getSZULD());
-            }
-            textView.setText(text);
+                textView = (TextView) view.findViewById(R.id.bir_ker_laktNapok);
+                text = "0";
+                if (selectedEgyedForKereso.getELLDA() != null && selectedEgyedForKereso.getELLDA().getTime() > 1) {
+                    long diff = (new Date().getTime() - selectedEgyedForKereso.getELLDA().getTime()) / (1000 * 60 * 60 * 24);
+                    int diffInDays = Math.round(diff);
+                    text = String.valueOf(diffInDays);
+                }
+                textView.setText(text);
 
-            textView = (TextView) view.findViewById(R.id.bir_ker_konstrKod);
-            text = "-";
-            if (selectedEgyedForKereso.getKONSK() != null) {
-                text = String.valueOf(selectedEgyedForKereso.getKONSK());
-            }
-            textView.setText(text);
+                textView = (TextView) view.findViewById(R.id.bir_ker_laktSzam);
+                text = "-";
+                if (selectedEgyedForKereso.getELLSO() != null) {
+                    text = String.valueOf(selectedEgyedForKereso.getELLSO());
+                }
+                textView.setText(text);
 
-            textView = (TextView) view.findViewById(R.id.bir_ker_szinkod);
-            text = "-";
-            if (selectedEgyedForKereso.getSZINE() != null) {
-                text = String.valueOf(selectedEgyedForKereso.getSZINE());
+                textView = (TextView) view.findViewById(R.id.bir_ker_ellesDatuma);
+                text = "Nem ellett";
+                if (selectedEgyedForKereso.getELLDA() != null && selectedEgyedForKereso.getELLDA().getTime() > 1) {
+                    text = DateUtil.formatDate(selectedEgyedForKereso.getELLDA());
+                }
+                textView.setText(text);
+
+                textView = (TextView) view.findViewById(R.id.bir_ker_szuletes);
+                text = "-";
+                if (selectedEgyedForKereso.getSZULD() != null) {
+                    text = DateUtil.formatDate(selectedEgyedForKereso.getSZULD());
+                }
+                textView.setText(text);
+
+                textView = (TextView) view.findViewById(R.id.bir_ker_konstrKod);
+                text = "-";
+                if (selectedEgyedForKereso.getKONSK() != null) {
+                    text = String.valueOf(selectedEgyedForKereso.getKONSK());
+                }
+                textView.setText(text);
+
+                textView = (TextView) view.findViewById(R.id.bir_ker_szinkod);
+                text = "-";
+                if (selectedEgyedForKereso.getSZINE() != null) {
+                    text = String.valueOf(selectedEgyedForKereso.getSZINE());
+                }
+                textView.setText(text);
             }
-            textView.setText(text);
         }
     }
 

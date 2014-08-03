@@ -1,10 +1,9 @@
-package hu.flexisys.kbr.view.biralat;
+package hu.flexisys.kbr.view.biralat.biral;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +16,13 @@ import hu.flexisys.kbr.util.biralat.BiralatSzempont;
 import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
 import hu.flexisys.kbr.util.biralat.BiralatTipus;
 import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
+import hu.flexisys.kbr.view.biralat.BiralatActivity;
 import hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput;
 import hu.flexisys.kbr.view.component.numpad.NumPad;
 import hu.flexisys.kbr.view.component.numpad.NumPadInput;
 import hu.flexisys.kbr.view.component.numpad.NumPadInputContainer;
 
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by Peter on 2014.07.11..
@@ -43,13 +43,21 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             R.id.bir_bir_input_label_12, R.id.bir_bir_input_label_13, R.id.bir_bir_input_label_14, R.id.bir_bir_input_label_15, R.id.bir_bir_input_label_16, R.id.bir_bir_input_label_17,
             R.id.bir_bir_input_label_18, R.id.bir_bir_input_label_19, R.id.bir_bir_input_label_20, R.id.bir_bir_input_label_21, R.id.bir_bir_input_label_22, R.id.bir_bir_input_label_23,
             R.id.bir_bir_input_label_24, R.id.bir_bir_input_label_25, R.id.bir_bir_input_label_26};
-    private int currentInputId = -1;
-    private int currentInputStep = -1;
-    private Boolean biralatStarted = false;
+    private int vpViewId = R.id.bir_bir_input_26;
+    private int akakoViewId = R.id.bir_bir_input_27;
+    private Map<Integer, BiralatSzempont> szempontMap;
+    private int currentInputId;
+    private int currentInputStep;
+    private Boolean editing;
+    private Boolean biralatStarted;
+    private List<Integer> vpFormulaInputIdLis;
+    private Map<Integer, String> vpFormulaWeightMap;
 
     public static BiralFragment newInstance(BiralatActivity activity) {
         BiralFragment fragment = new BiralFragment();
         fragment.activity = activity;
+        fragment.editing = false;
+        fragment.biralatStarted = false;
         return fragment;
     }
 
@@ -58,12 +66,24 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         View v = inflater.inflate(R.layout.fragment_biralat_biral, container, false);
         numpad = (NumPad) v.findViewById(R.id.bir_bir_numpad);
         setupBiralatTipus(v);
-        stepToNextInput(v);
         return v;
     }
 
     private void setupBiralatTipus(View view) {
         BiralatTipus biralatTipus = BiralatTipusUtil.getBiralatTipus("7");
+        szempontMap = new HashMap<Integer, BiralatSzempont>();
+
+        vpFormulaInputIdLis = new ArrayList<Integer>();
+        vpFormulaWeightMap = new HashMap<Integer, String>();
+
+        List<String> vpFormulaSzempontList = new ArrayList<String>();
+        Map<String, String> vpFormulaSzempontWeightMap = new HashMap<String, String>();
+        for (String vpFormula : biralatTipus.vpFormulaList) {
+            String[] values = vpFormula.split("/");
+            vpFormulaSzempontList.add(values[0]);
+            vpFormulaSzempontWeightMap.put(values[0], values[1]);
+        }
+
         for (int i = 0; i < biralatTipus.szempontList.size(); i++) {
             BiralatSzempont szempont = BiralatSzempontUtil.getBiralatSzempont(biralatTipus.szempontList.get(i));
             TextView label = (TextView) view.findViewById(labelIds[i]);
@@ -73,6 +93,13 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             input.setKeszletStart(szempont.keszletStart);
             input.setKeszletEnd(szempont.keszletEnd);
             input.setContainer(this);
+
+            szempontMap.put(inputIds[i], szempont);
+
+            if (vpFormulaSzempontList.contains(szempont.id)) {
+                vpFormulaInputIdLis.add(inputIds[i]);
+                vpFormulaWeightMap.put(inputIds[i], vpFormulaSzempontWeightMap.get(szempont.id));
+            }
         }
     }
 
@@ -82,17 +109,69 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         activity.onBiralFragmentResume();
     }
 
+    public void clearCurrentBiralat() {
+        biralatStarted = false;
+        editing = false;
+        clearDetails();
+        clearGrid();
+    }
+
+    private Integer calcVp() {
+        View view = getView();
+        Integer valueSum = 0;
+        Integer weightSum = 0;
+        for (Integer id : vpFormulaInputIdLis) {
+            TextView textView = (TextView) view.findViewById(id);
+            String valueString = textView.getText().toString();
+            Integer value = Integer.valueOf(valueString);
+            Integer weight = Integer.valueOf(vpFormulaWeightMap.get(id));
+            valueSum += (value * weight);
+            weightSum += weight;
+        }
+        Double vpDoubleValue = Double.valueOf(valueSum) / Double.valueOf(weightSum);
+        int vp = (int) Math.round(vpDoubleValue);
+        return vp;
+    }
+
+    public Map<String, String> getKodErtMap() {
+        Map<String, String> map = new HashMap<String, String>();
+
+        View view = getView();
+        for (Integer viewId : szempontMap.keySet()) {
+            String kod = szempontMap.get(viewId).kod;
+            String ert = ((TextView) view.findViewById(viewId)).getText().toString();
+            if (ert == null || ert.isEmpty()) {
+                return null;
+            }
+            map.put(kod, ert);
+        }
+        return map;
+    }
+
     // UPDATE THE VIEWS
 
-    public void updateView(Egyed selectedEgyedForBiral) {
-        biralatStarted = false;
-        updateDetails(selectedEgyedForBiral);
-        updateGrid(null);
+    public void updateFragmentWithEgyed(Egyed selectedEgyedForBiral) {
+        if (selectedEgyedForBiral == null) {
+            editing = false;
+            biralatStarted = false;
+            clearDetails();
+            clearGrid();
+        } else {
+            editing = true;
+            updateDetails(selectedEgyedForBiral);
+            // TODO get last Biralat
+            updateGrid(null);
+            currentInputId = -1;
+            currentInputStep = -1;
+            stepToNextInput(getView());
+        }
     }
 
     private void updateDetails(Egyed egyed) {
         View view = getView();
         TextView enarTextView = (TextView) view.findViewById(R.id.bir_bir_enar);
+        View detailsView = view.findViewById(R.id.bir_bir_details_layout);
+
         String text = String.valueOf(egyed.getAZONO());
         if (text.length() == 10) {
             Spanned spanned = Html.fromHtml(text.substring(0, 5) + " <b>" + text.substring(5, 9) + "</b> " + text.substring(9));
@@ -121,34 +200,49 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             enarTextView.setBackgroundColor(getResources().getColor(R.color.gray));
         }
 
-        TextView lastbirTextView = (TextView) view.findViewById(R.id.bir_bir_lastbir);
-        text = "Nincs bírálat";
-        if (lastBiralatDate != null && lastBiralatDate.getTime() > 1) {
-            text = DateUtil.formatDate(lastBiralatDate);
-        }
-        lastbirTextView.setText(text);
+        if (egyed.getUJ()) {
+            detailsView.setVisibility(View.INVISIBLE);
+        } else {
+            detailsView.setVisibility(View.VISIBLE);
+            TextView lastbirTextView = (TextView) view.findViewById(R.id.bir_bir_lastbir);
+            text = "Nincs bírálat";
+            if (lastBiralatDate != null && lastBiralatDate.getTime() > 1) {
+                text = DateUtil.formatDate(lastBiralatDate);
+            }
+            lastbirTextView.setText(text);
 
-        TextView laktTextView = (TextView) view.findViewById(R.id.bir_bir_lakt);
-        text = "Nem ellett";
-        if (egyed.getELLDA() != null && egyed.getELLDA().getTime() > 1) {
-            long diff = (new Date().getTime() - egyed.getELLDA().getTime()) / (1000 * 60 * 60 * 24);
-            int diffInDays = Math.round(diff);
-            text = String.valueOf(diffInDays);
-        }
-        laktTextView.setText(text);
+            TextView laktTextView = (TextView) view.findViewById(R.id.bir_bir_lakt);
+            text = "Nem ellett";
+            if (egyed.getELLDA() != null && egyed.getELLDA().getTime() > 1) {
+                long diff = (new Date().getTime() - egyed.getELLDA().getTime()) / (1000 * 60 * 60 * 24);
+                int diffInDays = Math.round(diff);
+                text = String.valueOf(diffInDays);
+            }
+            laktTextView.setText(text);
 
-        TextView esTextView = (TextView) view.findViewById(R.id.bir_bir_es);
-        text = "-";
-        if (egyed.getELLSO() != null) {
-            text = String.valueOf(egyed.getELLSO());
+            TextView esTextView = (TextView) view.findViewById(R.id.bir_bir_es);
+            text = "-";
+            if (egyed.getELLSO() != null) {
+                text = String.valueOf(egyed.getELLSO());
+            }
+            esTextView.setText(text);
         }
-        esTextView.setText(text);
+    }
+
+    private void clearDetails() {
+        View view = getView();
+        TextView enarTextView = (TextView) view.findViewById(R.id.bir_bir_enar);
+        enarTextView.setText("");
+        enarTextView.setBackgroundColor(getResources().getColor(R.color.green));
+        View detailsView = view.findViewById(R.id.bir_bir_details_layout);
+        detailsView.setVisibility(View.INVISIBLE);
     }
 
     private void updateGrid(Biralat biralat) {
         if (biralat == null) {
             clearGrid();
         }
+        // TODO update with not null Biralat
     }
 
     private void clearGrid() {
@@ -156,10 +250,14 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         for (int id : inputIds) {
             BiralatNumPadInput input = (BiralatNumPadInput) view.findViewById(id);
             input.setText("");
+            input.unSelect();
         }
     }
 
     public void selectInput(View view, View inputView) {
+        if (!editing) {
+            return;
+        }
         currentInputId = inputView.getId();
         for (int i = 0; i < inputIds.length; i++) {
             int id = inputIds[i];
@@ -172,9 +270,20 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
                 input.unSelect();
             }
         }
+
+        NumPadInput input = (NumPadInput) view.findViewById(akakoViewId);
+        if (currentInputId == akakoViewId) {
+            input.select();
+            numpad.setNumPadInput(input);
+        } else {
+            input.unSelect();
+        }
     }
 
     private void stepToNextInput(View view) {
+        if (!editing) {
+            return;
+        }
         NumPadInput input = null;
         currentInputStep++;
         for (; currentInputStep <= lastStep; currentInputStep++) {
@@ -186,9 +295,18 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
                 input = null;
             }
         }
+        if (currentInputStep > lastStep) {
+            Integer vp = calcVp();
+            updateVpView(String.valueOf(vp));
+        }
         if (input != null) {
             selectInput(view, input);
         }
+    }
+
+    private void updateVpView(String vp) {
+        TextView vpView = (TextView) getView().findViewById(vpViewId);
+        vpView.setText(vp);
     }
 
     @Override
@@ -198,7 +316,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
 
     @Override
     public void onInvalidInput() {
-        Log.e(TAG, "Invalid input!");
+        activity.beep();
     }
 
     @Override
@@ -214,5 +332,9 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
 
     public void setBiralatStarted(Boolean biralatStarted) {
         this.biralatStarted = biralatStarted;
+    }
+
+    public void setBiralatSaved() {
+        biralatStarted = false;
     }
 }

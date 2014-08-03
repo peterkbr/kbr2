@@ -1,6 +1,7 @@
 package hu.flexisys.kbr.model;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Created by Peter on 2014.07.02..
@@ -78,6 +79,106 @@ public class Biralat {
     private String ERT30;
 
     public Biralat() {
+    }
+
+    public void setKodErtMap(Map<String, String> map) {
+        for (String kod : map.keySet()) {
+            setKodErtPair(kod, map.get(kod));
+        }
+    }
+
+    public void setKodErtPair(String KOD, String ERT) {
+        if (this.KOD01 == null) {
+            this.KOD01 = KOD;
+            this.ERT01 = ERT;
+        } else if (this.KOD02 == null) {
+            this.KOD02 = KOD;
+            this.ERT02 = ERT;
+        } else if (this.KOD03 == null) {
+            this.KOD03 = KOD;
+            this.ERT03 = ERT;
+        } else if (this.KOD04 == null) {
+            this.KOD04 = KOD;
+            this.ERT04 = ERT;
+        } else if (this.KOD05 == null) {
+            this.KOD05 = KOD;
+            this.ERT05 = ERT;
+        } else if (this.KOD06 == null) {
+            this.KOD06 = KOD;
+            this.ERT06 = ERT;
+        } else if (this.KOD07 == null) {
+            this.KOD07 = KOD;
+            this.ERT07 = ERT;
+        } else if (this.KOD08 == null) {
+            this.KOD08 = KOD;
+            this.ERT08 = ERT;
+        } else if (this.KOD09 == null) {
+            this.KOD09 = KOD;
+            this.ERT09 = ERT;
+        } else if (this.KOD10 == null) {
+            this.KOD10 = KOD;
+            this.ERT10 = ERT;
+        } else if (this.KOD11 == null) {
+            this.KOD11 = KOD;
+            this.ERT11 = ERT;
+        } else if (this.KOD12 == null) {
+            this.KOD12 = KOD;
+            this.ERT12 = ERT;
+        } else if (this.KOD13 == null) {
+            this.KOD13 = KOD;
+            this.ERT13 = ERT;
+        } else if (this.KOD14 == null) {
+            this.KOD14 = KOD;
+            this.ERT14 = ERT;
+        } else if (this.KOD15 == null) {
+            this.KOD15 = KOD;
+            this.ERT15 = ERT;
+        } else if (this.KOD16 == null) {
+            this.KOD16 = KOD;
+            this.ERT16 = ERT;
+        } else if (this.KOD17 == null) {
+            this.KOD17 = KOD;
+            this.ERT17 = ERT;
+        } else if (this.KOD18 == null) {
+            this.KOD18 = KOD;
+            this.ERT18 = ERT;
+        } else if (this.KOD19 == null) {
+            this.KOD19 = KOD;
+            this.ERT19 = ERT;
+        } else if (this.KOD20 == null) {
+            this.KOD20 = KOD;
+            this.ERT20 = ERT;
+        } else if (this.KOD21 == null) {
+            this.KOD21 = KOD;
+            this.ERT21 = ERT;
+        } else if (this.KOD22 == null) {
+            this.KOD22 = KOD;
+            this.ERT22 = ERT;
+        } else if (this.KOD23 == null) {
+            this.KOD23 = KOD;
+            this.ERT23 = ERT;
+        } else if (this.KOD24 == null) {
+            this.KOD24 = KOD;
+            this.ERT24 = ERT;
+        } else if (this.KOD25 == null) {
+            this.KOD25 = KOD;
+            this.ERT25 = ERT;
+        } else if (this.KOD26 == null) {
+            this.KOD26 = KOD;
+            this.ERT26 = ERT;
+        } else if (this.KOD27 == null) {
+            this.KOD27 = KOD;
+            this.ERT27 = ERT;
+        } else if (this.KOD28 == null) {
+            this.KOD28 = KOD;
+            this.ERT28 = ERT;
+        } else if (this.KOD29 == null) {
+            this.KOD29 = KOD;
+            this.ERT29 = ERT;
+        } else if (this.KOD30 == null) {
+            this.KOD30 = KOD;
+            this.ERT30 = ERT;
+        }
     }
 
     // GETTERS, SETTERS

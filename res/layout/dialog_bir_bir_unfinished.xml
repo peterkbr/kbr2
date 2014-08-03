@@ -14,16 +14,8 @@
         android:layout_marginBottom="@dimen/dialog_title_margin"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/bir_ker_dialog_notselected_title"
+        android:text="@string/bir_bir_dialog_unfinished_title"
         android:textSize="@dimen/dialog_title_textSize" />
-
-    <TextView
-        android:layout_marginBottom="@dimen/dialog_message_margin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/bir_ker_dialog_notselected_message"
-        android:textSize="@dimen/dialog_message_textSize" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,19 +24,19 @@
         android:weightSum="2">
 
         <Button
+            android:id="@+id/bir_ker_dialog_notselected_ok"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dialog_menu_height"
+            android:layout_weight="1"
+            android:text="@string/yes"
+            android:textSize="@dimen/dialog_menu_textsize" />
+
+        <Button
             android:id="@+id/bir_ker_dialog_notselected_cancel"
             android:layout_width="0dp"
             android:layout_height="@dimen/dialog_menu_height"
             android:layout_weight="1"
             android:text="@string/no"
-            android:textSize="@dimen/dialog_menu_textsize" />
-
-        <Button
-            android:id="@+id/bir_ker_dialog_notselected_ok"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dialog_menu_height"
-            android:layout_weight="1"
-            android:text="@string/ok"
             android:textSize="@dimen/dialog_menu_textsize" />
     </LinearLayout>
 </LinearLayout>

@@ -3,6 +3,8 @@ package hu.flexisys.kbr.view.biralat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import hu.flexisys.kbr.view.biralat.biral.BiralFragment;
+import hu.flexisys.kbr.view.biralat.kereso.KeresoFragment;
 
 /**
  * Created by Peter on 2014.07.11..

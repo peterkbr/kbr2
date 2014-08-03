@@ -1,5 +1,6 @@
 package hu.flexisys.kbr.view;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -7,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Window;
 import android.widget.Toast;
+import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.KbrApplication;
 
 /**
@@ -57,11 +59,21 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
 
     // MESSAGING
 
-    protected void toast(int msgId) {
+    public void toast(int msgId) {
         Toast.makeText(this, getString(msgId), Toast.LENGTH_SHORT).show();
     }
 
-    protected void toast(String msg) {
+    public void toast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public void beep() {
+        Thread t = new Thread() {
+            public void run() {
+                MediaPlayer player = MediaPlayer.create(KbrActivity.this, R.raw.beep);
+                player.start();
+            }
+        };
+        t.start();
     }
 }

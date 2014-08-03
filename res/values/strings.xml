@@ -7,6 +7,8 @@
 
     <!--BASIC INTERFACE-->
     <string name="ok">OK</string>
+    <string name="yes">Igen</string>
+    <string name="no">Nem</string>
     <string name="cancel">Mégse</string>
     <string name="clear">Törlés</string>
 
@@ -88,6 +90,14 @@
     <string name="bir_ker_dialog_notfound_title">Nincs találat. Felvesz új egyedet?</string>
     <string name="bir_ker_dialog_notselected_title">Az egyed nincs kiválasztva bírálatra!</string>
     <string name="bir_ker_dialog_notselected_message">Kívánja bírálni?</string>
+
+    <string name="bir_bir_dialog_unsaved_title">Az előző bírálat nincs mentve!</string>
+    <string name="bir_bir_dialog_unsaved_message">Valóban új bírálatot akar kezdeni?</string>
+
+    <string name="bir_bir_dialog_unfinished_title">Elveti a befejezetlen bírálatot?</string>
+
+    <string name="bir_bir_dialog_akako_title">Ön akadálykódot adott meg.</string>
+    <string name="bir_bir_dialog_akako_message">Törli az eddig beírt értékeket?</string>
 
     <string-array name="bir_ker_dialog_notfound_orsko_list">
         <item>HU</item>

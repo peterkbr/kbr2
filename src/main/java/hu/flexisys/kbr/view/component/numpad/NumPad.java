@@ -35,9 +35,11 @@ public class NumPad extends LinearLayout {
             num.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    TextView tv = (TextView) view;
-                    String text = tv.getText().toString();
-                    numPadInput.onInput(text);
+                    if (numPadInput != null) {
+                        TextView tv = (TextView) view;
+                        String text = tv.getText().toString();
+                        numPadInput.onInput(text);
+                    }
                 }
             });
         }
