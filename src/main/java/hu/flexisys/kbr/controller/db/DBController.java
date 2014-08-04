@@ -102,6 +102,13 @@ public class DBController {
         sdCardConnector.addBiralat(biralat);
     }
 
+    public void addNewBiralat(Biralat biralat) {
+        innerConnector.removeFeltoltetlenBiralat(biralat.getTENAZ(), biralat.getAZONO());
+        innerConnector.addBiralat(biralat);
+        sdCardConnector.removeFeltoltetlenBiralat(biralat.getTENAZ(), biralat.getAZONO());
+        sdCardConnector.addBiralat(biralat);
+    }
+
     // READ FROM DB
 
     public Tenyeszet getTenyeszetByTENAZ(String tenaz) {
@@ -136,8 +143,8 @@ public class DBController {
         return innerConnector.getBiralatByTENAZ(tenaz);
     }
 
-    public List<Biralat> getBiralatByTenyeszetAndToUpload(Tenyeszet tenyeszet, boolean toUpload) {
-        return innerConnector.getBiralatByTENAZAndFELTOLTETLEN(tenyeszet.getTENAZ(), toUpload);
+    public List<Biralat> getBiralatByTenyeszetAndFeltoltetlen(String TENAZ, Boolean FELTOLTETLEN) {
+        return innerConnector.getBiralatByTENAZAndFELTOLTETLEN(TENAZ, FELTOLTETLEN);
     }
 
     public List<Biralat> getBiralatByTenyeszetAndExported(String TENAZ, boolean unexported) {

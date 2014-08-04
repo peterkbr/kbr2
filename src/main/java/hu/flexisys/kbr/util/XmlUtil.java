@@ -313,7 +313,7 @@ public class XmlUtil {
                         biralat.setTENAZ(egyed.getTENAZ());
                         biralat.setORSKO(egyed.getORSKO());
                         biralat.setFELTOLTETLEN(false);
-                        biralat.setEXPORTALT(false);
+                        biralat.setEXPORTALT(true);
                         egyed.addBiralat(biralat);
                     }
                     egyed.setKIVALASZTOTT(false);

@@ -38,7 +38,12 @@ public class KbrApplication extends Application {
     }
 
     public void insertBiralat(Biralat biralat) {
-        dbController.addBiralat(biralat);
+        if (biralat.getFELTOLTETLEN()) {
+            dbController.addNewBiralat(biralat);
+        } else {
+            dbController.addBiralat(biralat);
+        }
+
     }
 
     public void insertTenyeszetWithChildren(Tenyeszet tenyeszet) {
@@ -127,7 +132,7 @@ public class KbrApplication extends Application {
             egyedList = dbController.getEgyedByTenyeszetAndKivalasztott(tenyeszet, true);
             model.setSelectedEgyedCount(egyedList.size());
 
-            List<Biralat> biralatList = dbController.getBiralatByTenyeszetAndToUpload(tenyeszet, true);
+            List<Biralat> biralatList = dbController.getBiralatByTenyeszetAndFeltoltetlen(tenyeszet.getTENAZ(), true);
             model.setBiralatWaitingForUpload(biralatList.size());
             biralatList = dbController.getBiralatByTENAZ(tenyeszet.getTENAZ());
             model.setBiralatCount(biralatList.size());
@@ -178,6 +183,14 @@ public class KbrApplication extends Application {
             egyedList.addAll(dbController.getEgyedByTENAZ(tenaz));
         }
         return egyedList;
+    }
+
+    public List<Biralat> getFeltoltetlenBiralatListByTenazList(List<String> tenazList) {
+        List<Biralat> biralatList = new ArrayList<Biralat>();
+        for (String TENAZ : tenazList) {
+            biralatList.addAll(dbController.getBiralatByTenyeszetAndFeltoltetlen(TENAZ, true));
+        }
+        return biralatList;
     }
 
     public int updateEgyedWithSelection(String azono, Boolean selection) {

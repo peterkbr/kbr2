@@ -14,12 +14,12 @@ import hu.flexisys.kbr.view.KbrDialog;
  */
 public class BirBirAkakoDialog extends KbrDialog {
 
-    private BirBirUnfinishedBiralatListener listener;
+    private BirBirAkakoDialogListener listener;
 
 
-    public static BirBirAkakoDialog newInstance(BirBirUnfinishedBiralatListener listener) {
+    public static BirBirAkakoDialog newInstance(BirBirAkakoDialogListener listener) {
         BirBirAkakoDialog dialog = new BirBirAkakoDialog();
-        dialog.layoutResId = R.layout.dialog_bir_bir_unfinished;
+        dialog.layoutResId = R.layout.dialog_bir_bir_akako;
         dialog.listener = listener;
         return dialog;
     }
@@ -29,21 +29,26 @@ public class BirBirAkakoDialog extends KbrDialog {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
-        Button ok = (Button) v.findViewById(R.id.bir_ker_dialog_notselected_ok);
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onBirBirUnfinishedBiralatOk();
-            }
-        });
-
-        Button cancel = (Button) v.findViewById(R.id.bir_ker_dialog_notselected_cancel);
+        Button cancel = (Button) v.findViewById(R.id.bir_bir_dialog_akako_nem);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onBirBirUnfinishedBiralatCancel();
+                listener.onNoClicked();
+            }
+        });
+
+        Button ok = (Button) v.findViewById(R.id.bir_bir_dialog_akako_igen);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onYesClicked();
             }
         });
         return v;
+    }
+
+    public interface BirBirAkakoDialogListener {
+        public void onNoClicked();
+        public void onYesClicked();
     }
 }

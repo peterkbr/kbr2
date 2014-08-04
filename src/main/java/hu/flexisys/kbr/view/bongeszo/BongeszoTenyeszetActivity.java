@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 import hu.flexisys.kbr.R;
+import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
 import hu.flexisys.kbr.view.KbrActivity;
@@ -142,7 +143,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
         Boolean hasBiralatlessTenyeszet = false;
         Boolean hasUnexportedBiralat = false;
 
-        List<Tenyeszet> selectedTenyeszetList = new ArrayList<Tenyeszet>();
+        final List<String> selectedTenyeszetList = new ArrayList<String>();
         for (TenyeszetListModel model : tenyeszetList) {
             if (selectedList.contains(model.getTENAZ())) {
                 if (model.getBiralatWaitingForUpload() < 1) {
@@ -152,7 +153,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
                     hasUnexportedBiralat = true;
                     break;
                 } else {
-                    selectedTenyeszetList.add(model.getTenyeszet());
+                    selectedTenyeszetList.add(model.getTenyeszet().getTENAZ());
                 }
             }
         }
@@ -176,6 +177,8 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
             @Override
             public void execute() {
                 // TODO küldés
+                List<Biralat> feltoltetlenBiralatList = app.getFeltoltetlenBiralatListByTenazList(selectedTenyeszetList);
+
                 reloadData();
                 adapter.notifyDataSetChanged();
             }

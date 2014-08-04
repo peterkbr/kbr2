@@ -181,6 +181,72 @@ public class Biralat {
         }
     }
 
+    public String getErtByKod(String KOD) {
+        String ERT = null;
+        if (KOD.equals(KOD01)) {
+            ERT = ERT01;
+        } else if (KOD.equals(KOD02)) {
+            ERT = ERT02;
+        } else if (KOD.equals(KOD03)) {
+            ERT = ERT03;
+        } else if (KOD.equals(KOD04)) {
+            ERT = ERT04;
+        } else if (KOD.equals(KOD05)) {
+            ERT = ERT05;
+        } else if (KOD.equals(KOD06)) {
+            ERT = ERT06;
+        } else if (KOD.equals(KOD07)) {
+            ERT = ERT07;
+        } else if (KOD.equals(KOD08)) {
+            ERT = ERT08;
+        } else if (KOD.equals(KOD09)) {
+            ERT = ERT09;
+        } else if (KOD.equals(KOD10)) {
+            ERT = ERT10;
+        } else if (KOD.equals(KOD11)) {
+            ERT = ERT11;
+        } else if (KOD.equals(KOD12)) {
+            ERT = ERT12;
+        } else if (KOD.equals(KOD13)) {
+            ERT = ERT13;
+        } else if (KOD.equals(KOD14)) {
+            ERT = ERT14;
+        } else if (KOD.equals(KOD15)) {
+            ERT = ERT15;
+        } else if (KOD.equals(KOD16)) {
+            ERT = ERT16;
+        } else if (KOD.equals(KOD17)) {
+            ERT = ERT17;
+        } else if (KOD.equals(KOD18)) {
+            ERT = ERT18;
+        } else if (KOD.equals(KOD19)) {
+            ERT = ERT19;
+        } else if (KOD.equals(KOD20)) {
+            ERT = ERT20;
+        } else if (KOD.equals(KOD21)) {
+            ERT = ERT21;
+        } else if (KOD.equals(KOD22)) {
+            ERT = ERT22;
+        } else if (KOD.equals(KOD23)) {
+            ERT = ERT23;
+        } else if (KOD.equals(KOD24)) {
+            ERT = ERT24;
+        } else if (KOD.equals(KOD25)) {
+            ERT = ERT25;
+        } else if (KOD.equals(KOD26)) {
+            ERT = ERT26;
+        } else if (KOD.equals(KOD27)) {
+            ERT = ERT27;
+        } else if (KOD.equals(KOD28)) {
+            ERT = ERT28;
+        } else if (KOD.equals(KOD29)) {
+            ERT = ERT29;
+        } else if (KOD.equals(KOD30)) {
+            ERT = ERT30;
+        }
+        return ERT;
+    }
+
     // GETTERS, SETTERS
 
     public String getTENAZ() {

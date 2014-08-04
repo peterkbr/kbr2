@@ -12,6 +12,7 @@ import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
 import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.view.KbrActivity;
+import hu.flexisys.kbr.view.NotificationDialog;
 import hu.flexisys.kbr.view.biralat.biral.*;
 import hu.flexisys.kbr.view.biralat.kereso.*;
 import hu.flexisys.kbr.view.component.numpad.NumPad;
@@ -280,9 +281,41 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         }
     }
 
+    private boolean isWithin30Days(Date date) {
+        if (date != null && date.getTime() > 0) {
+            Calendar cal = Calendar.getInstance();
+            cal.roll(Calendar.DAY_OF_YEAR, -30);
+            Date maxDate = cal.getTime();
+            if (maxDate.before(date)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void updateUIWithSelectedEgyed() {
         keresoFragment.updateDetails(selectedEgyed);
-        biralFragment.updateFragmentWithEgyed(selectedEgyed);
+        if (isWithin30Days(selectedEgyed.getELLDA())) {
+            FragmentTransaction ft = getFragmentTransactionWithTag("ellda");
+            dialog = NotificationDialog.newInstance(getString(R.string.bir_bir_dialog_ellda_title), null);
+            dialog.show(ft, "ellda");
+            biralFragment.updateFragmentWithEgyed(selectedEgyed, false);
+        } else {
+            Date lastBiralatDate = null;
+            for (Biralat biralat : selectedEgyed.getBiralatList()) {
+                if (biralat.getBIRDA() != null && !biralat.getFELTOLTETLEN() && (lastBiralatDate == null || lastBiralatDate.before(biralat.getBIRDA()))) {
+                    lastBiralatDate = biralat.getBIRDA();
+                }
+            }
+            if (isWithin30Days(lastBiralatDate)) {
+                FragmentTransaction ft = getFragmentTransactionWithTag("lastBir");
+                dialog = NotificationDialog.newInstance(getString(R.string.bir_bir_dialog_lastbir_title), null);
+                dialog.show(ft, "lastBir");
+                biralFragment.updateFragmentWithEgyed(selectedEgyed, false);
+            } else {
+                biralFragment.updateFragmentWithEgyed(selectedEgyed);
+            }
+        }
     }
 
     public void biral(View view) {
@@ -311,7 +344,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         biralFragment.selectInput(biralFragment.getView(), inputView);
     }
 
-    public void saveBiralat(View view) {
+    public void onSaveBiralatClicked(View view) {
         if (selectedEgyed != null && biralFragment.getBiralatStarted()) {
             Biralat biralat = new Biralat();
             biralat.setTENAZ(selectedEgyed.getTENAZ());
@@ -322,33 +355,67 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
             biralat.setKULAZ(app.getUserId());
             biralat.setBIRDA(new Date());
             biralat.setBIRTI(7);
-            Map<String, String> map = biralFragment.getKodErtMap();
-            if (map != null) {
-                biralat.setKodErtMap(map);
-                biralFragment.setBiralatSaved();
-                app.insertBiralat(biralat);
-                reloadData();
-                selectedEgyed = findEgyedByAzono(selectedEgyed.getAZONO());
-                keresoFragment.updateKeresoButtons(egyedList);
-                keresoFragment.updateDetails(selectedEgyed);
-                actionBar.selectTab(actionBar.getTabAt(1));
-            } else {
-                FragmentTransaction ft = getFragmentTransactionWithTag("biralando");
-                dialog = BirBirUnfinishedBiralatDialog.newInstance(new BirBirUnfinishedBiralatListener() {
-                    @Override
-                    public void onBirBirUnfinishedBiralatCancel() {
-                        dismissDialog();
-                    }
 
-                    @Override
-                    public void onBirBirUnfinishedBiralatOk() {
-                        biralFragment.clearCurrentBiralat();
-                        dismissDialog();
+            String akakoString = biralFragment.getAkako();
+            Map<String, String> map = biralFragment.getKodErtMap();
+            if (akakoString == null || akakoString.equals(3)) {
+                if (map != null) {
+                    if (akakoString != null && !akakoString.isEmpty()) {
+                        biralat.setAKAKO(Integer.valueOf(akakoString));
                     }
-                });
-                dialog.show(ft, "biralando");
+                    biralat.setKodErtMap(map);
+                    saveBiralat(biralat);
+                } else {
+                    FragmentTransaction ft = getFragmentTransactionWithTag("biralando");
+                    dialog = BirBirUnfinishedBiralatDialog.newInstance(new BirBirUnfinishedBiralatListener() {
+                        @Override
+                        public void onBirBirUnfinishedBiralatCancel() {
+                            dismissDialog();
+                        }
+
+                        @Override
+                        public void onBirBirUnfinishedBiralatOk() {
+                            biralFragment.clearCurrentBiralat();
+                            dismissDialog();
+                        }
+                    });
+                    dialog.show(ft, "biralando");
+                }
+            } else {
+                biralat.setAKAKO(Integer.valueOf(akakoString));
+                saveBiralat(biralat);
             }
         }
     }
 
+    public void saveBiralat(Biralat biralat) {
+        biralFragment.setBiralatSaved();
+        app.insertBiralat(biralat);
+        reloadData();
+        selectedEgyed = findEgyedByAzono(selectedEgyed.getAZONO());
+        keresoFragment.updateKeresoButtons(egyedList);
+        keresoFragment.updateDetails(selectedEgyed);
+        actionBar.selectTab(actionBar.getTabAt(1));
+    }
+
+    public void onAkako(final String text) {
+        if (text.equals("3")) {
+            biralFragment.updateCurrentBiralatWithAkako(text);
+        } else {
+            FragmentTransaction ft = getFragmentTransactionWithTag("biralando");
+            dialog = BirBirAkakoDialog.newInstance(new BirBirAkakoDialog.BirBirAkakoDialogListener() {
+                @Override
+                public void onNoClicked() {
+                    dismissDialog();
+                }
+
+                @Override
+                public void onYesClicked() {
+                    biralFragment.updateCurrentBiralatWithAkako(text);
+                    dismissDialog();
+                }
+            });
+            dialog.show(ft, "biralando");
+        }
+    }
 }

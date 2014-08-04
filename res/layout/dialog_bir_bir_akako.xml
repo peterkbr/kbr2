@@ -14,7 +14,7 @@
         android:layout_marginBottom="@dimen/dialog_title_margin"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/bir_bir_dialog_unfinished_title"
+        android:text="@string/bir_bir_dialog_akako_title"
         android:textSize="@dimen/dialog_title_textSize" />
 
     <TextView
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/bir_bir_dialog_unsaved_message"
+        android:text="@string/bir_bir_dialog_akako_message"
         android:textSize="@dimen/dialog_message_textSize" />
 
     <LinearLayout
@@ -32,7 +32,7 @@
         android:weightSum="2">
 
         <Button
-            android:id="@+id/bir_ker_dialog_notselected_cancel"
+            android:id="@+id/bir_bir_dialog_akako_nem"
             android:layout_width="0dp"
             android:layout_height="@dimen/dialog_menu_height"
             android:layout_weight="1"
@@ -40,7 +40,7 @@
             android:textSize="@dimen/dialog_menu_textsize" />
 
         <Button
-            android:id="@+id/bir_ker_dialog_notselected_ok"
+            android:id="@+id/bir_bir_dialog_akako_igen"
             android:layout_width="0dp"
             android:layout_height="@dimen/dialog_menu_height"
             android:layout_weight="1"

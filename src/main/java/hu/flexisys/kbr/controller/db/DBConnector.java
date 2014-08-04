@@ -178,6 +178,18 @@ public class DBConnector {
         return removedCount;
     }
 
+    public int removeFeltoltetlenBiralat(String TENAZ, String AZONO) {
+        StringBuilder where = new StringBuilder();
+        where.append(DBScripts.COLUMN_BIRALAT_TENAZ).append(" = ").append(TENAZ);
+        where.append(" AND ");
+        where.append(DBScripts.COLUMN_BIRALAT_AZONO).append(" = ").append(AZONO);
+        where.append(" AND ");
+        where.append(DBScripts.COLUMN_BIRALAT_FELTOLTETLEN).append(" > ").append("0");
+
+        int removedCount = database.delete(DBScripts.TABLE_BIRALAT, where.toString(), null);
+        return removedCount;
+    }
+
     public List<Biralat> getBiralatAll() {
         Cursor cursor = database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, null, null, null, null, null);
         return getBiralatListFromCursor(cursor);
@@ -230,8 +242,9 @@ public class DBConnector {
         biralat.setKULAZ(cursor.getString(5));
         biralat.setAKAKO(cursor.getInt(6));
         biralat.setFELTOLTETLEN(cursor.getInt(7) != 0);
+        biralat.setEXPORTALT(cursor.getInt(8) != 0);
 
-        int i = 7;
+        int i = 8;
         biralat.setKOD01(cursor.getString(++i));
         biralat.setERT01(cursor.getString(++i));
         biralat.setKOD02(cursor.getString(++i));
