@@ -2,6 +2,7 @@ package hu.flexisys.kbr.controller;
 
 import android.app.Application;
 import android.util.Log;
+import android.widget.Toast;
 import hu.flexisys.kbr.controller.db.DBController;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
@@ -26,24 +27,19 @@ public class KbrApplication extends Application {
     public void onCreate() {
         super.onCreate();
         dbController = new DBController(this, userId);
-        try {
-            dbController.checkDbConsistency();
-        } catch (Exception e) {
-            Log.e(TAG, "checkDbConsistency", e);
-        }
+        checkDbConsistency();
     }
+
+    // WRITE DB
 
     public void insertEgyed(Egyed egyed) {
         dbController.addEgyed(egyed);
+        checkDbConsistency();
     }
 
-    public void insertBiralat(Biralat biralat) {
-        if (biralat.getFELTOLTETLEN()) {
-            dbController.addNewBiralat(biralat);
-        } else {
-            dbController.addBiralat(biralat);
-        }
-
+    public void updateBiralat(Biralat biralat) {
+        dbController.updateBiralat(biralat);
+        checkDbConsistency();
     }
 
     public void insertTenyeszetWithChildren(Tenyeszet tenyeszet) {
@@ -54,72 +50,52 @@ public class KbrApplication extends Application {
                 dbController.addBiralat(biralat);
             }
         }
-        try {
-            dbController.checkDbConsistency();
-        } catch (Exception e) {
-            Log.e(TAG, "checkDbConsistency", e);
-        }
+        checkDbConsistency();
     }
 
     public int updateTenyeszetByTENAZWithERVENYES(String TENAZ, Boolean ERVENYES) {
         int count = dbController.updateTenyeszetByTENAZWithERVENYES(TENAZ, ERVENYES);
-        try {
-            dbController.checkDbConsistency();
-        } catch (Exception e) {
-            Log.e(TAG, "checkDbConsistency", e);
-        }
+        checkDbConsistency();
         return count;
     }
 
     public int updateTenyeszet(Tenyeszet tenyeszet) {
         int count = dbController.updateTenyeszet(tenyeszet);
-        try {
-            dbController.checkDbConsistency();
-        } catch (Exception e) {
-            Log.e(TAG, "checkDbConsistency", e);
-        }
+        checkDbConsistency();
         return count;
     }
 
     public void deleteTenyeszet(String tenaz) {
         dbController.removeTenyeszet(tenaz);
-        try {
-            dbController.checkDbConsistency();
-        } catch (Exception e) {
-            Log.e(TAG, "checkDbConsistency", e);
-        }
+        checkDbConsistency();
     }
 
     public void removeSelectionFromTenyeszetList(List<String> tenazList) {
         for (String tenaz : tenazList) {
             dbController.removeSelectionFromTenyeszet(tenaz);
         }
-        try {
-            dbController.checkDbConsistency();
-        } catch (Exception e) {
-            Log.e(TAG, "checkDbConsistency", e);
-        }
+        checkDbConsistency();
     }
 
     public void removeSelectionFromTenyeszetList(String[] tenazArray) {
         for (String tenaz : tenazArray) {
             dbController.removeSelectionFromTenyeszet(tenaz);
         }
-        try {
-            dbController.checkDbConsistency();
-        } catch (Exception e) {
-            Log.e(TAG, "checkDbConsistency", e);
-        }
+        checkDbConsistency();
     }
 
     public void removeSelectionFromTenyeszet(String tenaz) {
         dbController.removeSelectionFromTenyeszet(tenaz);
-        try {
-            dbController.checkDbConsistency();
-        } catch (Exception e) {
-            Log.e(TAG, "checkDbConsistency", e);
-        }
+        checkDbConsistency();
     }
+
+    public int updateEgyedWithSelection(String azono, Boolean selection) {
+        int count = dbController.updateEgyedByAZONOWithKIVALASZTOTT(azono, selection);
+        checkDbConsistency();
+        return count;
+    }
+
+    // READ DB
 
     public List<TenyeszetListModel> getTenyeszetListModels() {
         ArrayList<TenyeszetListModel> list = new ArrayList<TenyeszetListModel>();
@@ -193,16 +169,6 @@ public class KbrApplication extends Application {
         return biralatList;
     }
 
-    public int updateEgyedWithSelection(String azono, Boolean selection) {
-        int count = dbController.updateEgyedByAZONOWithKIVALASZTOTT(azono, selection);
-        try {
-            dbController.checkDbConsistency();
-        } catch (Exception e) {
-            Log.e(TAG, "checkDbConsistency", e);
-        }
-        return count;
-    }
-
     public List<Biralat> getBiralatListByTENAZArray(String[] tenazArray) {
         List<Biralat> biralatList = new ArrayList<Biralat>();
         for (String tenaz : tenazArray) {
@@ -211,9 +177,19 @@ public class KbrApplication extends Application {
         return biralatList;
     }
 
+    public void checkDbConsistency() {
+        try {
+            dbController.checkDbConsistency();
+        } catch (Exception e) {
+            Log.e(TAG, "checkDbConsistency", e);
+            Toast.makeText(this, "Inkonzisztens DB!", Toast.LENGTH_LONG).show();
+        }
+    }
+
     // GETTERS, SETTERS
 
     public String getUserId() {
         return userId;
     }
+
 }

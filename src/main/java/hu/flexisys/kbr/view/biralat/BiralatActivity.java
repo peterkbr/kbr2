@@ -358,15 +358,15 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
 
             String akakoString = biralFragment.getAkako();
             Map<String, String> map = biralFragment.getKodErtMap();
-            if (akakoString == null || akakoString.equals(3)) {
+            if (akakoString == null || akakoString.isEmpty() || akakoString.equals("3")) {
                 if (map != null) {
-                    if (akakoString != null && !akakoString.isEmpty()) {
+                    if (akakoString != null && !akakoString.isEmpty() && akakoString.equals("3")) {
                         biralat.setAKAKO(Integer.valueOf(akakoString));
                     }
                     biralat.setKodErtMap(map);
                     saveBiralat(biralat);
                 } else {
-                    FragmentTransaction ft = getFragmentTransactionWithTag("biralando");
+                    FragmentTransaction ft = getFragmentTransactionWithTag("unfinished");
                     dialog = BirBirUnfinishedBiralatDialog.newInstance(new BirBirUnfinishedBiralatListener() {
                         @Override
                         public void onBirBirUnfinishedBiralatCancel() {
@@ -376,21 +376,25 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
                         @Override
                         public void onBirBirUnfinishedBiralatOk() {
                             biralFragment.clearCurrentBiralat();
+                            actionBar.selectTab(actionBar.getTabAt(1));
                             dismissDialog();
                         }
                     });
-                    dialog.show(ft, "biralando");
+                    dialog.show(ft, "unfinished");
                 }
             } else {
-                biralat.setAKAKO(Integer.valueOf(akakoString));
-                saveBiralat(biralat);
+                Integer akakoInt = Integer.valueOf(akakoString);
+                if (akakoInt > 0 && akakoInt < 6) {
+                    biralat.setAKAKO(akakoInt);
+                    saveBiralat(biralat);
+                }
             }
         }
     }
 
     public void saveBiralat(Biralat biralat) {
         biralFragment.setBiralatSaved();
-        app.insertBiralat(biralat);
+        app.updateBiralat(biralat);
         reloadData();
         selectedEgyed = findEgyedByAzono(selectedEgyed.getAZONO());
         keresoFragment.updateKeresoButtons(egyedList);
@@ -406,6 +410,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
             dialog = BirBirAkakoDialog.newInstance(new BirBirAkakoDialog.BirBirAkakoDialogListener() {
                 @Override
                 public void onNoClicked() {
+                    biralFragment.clearAkakoView();
                     dismissDialog();
                 }
 

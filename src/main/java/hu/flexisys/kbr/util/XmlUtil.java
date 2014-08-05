@@ -328,4 +328,45 @@ public class XmlUtil {
         tenyeszet.setERVENYES(true);
         return tenyeszet;
     }
+
+
+    public static Boolean parseKullembirXml(String xml) throws XmlPullParserException, XmlUtilException, IOException {
+
+        XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+        factory.setNamespaceAware(true);
+        XmlPullParser xpp = factory.newPullParser();
+
+        xpp.setInput(new StringReader(xml));
+        int eventType = xpp.getEventType();
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+            if (eventType == XmlPullParser.START_DOCUMENT) {
+            } else if (eventType == XmlPullParser.START_TAG) {
+
+                if (xpp.getName().equals(TN_RESPONSE)) {
+                    KT_Response response = new KT_Response();
+                    int count = xpp.getAttributeCount();
+                    for (int i = 0; i < count; i++) {
+                        if (xpp.getAttributeName(i).equals(TN_RESPONSE_ID)) {
+                            response.setId(xpp.getAttributeValue(i));
+                        } else if (xpp.getAttributeName(i).equals(TN_RESPONSE_RESULT_CODE)) {
+                            response.setResult_code(xpp.getAttributeValue(i));
+                        } else if (xpp.getAttributeName(i).equals(TN_RESPONSE_RESULT_MESSAGE)) {
+                            response.setResult_message(xpp.getAttributeValue(i));
+                        } else if (xpp.getAttributeName(i).equals(TN_RESPONSE_TYPE)) {
+                            response.setType(xpp.getAttributeValue(i));
+                        } else if (xpp.getAttributeName(i).equals(TN_RESPONSE_USERID)) {
+                            response.setUserid(xpp.getAttributeValue(i));
+                        }
+                    }
+                    if (response.getResult_code() == null || !response.getResult_code().equals("0")) {
+                        throw new XmlUtilException(response.getResult_code() + " \"" + response.getResult_message() + "\"");
+                    }
+                }
+            } else if (eventType == XmlPullParser.END_TAG) {
+            } else if (eventType == XmlPullParser.TEXT) {
+            }
+            eventType = xpp.next();
+        }
+        return true;
+    }
 }

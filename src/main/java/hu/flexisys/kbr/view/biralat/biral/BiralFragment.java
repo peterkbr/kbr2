@@ -133,17 +133,23 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
 
     public void clearCurrentBiralat() {
         biralatStarted = false;
-        editing = false;
-        clearDetails();
+        editing = true;
         clearGrid();
     }
 
     public void updateCurrentBiralatWithAkako(String text) {
-        if (text.equals("3")) {
+        if (text == null || text.isEmpty()) {
             editing = true;
         } else {
-            editing = false;
-            clearGrid();
+            if (text.equals("3")) {
+                editing = true;
+            } else {
+                editing = false;
+                clearGrid();
+            }
+            BiralatNumPadInput akakoInput = (BiralatNumPadInput) getView().findViewById(akakoViewId);
+            akakoInput.setText(text);
+            akakoInput.unSelect();
         }
     }
 
@@ -169,7 +175,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
 
         View view = getView();
         for (Integer viewId : szempontMap.keySet()) {
-            String kod = szempontMap.get(viewId).kod;
+            String kod = szempontMap.get(viewId).id;
             String ert = ((TextView) view.findViewById(viewId)).getText().toString();
             if (ert == null || ert.isEmpty()) {
                 return null;
@@ -189,12 +195,13 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     }
 
     public void updateFragmentWithEgyed(Egyed selectedEgyedForBiral, Boolean editable) {
+        clearDetails();
+        clearGrid();
         if (selectedEgyedForBiral == null) {
             editing = false;
             biralatStarted = false;
-            clearDetails();
-            clearGrid();
         } else {
+            editing = true;
             updateDetails(selectedEgyedForBiral);
             Biralat lastBiralat = null;
             for (Biralat biralat : selectedEgyedForBiral.getBiralatList()) {
@@ -203,17 +210,20 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
                 }
             }
             updateGrid(lastBiralat);
-            currentInputId = -1;
-            currentInputStep = -1;
-            String akakoValue = null;
+
             if (lastBiralat != null) {
-                String.valueOf(lastBiralat.getAKAKO());
+                String akakoValue = String.valueOf(lastBiralat.getAKAKO());
+                if (akakoValue != null && !akakoValue.isEmpty() && !akakoValue.equals("0")) {
+                    if (!akakoValue.equals("3")) {
+                        editing = false;
+                        clearGrid();
+                    }
+                    updateAkakoView(akakoValue);
+                }
             }
-            if (akakoValue != null && !akakoValue.isEmpty() && !akakoValue.equals("3")) {
-                editing = false;
-                clearGrid();
-            } else if (editable) {
-                editing = true;
+            if (editing && editable) {
+                currentInputId = -1;
+                currentInputStep = -1;
                 stepToNextInput(getView());
             } else {
                 editing = false;
@@ -301,14 +311,10 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
                 int id = inputIds[i];
                 BiralatSzempont szempont = szempontMap.get(id);
                 BiralatNumPadInput input = (BiralatNumPadInput) view.findViewById(id);
-                String value = biralat.getErtByKod(szempont.kod);
+                String value = biralat.getErtByKod(szempont.id);
                 input.setText(value);
                 input.unSelect();
             }
-            BiralatNumPadInput akakoInput = (BiralatNumPadInput) view.findViewById(akakoViewId);
-            String akakoValue = String.valueOf(biralat.getAKAKO());
-            akakoInput.setText(akakoValue);
-            akakoInput.unSelect();
         }
     }
 
@@ -319,6 +325,19 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             input.setText("");
             input.unSelect();
         }
+        BiralatNumPadInput akakoInput = (BiralatNumPadInput) view.findViewById(akakoViewId);
+        akakoInput.setText("");
+        akakoInput.unSelect();
+    }
+
+    private void updateAkakoView(String akako) {
+        BiralatNumPadInput akakoInput = (BiralatNumPadInput) getView().findViewById(akakoViewId);
+        akakoInput.setText(akako);
+        akakoInput.unSelect();
+    }
+
+    public void clearAkakoView() {
+        updateAkakoView("");
     }
 
     public void selectInput(View view, View inputView) {
@@ -413,4 +432,5 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     public void setBiralatSaved() {
         biralatStarted = false;
     }
+
 }

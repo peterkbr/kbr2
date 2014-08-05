@@ -2,6 +2,7 @@ package hu.flexisys.kbr.view.bongeszo;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -9,14 +10,24 @@ import android.widget.ListView;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
-import hu.flexisys.kbr.model.Tenyeszet;
+import hu.flexisys.kbr.util.NetworkUtil;
+import hu.flexisys.kbr.util.XmlUtil;
+import hu.flexisys.kbr.util.XmlUtilException;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.NotificationDialog;
 import hu.flexisys.kbr.view.levalogatas.EmptyTask;
 import hu.flexisys.kbr.view.levalogatas.Executable;
 import hu.flexisys.kbr.view.levalogatas.ExecutableFinishedListener;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -27,6 +38,7 @@ import java.util.List;
  */
 public class BongeszoTenyeszetActivity extends KbrActivity {
 
+    public static final String TAG = "KBR_BongeszoTenyeszetActivity";
     public static String EXTRAKEY_SELECTEDTENAZLIST = "selectedTenazArray";
     private final List<TenyeszetListModel> tenyeszetList = new ArrayList<TenyeszetListModel>();
     private final List<String> selectedList = new ArrayList<String>();
@@ -149,9 +161,10 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
                 if (model.getBiralatWaitingForUpload() < 1) {
                     hasBiralatlessTenyeszet = true;
                     break;
-                } else if (model.getBiralatUnexportedCount() > 0) {
-                    hasUnexportedBiralat = true;
-                    break;
+                    // TODO uncomment
+//                } else if (model.getBiralatUnexportedCount() > 0) {
+//                    hasUnexportedBiralat = true;
+//                    break;
                 } else {
                     selectedTenyeszetList.add(model.getTenyeszet().getTENAZ());
                 }
@@ -173,21 +186,54 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
         }
 
         startProgressDialog();
+        final Boolean[] success = {null};
         new EmptyTask(new Executable() {
             @Override
             public void execute() {
-                // TODO küldés
                 List<Biralat> feltoltetlenBiralatList = app.getFeltoltetlenBiralatListByTenazList(selectedTenyeszetList);
+                String requestBody = NetworkUtil.getKullembirRequestBody(app.getUserId(), feltoltetlenBiralatList);
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost post = new HttpPost(NetworkUtil.SERVICE_URL);
+                String responseValue;
+                try {
+                    post.setEntity(new StringEntity(requestBody));
+                    HttpResponse response = httpclient.execute(post);
+                    responseValue = EntityUtils.toString(response.getEntity());
 
-                reloadData();
-                adapter.notifyDataSetChanged();
+                    success[0] = XmlUtil.parseKullembirXml(responseValue);
+                    if (success[0]) {
+                        for (Biralat biralat : feltoltetlenBiralatList) {
+                            biralat.setFELTOLTETLEN(false);
+                            app.updateBiralat(biralat);
+                        }
+
+                        reloadData();
+                        adapter.notifyDataSetChanged();
+                    }
+                } catch (IOException e) {
+                    Log.e(TAG, "accessing network", e);
+                } catch (XmlUtilException e) {
+                    Log.e(TAG, "send/server error\n" + e.getMessage(), e);
+                } catch (XmlPullParserException e) {
+                    Log.e(TAG, "parsing response", e);
+                }
             }
         }, new ExecutableFinishedListener() {
             @Override
             public void onFinished() {
                 dismissDialog();
+                String title;
+                if (success[0] == null || !success[0]) {
+                    title = "Sikertelen feltöltés!";
+                } else {
+                    title = "Sikeres feltöltés!";
+                }
+
+                FragmentTransaction ft = getFragmentTransactionWithTag("notificationDialog");
+                dialog = NotificationDialog.newInstance(title, null);
+                dialog.show(ft, "notificationDialog");
             }
-        });
+        }).execute();
     }
 
 }

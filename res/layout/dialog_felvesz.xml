@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -15,15 +14,19 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/teny_felvesz_title"
-        android:textSize="@dimen/dialog_title_textSize"/>
+        android:textSize="@dimen/dialog_title_textSize" />
 
     <EditText
+        android:layout_margin="5dp"
         android:id="@+id/teny_dialog_azon"
         android:layout_width="120dp"
-        android:layout_height="wrap_content"
+        android:layout_height="30sp"
+        android:gravity="center"
+        android:background="@drawable/keret"
+
         android:layout_gravity="center"
         android:inputType="number"
-        android:maxLength="7"/>
+        android:maxLength="7" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,7 +40,7 @@
             android:layout_height="@dimen/dialog_menu_height"
             android:layout_weight="1"
             android:text="@string/cancel"
-            android:textSize="@dimen/dialog_menu_textsize"/>
+            android:textSize="@dimen/dialog_menu_textsize" />
 
         <Button
             android:id="@+id/dialog_felvesz_ok"
@@ -45,6 +48,6 @@
             android:layout_height="@dimen/dialog_menu_height"
             android:layout_weight="1"
             android:text="@string/ok"
-            android:textSize="@dimen/dialog_menu_textsize"/>
+            android:textSize="@dimen/dialog_menu_textsize" />
     </LinearLayout>
 </LinearLayout>

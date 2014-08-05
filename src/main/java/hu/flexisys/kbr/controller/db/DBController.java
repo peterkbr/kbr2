@@ -102,7 +102,7 @@ public class DBController {
         sdCardConnector.addBiralat(biralat);
     }
 
-    public void addNewBiralat(Biralat biralat) {
+    public void updateBiralat(Biralat biralat) {
         innerConnector.removeFeltoltetlenBiralat(biralat.getTENAZ(), biralat.getAZONO());
         innerConnector.addBiralat(biralat);
         sdCardConnector.removeFeltoltetlenBiralat(biralat.getTENAZ(), biralat.getAZONO());
@@ -187,4 +187,5 @@ public class DBController {
         }
         return md5;
     }
+
 }

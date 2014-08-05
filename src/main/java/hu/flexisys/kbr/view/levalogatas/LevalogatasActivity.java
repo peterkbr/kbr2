@@ -260,6 +260,7 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
         EmptyTask task = new EmptyTask(new Executable() {
             @Override
             public void execute() {
+                Log.i(TAG, "Reorder started:" + DateUtil.getRequestId());
                 Collections.sort(egyedList, comparator);
             }
         }, new ExecutableFinishedListener() {
@@ -267,6 +268,7 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
             public void onFinished() {
                 adapter.notifyDataSetChanged();
                 dismissDialog();
+                Log.i(TAG, "Reorder finished:" + DateUtil.getRequestId());
             }
         });
         task.execute();
@@ -555,7 +557,7 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
     public void urit() {
         clearCheckBox(R.id.lev_szuk_mar_ellett_chb);
         clearCheckBox(R.id.lev_szuk_nem_biralt_chb);
-        clearCheckBox(R.id.lev_szuk_mar_ellett_chb);
+        clearCheckBox(R.id.lev_szuk_itv_chb);
 
         clearEditText(R.id.lev_szuk_elles_sorszamai);
         clearEditText(R.id.lev_szuk_enar);
