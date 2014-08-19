@@ -1,5 +1,6 @@
 package hu.flexisys.kbr.view.bongeszo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -130,19 +131,18 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
     // LEVÁLOGATÁS
 
     public void bongeszes() {
-//        Intent intent = new Intent(this, BongeszoActivity.class);
-//        if (selectedList.isEmpty()) {
-//            return;
-//        }
-//        Bundle extras = new Bundle();
-//        String[] selectedTenazArray = new String[selectedList.size()];
-//        for (int i = 0; i < selectedList.size(); i++) {
-//            selectedTenazArray[i] = selectedList.get(i);
-//        }
-//        extras.putStringArray(EXTRAKEY_SELECTEDTENAZLIST, selectedTenazArray);
-//        intent.putExtras(extras);
-//        startActivity(intent);
-        toast("Not implemented jet!");
+        Intent intent = new Intent(this, BongeszoActivity.class);
+        if (selectedList.isEmpty()) {
+            return;
+        }
+        Bundle extras = new Bundle();
+        String[] selectedTenazArray = new String[selectedList.size()];
+        for (int i = 0; i < selectedList.size(); i++) {
+            selectedTenazArray[i] = selectedList.get(i);
+        }
+        extras.putStringArray(EXTRAKEY_SELECTEDTENAZLIST, selectedTenazArray);
+        intent.putExtras(extras);
+        startActivity(intent);
     }
 
     // KÜLDÉS

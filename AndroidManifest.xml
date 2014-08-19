@@ -7,10 +7,10 @@
 
     <uses-sdk
         android:minSdkVersion="10"
-        android:targetSdkVersion="18"/>
+        android:targetSdkVersion="18" />
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".controller.KbrApplication"
@@ -18,13 +18,13 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light">
-        <activity android:name=".view.KbrActivity"/>
+        <activity android:name=".view.KbrActivity" />
         <activity
             android:name=".view.MenuActivity"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -32,14 +32,14 @@
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.MenuActivity"/>
+                android:value=".view.MenuActivity" />
         </activity>
         <activity
             android:name=".view.biralat.BiralatTenyeszetActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.MenuActivity"/>
+                android:value=".view.MenuActivity" />
         </activity>
         <activity
             android:name=".view.biralat.BiralatActivity"
@@ -47,7 +47,7 @@
             android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.biralat.BiralatTenyeszetActivity"/>
+                android:value=".view.biralat.BiralatTenyeszetActivity" />
         </activity>
 
         <activity
@@ -55,22 +55,29 @@
             android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.MenuActivity"/>
+                android:value=".view.MenuActivity" />
         </activity>
         <activity
             android:name=".view.levalogatas.LevalogatasActivity"
             android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.levalogatas.LevalogatasTenyeszetActivity"/>
+                android:value=".view.levalogatas.LevalogatasTenyeszetActivity" />
         </activity>
 
         <activity
-                android:name=".view.bongeszo.BongeszoTenyeszetActivity"
-                android:screenOrientation="landscape">
+            android:name=".view.bongeszo.BongeszoTenyeszetActivity"
+            android:screenOrientation="landscape">
             <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".view.MenuActivity"/>
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.MenuActivity" />
+        </activity>
+        <activity
+            android:name=".view.bongeszo.BongeszoActivity"
+            android:screenOrientation="landscape">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.bongeszo.BongeszoTenyeszetActivity" />
         </activity>
     </application>
 

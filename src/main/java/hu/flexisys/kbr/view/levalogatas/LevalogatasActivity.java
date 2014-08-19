@@ -43,9 +43,9 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_levalogatas);
 
-        View mLogoView = LayoutInflater.from(this).inflate(R.layout.activity_levalogatas_actionbar, null);
+        View customView = LayoutInflater.from(this).inflate(R.layout.activity_levalogatas_actionbar, null);
         actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(mLogoView);
+        actionBar.setCustomView(customView);
 
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);

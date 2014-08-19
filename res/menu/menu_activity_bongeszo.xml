@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kbr="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/szukites"
+        android:title="@string/lev_menu_szukites"
+        kbr:showAsAction="always" />
+
+    <item
+        android:id="@+id/a_More"
+        android:icon="@drawable/moreoverflow"
+        android:title="More"
+        kbr:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/bongeszo_export"
+                android:title="@string/bong_menu_export"
+                kbr:showAsAction="always" />
+
+            <item
+                android:id="@+id/bongeszo_linearis"
+                android:title="@string/bong_menu_linearis"
+                kbr:showAsAction="always" />
+        </menu>
+    </item>
+</menu>

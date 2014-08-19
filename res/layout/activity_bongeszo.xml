@@ -1,0 +1,13 @@
+<android.support.v4.widget.SlidingPaneLayout
+    android:id="@+id/sp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--SZŰKÍTÉS-->
+    <include layout="@layout/activity_bongeszo_left"/>
+
+    <!--LEVÁLOGATÁS-->
+    <include layout="@layout/activity_bongeszo_right"/>
+
+</android.support.v4.widget.SlidingPaneLayout>
