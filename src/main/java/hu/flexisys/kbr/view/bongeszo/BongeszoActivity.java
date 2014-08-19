@@ -3,13 +3,19 @@ package hu.flexisys.kbr.view.bongeszo;
 import android.os.Bundle;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.view.*;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import hu.flexisys.kbr.R;
+import hu.flexisys.kbr.model.Biralat;
+import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.biralat.BiralatTenyeszetActivity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Peter on 2014.07.21..
@@ -18,6 +24,9 @@ public class BongeszoActivity extends KbrActivity {
 
     private static final String TAG = "KBR_BongeszoActivity";
     private String[] selectedTenazArray;
+    private List<Biralat> biralatList;
+    private Map<String,Egyed> egyedMap;
+    private BongeszoListAdapter adapter;
 
     private SlidingPaneLayout pane;
 
@@ -61,6 +70,17 @@ public class BongeszoActivity extends KbrActivity {
             text = tenyeszetList.get(0).getTARTO();
         }
         telep.setText(text);
+
+        biralatList = app.getBiralatListByTENAZArray(selectedTenazArray);
+        List<Egyed> egyedList = app.getEgyedListByTENAZArray(selectedTenazArray);
+        egyedMap = new HashMap<String, Egyed>();
+        for (Egyed egyed : egyedList){
+            egyedMap.put(egyed.getAZONO(),egyed);
+        }
+        ListView biralatListView = (ListView) findViewById(R.id.bongeszo_bir_list);
+        biralatListView.setEmptyView(findViewById(R.id.empty_list_item));
+        adapter = new BongeszoListAdapter(this,0,biralatList, egyedMap);
+        biralatListView.setAdapter(adapter);
     }
 
     @Override
