@@ -21,6 +21,7 @@ public class KbrApplication extends Application {
 
     private static String TAG = "KBR_APPLICATION";
     private String userId = "jakablk";
+    private String kulaz = "14";
     private DBController dbController;
 
     @Override
@@ -192,4 +193,7 @@ public class KbrApplication extends Application {
         return userId;
     }
 
+    public String getKulaz() {
+        return kulaz;
+    }
 }

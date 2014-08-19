@@ -12,6 +12,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<platform.version>4.3_r2</platform.version>
 		<android.plugin.version>3.8.2</android.plugin.version>
+        <android.sdk.path>/Users/peter/dev/tools/android-sdk-macosx</android.sdk.path>
 	</properties>
 
 	<dependencies>

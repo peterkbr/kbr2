@@ -206,9 +206,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
                             biralat.setFELTOLTETLEN(false);
                             app.updateBiralat(biralat);
                         }
-
                         reloadData();
-                        adapter.notifyDataSetChanged();
                     }
                 } catch (IOException e) {
                     Log.e(TAG, "accessing network", e);
@@ -221,6 +219,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
         }, new ExecutableFinishedListener() {
             @Override
             public void onFinished() {
+                adapter.notifyDataSetChanged();
                 dismissDialog();
                 String title;
                 if (success[0] == null || !success[0]) {
