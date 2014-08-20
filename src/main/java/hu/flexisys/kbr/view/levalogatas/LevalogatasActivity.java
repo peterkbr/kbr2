@@ -34,7 +34,7 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
     private Filter filter;
     private Boolean selectionChanged = false;
     private String currentOrderBy;
-    private Boolean asc;
+    private Boolean asc = true;
 
     // MENU IN ACTIONBAR
 
@@ -54,8 +54,6 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
 
         selectedTenazArray = getIntent().getExtras().getStringArray(BiralatTenyeszetActivity.EXTRAKEY_SELECTEDTENAZLIST);
         egyedList = new ArrayList<Egyed>();
-        reloadData();
-        reorderData(getString(R.string.lev_grid_header_szuletett));
 
         pane = (SlidingPaneLayout) findViewById(R.id.sp);
         pane.setPanelSlideListener(new SlidingPaneLayout.PanelSlideListener() {
@@ -82,8 +80,6 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
             text = tenyeszetList.get(0).getTARTO();
         }
         telep.setText(text);
-
-        updateCounters();
 
         CheckBox selectAll = (CheckBox) findViewById(R.id.lev_select_all);
         selectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -120,6 +116,23 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
                 }
             }
         });
+
+        startProgressDialog();
+        EmptyTask task = new EmptyTask(new Executable() {
+            @Override
+            public void execute() {
+                reloadData();
+                reorderData(getString(R.string.lev_grid_header_szuletett));
+            }
+        }, new ExecutableFinishedListener() {
+            @Override
+            public void onFinished() {
+                updateCounters();
+                adapter.notifyDataSetChanged();
+                dismissDialog();
+            }
+        });
+        task.execute();
 
     }
 
@@ -225,7 +238,13 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
         } else {
             asc = !asc;
         }
+        reorderData();
+    }
 
+    private void reorderData() {
+        if (egyedList.size() < 2 || currentOrderBy == null) {
+            return;
+        }
         final Comparator<Egyed> comparator = new Comparator<Egyed>() {
             @Override
             public int compare(Egyed leftEgyed, Egyed rightEgyed) {
@@ -256,22 +275,7 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
             }
         };
 
-        startProgressDialog();
-        EmptyTask task = new EmptyTask(new Executable() {
-            @Override
-            public void execute() {
-                Log.i(TAG, "Reorder started:" + DateUtil.getRequestId());
-                Collections.sort(egyedList, comparator);
-            }
-        }, new ExecutableFinishedListener() {
-            @Override
-            public void onFinished() {
-                adapter.notifyDataSetChanged();
-                dismissDialog();
-                Log.i(TAG, "Reorder finished:" + DateUtil.getRequestId());
-            }
-        });
-        task.execute();
+        Collections.sort(egyedList, comparator);
     }
 
     private boolean applyFilter(Egyed egyed) {
@@ -451,8 +455,21 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
 
     public void reorder(View view) {
         TextView orderByTV = (TextView) view;
-        String orderBy = orderByTV.getText().toString();
-        reorderData(orderBy);
+        final String orderBy = orderByTV.getText().toString();
+        startProgressDialog();
+        EmptyTask task = new EmptyTask(new Executable() {
+            @Override
+            public void execute() {
+                reorderData(orderBy);
+            }
+        }, new ExecutableFinishedListener() {
+            @Override
+            public void onFinished() {
+                adapter.notifyDataSetChanged();
+                dismissDialog();
+            }
+        });
+        task.execute();
     }
 
     // SZŰKÍTÉS

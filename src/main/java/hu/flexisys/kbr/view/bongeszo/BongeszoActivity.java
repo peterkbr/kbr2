@@ -19,27 +19,30 @@ import hu.flexisys.kbr.view.levalogatas.Executable;
 import hu.flexisys.kbr.view.levalogatas.ExecutableFinishedListener;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Peter on 2014.07.21..
  */
 public class BongeszoActivity extends KbrActivity {
 
+    public static final String ert1 = "16";
+    public static final String ert2 = "47";
+    public static final String ert3 = "17";
+    public static final String ert4 = "21";
+    public static final String ert5 = "15";
+    public static final String ert6 = "25";
     private static final String TAG = "KBR_BongeszoActivity";
     private String[] selectedTenazArray;
     private List<Biralat> biralatList;
     private Map<String, Egyed> egyedMap;
     private BongeszoListAdapter adapter;
-
     private Long datumTolFilter;
     private Long datumIgFilter;
     private Boolean elkuldetlenFilter;
-
     private SlidingPaneLayout pane;
+    private String currentOrderBy;
+    private Boolean asc = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,13 +89,31 @@ public class BongeszoActivity extends KbrActivity {
         for (Egyed egyed : egyedList) {
             egyedMap.put(egyed.getAZONO(), egyed);
         }
-        reloadData();
-        updateCounter();
+
+        elkuldetlenFilter = true;
+        CheckBox elkuldetlenCheckBox = (CheckBox) findViewById(R.id.bong_szuk_elkuldetlen);
+        elkuldetlenCheckBox.setChecked(elkuldetlenFilter);
 
         ListView biralatListView = (ListView) findViewById(R.id.bongeszo_bir_list);
         biralatListView.setEmptyView(findViewById(R.id.empty_list_item));
         adapter = new BongeszoListAdapter(this, 0, biralatList, egyedMap);
         biralatListView.setAdapter(adapter);
+
+        EmptyTask task = new EmptyTask(new Executable() {
+            @Override
+            public void execute() {
+                reloadData();
+                reorderData(getString(R.string.bong_grid_header_enar));
+            }
+        }, new ExecutableFinishedListener() {
+            @Override
+            public void onFinished() {
+                updateCounter();
+                adapter.notifyDataSetChanged();
+                dismissDialog();
+            }
+        });
+        task.execute();
     }
 
     public void reloadData() {
@@ -106,7 +127,94 @@ public class BongeszoActivity extends KbrActivity {
     }
 
     public void reorder(View view) {
-        reorderData(view.getId());
+        TextView orderByTV = (TextView) view;
+        final String orderBy = orderByTV.getText().toString();
+        startProgressDialog();
+        EmptyTask task = new EmptyTask(new Executable() {
+            @Override
+            public void execute() {
+                reorderData(orderBy);
+            }
+        }, new ExecutableFinishedListener() {
+            @Override
+            public void onFinished() {
+                adapter.notifyDataSetChanged();
+                dismissDialog();
+            }
+        });
+        task.execute();
+    }
+
+    private void reorderData() {
+        if (biralatList.size() < 2 || currentOrderBy == null) {
+            return;
+        }
+
+        final Comparator<Biralat> comparator = new Comparator<Biralat>() {
+            @Override
+            public int compare(Biralat left, Biralat right) {
+                Egyed leftEgyed = egyedMap.get(left.getAZONO());
+                Egyed rightEgyed = egyedMap.get(right.getAZONO());
+                int value = 0;
+                if (currentOrderBy.equals(getString(R.string.lev_grid_header_ok))) {
+                    if (!left.getORSKO().equals("HU") && right.getORSKO().equals("HU")) {
+                        value = -1;
+                    } else if (left.getORSKO().equals("HU") && !right.getORSKO().equals("HU")) {
+                        value = 1;
+                    }
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_enar))) {
+                    value = Long.valueOf(left.getAZONO()).compareTo(Long.valueOf(right.getAZONO()));
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_datum))) {
+                    value = left.getBIRDA().compareTo(right.getBIRDA());
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_es))) {
+                    value = leftEgyed.getELLSO().compareTo(rightEgyed.getELLSO());
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert1))) {
+                    String leftValue = left.getErtByKod(ert1) == null ? "" : left.getErtByKod(ert1);
+                    String rightValue = right.getErtByKod(ert1) == null ? "" : right.getErtByKod(ert1);
+                    value = leftValue.compareTo(rightValue);
+
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert2))) {
+                    String leftValue = left.getErtByKod(ert2) == null ? "" : left.getErtByKod(ert2);
+                    String rightValue = right.getErtByKod(ert2) == null ? "" : right.getErtByKod(ert2);
+                    value = leftValue.compareTo(rightValue);
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert3))) {
+                    String leftValue = left.getErtByKod(ert3) == null ? "" : left.getErtByKod(ert3);
+                    String rightValue = right.getErtByKod(ert3) == null ? "" : right.getErtByKod(ert3);
+                    value = leftValue.compareTo(rightValue);
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert4))) {
+                    String leftValue = left.getErtByKod(ert4) == null ? "" : left.getErtByKod(ert4);
+                    String rightValue = right.getErtByKod(ert4) == null ? "" : right.getErtByKod(ert4);
+                    value = leftValue.compareTo(rightValue);
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert5))) {
+                    String leftValue = left.getErtByKod(ert5) == null ? "" : left.getErtByKod(ert5);
+                    String rightValue = right.getErtByKod(ert5) == null ? "" : right.getErtByKod(ert5);
+                    value = leftValue.compareTo(rightValue);
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert6))) {
+                    String leftValue = left.getErtByKod(ert6) == null ? "" : left.getErtByKod(ert6);
+                    String rightValue = right.getErtByKod(ert6) == null ? "" : right.getErtByKod(ert6);
+                    value = leftValue.compareTo(rightValue);
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_a))) {
+                    value = left.getAKAKO().compareTo(right.getAKAKO());
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_itv))) {
+                    value = leftEgyed.getITVJE().compareTo(rightEgyed.getITVJE());
+                }
+                if (!asc) {
+                    value *= -1;
+                }
+                return value;
+            }
+        };
+        Collections.sort(biralatList, comparator);
+    }
+
+    private void reorderData(String orderBy) {
+        if (asc == null || currentOrderBy == null || !currentOrderBy.equals(orderBy)) {
+            currentOrderBy = orderBy;
+            asc = true;
+        } else {
+            asc = !asc;
+        }
+        reorderData();
     }
 
     private boolean applyFilters(Biralat biralat) {
@@ -120,10 +228,6 @@ public class BongeszoActivity extends KbrActivity {
             return false;
         }
         return true;
-    }
-
-    public void reorderData(int id) {
-        // TODO
     }
 
     public void updateCounter() {
@@ -158,6 +262,7 @@ public class BongeszoActivity extends KbrActivity {
             @Override
             public void execute() {
                 reloadData();
+                reorderData();
             }
         }, new ExecutableFinishedListener() {
             @Override

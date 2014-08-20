@@ -19,7 +19,26 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="#" />
+            android:text="@string/bong_grid_header_num" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="1dp"
+        android:layout_weight="1"
+        android:background="@color/gray"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="reorder"
+            android:clickable="true"
+            android:text="@string/bong_grid_header_ok" />
     </LinearLayout>
 
     <LinearLayout
@@ -35,8 +54,9 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:onClick="reorder"
+            android:clickable="true"
             android:layout_height="wrap_content"
-            android:text="ENAR" />
+            android:text="@string/bong_grid_header_enar" />
     </LinearLayout>
 
     <LinearLayout
@@ -53,7 +73,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="reorder"
-            android:text="Dátum" />
+            android:clickable="true"
+            android:text="@string/bong_grid_header_datum" />
     </LinearLayout>
 
     <LinearLayout
@@ -70,7 +91,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="reorder"
-            android:text="ES" />
+            android:clickable="true"
+            android:text="@string/bong_grid_header_es" />
     </LinearLayout>
 
     <LinearLayout
@@ -85,26 +107,10 @@
         <TextView
             android:textStyle="bold"
             android:onClick="reorder"
+            android:clickable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TP" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginRight="1dp"
-        android:layout_weight="1"
-        android:background="@color/gray"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:onClick="reorder"
-            android:layout_height="wrap_content"
-            android:text="TR" />
+            android:text="@string/bong_grid_header_ert1" />
     </LinearLayout>
 
     <LinearLayout
@@ -120,8 +126,9 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:onClick="reorder"
+            android:clickable="true"
             android:layout_height="wrap_content"
-            android:text="LP" />
+            android:text="@string/bong_grid_header_ert2" />
     </LinearLayout>
 
     <LinearLayout
@@ -137,8 +144,9 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:onClick="reorder"
+            android:clickable="true"
             android:layout_height="wrap_content"
-            android:text="TO" />
+            android:text="@string/bong_grid_header_ert3" />
     </LinearLayout>
 
     <LinearLayout
@@ -154,8 +162,9 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:onClick="reorder"
+            android:clickable="true"
             android:layout_height="wrap_content"
-            android:text="BH" />
+            android:text="@string/bong_grid_header_ert4" />
     </LinearLayout>
 
     <LinearLayout
@@ -170,9 +179,10 @@
         <TextView
             android:textStyle="bold"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:onClick="reorder"
-            android:text="VP" />
+            android:clickable="true"
+            android:layout_height="wrap_content"
+            android:text="@string/bong_grid_header_ert5" />
     </LinearLayout>
 
     <LinearLayout
@@ -189,7 +199,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="reorder"
-            android:text="A" />
+            android:clickable="true"
+            android:text="@string/bong_grid_header_ert6" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="1dp"
+        android:layout_weight="1"
+        android:background="@color/gray"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="reorder"
+            android:clickable="true"
+            android:text="@string/bong_grid_header_a" />
     </LinearLayout>
 
 
@@ -205,7 +234,8 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:onClick="reorder"
+            android:clickable="true"
             android:layout_height="wrap_content"
-            android:text="ITV" />
+            android:text="@string/bong_grid_header_itv" />
     </LinearLayout>
 </LinearLayout>

@@ -54,6 +54,12 @@ public class BongeszoListAdapter extends ArrayAdapter<Biralat> {
             colorParent(textView, color);
         }
 
+        textView = (TextView) v.findViewById(R.id.bong_list_ok);
+        textView.setText(String.valueOf(currentEgyed.getORSKO()));
+        if (color != null) {
+            colorParent(textView, color);
+        }
+
         textView = (TextView) v.findViewById(R.id.bong_list_enar);
         String text = String.valueOf(currentEgyed.getAZONO());
         if (text.length() == 10 && currentEgyed.getORSKO().equals("HU")) {
