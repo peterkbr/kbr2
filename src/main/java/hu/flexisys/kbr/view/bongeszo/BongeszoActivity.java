@@ -111,6 +111,7 @@ public class BongeszoActivity extends KbrActivity {
                 updateCounter();
                 adapter.notifyDataSetChanged();
                 dismissDialog();
+                pane.closePane();
             }
         });
         task.execute();
