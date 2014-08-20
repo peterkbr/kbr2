@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kbr="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/bongeszo_szukit"
+        android:title="@string/bong_szuk_menu_szukit"
+        kbr:showAsAction="always" />
+
+    <item
+        android:id="@+id/bongeszo_urit"
+        android:title="@string/bong_szuk_menu_urit"
+        kbr:showAsAction="always" />
+</menu>

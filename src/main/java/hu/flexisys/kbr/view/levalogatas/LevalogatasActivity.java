@@ -597,29 +597,4 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
         pane.openPane();
     }
 
-    public void pickDate(final View view) {
-        final TextView dateEditText = (TextView) view;
-        final Calendar c = Calendar.getInstance();
-        int mYear = c.get(Calendar.YEAR);
-        int mMonth = c.get(Calendar.MONTH);
-        int mDay = c.get(Calendar.DAY_OF_MONTH);
-
-        FragmentTransaction ft = getFragmentTransactionWithTag("datePickerDialog");
-        dialog = KbrDatePickerDialog.newInstance(new DatePickedListener() {
-            @Override
-            public void onClear() {
-                dateEditText.setText("");
-                dismissDialog();
-            }
-
-            @Override
-            public void onDatePicked(int year, int monthOfYear, int dayOfMonth) {
-                dateEditText.setText(year + "." + (monthOfYear + 1) + "." + dayOfMonth);
-                dismissDialog();
-            }
-        }, mYear, mMonth, mDay);
-        dialog.show(ft, "datePickerDialog");
-
-    }
-
 }

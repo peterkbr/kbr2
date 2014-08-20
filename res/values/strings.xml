@@ -117,8 +117,11 @@
     <!--BÖNGÉSZŐ-->
     <string name="bong_teny_kuld_error_nincs_friss_biralat">Csak friss bírálatokat lehet feltölteni!</string>
     <string name="bong_teny_kuld_error_unexported_biralat">A bírálatok feltöltése előtt azokat exportálni kell!</string>
+
     <string name="bong_menu_export">Export</string>
     <string name="bong_menu_linearis">Linearis tulajdonságok</string>
+    <string name="bong_szuk_menu_szukit">Szűkít</string>
+    <string name="bong_szuk_menu_urit">Ürít</string>
 
 
 </resources>

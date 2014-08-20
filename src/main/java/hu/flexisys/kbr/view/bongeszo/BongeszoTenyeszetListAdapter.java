@@ -12,9 +12,9 @@ import java.util.List;
 /**
  * Created by Peter on 2014.07.23..
  */
-public class BongeszoTenyeszetAdapter extends TenyeszetAdapter {
+public class BongeszoTenyeszetListAdapter extends TenyeszetAdapter {
 
-    public BongeszoTenyeszetAdapter(Context context, int resource, List<TenyeszetListModel> tenyeszetList, List<String> selectedList) {
+    public BongeszoTenyeszetListAdapter(Context context, int resource, List<TenyeszetListModel> tenyeszetList, List<String> selectedList) {
         super(context, resource, tenyeszetList, selectedList);
     }
 

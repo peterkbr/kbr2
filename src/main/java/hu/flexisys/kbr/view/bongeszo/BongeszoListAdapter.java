@@ -78,42 +78,42 @@ public class BongeszoListAdapter extends ArrayAdapter<Biralat> {
             colorParent(textView, color);
         }
 
-        textView = (TextView) v.findViewById(R.id.bong_list_tk);
-        // 20 : TK : Testkapacitás
-        textView.setText(currentBiralat.getErtByKod("20"));
+        textView = (TextView) v.findViewById(R.id.bong_list_ert1);
+        // 16 : TP : Testpont
+        textView.setText(currentBiralat.getErtByKod("16"));
         if (color != null) {
             colorParent(textView, color);
         }
 
-        textView = (TextView) v.findViewById(R.id.bong_list_te);
-//        textView.setText(currentBiralat.getErtByKod("TE"));
-        textView.setText("TE?");
+        textView = (TextView) v.findViewById(R.id.bong_list_ert2);
+        // 47 : TR : Tejelő erősség
+        textView.setText(currentBiralat.getErtByKod("47"));
         if (color != null) {
             colorParent(textView, color);
         }
 
-        textView = (TextView) v.findViewById(R.id.bong_list_tj);
-        // 19 : TJ : Tejelő jelleg
-        textView.setText(currentBiralat.getErtByKod("19"));
+        textView = (TextView) v.findViewById(R.id.bong_list_ert3);
+        // 17 : LP : Lábpont
+        textView.setText(currentBiralat.getErtByKod("17"));
         if (color != null) {
             colorParent(textView, color);
         }
 
-        textView = (TextView) v.findViewById(R.id.bong_list_lp);
-        // 44 : LP : Lapocka kötés
-        textView.setText(currentBiralat.getErtByKod("44"));
-        if (color != null) {
-            colorParent(textView, color);
-        }
-
-        textView = (TextView) v.findViewById(R.id.bong_list_to);
+        textView = (TextView) v.findViewById(R.id.bong_list_ert4);
         // 21 : TO : Tőgypont
         textView.setText(currentBiralat.getErtByKod("21"));
         if (color != null) {
             colorParent(textView, color);
         }
 
-        textView = (TextView) v.findViewById(R.id.bong_list_vp);
+        textView = (TextView) v.findViewById(R.id.bong_list_ert5);
+        // 15 : BH : Elülső bimbó hossza
+        textView.setText(currentBiralat.getErtByKod("15"));
+        if (color != null) {
+            colorParent(textView, color);
+        }
+
+        textView = (TextView) v.findViewById(R.id.bong_list_ert6);
         // 25 : VP : végpont
         textView.setText(currentBiralat.getErtByKod("25"));
         if (color != null) {

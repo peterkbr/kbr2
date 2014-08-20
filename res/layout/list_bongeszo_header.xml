@@ -15,7 +15,8 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView android:textStyle="bold"
+        <TextView
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="#" />
@@ -30,8 +31,10 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView android:textStyle="bold"
+        <TextView
+            android:textStyle="bold"
             android:layout_width="wrap_content"
+            android:onClick="reorder"
             android:layout_height="wrap_content"
             android:text="ENAR" />
     </LinearLayout>
@@ -45,9 +48,11 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView android:textStyle="bold"
+        <TextView
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="reorder"
             android:text="Dátum" />
     </LinearLayout>
 
@@ -60,9 +65,11 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView android:textStyle="bold"
+        <TextView
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="reorder"
             android:text="ES" />
     </LinearLayout>
 
@@ -75,10 +82,12 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView android:textStyle="bold"
+        <TextView
+            android:textStyle="bold"
+            android:onClick="reorder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TK" />
+            android:text="TP" />
     </LinearLayout>
 
     <LinearLayout
@@ -90,10 +99,12 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView android:textStyle="bold"
+        <TextView
+            android:textStyle="bold"
             android:layout_width="wrap_content"
+            android:onClick="reorder"
             android:layout_height="wrap_content"
-            android:text="TE" />
+            android:text="TR" />
     </LinearLayout>
 
     <LinearLayout
@@ -105,23 +116,10 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView android:textStyle="bold"
+        <TextView
+            android:textStyle="bold"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TJ" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginRight="1dp"
-        android:layout_weight="1"
-        android:background="@color/gray"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView android:textStyle="bold"
-            android:layout_width="wrap_content"
+            android:onClick="reorder"
             android:layout_height="wrap_content"
             android:text="LP" />
     </LinearLayout>
@@ -135,8 +133,10 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView android:textStyle="bold"
+        <TextView
+            android:textStyle="bold"
             android:layout_width="wrap_content"
+            android:onClick="reorder"
             android:layout_height="wrap_content"
             android:text="TO" />
     </LinearLayout>
@@ -150,9 +150,28 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView android:textStyle="bold"
+        <TextView
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:onClick="reorder"
+            android:layout_height="wrap_content"
+            android:text="BH" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="1dp"
+        android:layout_weight="1"
+        android:background="@color/gray"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="reorder"
             android:text="VP" />
     </LinearLayout>
 
@@ -165,9 +184,11 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView android:textStyle="bold"
+        <TextView
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="reorder"
             android:text="A" />
     </LinearLayout>
 
@@ -180,8 +201,10 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView android:textStyle="bold"
+        <TextView
+            android:textStyle="bold"
             android:layout_width="wrap_content"
+            android:onClick="reorder"
             android:layout_height="wrap_content"
             android:text="ITV" />
     </LinearLayout>

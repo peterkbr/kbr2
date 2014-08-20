@@ -78,7 +78,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/bong_list_tk" />
+            android:id="@+id/bong_list_ert1" />
     </LinearLayout>
 
     <LinearLayout
@@ -93,7 +93,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/bong_list_te" />
+            android:id="@+id/bong_list_ert2" />
     </LinearLayout>
 
     <LinearLayout
@@ -108,7 +108,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/bong_list_tj" />
+            android:id="@+id/bong_list_ert3" />
     </LinearLayout>
 
     <LinearLayout
@@ -123,7 +123,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/bong_list_lp" />
+            android:id="@+id/bong_list_ert4" />
     </LinearLayout>
 
     <LinearLayout
@@ -138,7 +138,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/bong_list_to" />
+            android:id="@+id/bong_list_ert5" />
     </LinearLayout>
 
     <LinearLayout
@@ -153,7 +153,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/bong_list_vp" />
+            android:id="@+id/bong_list_ert6" />
     </LinearLayout>
 
     <LinearLayout

@@ -43,7 +43,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
     public static String EXTRAKEY_SELECTEDTENAZLIST = "selectedTenazArray";
     private final List<TenyeszetListModel> tenyeszetList = new ArrayList<TenyeszetListModel>();
     private final List<String> selectedList = new ArrayList<String>();
-    private BongeszoTenyeszetAdapter adapter;
+    private BongeszoTenyeszetListAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
         actionBar.setDisplayShowTitleEnabled(false);
 
         ListView listView = (ListView) findViewById(R.id.teny_list);
-        adapter = new BongeszoTenyeszetAdapter(this, R.layout.list_tenyeszet, tenyeszetList, selectedList);
+        adapter = new BongeszoTenyeszetListAdapter(this, R.layout.list_tenyeszet, tenyeszetList, selectedList);
         listView.setAdapter(adapter);
     }
 
