@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+
+        <!--<ListView-->
+        <!--android:id="@+id/bongeszo_diagram_list"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/empty_list_item"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:text="@string/lev_grid_empty"-->
+        <!--android:visibility="gone" />-->
+
+        <LinearLayout
+            android:id="@+id/bongeszo_diagram_list_layout"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent" />
+    </ScrollView>
+
+    <Button
+        android:layout_gravity="center_horizontal"
+        android:onClick="okClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ok" />
+</LinearLayout>

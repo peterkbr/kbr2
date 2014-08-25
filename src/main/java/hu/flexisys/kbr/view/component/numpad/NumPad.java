@@ -27,7 +27,7 @@ public class NumPad extends LinearLayout {
 
     private void createView() {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View numPadView = inflater.inflate(R.layout.num_pad, this, false);
+        View numPadView = inflater.inflate(R.layout.component_num_pad, this, false);
         int[] ids = new int[]{R.id.numpad_0, R.id.numpad_1, R.id.numpad_2, R.id.numpad_3, R.id.numpad_4, R.id.numpad_5, R.id.numpad_6, R.id.numpad_7,
                 R.id.numpad_8, R.id.numpad_9, R.id.numpad_0};
         for (int id : ids) {

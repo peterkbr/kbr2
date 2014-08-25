@@ -79,6 +79,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.bongeszo.BongeszoTenyeszetActivity" />
         </activity>
+        <activity
+            android:name=".view.bongeszo.diagram.DiagramActivity"
+            android:screenOrientation="landscape">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.bongeszo.BongeszoActivity" />
+        </activity>
     </application>
 
 </manifest>

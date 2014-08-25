@@ -67,8 +67,6 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
 
         hu = true;
 
-        BiralatSzempontUtil.initBiralatSzempontUtil(getApplicationContext());
-        BiralatTipusUtil.initBiralatTipusUtil(getApplicationContext());
     }
 
     private void reloadData() {

@@ -7,6 +7,8 @@ import hu.flexisys.kbr.controller.db.DBController;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
+import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
+import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
 
 import java.util.ArrayList;
@@ -22,12 +24,17 @@ public class KbrApplication extends Application {
     private static String TAG = "KBR_APPLICATION";
     private String userId = "jakablk";
     private String kulaz = "14";
+    private String biralatTipus = "7";
     private DBController dbController;
 
     @Override
     public void onCreate() {
         super.onCreate();
         dbController = new DBController(this, userId);
+
+        BiralatSzempontUtil.initBiralatSzempontUtil(getApplicationContext());
+        BiralatTipusUtil.initBiralatTipusUtil(getApplicationContext());
+
         checkDbConsistency();
     }
 
@@ -195,5 +202,9 @@ public class KbrApplication extends Application {
 
     public String getKulaz() {
         return kulaz;
+    }
+
+    public String getBiralatTipus() {
+        return biralatTipus;
     }
 }

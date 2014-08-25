@@ -1,5 +1,6 @@
 package hu.flexisys.kbr.view.bongeszo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.util.Log;
@@ -12,8 +13,13 @@ import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
 import hu.flexisys.kbr.util.DateUtil;
+import hu.flexisys.kbr.util.biralat.BiralatSzempont;
+import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
+import hu.flexisys.kbr.util.biralat.BiralatTipus;
+import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.biralat.BiralatTenyeszetActivity;
+import hu.flexisys.kbr.view.bongeszo.diagram.DiagramActivity;
 import hu.flexisys.kbr.view.levalogatas.EmptyTask;
 import hu.flexisys.kbr.view.levalogatas.Executable;
 import hu.flexisys.kbr.view.levalogatas.ExecutableFinishedListener;
@@ -90,9 +96,10 @@ public class BongeszoActivity extends KbrActivity {
             egyedMap.put(egyed.getAZONO(), egyed);
         }
 
-        elkuldetlenFilter = true;
-        CheckBox elkuldetlenCheckBox = (CheckBox) findViewById(R.id.bong_szuk_elkuldetlen);
-        elkuldetlenCheckBox.setChecked(elkuldetlenFilter);
+        // TODO : uncomment
+//        elkuldetlenFilter = true;
+//        CheckBox elkuldetlenCheckBox = (CheckBox) findViewById(R.id.bong_szuk_elkuldetlen);
+//        elkuldetlenCheckBox.setChecked(elkuldetlenFilter);
 
         ListView biralatListView = (ListView) findViewById(R.id.bongeszo_bir_list);
         biralatListView.setEmptyView(findViewById(R.id.empty_list_item));
@@ -116,6 +123,8 @@ public class BongeszoActivity extends KbrActivity {
         });
         task.execute();
     }
+
+    // LIST
 
     public void reloadData() {
         biralatList.clear();
@@ -240,6 +249,66 @@ public class BongeszoActivity extends KbrActivity {
         }
     }
 
+    // DIAGRAM
+
+
+    private void startDiagramActivity() {
+        ArrayList<String> values = getDiagramValues();
+        Intent intent = new Intent(this, DiagramActivity.class);
+        Bundle extras = new Bundle();
+        extras.putStringArrayList(DiagramActivity.VALUES_KEY, values);
+        intent.putExtras(extras);
+        startActivity(intent);
+    }
+
+    private ArrayList<String> getDiagramValues() {
+        BiralatTipus tipus = BiralatTipusUtil.getBiralatTipus(app.getBiralatTipus());
+        List<BiralatSzempont> szempontList = new ArrayList<BiralatSzempont>();
+        Map<String, Integer[]> diagramValueMap = new HashMap<String, Integer[]>();
+        for (String szempontId : tipus.szempontList) {
+            BiralatSzempont szempont = BiralatSzempontUtil.getBiralatSzempont(szempontId);
+            szempontList.add(szempont);
+            diagramValueMap.put(szempont.id, new Integer[]{0, 0, 0});
+        }
+
+        for (Biralat biralat : biralatList) {
+            for (BiralatSzempont szempont : szempontList) {
+                String ertString = biralat.getErtByKod(szempont.id);
+                if (ertString == null || ertString.isEmpty()) {
+                    continue;
+                }
+                Integer ert = Integer.parseInt(ertString);
+                int yellowStart = Integer.parseInt(szempont.kategoriaMiddle);
+                int greenStart = Integer.parseInt(szempont.kategoriaEnd);
+                int i = 2;
+                if (ert < yellowStart) {
+                    i = 0;
+                } else if (ert < greenStart) {
+                    i = 1;
+                }
+                Integer[] arr = diagramValueMap.get(szempont.id);
+                arr[i]++;
+                diagramValueMap.put(szempont.id, arr);
+            }
+        }
+
+        ArrayList<String> diagramValuesList = new ArrayList<String>();
+        for (BiralatSzempont szempont : szempontList) {
+            Integer[] values = diagramValueMap.get(szempont.id);
+            StringBuilder builder = new StringBuilder();
+            Integer sum = values[0] + values[1] + values[2];
+            Double i = 100d / sum;
+            Integer value_0 = (int) Math.floor(values[0] * i);
+            Integer value_1 = (int) Math.floor(values[1] * i);
+            Integer value_2 = (int) Math.floor(values[2] * i);
+            builder.append(szempont.kod).append(",").append(value_0).append(",").append(value_1).append(",").append(value_2);
+            diagramValuesList.add(builder.toString());
+        }
+        return diagramValuesList;
+    }
+
+    // SZŰKÍTÉS
+
     private void szukit() {
         startProgressDialog();
         try {
@@ -304,6 +373,7 @@ public class BongeszoActivity extends KbrActivity {
             case R.id.bongeszo_export:
                 return true;
             case R.id.bongeszo_linearis:
+                startDiagramActivity();
                 return true;
             case R.id.bongeszo_szukit:
                 szukit();

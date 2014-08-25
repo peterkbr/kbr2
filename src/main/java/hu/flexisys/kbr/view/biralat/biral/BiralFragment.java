@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import hu.flexisys.kbr.R;
+import hu.flexisys.kbr.controller.KbrApplication;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.DateUtil;
@@ -70,7 +71,8 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     }
 
     private void setupBiralatTipus(View view) {
-        BiralatTipus biralatTipus = BiralatTipusUtil.getBiralatTipus("7");
+        String tipus = ((KbrApplication) activity.getApplication()).getBiralatTipus();
+        BiralatTipus biralatTipus = BiralatTipusUtil.getBiralatTipus(tipus);
         szempontMap = new HashMap<Integer, BiralatSzempont>();
 
         vpFormulaInputIdLis = new ArrayList<Integer>();
