@@ -11,6 +11,7 @@ public class DateUtil {
 
     public static final String requestIdFormat = "yyMMdd-HHmmss";
     public static final String timestampFormat = "yyyy.MM.dd HH:mm:ss";
+    public static final String timestampFileNameFormat = "yyyyMMdd_HHmmss";
     public static final String dateFormat = "yyyy.MM.dd";
 
     public static String getRequestId() {
@@ -27,5 +28,9 @@ public class DateUtil {
 
     public static String formatDate(Date date) {
         return new SimpleDateFormat(dateFormat).format(date);
+    }
+
+    public static String formatTimestampFileName(Date date) {
+        return new SimpleDateFormat(timestampFileNameFormat).format(date);
     }
 }

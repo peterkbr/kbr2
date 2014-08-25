@@ -44,12 +44,6 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
         return ft;
     }
 
-    protected void dismissDialog() {
-        if (dialog != null && dialog.isVisible()) {
-            dialog.dismiss();
-        }
-    }
-
     public void pickDate(final View view) {
         final TextView dateEditText = (TextView) view;
         final Calendar c = Calendar.getInstance();
@@ -77,10 +71,16 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
 
     // PROGRESS
 
-    protected void startProgressDialog() {
+    public void startProgressDialog() {
         FragmentTransaction ft = getFragmentTransactionWithTag("progress");
         dialog = ProgressDialog.newInstance();
         dialog.show(ft, "progress");
+    }
+
+    public void dismissDialog() {
+        if (dialog != null && dialog.isVisible()) {
+            dialog.dismiss();
+        }
     }
 
     @Override

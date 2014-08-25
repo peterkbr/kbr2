@@ -2,12 +2,15 @@ package hu.flexisys.kbr.view.bongeszo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.util.Log;
 import android.view.*;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
@@ -20,10 +23,15 @@ import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.biralat.BiralatTenyeszetActivity;
 import hu.flexisys.kbr.view.bongeszo.diagram.DiagramActivity;
+import hu.flexisys.kbr.view.bongeszo.export.ExportDialog;
 import hu.flexisys.kbr.view.levalogatas.EmptyTask;
 import hu.flexisys.kbr.view.levalogatas.Executable;
+import hu.flexisys.kbr.view.levalogatas.ExecutableErrorListener;
 import hu.flexisys.kbr.view.levalogatas.ExecutableFinishedListener;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.text.ParseException;
 import java.util.*;
 
@@ -268,12 +276,12 @@ public class BongeszoActivity extends KbrActivity {
         for (String szempontId : tipus.szempontList) {
             BiralatSzempont szempont = BiralatSzempontUtil.getBiralatSzempont(szempontId);
             szempontList.add(szempont);
-            diagramValueMap.put(szempont.id, new Integer[]{0, 0, 0});
+            diagramValueMap.put(szempont.kod, new Integer[]{0, 0, 0});
         }
 
         for (Biralat biralat : biralatList) {
             for (BiralatSzempont szempont : szempontList) {
-                String ertString = biralat.getErtByKod(szempont.id);
+                String ertString = biralat.getErtByKod(szempont.kod);
                 if (ertString == null || ertString.isEmpty()) {
                     continue;
                 }
@@ -286,25 +294,116 @@ public class BongeszoActivity extends KbrActivity {
                 } else if (ert < greenStart) {
                     i = 1;
                 }
-                Integer[] arr = diagramValueMap.get(szempont.id);
+                Integer[] arr = diagramValueMap.get(szempont.kod);
                 arr[i]++;
-                diagramValueMap.put(szempont.id, arr);
+                diagramValueMap.put(szempont.kod, arr);
             }
         }
 
         ArrayList<String> diagramValuesList = new ArrayList<String>();
         for (BiralatSzempont szempont : szempontList) {
-            Integer[] values = diagramValueMap.get(szempont.id);
+            Integer[] values = diagramValueMap.get(szempont.kod);
             StringBuilder builder = new StringBuilder();
             Integer sum = values[0] + values[1] + values[2];
             Double i = 100d / sum;
             Integer value_0 = (int) Math.floor(values[0] * i);
             Integer value_1 = (int) Math.floor(values[1] * i);
             Integer value_2 = (int) Math.floor(values[2] * i);
-            builder.append(szempont.kod).append(",").append(value_0).append(",").append(value_1).append(",").append(value_2);
+            builder.append(szempont.rovidNev).append(",").append(value_0).append(",").append(value_1).append(",").append(value_2);
             diagramValuesList.add(builder.toString());
         }
         return diagramValuesList;
+    }
+
+    // EXPORT
+
+    private void export() {
+
+        FragmentTransaction ft = getFragmentTransactionWithTag("exportDialog");
+        dialog = ExportDialog.newInstance(new ExportDialog.ExportListener() {
+            @Override
+            public void onExport(final boolean pdf, final boolean csv) {
+                String dirPath = Environment.getExternalStorageDirectory() + File.separator + "KBR2" + File.separator + "Export";
+                final File dir = new File(dirPath);
+                dir.mkdirs();
+                dismissDialog();
+
+                startProgressDialog();
+                new EmptyTask(new Executable() {
+                    @Override
+                    public void execute() throws Exception {
+                        if (pdf){
+
+                        }
+                        if (csv) {
+                            String path = dir.getPath() + File.separator + "csvExport_" + DateUtil.formatTimestampFileName(new Date()) + ".csv";
+                            FileOutputStream fOut = new FileOutputStream(new File(path));
+                            OutputStreamWriter osw = new OutputStreamWriter(fOut);
+
+                            BiralatTipus tipus = BiralatTipusUtil.getBiralatTipus(app.getBiralatTipus());
+                            List<BiralatSzempont> szempontList = new ArrayList<BiralatSzempont>();
+                            for (String szempontId : tipus.szempontList) {
+                                BiralatSzempont szempont = BiralatSzempontUtil.getBiralatSzempont(szempontId);
+                                szempontList.add(szempont);
+                            }
+
+                            StringBuilder builder = new StringBuilder();
+                            // TODO which one?
+                            String csvSeparator = ",";
+//                            String csvSeparator = ";";
+                            // header
+                            builder.append("#");
+                            builder.append(csvSeparator).append("OK");
+                            builder.append(csvSeparator).append("ENAR");
+                            builder.append(csvSeparator).append("Telep");
+                            builder.append(csvSeparator).append("Dátum");
+                            builder.append(csvSeparator).append("Ell");
+                            builder.append(csvSeparator).append("Sz");
+                            for (BiralatSzempont szempont : szempontList) {
+                                builder.append(csvSeparator).append(szempont.rovidNev);
+                            }
+                            builder.append(csvSeparator).append("A");
+                            builder.append("\n");
+
+                            // values
+                            int i = 1;
+                            for (Biralat biralat : biralatList) {
+                                builder.append(String.valueOf(i++));
+                                builder.append(csvSeparator).append(biralat.getORSKO());
+                                builder.append(csvSeparator).append(biralat.getAZONO());
+                                builder.append(csvSeparator).append(biralat.getTENAZ());
+                                builder.append(csvSeparator).append(DateUtil.formatDate(biralat.getBIRDA()));
+                                builder.append(csvSeparator).append("BIRAL.EllSO");
+                                builder.append(csvSeparator).append("???");
+                                for (BiralatSzempont szempont : szempontList) {
+                                    builder.append(csvSeparator).append(biralat.getErtByKod(szempont.kod));
+                                }
+                                builder.append(csvSeparator).append(String.valueOf(biralat.getAKAKO()));
+                                builder.append("\n");
+                            }
+
+                            osw.write(builder.toString());
+                            osw.flush();
+                            osw.close();
+                        }
+                    }
+                }, new ExecutableFinishedListener() {
+                    @Override
+                    public void onFinished() {
+                        dismissDialog();
+                    }
+                }, new ExecutableErrorListener() {
+                    @Override
+                    public void onError(Exception e) {
+                        dismissDialog();
+                        Log.e(TAG, e.getMessage(), e);
+                        // TODO i18n
+                        Toast.makeText(BongeszoActivity.this, "Hiba történt az exportálás során! Az SD kártya nem írható.", Toast.LENGTH_LONG).show();
+                    }
+                }).execute();
+            }
+        });
+        dialog.show(ft, "exportDialog");
     }
 
     // SZŰKÍTÉS
@@ -371,6 +470,7 @@ public class BongeszoActivity extends KbrActivity {
                 pane.openPane();
                 return true;
             case R.id.bongeszo_export:
+                export();
                 return true;
             case R.id.bongeszo_linearis:
                 startDiagramActivity();

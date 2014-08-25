@@ -1,4 +1,4 @@
-package hu.flexisys.kbr.view.bongeszo;
+package hu.flexisys.kbr.view.bongeszo.tenyeszet;
 
 import android.content.Context;
 import android.view.View;

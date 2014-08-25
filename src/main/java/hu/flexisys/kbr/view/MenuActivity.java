@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.view.biralat.BiralatTenyeszetActivity;
-import hu.flexisys.kbr.view.bongeszo.BongeszoTenyeszetActivity;
+import hu.flexisys.kbr.view.bongeszo.tenyeszet.BongeszoTenyeszetActivity;
 import hu.flexisys.kbr.view.levalogatas.LevalogatasTenyeszetActivity;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetActivity;
 

@@ -1,4 +1,4 @@
-package hu.flexisys.kbr.view.bongeszo;
+package hu.flexisys.kbr.view.bongeszo.tenyeszet;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import hu.flexisys.kbr.util.XmlUtil;
 import hu.flexisys.kbr.util.XmlUtilException;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.NotificationDialog;
+import hu.flexisys.kbr.view.bongeszo.BongeszoActivity;
 import hu.flexisys.kbr.view.levalogatas.EmptyTask;
 import hu.flexisys.kbr.view.levalogatas.Executable;
 import hu.flexisys.kbr.view.levalogatas.ExecutableFinishedListener;

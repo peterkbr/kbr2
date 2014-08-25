@@ -9,21 +9,37 @@ public class EmptyTask extends AsyncTask<Void, Void, Void> {
 
     private Executable executable;
     private ExecutableFinishedListener listener;
+    private ExecutableErrorListener errorListener;
+    private Exception exception;
 
     public EmptyTask(Executable executable, ExecutableFinishedListener listener) {
+        this(executable, listener, null);
+    }
+
+    public EmptyTask(Executable executable, ExecutableFinishedListener listener, ExecutableErrorListener errorListener) {
         this.executable = executable;
         this.listener = listener;
+        this.errorListener = errorListener;
     }
 
     @Override
     protected Void doInBackground(Void... params) {
-        executable.execute();
+        try {
+            executable.execute();
+        } catch (Exception e) {
+            exception = e;
+        }
         return null;
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        listener.onFinished();
+        if (exception != null) {
+            errorListener.onError(exception);
+        } else {
+            listener.onFinished();
+        }
     }
+
 }

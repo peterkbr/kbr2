@@ -5,8 +5,8 @@ package hu.flexisys.kbr.util.biralat;
  */
 public class BiralatSzempont {
 
-    public String id;
     public String kod;
+    public String rovidNev;
     public String nev;
     public String keszletStart;
     public String keszletEnd;
@@ -14,10 +14,10 @@ public class BiralatSzempont {
     public String kategoriaMiddle;
     public String kategoriaEnd;
 
-    public BiralatSzempont(String id, String kod, String nev, String keszletStart, String keszletEnd, String kategoriaStart, String kategoriaMiddle,
+    public BiralatSzempont(String kod, String rovidNev, String nev, String keszletStart, String keszletEnd, String kategoriaStart, String kategoriaMiddle,
                            String kategoriaEnd) {
-        this.id = id;
         this.kod = kod;
+        this.rovidNev = rovidNev;
         this.nev = nev;
         this.keszletStart = keszletStart;
         this.keszletEnd = keszletEnd;
@@ -26,10 +26,10 @@ public class BiralatSzempont {
         this.kategoriaEnd = kategoriaEnd;
     }
 
-    public BiralatSzempont(String id, String valuesString) {
+    public BiralatSzempont(String kod, String valuesString) {
         String[] values = valuesString.split(",");
-        this.id = id;
-        this.kod = values[0];
+        this.kod = kod;
+        this.rovidNev = values[0];
         this.nev = values[1];
         this.keszletStart = values[2];
         this.keszletEnd = values[3];

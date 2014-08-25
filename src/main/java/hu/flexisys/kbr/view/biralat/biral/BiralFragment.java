@@ -89,7 +89,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         for (int i = 0; i < biralatTipus.szempontList.size(); i++) {
             BiralatSzempont szempont = BiralatSzempontUtil.getBiralatSzempont(biralatTipus.szempontList.get(i));
             TextView label = (TextView) view.findViewById(labelIds[i]);
-            label.setText(szempont.kod + " ");
+            label.setText(szempont.rovidNev + " ");
             BiralatNumPadInput input = (BiralatNumPadInput) view.findViewById(inputIds[i]);
             input.setMaxLength(szempont.keszletEnd.length());
             input.setKeszletStart(szempont.keszletStart);
@@ -98,9 +98,9 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
 
             szempontMap.put(inputIds[i], szempont);
 
-            if (vpFormulaSzempontList.contains(szempont.id)) {
+            if (vpFormulaSzempontList.contains(szempont.kod)) {
                 vpFormulaInputIdLis.add(inputIds[i]);
-                vpFormulaWeightMap.put(inputIds[i], vpFormulaSzempontWeightMap.get(szempont.id));
+                vpFormulaWeightMap.put(inputIds[i], vpFormulaSzempontWeightMap.get(szempont.kod));
             }
         }
 
@@ -177,7 +177,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
 
         View view = getView();
         for (Integer viewId : szempontMap.keySet()) {
-            String kod = szempontMap.get(viewId).id;
+            String kod = szempontMap.get(viewId).kod;
             String ert = ((TextView) view.findViewById(viewId)).getText().toString();
             if (ert == null || ert.isEmpty()) {
                 return null;
@@ -313,7 +313,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
                 int id = inputIds[i];
                 BiralatSzempont szempont = szempontMap.get(id);
                 BiralatNumPadInput input = (BiralatNumPadInput) view.findViewById(id);
-                String value = biralat.getErtByKod(szempont.id);
+                String value = biralat.getErtByKod(szempont.kod);
                 input.setText(value);
                 input.unSelect();
             }
