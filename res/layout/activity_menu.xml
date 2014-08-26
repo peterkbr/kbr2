@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:width="280dp"
-        android:height="60dp"
+        android:height="70dp"
         android:onClick="startTenyeszet"
         android:text="@string/menu_tenyeszetek"
         android:textSize="22sp" />
@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:width="280dp"
-        android:height="60dp"
+        android:height="70dp"
         android:onClick="startLevalogatas"
         android:text="@string/menu_egyedek"
         android:textSize="22sp" />
@@ -54,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:width="280dp"
-        android:height="60dp"
+        android:height="70dp"
         android:onClick="startBiralatok"
         android:text="@string/menu_biralat"
         android:textSize="22sp" />
@@ -68,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:width="280dp"
-        android:height="60dp"
+        android:height="70dp"
         android:onClick="startBiralatbongeszo"
         android:text="@string/menu_biralat_b"
         android:textSize="22sp" />
