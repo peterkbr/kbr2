@@ -104,10 +104,9 @@ public class BongeszoActivity extends KbrActivity {
             egyedMap.put(egyed.getAZONO(), egyed);
         }
 
-        // TODO : uncomment
-//        elkuldetlenFilter = true;
-//        CheckBox elkuldetlenCheckBox = (CheckBox) findViewById(R.id.bong_szuk_elkuldetlen);
-//        elkuldetlenCheckBox.setChecked(elkuldetlenFilter);
+        elkuldetlenFilter = true;
+        CheckBox elkuldetlenCheckBox = (CheckBox) findViewById(R.id.bong_szuk_elkuldetlen);
+        elkuldetlenCheckBox.setChecked(elkuldetlenFilter);
 
         ListView biralatListView = (ListView) findViewById(R.id.bongeszo_bir_list);
         biralatListView.setEmptyView(findViewById(R.id.empty_list_item));
@@ -332,7 +331,7 @@ public class BongeszoActivity extends KbrActivity {
                 new EmptyTask(new Executable() {
                     @Override
                     public void execute() throws Exception {
-                        if (pdf){
+                        if (pdf) {
 
                         }
                         if (csv) {
@@ -348,9 +347,8 @@ public class BongeszoActivity extends KbrActivity {
                             }
 
                             StringBuilder builder = new StringBuilder();
-                            // TODO which one?
-                            String csvSeparator = ",";
-//                            String csvSeparator = ";";
+                            String csvSeparator = ";";
+
                             // header
                             builder.append("#");
                             builder.append(csvSeparator).append("OK");
