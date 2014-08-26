@@ -48,6 +48,7 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
     private void reloadData() {
         tenyeszetList.clear();
         selectedList.clear();
+
         List<TenyeszetListModel> rawList = app.getTenyeszetListModels();
         List<TenyeszetListModel> oldList = new ArrayList<TenyeszetListModel>();
         Calendar cal = Calendar.getInstance();
@@ -65,12 +66,12 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
             @Override
             public int compare(TenyeszetListModel lhs, TenyeszetListModel rhs) {
                 if (lhs.getLEDAT().getTime() < rhs.getLEDAT().getTime()) {
-                    return -1;
+                    return 1;
                 }
                 if (lhs.getLEDAT().getTime() == rhs.getLEDAT().getTime()) {
                     return 0;
                 }
-                return 1;
+                return -1;
             }
         });
         tenyeszetList.addAll(oldList);

@@ -14,10 +14,7 @@ import hu.flexisys.kbr.model.Tenyeszet;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.NotificationDialog;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Peter on 2014.07.04..
@@ -38,14 +35,51 @@ public class TenyeszetActivity extends KbrActivity implements FelveszListener, T
         actionBar.setDisplayShowTitleEnabled(false);
 
         ListView listView = (ListView) findViewById(R.id.teny_list);
-        tenyeszetList.addAll(app.getTenyeszetListModels());
+        adapter = new TenyeszetAdapter(this, R.layout.list_tenyeszet, tenyeszetList, selectedList);
+        listView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        reloadData();
+        adapter.notifyDataSetChanged();
+    }
+
+    private void reloadData() {
+        tenyeszetList.clear();
+        selectedList.clear();
+
+        List<TenyeszetListModel> rawList = app.getTenyeszetListModels();
+        List<TenyeszetListModel> oldList = new ArrayList<TenyeszetListModel>();
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_YEAR, -14);
+        for (TenyeszetListModel model : rawList) {
+            if (model.getLEDAT().before(cal.getTime())) {
+                oldList.add(model);
+            } else {
+                tenyeszetList.add(model);
+            }
+        }
+        Collections.sort(tenyeszetList, new Comparator<TenyeszetListModel>() {
+            @Override
+            public int compare(TenyeszetListModel lhs, TenyeszetListModel rhs) {
+                if (lhs.getLEDAT().getTime() < rhs.getLEDAT().getTime()) {
+                    return 1;
+                }
+                if (lhs.getLEDAT().getTime() == rhs.getLEDAT().getTime()) {
+                    return 0;
+                }
+                return -1;
+            }
+        });
+        tenyeszetList.addAll(oldList);
+
         for (TenyeszetListModel model : tenyeszetList) {
             if (model.getERVENYES() != null && !model.getERVENYES()) {
                 selectedList.add(model.getTENAZ());
             }
         }
-        adapter = new TenyeszetAdapter(this, R.layout.list_tenyeszet, tenyeszetList, selectedList);
-        listView.setAdapter(adapter);
     }
 
     // MENU IN ACTIONBAR
