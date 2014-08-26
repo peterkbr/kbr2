@@ -177,6 +177,11 @@ public class KbrApplication extends Application {
         return biralatList;
     }
 
+    public List<Biralat> getFeltoltetlenBiralatList() {
+        List<Biralat> biralatList = dbController.getBiralatByFeltoltetlen(true);
+        return biralatList;
+    }
+
     public List<Biralat> getBiralatListByTENAZArray(String[] tenazArray) {
         List<Biralat> biralatList = new ArrayList<Biralat>();
         for (String tenaz : tenazArray) {

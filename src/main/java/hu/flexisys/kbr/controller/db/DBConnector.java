@@ -201,6 +201,13 @@ public class DBConnector {
         return getBiralatListFromCursor(cursor);
     }
 
+    public List<Biralat> getBiralatByFELTOLTETLEN(boolean FELTOLTETLEN) {
+        StringBuilder selectBuilder = new StringBuilder();
+        selectBuilder.append(DBScripts.COLUMN_BIRALAT_FELTOLTETLEN).append(FELTOLTETLEN ? "=1" : "=0");
+        Cursor cursor = database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, selectBuilder.toString(), null, null, null, null);
+        return getBiralatListFromCursor(cursor);
+    }
+
     public List<Biralat> getBiralatByTENAZAndFELTOLTETLEN(String TENAZ, boolean FELTOLTETLEN) {
         StringBuilder selectBuilder = new StringBuilder();
         selectBuilder.append(DBScripts.COLUMN_BIRALAT_TENAZ).append("=").append(TENAZ);

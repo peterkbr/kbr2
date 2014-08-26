@@ -147,6 +147,10 @@ public class DBController {
         return innerConnector.getBiralatByTENAZAndFELTOLTETLEN(TENAZ, FELTOLTETLEN);
     }
 
+    public List<Biralat> getBiralatByFeltoltetlen(Boolean FELTOLTETLEN) {
+        return innerConnector.getBiralatByFELTOLTETLEN(FELTOLTETLEN);
+    }
+
     public List<Biralat> getBiralatByTenyeszetAndExported(String TENAZ, boolean unexported) {
         return innerConnector.getBiralatByTenyeszetAndExported(TENAZ, unexported);
     }
