@@ -51,6 +51,10 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
         actionBar.setDisplayShowTitleEnabled(false);
 
         filter = new Filter();
+        Boolean marEllett = true;
+        filter.put(Filter.MAR_ELLETT, marEllett);
+        CheckBox checkBox = (CheckBox) findViewById(R.id.lev_szuk_mar_ellett_chb);
+        checkBox.setChecked(marEllett);
 
         selectedTenazArray = getIntent().getExtras().getStringArray(BiralatTenyeszetActivity.EXTRAKEY_SELECTEDTENAZLIST);
         egyedList = new ArrayList<Egyed>();
