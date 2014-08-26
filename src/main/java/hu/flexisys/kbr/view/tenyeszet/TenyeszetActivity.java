@@ -61,18 +61,7 @@ public class TenyeszetActivity extends KbrActivity implements FelveszListener, T
                 tenyeszetList.add(model);
             }
         }
-        Collections.sort(tenyeszetList, new Comparator<TenyeszetListModel>() {
-            @Override
-            public int compare(TenyeszetListModel lhs, TenyeszetListModel rhs) {
-                if (lhs.getLEDAT().getTime() < rhs.getLEDAT().getTime()) {
-                    return 1;
-                }
-                if (lhs.getLEDAT().getTime() == rhs.getLEDAT().getTime()) {
-                    return 0;
-                }
-                return -1;
-            }
-        });
+        Collections.sort(tenyeszetList, new TenyeszetComparator());
         tenyeszetList.addAll(oldList);
 
         for (TenyeszetListModel model : tenyeszetList) {

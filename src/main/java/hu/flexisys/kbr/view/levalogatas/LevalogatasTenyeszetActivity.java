@@ -10,10 +10,14 @@ import android.widget.ListView;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.tenyeszet.LevalogatasTorlesAlertDialog;
+import hu.flexisys.kbr.view.tenyeszet.TenyeszetComparator;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
 import hu.flexisys.kbr.view.tenyeszet.TorlesAlertListener;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Peter on 2014.07.04..
@@ -62,18 +66,7 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
                 }
             }
         }
-        Collections.sort(tenyeszetList, new Comparator<TenyeszetListModel>() {
-            @Override
-            public int compare(TenyeszetListModel lhs, TenyeszetListModel rhs) {
-                if (lhs.getLEDAT().getTime() < rhs.getLEDAT().getTime()) {
-                    return 1;
-                }
-                if (lhs.getLEDAT().getTime() == rhs.getLEDAT().getTime()) {
-                    return 0;
-                }
-                return -1;
-            }
-        });
+        Collections.sort(tenyeszetList, new TenyeszetComparator());
         tenyeszetList.addAll(oldList);
     }
 
