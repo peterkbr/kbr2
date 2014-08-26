@@ -127,8 +127,16 @@ public class DBController {
         return getEgyedByTENAZ(tenyeszet.getTENAZ());
     }
 
+    public List<Egyed> getEgyedTehenByTenyeszet(Tenyeszet tenyeszet) {
+        return getEgyedTehenByTENAZ(tenyeszet.getTENAZ());
+    }
+
     public List<Egyed> getEgyedByTENAZ(String tenaz) {
         return innerConnector.getEgyedByTENAZ(tenaz);
+    }
+
+    public List<Egyed> getEgyedTehenByTENAZ(String tenaz) {
+        return innerConnector.getEgyedTehenByTENAZ(tenaz);
     }
 
     public List<Egyed> getEgyedByTenyeszetAndKivalasztott(Tenyeszet tenyeszet, boolean kivalasztott) {
@@ -191,5 +199,4 @@ public class DBController {
         }
         return md5;
     }
-
 }

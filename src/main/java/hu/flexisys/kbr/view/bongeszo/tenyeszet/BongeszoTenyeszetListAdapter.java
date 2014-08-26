@@ -21,11 +21,6 @@ public class BongeszoTenyeszetListAdapter extends TenyeszetAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View rowView = super.getView(position, convertView, parent);
-//        TextView textView_1 = (TextView) rowView.findViewById(R.id.tenyeszetList_1);
-//        String text = textView_1.getText().toString();
-//        text = text + ", " + DateUtil.formatDate(tenyeszetList.get(position).getLEDAT());
-//        textView_1.setText(text);
-
         TenyeszetListModel model = tenyeszetList.get(position);
         if (model.getBiralatWaitingForUpload() > 0) {
             rowView.setBackgroundColor(getContext().getResources().getColor(R.color.green));

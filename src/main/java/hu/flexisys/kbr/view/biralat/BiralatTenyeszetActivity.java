@@ -108,7 +108,6 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
         selectedList.clear();
 
         List<TenyeszetListModel> emptyTenyeszetList = new ArrayList<TenyeszetListModel>();
-
         for (TenyeszetListModel model : app.getTenyeszetListModels()) {
             if (model.getERVENYES()) {
                 if (model.getSelectedEgyedCount() != null && model.getSelectedEgyedCount() > 0) {

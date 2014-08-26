@@ -127,6 +127,12 @@ public class DBConnector {
         return getEgyedListFromCursor(cursor);
     }
 
+    public List<Egyed> getEgyedTehenByTENAZ(String TENAZ) {
+        Cursor cursor = database.query(DBScripts.TABLE_EGYED, DBScripts.COLUMNS_EGYED, DBScripts.COLUMN_EGYED_TENAZ + "=? AND " + DBScripts.COLUMN_EGYED_ELLSO + " <> 0",
+                new String[]{String.valueOf(TENAZ)}, null, null, null);
+        return getEgyedListFromCursor(cursor);
+    }
+
     public List<Egyed> getEgyedByTENAZAndKIVALASZTOTT(String TENAZ, Boolean KIVALASZTOTT) {
         StringBuilder selectBuilder = new StringBuilder();
         selectBuilder.append(DBScripts.COLUMN_EGYED_TENAZ).append("=").append(TENAZ);

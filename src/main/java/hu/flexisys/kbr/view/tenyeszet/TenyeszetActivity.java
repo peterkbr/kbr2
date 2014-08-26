@@ -61,7 +61,7 @@ public class TenyeszetActivity extends KbrActivity implements FelveszListener, T
                 tenyeszetList.add(model);
             }
         }
-        Collections.sort(tenyeszetList, new TenyeszetComparator());
+        Collections.sort(tenyeszetList, new TenyeszetListModelComparatorByLetda());
         tenyeszetList.addAll(oldList);
 
         for (TenyeszetListModel model : tenyeszetList) {

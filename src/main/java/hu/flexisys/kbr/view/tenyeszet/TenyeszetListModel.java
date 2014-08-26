@@ -12,6 +12,7 @@ public class TenyeszetListModel {
     private Tenyeszet tenyeszet;
     private String telepules;
     private Integer egyedCount;
+    private Integer tehenCount;
     private Integer selectedEgyedCount;
     private Integer biralatWaitingForUpload;
     private Integer biralatUnexportedCount;
@@ -89,6 +90,14 @@ public class TenyeszetListModel {
 
     public void setEgyedCount(Integer egyedCount) {
         this.egyedCount = egyedCount;
+    }
+
+    public Integer getTehenCount() {
+        return tehenCount;
+    }
+
+    public void setTehenCount(Integer tehenCount) {
+        this.tehenCount = tehenCount;
     }
 
     public Integer getSelectedEgyedCount() {

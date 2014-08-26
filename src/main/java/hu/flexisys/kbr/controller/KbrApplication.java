@@ -111,10 +111,10 @@ public class KbrApplication extends Application {
         for (Tenyeszet tenyeszet : tenyeszetList) {
             TenyeszetListModel model = new TenyeszetListModel(tenyeszet);
 
-            List<Egyed> egyedList = dbController.getEgyedByTenyeszet(tenyeszet);
-            model.setEgyedCount(egyedList.size());
-            egyedList = dbController.getEgyedByTenyeszetAndKivalasztott(tenyeszet, true);
-            model.setSelectedEgyedCount(egyedList.size());
+            List<Egyed> tehenList = dbController.getEgyedTehenByTenyeszet(tenyeszet);
+            model.setEgyedCount(tehenList.size());
+            tehenList = dbController.getEgyedByTenyeszetAndKivalasztott(tenyeszet, true);
+            model.setSelectedEgyedCount(tehenList.size());
 
             List<Biralat> biralatList = dbController.getBiralatByTenyeszetAndFeltoltetlen(tenyeszet.getTENAZ(), true);
             model.setBiralatWaitingForUpload(biralatList.size());
