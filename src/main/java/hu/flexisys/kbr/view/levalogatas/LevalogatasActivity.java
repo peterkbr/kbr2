@@ -175,6 +175,9 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
             case R.id.urit:
                 urit();
                 return true;
+            case R.id.kivalasztottak:
+                szukitToKivalasztottak();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -501,6 +504,12 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
             }
         });
         task.execute();
+    }
+
+    private void szukitToKivalasztottak() {
+        urit();
+        setCheckBox(R.id.lev_szuk_kivalasztottak_chb, true);
+        szukit();
     }
 
     private void updateFilterValues() {

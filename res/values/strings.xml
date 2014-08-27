@@ -51,6 +51,7 @@
     <string name="lev_menu_mentes_kilepes">Mentés és kilépés</string>
     <string name="lev_menu_mentes">Mentés</string>
     <string name="lev_menu_szukites">Szűkítés</string>
+    <string name="lev_menu_kivalasztottak">Kiválasztottak</string>
 
     <string name="lev_grid_header_num">#</string>
     <string name="lev_grid_header_ok">OK</string>

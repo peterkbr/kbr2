@@ -3,6 +3,10 @@
     xmlns:kbr="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/kivalasztottak"
+        android:title="@string/lev_menu_kivalasztottak"
+        kbr:showAsAction="always"/>
+    <item
         android:id="@+id/szukites"
         android:title="@string/lev_menu_szukites"
         kbr:showAsAction="always"/>
