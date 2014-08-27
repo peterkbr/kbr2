@@ -43,7 +43,7 @@
 
     <!--LEVÁLOGATÁS-->
     <string name="lev_teny_menu_torles">Leválogatás törlése</string>
-    <string name="lev_teny_menu_kuld">Küld</string>
+    <string name="lev_teny_menu_kuld">Feltöltés</string>
     <string name="lev_teny_menu_tovabb">Tovább</string>
 
     <string name="lev_menu_torles">Minden egyed</string>
