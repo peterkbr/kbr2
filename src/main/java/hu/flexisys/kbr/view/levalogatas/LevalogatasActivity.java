@@ -141,6 +141,11 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
     }
 
     @Override
+    public void onBackPressed() {
+        onHomeClicked();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         int resId = pane.isOpen() ? R.menu.menu_activity_levalogatas_szukites : R.menu.menu_activity_levalogatas;
