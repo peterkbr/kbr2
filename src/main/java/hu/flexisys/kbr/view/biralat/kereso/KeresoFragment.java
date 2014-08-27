@@ -114,11 +114,11 @@ public class KeresoFragment extends Fragment {
             if (selectedEgyedForKereso.getUJ()) {
                 textView.setBackgroundColor(getResources().getColor(R.color.red));
             } else if (biralt) {
-                textView.setBackgroundColor(getResources().getColor(R.color.blue));
+                textView.setBackgroundColor(getResources().getColor(R.color.light_blue));
             } else if (selectedEgyedForKereso.getKIVALASZTOTT()) {
                 textView.setBackgroundColor(getResources().getColor(R.color.green));
             } else {
-                textView.setBackgroundColor(getResources().getColor(R.color.gray));
+                textView.setBackgroundColor(getResources().getColor(R.color.transparent));
             }
 
 

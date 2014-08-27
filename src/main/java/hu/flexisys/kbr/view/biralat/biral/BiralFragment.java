@@ -260,11 +260,11 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         if (egyed.getUJ()) {
             enarTextView.setBackgroundColor(getResources().getColor(R.color.red));
         } else if (biralt) {
-            enarTextView.setBackgroundColor(getResources().getColor(R.color.blue));
+            enarTextView.setBackgroundColor(getResources().getColor(R.color.light_blue));
         } else if (egyed.getKIVALASZTOTT()) {
             enarTextView.setBackgroundColor(getResources().getColor(R.color.green));
         } else {
-            enarTextView.setBackgroundColor(getResources().getColor(R.color.gray));
+            enarTextView.setBackgroundColor(getResources().getColor(R.color.transparent));
         }
 
         if (egyed.getUJ()) {
