@@ -51,10 +51,10 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
         actionBar.setDisplayShowTitleEnabled(false);
 
         filter = new Filter();
-        Boolean marEllett = true;
-        filter.put(Filter.MAR_ELLETT, marEllett);
+        urit();
+        updateFilterValues();
         CheckBox checkBox = (CheckBox) findViewById(R.id.lev_szuk_mar_ellett_chb);
-        checkBox.setChecked(marEllett);
+        checkBox.setChecked(true);
 
         selectedTenazArray = getIntent().getExtras().getStringArray(BiralatTenyeszetActivity.EXTRAKEY_SELECTEDTENAZLIST);
         egyedList = new ArrayList<Egyed>();
@@ -584,9 +584,10 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
     }
 
     public void urit() {
-        clearCheckBox(R.id.lev_szuk_mar_ellett_chb);
+        setCheckBox(R.id.lev_szuk_mar_ellett_chb, true);
         clearCheckBox(R.id.lev_szuk_nem_biralt_chb);
         clearCheckBox(R.id.lev_szuk_itv_chb);
+        clearCheckBox(R.id.lev_szuk_kivalasztottak_chb);
 
         clearEditText(R.id.lev_szuk_elles_sorszamai);
         clearEditText(R.id.lev_szuk_enar);
@@ -602,9 +603,13 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
         clearRadioButton(R.id.lev_szuk_ku_radio);
     }
 
-    private void clearCheckBox(int resId) {
+    private void setCheckBox(int resId, boolean value) {
         CheckBox checkBox = (CheckBox) findViewById(resId);
-        checkBox.setChecked(false);
+        checkBox.setChecked(value);
+    }
+
+    private void clearCheckBox(int resId) {
+        setCheckBox(resId, false);
     }
 
     private void clearEditText(int resId) {
