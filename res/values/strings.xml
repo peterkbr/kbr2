@@ -46,7 +46,7 @@
     <string name="lev_teny_menu_kuld">Küld</string>
     <string name="lev_teny_menu_tovabb">Tovább</string>
 
-    <string name="lev_menu_torles">Törlés</string>
+    <string name="lev_menu_torles">Minden egyed</string>
     <string name="lev_menu_levalogatas_torlese">Leválogatás törlése</string>
     <string name="lev_menu_mentes_kilepes">Mentés és kilépés</string>
     <string name="lev_menu_mentes">Mentés</string>
