@@ -10,6 +10,7 @@ public class Filter {
     public static final String MAR_ELLETT = "MAR_ELLETT";
     public static final String NEM_BIRALT = "NEM_BIRALT";
     public static final String ITV = "ITV";
+    public static final String KIVALASZTOTTAK = "KIVALASZTOTTAK";
     public static final String ELLES_SORSZAMAI = "ELLES_SORSZAMAI";
     public static final String HU = "HU";
     public static final String ENAR = "ENAR";

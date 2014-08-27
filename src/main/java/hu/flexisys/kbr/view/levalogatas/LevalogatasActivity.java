@@ -298,6 +298,11 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
             return false;
         }
 
+        Boolean kivalasztott = (Boolean) filter.get(Filter.KIVALASZTOTTAK);
+        if (kivalasztott != null && kivalasztott && (egyed.getKIVALASZTOTT() == null || !egyed.getKIVALASZTOTT())) {
+            return false;
+        }
+
         Boolean hu = (Boolean) filter.get(Filter.HU);
         if (hu != null && ((hu && !egyed.getORSKO().equals("HU")) || (!hu && egyed.getORSKO().equals("HU")))) {
             return false;
@@ -507,6 +512,9 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
 
         Boolean itv = getBooleanFromCheckBox(R.id.lev_szuk_itv_chb);
         filter.put(Filter.ITV, itv);
+
+        Boolean kivalasztottak = getBooleanFromCheckBox(R.id.lev_szuk_kivalasztottak_chb);
+        filter.put(Filter.KIVALASZTOTTAK, kivalasztottak);
 
         RadioButton huRadioButton = (RadioButton) findViewById(R.id.lev_szuk_hu_radio);
         RadioButton kuRadioButton = (RadioButton) findViewById(R.id.lev_szuk_ku_radio);
