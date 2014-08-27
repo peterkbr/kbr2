@@ -164,6 +164,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     }
 
     public void keres(View view) {
+        hasznalatiInput.select();
         if (biralFragment.getBiralatStarted()) {
             FragmentTransaction ft = getFragmentTransactionWithTag("unsaved");
             dialog = BirBirUnsavedBiralatDialog.newInstance(new BirBirUnsavedBiralatListener() {
