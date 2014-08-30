@@ -382,8 +382,9 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             return;
         }
         NumPadInput input = null;
-        currentInputStep++;
-        for (; currentInputStep <= lastStep; currentInputStep++) {
+//        currentInputStep++;
+//        for (; currentInputStep <= lastStep; currentInputStep++) {
+        for (currentInputStep = 0; currentInputStep <= lastStep; currentInputStep++) {
             currentInputId = inputIds[currentInputStep];
             input = (NumPadInput) view.findViewById(currentInputId);
             if (input.getText().toString().isEmpty()) {
