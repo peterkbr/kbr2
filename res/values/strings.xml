@@ -41,6 +41,9 @@
     <string name="teny_notification_download_ok_title">Megérkeztek a letöltés adatai.</string>
     <string name="teny_notification_download_error_title">Sikertelen letöltés!</string>
 
+    <string name="teny_progress_letoltes">Letöltés folyamatban…</string>
+    <string name="teny_progress_torles">Törlés folyamatban…</string>
+
     <!--LEVÁLOGATÁS-->
     <string name="lev_teny_menu_torles">Leválogatás törlése</string>
     <string name="lev_teny_menu_kuld">Feltöltés</string>
@@ -71,6 +74,13 @@
     <string name="lev_selection_changed_dialog_message">Elmenti?</string>
     <string name="lev_selection_changed_dialog_mentes_kilepes">Mentés és kilépés</string>
     <string name="lev_selection_changed_dialog_kilepes">Kilépés</string>
+
+    <string name="lev_teny_progress_torles">Törlés folyamatban…</string>
+    <string name="lev_progress_levalogatas_torlese">Törlés folyamatban…</string>
+    <string name="lev_progress_mentes">Mentés folyamatban…</string>
+    <string name="lev_progress_szurok_torlese">Szűrők törlése folyamatban…</string>
+    <string name="lev_progress_sorbarendezes">Sorbarendezés folyamatban…</string>
+    <string name="lev_progress_szukites">Szűkítés folyamatban…</string>
 
     <!--BÍRÁLAT-->
     <string name="bir_menu_torles">Leválogatás törlése</string>
@@ -116,6 +126,8 @@
         <item>CZ</item>
     </string-array>
 
+    <string name="bir_teny_progress_torles">Törlés folyamatban…</string>
+
     <!--BÖNGÉSZŐ-->
     <string name="bong_teny_kuld_error_nincs_friss_biralat">Csak friss bírálatokat lehet feltölteni!</string>
     <string name="bong_teny_kuld_error_unexported_biralat">A bírálatok feltöltése előtt azokat exportálni kell!</string>
@@ -141,5 +153,10 @@
     <string name="bong_grid_header_a">A</string>
     <string name="bong_grid_header_itv">ITV</string>
 
+    <string name="bong_teny_progress_kuldes">Küldés folyamatban…</string>
+
+    <string name="bong_progress_sorbarendezes">Sorbarendezés folyamatban…</string>
+    <string name="bong_progress_szukites">Szűkítés folyamatban…</string>
+    <string name="bong_progress_export">Exportálás folyamatban…</string>
 
 </resources>

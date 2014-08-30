@@ -13,6 +13,7 @@ import hu.flexisys.kbr.controller.network.tenyeszet.DownloadTenyeszetHandler;
 import hu.flexisys.kbr.model.Tenyeszet;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.NotificationDialog;
+import hu.flexisys.kbr.view.ProgressDialog;
 
 import java.util.*;
 
@@ -157,7 +158,7 @@ public class TenyeszetActivity extends KbrActivity implements FelveszListener, T
             }
         }
 
-        startProgressDialog();
+        startProgressDialog(getString(R.string.teny_progress_letoltes));
         setOrigOrder();
         DownloadTenyeszetArrayTask downloadTenyeszetArrayTask = new DownloadTenyeszetArrayTask(app, new DownloadTenyeszetHandler() {
             @Override
@@ -221,7 +222,7 @@ public class TenyeszetActivity extends KbrActivity implements FelveszListener, T
     @Override
     public void onTorles() {
         dismissDialog();
-        startProgressDialog();
+        startProgressDialog(getString(R.string.teny_progress_torles));
         for (String tenaz : selectedList) {
             tenyeszetList.remove(new TenyeszetListModel(tenaz));
         }

@@ -131,7 +131,7 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
     @Override
     public void onTorles() {
         dismissDialog();
-        startProgressDialog();
+        startProgressDialog(getString(R.string.lev_teny_progress_torles));
         EmptyTask task = new EmptyTask(new Executable() {
             @Override
             public void execute() {

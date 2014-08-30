@@ -16,6 +16,7 @@ import hu.flexisys.kbr.util.XmlUtil;
 import hu.flexisys.kbr.util.XmlUtilException;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.NotificationDialog;
+import hu.flexisys.kbr.view.ProgressDialog;
 import hu.flexisys.kbr.view.bongeszo.BongeszoActivity;
 import hu.flexisys.kbr.view.levalogatas.EmptyTask;
 import hu.flexisys.kbr.view.levalogatas.Executable;
@@ -186,7 +187,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
             return;
         }
 
-        startProgressDialog();
+        startProgressDialog(getString(R.string.bong_teny_progress_kuldes));
         final Boolean[] success = {null};
         new EmptyTask(new Executable() {
             @Override

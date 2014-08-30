@@ -71,9 +71,9 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
 
     // PROGRESS
 
-    public void startProgressDialog() {
+    public void startProgressDialog(String title) {
         FragmentTransaction ft = getFragmentTransactionWithTag("progress");
-        dialog = ProgressDialog.newInstance();
+        dialog = ProgressDialog.newInstance(title);
         dialog.show(ft, "progress");
     }
 

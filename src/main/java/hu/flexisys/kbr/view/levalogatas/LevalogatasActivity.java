@@ -12,6 +12,7 @@ import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
 import hu.flexisys.kbr.util.DateUtil;
 import hu.flexisys.kbr.view.KbrActivity;
+import hu.flexisys.kbr.view.ProgressDialog;
 import hu.flexisys.kbr.view.biralat.BiralatTenyeszetActivity;
 import hu.flexisys.kbr.view.tenyeszet.LevalogatasTorlesAlertDialog;
 import hu.flexisys.kbr.view.tenyeszet.TorlesAlertListener;
@@ -121,7 +122,7 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
             }
         });
 
-        startProgressDialog();
+        startProgressDialog(ProgressDialog.BASE_TITLE);
         EmptyTask task = new EmptyTask(new Executable() {
             @Override
             public void execute() {
@@ -383,7 +384,7 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
     @Override
     public void onTorles() {
         dismissDialog();
-        startProgressDialog();
+        startProgressDialog(getString(R.string.lev_progress_levalogatas_torlese));
         EmptyTask task = new EmptyTask(new Executable() {
             @Override
             public void execute() {
@@ -405,7 +406,7 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
     public void mentes_kilepes() {
-        startProgressDialog();
+        startProgressDialog(getString(R.string.lev_progress_mentes));
         EmptyTask task = new EmptyTask(new Executable() {
             @Override
             public void execute() {
@@ -423,7 +424,7 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
     }
 
     public void mentes() {
-        startProgressDialog();
+        startProgressDialog(getString(R.string.lev_progress_mentes));
         EmptyTask task = new EmptyTask(new Executable() {
             @Override
             public void execute() {
@@ -451,7 +452,7 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
     }
 
     public void torles() {
-        startProgressDialog();
+        startProgressDialog(getString(R.string.lev_progress_szurok_torlese));
         EmptyTask task = new EmptyTask(new Executable() {
             @Override
             public void execute() {
@@ -473,7 +474,7 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
     public void reorder(View view) {
         TextView orderByTV = (TextView) view;
         final String orderBy = orderByTV.getText().toString();
-        startProgressDialog();
+        startProgressDialog(getString(R.string.lev_progress_sorbarendezes));
         EmptyTask task = new EmptyTask(new Executable() {
             @Override
             public void execute() {
@@ -493,7 +494,7 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
     public void szukit() {
-        startProgressDialog();
+        startProgressDialog(getString(R.string.lev_progress_szukites));
         updateFilterValues();
         EmptyTask task = new EmptyTask(new Executable() {
             @Override

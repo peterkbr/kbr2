@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.view.KbrActivity;
+import hu.flexisys.kbr.view.ProgressDialog;
 import hu.flexisys.kbr.view.levalogatas.EmptyTask;
 import hu.flexisys.kbr.view.levalogatas.Executable;
 import hu.flexisys.kbr.view.levalogatas.ExecutableFinishedListener;
@@ -86,7 +87,7 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
     @Override
     public void onTorles() {
         dismissDialog();
-        startProgressDialog();
+        startProgressDialog(getString(R.string.bir_teny_progress_torles));
         EmptyTask task = new EmptyTask(new Executable() {
             @Override
             public void execute() {

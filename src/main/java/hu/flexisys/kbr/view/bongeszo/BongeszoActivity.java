@@ -21,6 +21,7 @@ import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
 import hu.flexisys.kbr.util.biralat.BiralatTipus;
 import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.view.KbrActivity;
+import hu.flexisys.kbr.view.ProgressDialog;
 import hu.flexisys.kbr.view.biralat.BiralatTenyeszetActivity;
 import hu.flexisys.kbr.view.bongeszo.diagram.DiagramActivity;
 import hu.flexisys.kbr.view.bongeszo.export.ExportDialog;
@@ -146,7 +147,7 @@ public class BongeszoActivity extends KbrActivity {
     public void reorder(View view) {
         TextView orderByTV = (TextView) view;
         final String orderBy = orderByTV.getText().toString();
-        startProgressDialog();
+        startProgressDialog(getString(R.string.bong_progress_sorbarendezes));
         EmptyTask task = new EmptyTask(new Executable() {
             @Override
             public void execute() {
@@ -327,7 +328,7 @@ public class BongeszoActivity extends KbrActivity {
                 dir.mkdirs();
                 dismissDialog();
 
-                startProgressDialog();
+                startProgressDialog(getString(R.string.bong_progress_export));
                 new EmptyTask(new Executable() {
                     @Override
                     public void execute() throws Exception {
@@ -407,7 +408,7 @@ public class BongeszoActivity extends KbrActivity {
     // SZŰKÍTÉS
 
     private void szukit() {
-        startProgressDialog();
+        startProgressDialog(getString(R.string.bong_progress_szukites));
         try {
             TextView datumTol = (TextView) findViewById(R.id.bong_szuk_datum_tol);
             datumTolFilter = DateUtil.getDateFromDateString(datumTol.getText().toString()).getTime();
