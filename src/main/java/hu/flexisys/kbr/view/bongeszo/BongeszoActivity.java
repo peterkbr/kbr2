@@ -21,7 +21,6 @@ import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
 import hu.flexisys.kbr.util.biralat.BiralatTipus;
 import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.view.KbrActivity;
-import hu.flexisys.kbr.view.ProgressDialog;
 import hu.flexisys.kbr.view.biralat.BiralatTenyeszetActivity;
 import hu.flexisys.kbr.view.bongeszo.diagram.DiagramActivity;
 import hu.flexisys.kbr.view.bongeszo.export.ExportDialog;
@@ -259,7 +258,6 @@ public class BongeszoActivity extends KbrActivity {
 
     // DIAGRAM
 
-
     private void startDiagramActivity() {
         ArrayList<String> values = getDiagramValues();
         Intent intent = new Intent(this, DiagramActivity.class);
@@ -318,7 +316,6 @@ public class BongeszoActivity extends KbrActivity {
     // EXPORT
 
     private void export() {
-
         FragmentTransaction ft = getFragmentTransactionWithTag("exportDialog");
         dialog = ExportDialog.newInstance(new ExportDialog.ExportListener() {
             @Override
@@ -465,6 +462,9 @@ public class BongeszoActivity extends KbrActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                onHomeClicked();
+                return true;
             case R.id.szukites:
                 pane.openPane();
                 return true;
@@ -483,5 +483,9 @@ public class BongeszoActivity extends KbrActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void onHomeClicked() {
+        finish();
     }
 }
