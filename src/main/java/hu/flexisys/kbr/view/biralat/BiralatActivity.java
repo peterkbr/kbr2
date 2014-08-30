@@ -9,8 +9,6 @@ import android.view.View;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
-import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
-import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.NotificationDialog;
 import hu.flexisys.kbr.view.biralat.biral.*;
@@ -66,7 +64,30 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         reloadData();
 
         hu = true;
+    }
 
+    @Override
+    public void onBackPressed() {
+        String akakoString = biralFragment.getAkako();
+        Map<String, String> map = biralFragment.getKodErtMap();
+        if ((akakoString == null || akakoString.isEmpty() || akakoString.equals("3")) && map == null) {
+            FragmentTransaction ft = getFragmentTransactionWithTag("unfinished");
+            dialog = BirBirUnfinishedBiralatDialog.newInstance(new BirBirUnfinishedBiralatListener() {
+                @Override
+                public void onBirBirUnfinishedBiralatCancel() {
+                    dismissDialog();
+                }
+
+                @Override
+                public void onBirBirUnfinishedBiralatOk() {
+                    dismissDialog();
+                    finish();
+                }
+            });
+            dialog.show(ft, "unfinished");
+        } else {
+            finish();
+        }
     }
 
     private void reloadData() {
