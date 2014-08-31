@@ -7,6 +7,7 @@ import hu.flexisys.kbr.controller.db.DBController;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
+import hu.flexisys.kbr.util.KbrApplicationUtil;
 import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
 import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
@@ -22,19 +23,17 @@ import java.util.List;
 public class KbrApplication extends Application {
 
     private static String TAG = "KBR_APPLICATION";
-    private String userId = "jakablk";
-    private String kulaz = "14";
-    private String biralatTipus = "7";
     private DBController dbController;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        dbController = new DBController(this, userId);
 
-        BiralatSzempontUtil.initBiralatSzempontUtil(getApplicationContext());
-        BiralatTipusUtil.initBiralatTipusUtil(getApplicationContext());
+        BiralatSzempontUtil.initBiralatSzempontUtil(this);
+        BiralatTipusUtil.initBiralatTipusUtil(this);
+        KbrApplicationUtil.initKbrApplicationUtil(this);
 
+        dbController = new DBController(this, KbrApplicationUtil.getBiraloUserId());
         checkDbConsistency();
     }
 
@@ -202,14 +201,14 @@ public class KbrApplication extends Application {
     // GETTERS, SETTERS
 
     public String getUserId() {
-        return userId;
+        return KbrApplicationUtil.getBiraloUserId();
     }
 
     public String getKulaz() {
-        return kulaz;
+        return KbrApplicationUtil.getBiraloAzonosito();
     }
 
     public String getBiralatTipus() {
-        return biralatTipus;
+        return KbrApplicationUtil.getBiralatTipus();
     }
 }
