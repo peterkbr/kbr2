@@ -376,7 +376,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
             biralat.setFELTOLTETLEN(true);
             biralat.setEXPORTALT(false);
             biralat.setORSKO(selectedEgyed.getORSKO());
-            biralat.setKULAZ(app.getKulaz());
+            biralat.setKULAZ(app.getBiraloAzonosito());
             biralat.setBIRDA(new Date());
             biralat.setBIRTI(7);
 

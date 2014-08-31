@@ -20,6 +20,8 @@ import hu.flexisys.kbr.util.biralat.BiralatSzempont;
 import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
 import hu.flexisys.kbr.util.biralat.BiralatTipus;
 import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
+import hu.flexisys.kbr.util.export.BiralatCvsExporter;
+import hu.flexisys.kbr.util.export.BiralatPdfExporter;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.biralat.BiralatTenyeszetActivity;
 import hu.flexisys.kbr.view.bongeszo.diagram.DiagramActivity;
@@ -30,8 +32,6 @@ import hu.flexisys.kbr.view.levalogatas.ExecutableErrorListener;
 import hu.flexisys.kbr.view.levalogatas.ExecutableFinishedListener;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
 import java.text.ParseException;
 import java.util.*;
 
@@ -330,57 +330,11 @@ public class BongeszoActivity extends KbrActivity {
                     @Override
                     public void execute() throws Exception {
                         if (pdf) {
-
+                            BiralatPdfExporter.initBiralatPdfExporter("TODO : TENAZ", "TODO : TARTO", app.getBiraloNev());
+                            BiralatPdfExporter.export(dir.getPath(), app.getBiralatTipus(), biralatList, egyedMap);
                         }
                         if (csv) {
-                            String path = dir.getPath() + File.separator + "csvExport_" + DateUtil.formatTimestampFileName(new Date()) + ".csv";
-                            FileOutputStream fOut = new FileOutputStream(new File(path));
-                            OutputStreamWriter osw = new OutputStreamWriter(fOut);
-
-                            BiralatTipus tipus = BiralatTipusUtil.getBiralatTipus(app.getBiralatTipus());
-                            List<BiralatSzempont> szempontList = new ArrayList<BiralatSzempont>();
-                            for (String szempontId : tipus.szempontList) {
-                                BiralatSzempont szempont = BiralatSzempontUtil.getBiralatSzempont(szempontId);
-                                szempontList.add(szempont);
-                            }
-
-                            StringBuilder builder = new StringBuilder();
-                            String csvSeparator = ";";
-
-                            // header
-                            builder.append("#");
-                            builder.append(csvSeparator).append("OK");
-                            builder.append(csvSeparator).append("ENAR");
-                            builder.append(csvSeparator).append("Telep");
-                            builder.append(csvSeparator).append("Dátum");
-                            builder.append(csvSeparator).append("Ell");
-                            builder.append(csvSeparator).append("Sz");
-                            for (BiralatSzempont szempont : szempontList) {
-                                builder.append(csvSeparator).append(szempont.rovidNev);
-                            }
-                            builder.append(csvSeparator).append("A");
-                            builder.append("\n");
-
-                            // values
-                            int i = 1;
-                            for (Biralat biralat : biralatList) {
-                                builder.append(String.valueOf(i++));
-                                builder.append(csvSeparator).append(biralat.getORSKO());
-                                builder.append(csvSeparator).append(biralat.getAZONO());
-                                builder.append(csvSeparator).append(biralat.getTENAZ());
-                                builder.append(csvSeparator).append(DateUtil.formatDate(biralat.getBIRDA()));
-                                builder.append(csvSeparator).append("BIRAL.EllSO");
-                                builder.append(csvSeparator).append("???");
-                                for (BiralatSzempont szempont : szempontList) {
-                                    builder.append(csvSeparator).append(biralat.getErtByKod(szempont.kod));
-                                }
-                                builder.append(csvSeparator).append(String.valueOf(biralat.getAKAKO()));
-                                builder.append("\n");
-                            }
-
-                            osw.write(builder.toString());
-                            osw.flush();
-                            osw.close();
+                            BiralatCvsExporter.export(dir.getPath(), app.getBiralatTipus(), biralatList, egyedMap);
                         }
                     }
                 }, new ExecutableFinishedListener() {

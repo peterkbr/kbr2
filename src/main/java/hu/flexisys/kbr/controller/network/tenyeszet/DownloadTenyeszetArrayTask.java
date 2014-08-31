@@ -39,7 +39,7 @@ public class DownloadTenyeszetArrayTask extends AsyncTask<Object, Void, Void> {
         for (Object param : params) {
             String TENAZ = (String) param;
             Log.i(TAG, "DOWNLOAD STARTED:" + TENAZ + ":" + DateUtil.getRequestId());
-            String requestXml = NetworkUtil.getKullemtenyRequestBody(app.getUserId(), TENAZ);
+            String requestXml = NetworkUtil.getKullemtenyRequestBody(app.getBiraloUserId(), TENAZ);
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost post = new HttpPost(NetworkUtil.SERVICE_URL);
             String responseValue = null;

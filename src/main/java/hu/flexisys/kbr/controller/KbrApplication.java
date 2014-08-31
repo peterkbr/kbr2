@@ -200,15 +200,17 @@ public class KbrApplication extends Application {
 
     // GETTERS, SETTERS
 
-    public String getUserId() {
+    public String getBiraloUserId() {
         return KbrApplicationUtil.getBiraloUserId();
     }
 
-    public String getKulaz() {
+    public String getBiraloAzonosito() {
         return KbrApplicationUtil.getBiraloAzonosito();
     }
 
     public String getBiralatTipus() {
         return KbrApplicationUtil.getBiralatTipus();
     }
+
+    public String getBiraloNev(){ return KbrApplicationUtil.getBiraloNev();}
 }

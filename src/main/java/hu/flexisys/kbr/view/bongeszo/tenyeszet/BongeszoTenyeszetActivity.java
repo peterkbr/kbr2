@@ -16,7 +16,6 @@ import hu.flexisys.kbr.util.XmlUtil;
 import hu.flexisys.kbr.util.XmlUtilException;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.NotificationDialog;
-import hu.flexisys.kbr.view.ProgressDialog;
 import hu.flexisys.kbr.view.bongeszo.BongeszoActivity;
 import hu.flexisys.kbr.view.levalogatas.EmptyTask;
 import hu.flexisys.kbr.view.levalogatas.Executable;
@@ -193,7 +192,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
             @Override
             public void execute() {
                 List<Biralat> feltoltetlenBiralatList = app.getFeltoltetlenBiralatListByTenazList(selectedTenyeszetList);
-                String requestBody = NetworkUtil.getKullembirRequestBody(app.getUserId(), feltoltetlenBiralatList);
+                String requestBody = NetworkUtil.getKullembirRequestBody(app.getBiraloUserId(), feltoltetlenBiralatList);
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost post = new HttpPost(NetworkUtil.SERVICE_URL);
                 String responseValue;
