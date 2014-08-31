@@ -17,6 +17,7 @@ import java.util.Map;
  * Created by peter on 28/07/14.
  */
 public class BiralatTipusUtil {
+
     public static String TAG = "BiralatTipusUtil";
     private static Map<String, BiralatTipus> biralatTipusMap;
 

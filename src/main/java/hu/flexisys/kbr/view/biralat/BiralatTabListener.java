@@ -11,10 +11,10 @@ import android.support.v7.app.ActionBar;
 public class BiralatTabListener implements ActionBar.TabListener {
 
     private ViewPager pager;
-    private Activity activity;
+    private BiralatActivity activity;
     private boolean started = false;
 
-    public BiralatTabListener(Activity activity, ViewPager pager) {
+    public BiralatTabListener(BiralatActivity activity, ViewPager pager) {
         this.activity = activity;
         this.pager = pager;
     }
@@ -28,7 +28,7 @@ public class BiralatTabListener implements ActionBar.TabListener {
             return;
         }
         if (index == 0) {
-            activity.finish();
+            activity.onExit();
         } else {
             pager.setCurrentItem(--index);
         }

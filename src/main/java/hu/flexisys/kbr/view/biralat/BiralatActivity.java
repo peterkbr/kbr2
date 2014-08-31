@@ -68,9 +68,13 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
 
     @Override
     public void onBackPressed() {
+        onExit();
+    }
+
+    public void onExit() {
         String akakoString = biralFragment.getAkako();
         Map<String, String> map = biralFragment.getKodErtMap();
-        if ((akakoString == null || akakoString.isEmpty() || akakoString.equals("3")) && map == null) {
+        if (biralFragment.getBiralatStarted() && (akakoString == null || akakoString.isEmpty() || akakoString.equals("3")) && map == null) {
             FragmentTransaction ft = getFragmentTransactionWithTag("unfinished");
             dialog = BirBirUnfinishedBiralatDialog.newInstance(new BirBirUnfinishedBiralatListener() {
                 @Override
