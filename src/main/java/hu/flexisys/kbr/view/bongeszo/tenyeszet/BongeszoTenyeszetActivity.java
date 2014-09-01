@@ -162,10 +162,9 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
                 if (model.getBiralatWaitingForUpload() < 1) {
                     hasBiralatlessTenyeszet = true;
                     break;
-                    // TODO uncomment
-//                } else if (model.getBiralatUnexportedCount() > 0) {
-//                    hasUnexportedBiralat = true;
-//                    break;
+                } else if (model.getBiralatUnexportedCount() > 0) {
+                    hasUnexportedBiralat = true;
+                    break;
                 } else {
                     selectedTenyeszetList.add(model.getTenyeszet().getTENAZ());
                 }
@@ -206,6 +205,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
                         for (Biralat biralat : feltoltetlenBiralatList) {
                             biralat.setFELTOLTETLEN(false);
                             app.updateBiralat(biralat);
+                            app.updateEgyedWithSelection(biralat.getAZONO(), false);
                         }
                         reloadData();
                     }

@@ -316,7 +316,6 @@ public class BongeszoActivity extends KbrActivity {
     // EXPORT
 
     private void export() {
-
         if (biralatList.size() > 0) {
             FragmentTransaction ft = getFragmentTransactionWithTag("exportDialog");
             dialog = ExportDialog.newInstance(new ExportDialog.ExportListener() {
@@ -337,6 +336,10 @@ public class BongeszoActivity extends KbrActivity {
                             }
                             if (csv) {
                                 BiralatCvsExporter.export(dir.getPath(), app.getBiralatTipus(), biralatList, egyedMap);
+                            }
+                            for (Biralat biralat : biralatList) {
+                                biralat.setEXPORTALT(true);
+                                app.updateBiralat(biralat);
                             }
                         }
                     }, new ExecutableFinishedListener() {
