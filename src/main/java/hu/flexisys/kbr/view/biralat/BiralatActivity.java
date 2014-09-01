@@ -112,6 +112,10 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
                 biralatMap.get(azono).add(biralat);
             }
 
+            ArrayList<Egyed> biralandoEgyedList_KU = new ArrayList<Egyed>();
+            Map<String, Egyed> biraltEgyedMap = new HashMap<String, Egyed>();
+            List<Biralat> biraltEgyedBiralatList = new ArrayList<Biralat>();
+
             for (int i = 0; i < egyedList.size(); i++) {
                 Egyed egyed = egyedList.get(i);
                 List<Biralat> currentBiralatList = biralatMap.get(egyed.getAZONO());
@@ -123,15 +127,41 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
                 Boolean biralt = false;
                 for (Biralat biralat : egyed.getBiralatList()) {
                     if (biralat.getFELTOLTETLEN()) {
-                        biraltEgyedList.add(egyed);
+                        biraltEgyedMap.put(egyed.getAZONO(), egyed);
+                        biraltEgyedBiralatList.add(biralat);
                         biralt = true;
                         break;
                     }
                 }
                 if (egyed.getKIVALASZTOTT() && !biralt) {
-                    biralandoEgyedList.add(egyed);
+                    if ("HU".equals(egyed.getORSKO())) {
+                        biralandoEgyedList.add(egyed);
+                    } else {
+                        biralandoEgyedList_KU.add(egyed);
+                    }
                 }
             }
+
+            Collections.sort(biraltEgyedBiralatList, new Comparator<Biralat>() {
+                @Override
+                public int compare(Biralat lhs, Biralat rhs) {
+                    return -1 * Long.valueOf(lhs.getBIRDA().getTime()).compareTo(rhs.getBIRDA().getTime());
+                }
+            });
+            for (Biralat biralat : biraltEgyedBiralatList) {
+                Egyed egyed = biraltEgyedMap.get(biralat.getAZONO());
+                biraltEgyedList.add(egyed);
+            }
+
+            Comparator<Egyed> enarComparator = new Comparator<Egyed>() {
+                @Override
+                public int compare(Egyed lhs, Egyed rhs) {
+                    return lhs.getAZONO().compareTo(rhs.getAZONO());
+                }
+            };
+            Collections.sort(biralandoEgyedList, enarComparator);
+            Collections.sort(biralandoEgyedList_KU, enarComparator);
+            biralandoEgyedList.addAll(biralandoEgyedList_KU);
         }
     }
 
