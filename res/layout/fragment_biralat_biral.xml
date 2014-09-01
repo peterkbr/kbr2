@@ -708,19 +708,11 @@
 
                             android:onClick="selectBiralatInput" />
                     </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:padding="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/purple"
+                        android:background="@color/green"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:padding="2dp">
@@ -746,6 +738,14 @@
 
                             android:onClick="selectBiralatInput" />
                     </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
