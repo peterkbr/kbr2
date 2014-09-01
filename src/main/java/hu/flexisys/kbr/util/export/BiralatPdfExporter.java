@@ -143,7 +143,6 @@ public class BiralatPdfExporter {
             columnWidths[j++] = 29f;
         }
         columnWidths[j++] = 20f;
-
         table.setWidths(columnWidths);
 
         return table;

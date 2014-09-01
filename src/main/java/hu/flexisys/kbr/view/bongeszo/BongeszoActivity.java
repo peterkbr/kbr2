@@ -316,44 +316,47 @@ public class BongeszoActivity extends KbrActivity {
     // EXPORT
 
     private void export() {
-        FragmentTransaction ft = getFragmentTransactionWithTag("exportDialog");
-        dialog = ExportDialog.newInstance(new ExportDialog.ExportListener() {
-            @Override
-            public void onExport(final boolean pdf, final boolean csv) {
-                String dirPath = Environment.getExternalStorageDirectory() + File.separator + "KBR2" + File.separator + "Export" + File.separator + "Bírálatok";
-                final File dir = new File(dirPath);
-                dir.mkdirs();
-                dismissDialog();
 
-                startProgressDialog(getString(R.string.bong_progress_export));
-                new EmptyTask(new Executable() {
-                    @Override
-                    public void execute() throws Exception {
-                        if (pdf) {
-                            BiralatPdfExporter.initBiralatPdfExporter("TODO : TENAZ", "TODO : TARTO", app.getBiraloNev());
-                            BiralatPdfExporter.export(dir.getPath(), app.getBiralatTipus(), biralatList, egyedMap);
+        if (biralatList.size() > 0) {
+            FragmentTransaction ft = getFragmentTransactionWithTag("exportDialog");
+            dialog = ExportDialog.newInstance(new ExportDialog.ExportListener() {
+                @Override
+                public void onExport(final boolean pdf, final boolean csv) {
+                    String dirPath = Environment.getExternalStorageDirectory() + File.separator + "KBR2" + File.separator + "Export" + File.separator + "Bírálatok";
+                    final File dir = new File(dirPath);
+                    dir.mkdirs();
+                    dismissDialog();
+
+                    startProgressDialog(getString(R.string.bong_progress_export));
+                    new EmptyTask(new Executable() {
+                        @Override
+                        public void execute() throws Exception {
+                            if (pdf) {
+                                BiralatPdfExporter.initBiralatPdfExporter("TODO : TENAZ", "TODO : TARTO", app.getBiraloNev());
+                                BiralatPdfExporter.export(dir.getPath(), app.getBiralatTipus(), biralatList, egyedMap);
+                            }
+                            if (csv) {
+                                BiralatCvsExporter.export(dir.getPath(), app.getBiralatTipus(), biralatList, egyedMap);
+                            }
                         }
-                        if (csv) {
-                            BiralatCvsExporter.export(dir.getPath(), app.getBiralatTipus(), biralatList, egyedMap);
+                    }, new ExecutableFinishedListener() {
+                        @Override
+                        public void onFinished() {
+                            dismissDialog();
                         }
-                    }
-                }, new ExecutableFinishedListener() {
-                    @Override
-                    public void onFinished() {
-                        dismissDialog();
-                    }
-                }, new ExecutableErrorListener() {
-                    @Override
-                    public void onError(Exception e) {
-                        dismissDialog();
-                        Log.e(TAG, e.getMessage(), e);
-                        // TODO i18n
-                        Toast.makeText(BongeszoActivity.this, "Hiba történt az exportálás során! Az SD kártya nem írható.", Toast.LENGTH_LONG).show();
-                    }
-                }).execute();
-            }
-        });
-        dialog.show(ft, "exportDialog");
+                    }, new ExecutableErrorListener() {
+                        @Override
+                        public void onError(Exception e) {
+                            dismissDialog();
+                            Log.e(TAG, e.getMessage(), e);
+                            // TODO i18n
+                            Toast.makeText(BongeszoActivity.this, "Hiba történt az exportálás során! Az SD kártya nem írható.", Toast.LENGTH_LONG).show();
+                        }
+                    }).execute();
+                }
+            });
+            dialog.show(ft, "exportDialog");
+        }
     }
 
     // SZŰKÍTÉS
