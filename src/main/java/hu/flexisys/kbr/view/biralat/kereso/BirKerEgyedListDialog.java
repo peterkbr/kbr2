@@ -21,13 +21,20 @@ import java.util.List;
 public class BirKerEgyedListDialog extends KbrDialog {
 
     private List<Egyed> selectedEgyedList;
+    private Boolean clickable;
+    private EgyedClickListener listener;
 
-
-    public static BirKerEgyedListDialog newInstance(List<Egyed> selectedEgyedList) {
+    public static BirKerEgyedListDialog newInstance(List<Egyed> selectedEgyedList, Boolean clickable, EgyedClickListener listener) {
         BirKerEgyedListDialog f = new BirKerEgyedListDialog();
         f.layoutResId = R.layout.dialog_bir_ker_egyed_list;
         f.selectedEgyedList = selectedEgyedList;
+        f.clickable = clickable;
+        f.listener = listener;
         return f;
+    }
+
+    public static BirKerEgyedListDialog newInstance(List<Egyed> selectedEgyedList) {
+        return newInstance(selectedEgyedList, false, null);
     }
 
     @Override
@@ -46,7 +53,11 @@ public class BirKerEgyedListDialog extends KbrDialog {
         return v;
     }
 
-    class BirKerEgyedListAdapter extends ArrayAdapter<Egyed> {
+    public interface EgyedClickListener {
+        public void onEgyedClick(String AZONO, String ORSKO);
+    }
+
+    public class BirKerEgyedListAdapter extends ArrayAdapter<Egyed> {
 
         public BirKerEgyedListAdapter(Context context, int resource) {
             super(context, resource);
@@ -54,7 +65,7 @@ public class BirKerEgyedListDialog extends KbrDialog {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            Egyed egyed = selectedEgyedList.get(position);
+            final Egyed egyed = selectedEgyedList.get(position);
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rowView = inflater.inflate(R.layout.list_bir_ker_egyed_list, parent, false);
             TextView textView = (TextView) rowView.findViewById(R.id.bir_ker_dialog_egyed_list_enar);
@@ -64,6 +75,15 @@ public class BirKerEgyedListDialog extends KbrDialog {
                 textView.setText(spanned);
             } else {
                 textView.setText(enar);
+            }
+            if (clickable) {
+                textView.setClickable(true);
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onEgyedClick(egyed.getAZONO(), egyed.getORSKO());
+                    }
+                });
             }
             // if (egyed.getUJ()) {
             //     textView.setBackgroundColor(getResources().getColor(R.color.red));

@@ -165,14 +165,18 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         }
     }
 
-    private void updateHasznalatiSzamView(String azono) {
-        if (azono.length() <= 4 || !hu) {
+    private void updateHasznalatiSzamView(String azono, Boolean _hu) {
+        if (azono.length() <= 4 || !_hu) {
             hasznalatiInput.setText(azono);
         } else if (azono.length() == 10) {
             hasznalatiInput.setText(azono.substring(5, 9));
         } else {
             hasznalatiInput.setText(azono.substring(0, 4));
         }
+    }
+
+    private void updateHasznalatiSzamView(String azono) {
+        updateHasznalatiSzamView(azono, hu);
     }
 
     public void onKeresoFragmentResume() {
@@ -387,7 +391,13 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     public void showBiralandoList(View view) {
         if (!biralandoEgyedList.isEmpty()) {
             FragmentTransaction ft = getFragmentTransactionWithTag("biralando");
-            dialog = BirKerEgyedListDialog.newInstance(biralandoEgyedList);
+            dialog = BirKerEgyedListDialog.newInstance(biralandoEgyedList, true, new BirKerEgyedListDialog.EgyedClickListener() {
+                @Override
+                public void onEgyedClick(String AZONO, String ORSKO) {
+                    updateHasznalatiSzamView(AZONO, "HU".equals(ORSKO));
+                    keres(null);
+                }
+            });
             dialog.show(ft, "biralando");
         }
     }
