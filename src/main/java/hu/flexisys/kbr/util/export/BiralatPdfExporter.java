@@ -52,12 +52,7 @@ public class BiralatPdfExporter {
         writer.setBoxSize("art", new Rectangle(page.getLeft() + margin, page.getBottom() + margin, page.getRight() - margin, page.getTop() - margin));
         writer.setPageEvent(new HeaderFooter());
         document.open();
-
-//        Paragraph p = new Paragraph("Bírálat pdf export");
-//        document.add(p);
-
         document.add(createPdfTable(szempontList, biralatList, egyedMap));
-
         document.close();
     }
 
@@ -92,7 +87,39 @@ public class BiralatPdfExporter {
         for (Biralat biralat : biralatList) {
             table.addCell(getCell(String.valueOf(i++)));
             table.addCell(getCell(biralat.getORSKO()));
-            table.addCell(getCell(biralat.getAZONO()));
+
+            String azono = biralat.getAZONO();
+            String orsko = egyedMap.get(biralat.getAZONO()).getORSKO();
+            if ("HU".equals(orsko) && azono.length() == 10) {
+                Font font = new Font();
+                font.setSize(9f);
+
+                Font enarFont = new Font();
+                enarFont.setColor(BaseColor.RED);
+                enarFont.setSize(9f);
+
+//                Phrase p1 = new Phrase(azono.substring(0, 5), font);
+//                Phrase p2 = new Phrase(azono.substring(5, 9), enarFont);
+//                Phrase p3 = new Phrase(azono.substring(9), font);
+
+                Phrase phrase = new Phrase();
+                phrase.add(new Chunk(azono.substring(0, 5), font));
+                phrase.add(new Chunk(azono.substring(5, 9), enarFont));
+                phrase.add(new Chunk(azono.substring(9), font));
+
+//                PdfPRow row = new PdfPRow(new PdfPCell[]{new PdfPCell(p1), new PdfPCell(p2), new PdfPCell(p3)});
+//                cell.addElement(p1);
+//                cell.addElement(p2);
+//                cell.addElement(p3);
+
+                PdfPCell cell = new PdfPCell(phrase);
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                table.addCell(cell);
+            } else {
+                table.addCell(getCell(azono));
+            }
+
             table.addCell(getCell(biralat.getTENAZ()));
             table.addCell(getCell(DateUtil.formatDate(biralat.getBIRDA())));
             table.addCell(getCell(String.valueOf(egyedMap.get(biralat.getAZONO()).getELLSO())));
@@ -127,6 +154,7 @@ public class BiralatPdfExporter {
         font.setSize(9f);
         PdfPCell cell = new PdfPCell(new Phrase(value, font));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         return cell;
     }
 
