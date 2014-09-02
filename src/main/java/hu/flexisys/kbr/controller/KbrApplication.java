@@ -33,7 +33,7 @@ public class KbrApplication extends Application {
         BiralatTipusUtil.initBiralatTipusUtil(this);
         KbrApplicationUtil.initKbrApplicationUtil(this);
 
-        dbController = new DBController(this, KbrApplicationUtil.getBiraloUserId());
+        dbController = new DBController(this, KbrApplicationUtil.getBiraloUserName());
         checkDbConsistency();
     }
 
@@ -201,7 +201,7 @@ public class KbrApplication extends Application {
     // GETTERS, SETTERS
 
     public String getBiraloUserId() {
-        return KbrApplicationUtil.getBiraloUserId();
+        return KbrApplicationUtil.getBiraloUserName();
     }
 
     public String getBiraloAzonosito() {

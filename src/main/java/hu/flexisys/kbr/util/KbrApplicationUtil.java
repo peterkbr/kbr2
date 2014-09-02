@@ -4,10 +4,8 @@ import android.content.Context;
 import android.util.Log;
 import hu.flexisys.kbr.R;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.util.Properties;
 
 /**
  * Created by peter on 31/08/14.
@@ -17,40 +15,25 @@ public class KbrApplicationUtil {
     public static String TAG = "KbrApplicationUtil";
     private static Context context;
     private static String biralatTipus;
-    private static String biraloNev;
     private static String biraloAzonosito;
-    private static String biraloUserId;
+    private static String biraloNev;
+    private static String biraloUserName;
 
     public static void initKbrApplicationUtil(Context context) {
         KbrApplicationUtil.context = context;
     }
 
     private static void init() {
-        InputStream inputStream = context.getResources().openRawResource(R.raw.init);
-        InputStreamReader inputreader = new InputStreamReader(inputStream);
-        BufferedReader buffreader = new BufferedReader(inputreader);
-        String line;
         try {
-            while ((line = buffreader.readLine()) != null) {
-                String[] arr = line.split("=");
-                String key = arr[0];
-                String value = arr[1];
+            Properties properties = PropertiesUtil.loadProperties(context, R.raw.init);
+            biralatTipus = properties.getProperty("biralat_tipus");
+            biraloAzonosito = properties.getProperty("biralo_azonosito");
 
-                String biralat_tipus_key = "biralat_tipus";
-                String biralo_azonosito_key = "biralo_azonosito";
-                String biralo_nev_key = "biralo_nev";
-                String biralo_userid_key = "biralo_userid";
-
-                if (key.equals(biralat_tipus_key)) {
-                    biralatTipus = value;
-                } else if (key.equals(biralo_azonosito_key)) {
-                    biraloAzonosito = value;
-                } else if (key.equals(biralo_nev_key)) {
-                    biraloNev = value;
-                } else if (key.equals(biralo_userid_key)) {
-                    biraloUserId = value;
-                }
-            }
+            Properties biraloProperties = PropertiesUtil.loadProperties(context, R.raw.biralok);
+            String biraloString = biraloProperties.getProperty(biraloAzonosito);
+            String[] biraloValues = biraloString.split(",");
+            biraloNev = biraloValues[0];
+            biraloUserName = biraloValues[1];
         } catch (IOException e) {
             Log.e(TAG, "loadBiralatSzempontMap", e);
         }
@@ -77,10 +60,10 @@ public class KbrApplicationUtil {
         return biralatTipus;
     }
 
-    public static String getBiraloUserId() {
-        if (biraloUserId == null) {
+    public static String getBiraloUserName() {
+        if (biraloUserName == null) {
             init();
         }
-        return biraloUserId;
+        return biraloUserName;
     }
 }
