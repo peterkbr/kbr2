@@ -123,10 +123,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="FM "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_1"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -153,10 +153,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="ER "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_2"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -182,10 +182,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="TR "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_3"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -211,10 +211,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="EL "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_4"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -240,10 +240,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="KO "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_5"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -269,10 +269,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="FL "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_6"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -298,10 +298,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="FS "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_7"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -336,10 +336,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="HO "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_8"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -365,10 +365,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="HH "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_9"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -394,10 +394,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="LM "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_10"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -423,10 +423,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="LM "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_11"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -452,10 +452,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="EI "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_12"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -481,10 +481,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="HM "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_13"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -510,10 +510,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="HS "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_14"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -548,10 +548,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="TF "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_15"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -577,10 +577,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="TM "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_16"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -606,10 +606,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="BS "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_17"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -635,10 +635,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="BH "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_18"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -665,10 +665,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="HB "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_19"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -694,10 +694,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="KS "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_20"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -724,10 +724,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="TK "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_21"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -761,10 +761,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="TE "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_22"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -790,10 +790,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="TJ "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_23"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -819,10 +819,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="LP "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_24"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -848,10 +848,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="TO "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_25"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -877,10 +877,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="VP "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_26"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -905,10 +905,10 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="AK "
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                         <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:id="@+id/bir_bir_input_27"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
