@@ -1,6 +1,7 @@
 package hu.flexisys.kbr.view.levalogatas;
 
 import android.content.Context;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.DateUtil;
+import hu.flexisys.kbr.view.NotificationDialog;
 
 import java.util.List;
 
@@ -24,12 +26,14 @@ public class LevalogatasListViewAdapter extends ArrayAdapter<Egyed> {
     protected final Context context;
     protected final List<Egyed> egyedList;
     private final OnSelectionChangedListener listener;
+    private final EgyedListContainer container;
 
-    public LevalogatasListViewAdapter(Context context, int resource, List<Egyed> egyedList, OnSelectionChangedListener listener) {
+    public LevalogatasListViewAdapter(Context context, int resource, List<Egyed> egyedList, OnSelectionChangedListener listener, EgyedListContainer container) {
         super(context, resource);
         this.context = context;
         this.egyedList = egyedList;
         this.listener = listener;
+        this.container = container;
     }
 
     @Override
@@ -37,11 +41,20 @@ public class LevalogatasListViewAdapter extends ArrayAdapter<Egyed> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.list_levalogatas, parent, false);
 
-        Egyed egyed = egyedList.get(position);
+        final Egyed egyed = egyedList.get(position);
 
         Integer color = null;
+
         if (!egyed.getBiralatList().isEmpty()) {
             color = context.getResources().getColor(R.color.green);
+            v.setClickable(true);
+            v.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    container.onLongClick(egyed);
+                    return false;
+                }
+            });
         }
 
         CheckBox selected = (CheckBox) v.findViewById(R.id.lev_selected);
@@ -73,7 +86,6 @@ public class LevalogatasListViewAdapter extends ArrayAdapter<Egyed> {
         String text = String.valueOf(egyed.getAZONO());
         if (text.length() == 10 && egyed.getORSKO().equals("HU")) {
             Spanned spanned = Html.fromHtml(text.substring(0, 5) + " <b><font color='red'>" + text.substring(5, 9) + "</font></b> " + text.substring(9));
-
             enar.setText(spanned);
         } else {
             enar.setText(text);
@@ -135,5 +147,9 @@ public class LevalogatasListViewAdapter extends ArrayAdapter<Egyed> {
     @Override
     public long getItemId(int position) {
         return Long.valueOf(egyedList.get(position).getAZONO());
+    }
+
+    public interface EgyedListContainer {
+        public void onLongClick(Egyed egyed);
     }
 }

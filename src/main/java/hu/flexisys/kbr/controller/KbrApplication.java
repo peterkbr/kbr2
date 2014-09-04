@@ -189,6 +189,11 @@ public class KbrApplication extends Application {
         return biralatList;
     }
 
+    public List<Biralat> getBiralatByAZONO(String AZONO) {
+        List<Biralat> biralatList = dbController.getBiralatByAZONO(AZONO);
+        return biralatList;
+    }
+
     public void checkDbConsistency() {
         try {
             dbController.checkDbConsistency();

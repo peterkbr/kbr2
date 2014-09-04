@@ -82,6 +82,10 @@
     <string name="lev_progress_sorbarendezes">Sorbarendezés folyamatban…</string>
     <string name="lev_progress_szukites">Szűkítés folyamatban…</string>
 
+    <string name="lev_dialog_biralat_enar">ENAR: %1$s</string>
+    <string name="lev_dialog_biralat_counter">%1$d/%2$d</string>
+    <string name="lev_dialog_biralat_datum">Bírálat dátuma: %1$s</string>
+
     <!--BÍRÁLAT-->
     <string name="bir_menu_torles">Leválogatás törlése</string>
     <string name="bir_menu_biral">Bírál</string>

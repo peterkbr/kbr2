@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@android:color/transparent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/dialog_biralat_pager"
+        android:layout_width="500dp"
+        android:layout_height="300dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/dialog_biralat_button_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dialog_menu_height"
+        android:text="@string/ok"
+        android:textSize="@dimen/dialog_menu_textsize" />
+</LinearLayout>

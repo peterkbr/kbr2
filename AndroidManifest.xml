@@ -64,6 +64,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.levalogatas.LevalogatasTenyeszetActivity" />
         </activity>
+        <activity
+            android:name=".view.levalogatas.biralatdialog.BiralatDialogActivity"
+            android:screenOrientation="landscape">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.levalogatas.LevalogatasActivity" />
+        </activity>
 
         <activity
             android:name=".view.bongeszo.tenyeszet.BongeszoTenyeszetActivity"

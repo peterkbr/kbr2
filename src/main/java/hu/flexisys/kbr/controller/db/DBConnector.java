@@ -207,6 +207,13 @@ public class DBConnector {
         return getBiralatListFromCursor(cursor);
     }
 
+
+    public List<Biralat> getBiralatByAZONO(String azono) {
+        Cursor cursor = database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, DBScripts.COLUMN_BIRALAT_AZONO + "=?",
+                new String[]{String.valueOf(azono)}, null, null, null);
+        return getBiralatListFromCursor(cursor);
+    }
+
     public List<Biralat> getBiralatByFELTOLTETLEN(boolean FELTOLTETLEN) {
         StringBuilder selectBuilder = new StringBuilder();
         selectBuilder.append(DBScripts.COLUMN_BIRALAT_FELTOLTETLEN).append(FELTOLTETLEN ? "=1" : "=0");
