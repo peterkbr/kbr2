@@ -49,7 +49,7 @@ public class BongeszoListAdapter extends ArrayAdapter<Biralat> {
         }
 
         textView = (TextView) v.findViewById(R.id.bong_list_num);
-        textView.setText(String.valueOf(position));
+        textView.setText(String.valueOf(position + 1));
         if (color != null) {
             colorParent(textView, color);
         }

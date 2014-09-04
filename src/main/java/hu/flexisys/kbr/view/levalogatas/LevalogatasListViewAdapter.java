@@ -1,7 +1,6 @@
 package hu.flexisys.kbr.view.levalogatas;
 
 import android.content.Context;
-import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.DateUtil;
-import hu.flexisys.kbr.view.NotificationDialog;
 
 import java.util.List;
 
@@ -71,7 +69,7 @@ public class LevalogatasListViewAdapter extends ArrayAdapter<Egyed> {
         }
 
         TextView num = (TextView) v.findViewById(R.id.lev_num);
-        num.setText(String.valueOf(position));
+        num.setText(String.valueOf(position + 1));
         if (color != null) {
             colorParent(num, color);
         }
