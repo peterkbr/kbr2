@@ -404,10 +404,6 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
 
     // BÍRÁLAT
 
-    public void selectBiralatInput(View inputView) {
-        biralFragment.selectInput(biralFragment.getView(), inputView);
-    }
-
     public void onSaveBiralatClicked(View view) {
         if (selectedEgyed != null && biralFragment.getBiralatStarted()) {
             Biralat biralat = new Biralat();

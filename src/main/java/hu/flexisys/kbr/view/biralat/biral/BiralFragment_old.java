@@ -1,57 +1,61 @@
 package hu.flexisys.kbr.view.biralat.biral;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.KbrApplication;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.DateUtil;
-import hu.flexisys.kbr.util.PropertiesUtil;
 import hu.flexisys.kbr.util.biralat.BiralatSzempont;
 import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
 import hu.flexisys.kbr.util.biralat.BiralatTipus;
 import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.view.biralat.BiralatActivity;
-import hu.flexisys.kbr.view.component.biralpanel.BiralPanel;
-import hu.flexisys.kbr.view.component.biralpanel.BiralPanelElement;
 import hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput;
 import hu.flexisys.kbr.view.component.numpad.NumPad;
+import hu.flexisys.kbr.view.component.numpad.NumPadInput;
 import hu.flexisys.kbr.view.component.numpad.NumPadInputContainer;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
  * Created by Peter on 2014.07.11..
  */
-public class BiralFragment extends Fragment implements NumPadInputContainer {
+public class BiralFragment_old extends Fragment implements NumPadInputContainer {
 
     private static String TAG = "BiralFragment";
+    private final int lastStep = 24;
     private BiralatActivity activity;
     private NumPad numpad;
-    private BiralPanel biralPanel;
-
-    private Map<String, BiralatNumPadInput> szempontKodInputMap;
-    private List<BiralatNumPadInput> biralatNumPadInputs;
-    private BiralatNumPadInput vpBiralatNumPadInput;
-    private BiralatNumPadInput akakoBiralatNumPadInput;
-    private List<String> vpFormulaSzempontKodList;
-    private Map<String, String> vpFormulaWeightMap;
+    private int[] inputIds = new int[]{R.id.bir_bir_input_1, R.id.bir_bir_input_2, R.id.bir_bir_input_3, R.id.bir_bir_input_4, R.id.bir_bir_input_5,
+            R.id.bir_bir_input_6, R.id.bir_bir_input_7, R.id.bir_bir_input_8, R.id.bir_bir_input_9, R.id.bir_bir_input_10, R.id.bir_bir_input_11,
+            R.id.bir_bir_input_12, R.id.bir_bir_input_13, R.id.bir_bir_input_14, R.id.bir_bir_input_15, R.id.bir_bir_input_16, R.id.bir_bir_input_17,
+            R.id.bir_bir_input_18, R.id.bir_bir_input_19, R.id.bir_bir_input_20, R.id.bir_bir_input_21, R.id.bir_bir_input_22, R.id.bir_bir_input_23,
+            R.id.bir_bir_input_24, R.id.bir_bir_input_25, R.id.bir_bir_input_26};
+    private int[] labelIds = new int[]{R.id.bir_bir_input_label_1, R.id.bir_bir_input_label_2, R.id.bir_bir_input_label_3, R.id.bir_bir_input_label_4, R.id.bir_bir_input_label_5,
+            R.id.bir_bir_input_label_6, R.id.bir_bir_input_label_7, R.id.bir_bir_input_label_8, R.id.bir_bir_input_label_9, R.id.bir_bir_input_label_10, R.id.bir_bir_input_label_11,
+            R.id.bir_bir_input_label_12, R.id.bir_bir_input_label_13, R.id.bir_bir_input_label_14, R.id.bir_bir_input_label_15, R.id.bir_bir_input_label_16, R.id.bir_bir_input_label_17,
+            R.id.bir_bir_input_label_18, R.id.bir_bir_input_label_19, R.id.bir_bir_input_label_20, R.id.bir_bir_input_label_21, R.id.bir_bir_input_label_22, R.id.bir_bir_input_label_23,
+            R.id.bir_bir_input_label_24, R.id.bir_bir_input_label_25, R.id.bir_bir_input_label_26};
+    private int vpViewId = R.id.bir_bir_input_26;
+    private int akakoViewId = R.id.bir_bir_input_27;
+    private Map<Integer, BiralatSzempont> szempontMap;
+    private int currentInputId;
+    private int currentInputStep;
     private Boolean editing;
     private Boolean biralatStarted;
+    private List<Integer> vpFormulaInputIdLis;
+    private Map<Integer, String> vpFormulaWeightMap;
 
-    public static BiralFragment newInstance(BiralatActivity activity) {
-        BiralFragment fragment = new BiralFragment();
+    public static BiralFragment_old newInstance(BiralatActivity activity) {
+        BiralFragment_old fragment = new BiralFragment_old();
         fragment.activity = activity;
         fragment.editing = false;
         fragment.biralatStarted = false;
@@ -62,97 +66,58 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_biralat_biral, container, false);
         numpad = (NumPad) v.findViewById(R.id.bir_bir_numpad);
-        biralPanel = (BiralPanel) v.findViewById(R.id.bir_bir_panel);
-        setupBiralatTipus();
+        setupBiralatTipus(v);
         return v;
     }
 
-    private void setupBiralatTipus() {
-        int currentId = 123;
-        biralatNumPadInputs = new ArrayList<BiralatNumPadInput>();
-        Properties layoutProperties = null;
-        try {
-            layoutProperties = PropertiesUtil.loadProperties(getActivity(), R.raw.biralat_tipus_layout);
-        } catch (IOException e) {
-            Log.e(TAG, "Error while loading colors", e);
-        }
-
+    private void setupBiralatTipus(View view) {
         String tipus = ((KbrApplication) activity.getApplication()).getBiralatTipus();
         BiralatTipus biralatTipus = BiralatTipusUtil.getBiralatTipus(tipus);
-        szempontKodInputMap = new HashMap<String, BiralatNumPadInput>();
+        szempontMap = new HashMap<Integer, BiralatSzempont>();
 
-        vpFormulaSzempontKodList = new ArrayList<String>();
-        vpFormulaWeightMap = new HashMap<String, String>();
+        vpFormulaInputIdLis = new ArrayList<Integer>();
+        vpFormulaWeightMap = new HashMap<Integer, String>();
+
+        List<String> vpFormulaSzempontList = new ArrayList<String>();
+        Map<String, String> vpFormulaSzempontWeightMap = new HashMap<String, String>();
         for (String vpFormula : biralatTipus.vpFormulaList) {
             String[] values = vpFormula.split("/");
-            vpFormulaSzempontKodList.add(values[0]);
-            vpFormulaWeightMap.put(values[0], values[1]);
+            vpFormulaSzempontList.add(values[0]);
+            vpFormulaSzempontWeightMap.put(values[0], values[1]);
         }
-
-        int maxHeight = 7;
-        List<Integer> breakPoints = new ArrayList<Integer>();
-        breakPoints.add(20);
-        biralPanel.setUp(maxHeight);
 
         for (int i = 0; i < biralatTipus.szempontList.size(); i++) {
             BiralatSzempont szempont = BiralatSzempontUtil.getBiralatSzempont(biralatTipus.szempontList.get(i));
-
-            BiralPanelElement element = new BiralPanelElement(getActivity());
-            BiralatNumPadInput input = element.getInput();
-            LinearLayout layout = element.getLayout();
-            TextView label = element.getLabel();
-
-            String labelValue = szempont.rovidNev;
-            String colorCode = null;
-            if (layoutProperties != null) {
-                colorCode = layoutProperties.getProperty(biralatTipus.id + "_" + szempont.kod);
-            }
-            if (colorCode != null) {
-                layout.setBackgroundColor(Color.parseColor(colorCode));
-            }
-            label.setText(labelValue);
+            TextView label = (TextView) view.findViewById(labelIds[i]);
+            label.setText(szempont.rovidNev + " ");
+            BiralatNumPadInput input = (BiralatNumPadInput) view.findViewById(inputIds[i]);
             input.setMaxLength(szempont.keszletEnd.length());
             input.setKeszletStart(szempont.keszletStart);
             input.setKeszletEnd(szempont.keszletEnd);
             input.setContainer(this);
-            input.setId(currentId++);
-            input.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    BiralFragment.this.selectInput(v);
-                }
-            });
-            biralatNumPadInputs.add(input);
 
-            szempontKodInputMap.put(szempont.kod, input);
+            szempontMap.put(inputIds[i], szempont);
 
-            biralPanel.addElement(element);
-            if (breakPoints.contains(i)) {
-                biralPanel.addBreakPoint();
+            if (vpFormulaSzempontList.contains(szempont.kod)) {
+                vpFormulaInputIdLis.add(inputIds[i]);
+                vpFormulaWeightMap.put(inputIds[i], vpFormulaSzempontWeightMap.get(szempont.kod));
             }
         }
-        vpBiralatNumPadInput = biralatNumPadInputs.get(biralatNumPadInputs.size() - 1);
 
         // akako
-        BiralPanelElement element = new BiralPanelElement(getActivity());
-        akakoBiralatNumPadInput = element.getInput();
-        LinearLayout layout = element.getLayout();
-        TextView label = element.getLabel();
-
-        layout.setBackgroundColor(getResources().getColor(R.color.red));
-        label.setText("AK ");
-        akakoBiralatNumPadInput.setMaxLength(1);
-        akakoBiralatNumPadInput.setKeszletStart("1");
-        akakoBiralatNumPadInput.setKeszletEnd("5");
-        akakoBiralatNumPadInput.setContainer(new NumPadInputContainer() {
+        final BiralatNumPadInput input = (BiralatNumPadInput) view.findViewById(akakoViewId);
+        input.setMaxLength(1);
+        input.setKeszletStart("1");
+        input.setKeszletEnd("5");
+        input.setContainer(new NumPadInputContainer() {
             @Override
             public void onMaxLengthReached() {
-                activity.onAkako(akakoBiralatNumPadInput.getText().toString());
+                activity.onAkako(input.getText().toString());
             }
 
             @Override
             public void onInvalidInput() {
-                BiralFragment.this.onInvalidInput();
+                BiralFragment_old.this.onInvalidInput();
             }
 
             @Override
@@ -160,14 +125,6 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
                 biralatStarted = true;
             }
         });
-        akakoBiralatNumPadInput.setId(currentId);
-        akakoBiralatNumPadInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BiralFragment.this.selectInput(v);
-            }
-        });
-        biralPanel.addElement(element);
     }
 
     @Override
@@ -192,19 +149,21 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
                 editing = false;
                 clearGrid();
             }
-            akakoBiralatNumPadInput.setText(text);
-            akakoBiralatNumPadInput.unSelect();
+            BiralatNumPadInput akakoInput = (BiralatNumPadInput) getView().findViewById(akakoViewId);
+            akakoInput.setText(text);
+            akakoInput.unSelect();
         }
     }
 
     private Integer calcVp() {
+        View view = getView();
         Integer valueSum = 0;
         Integer weightSum = 0;
-        for (String kod : vpFormulaSzempontKodList) {
-            BiralatNumPadInput input = szempontKodInputMap.get(kod);
-            String valueString = input.getText().toString();
+        for (Integer id : vpFormulaInputIdLis) {
+            TextView textView = (TextView) view.findViewById(id);
+            String valueString = textView.getText().toString();
             Integer value = Integer.valueOf(valueString);
-            Integer weight = Integer.valueOf(vpFormulaWeightMap.get(kod));
+            Integer weight = Integer.valueOf(vpFormulaWeightMap.get(id));
             valueSum += (value * weight);
             weightSum += weight;
         }
@@ -216,9 +175,10 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     public Map<String, String> getKodErtMap() {
         Map<String, String> map = new HashMap<String, String>();
 
-        for (String kod : szempontKodInputMap.keySet()) {
-            BiralatNumPadInput input = szempontKodInputMap.get(kod);
-            String ert = input.getText().toString();
+        View view = getView();
+        for (Integer viewId : szempontMap.keySet()) {
+            String kod = szempontMap.get(viewId).kod;
+            String ert = ((TextView) view.findViewById(viewId)).getText().toString();
             if (ert == null || ert.isEmpty()) {
                 return null;
             }
@@ -228,7 +188,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     }
 
     public String getAkako() {
-        return akakoBiralatNumPadInput.getText().toString();
+        return ((TextView) getView().findViewById(akakoViewId)).getText().toString();
     }
 
     // UPDATE THE VIEWS
@@ -264,7 +224,9 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
                 }
             }
             if (editing && editable) {
-                stepToNextInput();
+                currentInputId = -1;
+                currentInputStep = -1;
+                stepToNextInput(getView());
             } else {
                 editing = false;
                 numpad.setNumPadInput(null);
@@ -346,9 +308,12 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     private void updateGrid(Biralat biralat) {
         clearGrid();
         if (biralat != null) {
-            for (String kod : szempontKodInputMap.keySet()) {
-                BiralatNumPadInput input = szempontKodInputMap.get(kod);
-                String value = biralat.getErtByKod(kod);
+            View view = getView();
+            for (int i = 0; i < inputIds.length; i++) {
+                int id = inputIds[i];
+                BiralatSzempont szempont = szempontMap.get(id);
+                BiralatNumPadInput input = (BiralatNumPadInput) view.findViewById(id);
+                String value = biralat.getErtByKod(szempont.kod);
                 input.setText(value);
                 input.unSelect();
             }
@@ -356,71 +321,95 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     }
 
     public void clearGrid() {
-        for (BiralatNumPadInput input : biralatNumPadInputs) {
+        View view = getView();
+        for (int id : inputIds) {
+            BiralatNumPadInput input = (BiralatNumPadInput) view.findViewById(id);
             input.setText("");
             input.unSelect();
         }
-        akakoBiralatNumPadInput.setText("");
-        akakoBiralatNumPadInput.unSelect();
+        BiralatNumPadInput akakoInput = (BiralatNumPadInput) view.findViewById(akakoViewId);
+        akakoInput.setText("");
+        akakoInput.unSelect();
     }
 
     private void updateAkakoView(String akako) {
-        akakoBiralatNumPadInput.setText(akako);
-        akakoBiralatNumPadInput.unSelect();
+        BiralatNumPadInput akakoInput = (BiralatNumPadInput) getView().findViewById(akakoViewId);
+        akakoInput.setText(akako);
+        akakoInput.unSelect();
     }
 
     public void clearAkakoView() {
         updateAkakoView("");
     }
 
-    public void selectInput(View inputView) {
+    public void selectInput(View view, View inputView) {
+        NumPadInput input = null;
         if (!editing) {
-            String akakoText = akakoBiralatNumPadInput.getText().toString();
-            if (akakoText != null && !akakoText.isEmpty() && inputView.getId() == akakoBiralatNumPadInput.getId()) {
-                akakoBiralatNumPadInput.select();
-                numpad.setNumPadInput(akakoBiralatNumPadInput);
+            input = (NumPadInput) view.findViewById(akakoViewId);
+            String akakoText = input.getText().toString();
+            if (akakoText != null && !akakoText.isEmpty() && inputView.getId() == akakoViewId) {
+                input.select();
+                numpad.setNumPadInput(input);
             } else {
-                akakoBiralatNumPadInput.unSelect();
+                input.unSelect();
             }
             return;
         }
-
-        for (BiralatNumPadInput input : biralatNumPadInputs) {
-            if (input.getId() == inputView.getId()) {
+        currentInputId = inputView.getId();
+        for (int i = 0; i < inputIds.length; i++) {
+            int id = inputIds[i];
+            input = (NumPadInput) view.findViewById(id);
+            if (id == currentInputId) {
+                currentInputStep = i;
                 input.select();
                 numpad.setNumPadInput(input);
             } else {
                 input.unSelect();
             }
         }
-        if (inputView.getId() == akakoBiralatNumPadInput.getId()) {
-            akakoBiralatNumPadInput.select();
-            numpad.setNumPadInput(akakoBiralatNumPadInput);
+
+        input = (NumPadInput) view.findViewById(akakoViewId);
+        if (currentInputId == akakoViewId) {
+            input.select();
+            numpad.setNumPadInput(input);
         } else {
-            akakoBiralatNumPadInput.unSelect();
+            input.unSelect();
         }
     }
 
-    private void stepToNextInput() {
+    private void stepToNextInput(View view) {
         if (!editing) {
             return;
         }
-        for (BiralatNumPadInput input : biralatNumPadInputs) {
-            if (input.getId() == vpBiralatNumPadInput.getId()) {
-                Integer vp = calcVp();
-                vpBiralatNumPadInput.setText(String.valueOf(vp));
-                break;
-            }
+        NumPadInput input = null;
+//        currentInputStep++;
+//        for (; currentInputStep <= lastStep; currentInputStep++) {
+        for (currentInputStep = 0; currentInputStep <= lastStep; currentInputStep++) {
+            currentInputId = inputIds[currentInputStep];
+            input = (NumPadInput) view.findViewById(currentInputId);
             if (input.getText().toString().isEmpty()) {
-                selectInput(input);
                 break;
+            } else {
+                input = null;
             }
         }
+        if (currentInputStep > lastStep) {
+            Integer vp = calcVp();
+            updateVpView(String.valueOf(vp));
+        }
+        if (input != null) {
+            selectInput(view, input);
+        }
+    }
+
+    private void updateVpView(String vp) {
+        TextView vpView = (TextView) getView().findViewById(vpViewId);
+        vpView.setText(vp);
     }
 
     @Override
     public void onMaxLengthReached() {
-        stepToNextInput();
+        stepToNextInput(getView());
     }
 
     @Override
