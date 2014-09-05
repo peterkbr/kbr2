@@ -54,7 +54,7 @@ public class BiralatDialogFragment extends Fragment {
         breakPoints.add(20);
 
         BiralPanel biralPanel = (BiralPanel) view.findViewById(R.id.dialog_biralat_panel);
-        biralPanel.setUp(6);
+        biralPanel.setUp(7);
         for (int i = 0; i < biralatTipus.szempontList.size(); i++) {
             BiralatSzempont szempont = BiralatSzempontUtil.getBiralatSzempont(biralatTipus.szempontList.get(i));
             BiralPanelElement element = new BiralPanelElement(getActivity(), R.layout.component_dialog_biral_panel_element);

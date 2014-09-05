@@ -14,10 +14,25 @@ public class BiralatPagerAdapter extends FragmentPagerAdapter {
     private KeresoFragment keresoFragment;
     private BiralFragment biralFragment;
 
-    public BiralatPagerAdapter(FragmentManager fm, BiralatActivity biralatActivity) {
+    public BiralatPagerAdapter(FragmentManager fm, final BiralatActivity biralatActivity) {
         super(fm);
         keresoFragment = KeresoFragment.newInstance(biralatActivity);
-        biralFragment = BiralFragment.newInstance(biralatActivity);
+        biralFragment = BiralFragment.newInstance(new BiralFragment.BiralFragmentContainer() {
+            @Override
+            public void onAkako(String akako) {
+                biralatActivity.onAkako(akako);
+            }
+
+            @Override
+            public void beep() {
+                biralatActivity.beep();
+            }
+
+            @Override
+            public void onBiralFragmentResume(BiralFragment biralFragment) {
+                biralatActivity.onBiralFragmentResume();
+            }
+        });
     }
 
     @Override

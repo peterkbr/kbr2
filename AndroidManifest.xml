@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="hu.flexisys.kbr"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:versionCode="1"
     android:versionName="1.0-SNAPSHOT">
 
@@ -59,6 +58,7 @@
         </activity>
         <activity
             android:name=".view.levalogatas.LevalogatasActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -66,7 +66,7 @@
         </activity>
         <activity
             android:name=".view.levalogatas.biralatdialog.BiralatDialogActivity"
-            android:screenOrientation="landscape">
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.levalogatas.LevalogatasActivity" />
@@ -89,6 +89,13 @@
         <activity
             android:name=".view.bongeszo.diagram.DiagramActivity"
             android:screenOrientation="landscape">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.bongeszo.BongeszoActivity" />
+        </activity>
+        <activity
+            android:name=".view.bongeszo.biralatdialog.BiralatDialogEditActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.bongeszo.BongeszoActivity" />

@@ -51,7 +51,7 @@ public class BiralatDialog extends KbrDialog {
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-//        getActivity().finish();
+        getActivity().finish();
     }
 
     private class BiralatDialogFragmentAdapter extends FragmentStatePagerAdapter {

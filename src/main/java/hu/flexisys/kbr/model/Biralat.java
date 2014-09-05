@@ -1,12 +1,13 @@
 package hu.flexisys.kbr.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
 /**
  * Created by Peter on 2014.07.02..
  */
-public class Biralat {
+public class Biralat implements Serializable {
 
     private String AZONO;
     private String TENAZ;

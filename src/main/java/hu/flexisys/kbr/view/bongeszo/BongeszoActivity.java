@@ -23,7 +23,9 @@ import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.util.export.BiralatCvsExporter;
 import hu.flexisys.kbr.util.export.BiralatPdfExporter;
 import hu.flexisys.kbr.view.KbrActivity;
+import hu.flexisys.kbr.view.ProgressDialog;
 import hu.flexisys.kbr.view.biralat.BiralatTenyeszetActivity;
+import hu.flexisys.kbr.view.bongeszo.biralatdialog.BiralatDialogEditActivity;
 import hu.flexisys.kbr.view.bongeszo.diagram.DiagramActivity;
 import hu.flexisys.kbr.view.bongeszo.export.ExportDialog;
 import hu.flexisys.kbr.view.levalogatas.EmptyTask;
@@ -110,9 +112,24 @@ public class BongeszoActivity extends KbrActivity {
 
         ListView biralatListView = (ListView) findViewById(R.id.bongeszo_bir_list);
         biralatListView.setEmptyView(findViewById(R.id.empty_list_item));
-        adapter = new BongeszoListAdapter(this, 0, biralatList, egyedMap);
+        adapter = new BongeszoListAdapter(this, 0, biralatList, egyedMap, new BongeszoListAdapter.BongeszoListContainer() {
+            @Override
+            public void onLongClick(Egyed currentEgyed, Biralat currentBiralat) {
+                Intent intent = new Intent(BongeszoActivity.this, BiralatDialogEditActivity.class);
+                Bundle extras = new Bundle();
+                extras.putSerializable(BiralatDialogEditActivity.KEY_EGYED, currentEgyed);
+                intent.putExtras(extras);
+                startActivity(intent);
+            }
+        });
         biralatListView.setAdapter(adapter);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        startProgressDialog(ProgressDialog.BASE_TITLE);
         EmptyTask task = new EmptyTask(new Executable() {
             @Override
             public void execute() {

@@ -50,7 +50,7 @@ public class LevalogatasListViewAdapter extends ArrayAdapter<Egyed> {
                 @Override
                 public boolean onLongClick(View v) {
                     container.onLongClick(egyed);
-                    return false;
+                    return true;
                 }
             });
         }

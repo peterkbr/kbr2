@@ -15,7 +15,6 @@ import hu.flexisys.kbr.util.DateUtil;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.ProgressDialog;
 import hu.flexisys.kbr.view.biralat.BiralatTenyeszetActivity;
-import hu.flexisys.kbr.view.levalogatas.biralatdialog.BiralatDialog;
 import hu.flexisys.kbr.view.levalogatas.biralatdialog.BiralatDialogActivity;
 import hu.flexisys.kbr.view.tenyeszet.LevalogatasTorlesAlertDialog;
 import hu.flexisys.kbr.view.tenyeszet.TorlesAlertListener;
@@ -106,14 +105,15 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
         adapter = new LevalogatasListViewAdapter(this, R.layout.list_levalogatas, egyedList, this, new LevalogatasListViewAdapter.EgyedListContainer() {
             @Override
             public void onLongClick(Egyed egyed) {
-//                Intent intent = new Intent(LevalogatasActivity.this, BiralatDialogActivity.class);
-//                Bundle extras = new Bundle();
-//                extras.putString(BiralatDialogActivity.KEY_AZONO, egyed.getAZONO());
-//                intent.putExtras(extras);
-//                startActivity(intent);
-                FragmentTransaction ft = getFragmentTransactionWithTag("longClick");
-                dialog = BiralatDialog.newInstance(egyed.getBiralatList());
-                dialog.show(ft, "longClick");
+                Intent intent = new Intent(LevalogatasActivity.this, BiralatDialogActivity.class);
+                Bundle extras = new Bundle();
+                extras.putString(BiralatDialogActivity.KEY_AZONO, egyed.getAZONO());
+                intent.putExtras(extras);
+                startActivity(intent);
+//                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//                FragmentTransaction ft = getFragmentTransactionWithTag("longClick");
+//                dialog = BiralatDialog.newInstance(egyed.getBiralatList());
+//                dialog.show(ft, "longClick");
             }
         });
         listView.setAdapter(adapter);

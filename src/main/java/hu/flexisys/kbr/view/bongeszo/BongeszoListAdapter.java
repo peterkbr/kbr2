@@ -14,6 +14,7 @@ import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.DateUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,22 +24,37 @@ import java.util.Map;
 public class BongeszoListAdapter extends ArrayAdapter<Biralat> {
 
     private final Map<String, Egyed> egyedMap;
+    private final BongeszoListContainer container;
     private List<Biralat> biralatList;
     private Context context;
 
-    public BongeszoListAdapter(Context context, int resource, List<Biralat> biralatList, Map<String, Egyed> egyedMap) {
+    public BongeszoListAdapter(Context context, int resource, List<Biralat> biralatList, Map<String, Egyed> egyedMap, BongeszoListContainer container) {
         super(context, resource);
         this.context = context;
         this.biralatList = biralatList;
         this.egyedMap = egyedMap;
+        this.container = container;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, final View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.list_bongeszo, parent, false);
-        Biralat currentBiralat = biralatList.get(position);
-        Egyed currentEgyed = egyedMap.get(currentBiralat.getAZONO());
+        final Biralat currentBiralat = biralatList.get(position);
+        final Egyed currentEgyed = egyedMap.get(currentBiralat.getAZONO());
+
+        if (!currentBiralat.getEXPORTALT()) {
+            List<Biralat> egyedBiralatList = new ArrayList<Biralat>();
+            egyedBiralatList.add(currentBiralat);
+            currentEgyed.setBiralatList(egyedBiralatList);
+            v.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    container.onLongClick(currentEgyed, currentBiralat);
+                    return true;
+                }
+            });
+        }
 
         TextView textView;
         Integer color = null;
@@ -150,4 +166,7 @@ public class BongeszoListAdapter extends ArrayAdapter<Biralat> {
         return biralatList.size();
     }
 
+    public interface BongeszoListContainer {
+        public void onLongClick(Egyed currentEgyed, Biralat currentBiralat);
+    }
 }

@@ -21,7 +21,6 @@ import hu.flexisys.kbr.util.biralat.BiralatSzempont;
 import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
 import hu.flexisys.kbr.util.biralat.BiralatTipus;
 import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
-import hu.flexisys.kbr.view.biralat.BiralatActivity;
 import hu.flexisys.kbr.view.component.biralpanel.BiralPanel;
 import hu.flexisys.kbr.view.component.biralpanel.BiralPanelElement;
 import hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput;
@@ -37,7 +36,7 @@ import java.util.*;
 public class BiralFragment extends Fragment implements NumPadInputContainer {
 
     private static String TAG = "BiralFragment";
-    private BiralatActivity activity;
+    private BiralFragmentContainer container;
     private NumPad numpad;
     private BiralPanel biralPanel;
 
@@ -50,9 +49,9 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     private Boolean editing;
     private Boolean biralatStarted;
 
-    public static BiralFragment newInstance(BiralatActivity activity) {
+    public static BiralFragment newInstance(BiralFragmentContainer container) {
         BiralFragment fragment = new BiralFragment();
-        fragment.activity = activity;
+        fragment.container = container;
         fragment.editing = false;
         fragment.biralatStarted = false;
         return fragment;
@@ -77,7 +76,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             Log.e(TAG, "Error while loading colors", e);
         }
 
-        String tipus = ((KbrApplication) activity.getApplication()).getBiralatTipus();
+        String tipus = ((KbrApplication) getActivity().getApplication()).getBiralatTipus();
         BiralatTipus biralatTipus = BiralatTipusUtil.getBiralatTipus(tipus);
         szempontKodInputMap = new HashMap<String, BiralatNumPadInput>();
 
@@ -147,7 +146,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         akakoBiralatNumPadInput.setContainer(new NumPadInputContainer() {
             @Override
             public void onMaxLengthReached() {
-                activity.onAkako(akakoBiralatNumPadInput.getText().toString());
+                container.onAkako(akakoBiralatNumPadInput.getText().toString());
             }
 
             @Override
@@ -173,7 +172,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     @Override
     public void onResume() {
         super.onResume();
-        activity.onBiralFragmentResume();
+        container.onBiralFragmentResume(this);
     }
 
     public void clearCurrentBiralat() {
@@ -425,7 +424,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
 
     @Override
     public void onInvalidInput() {
-        activity.beep();
+        container.beep();
     }
 
     @Override
@@ -447,4 +446,11 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         biralatStarted = false;
     }
 
+    public interface BiralFragmentContainer {
+        public void onAkako(String akako);
+
+        public void beep();
+
+        public void onBiralFragmentResume(BiralFragment biralFragment);
+    }
 }
