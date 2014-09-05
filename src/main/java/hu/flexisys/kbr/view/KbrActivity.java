@@ -1,6 +1,5 @@
 package hu.flexisys.kbr.view;
 
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -10,8 +9,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
-import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.KbrApplication;
+import hu.flexisys.kbr.util.SoundUtil;
 import hu.flexisys.kbr.view.levalogatas.DatePickedListener;
 import hu.flexisys.kbr.view.levalogatas.KbrDatePickerDialog;
 
@@ -98,13 +97,7 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
-    public void beep() {
-        Thread t = new Thread() {
-            public void run() {
-                MediaPlayer player = MediaPlayer.create(KbrActivity.this, R.raw.beep);
-                player.start();
-            }
-        };
-        t.start();
+    public void errorBeep() {
+        SoundUtil.errorBeep();
     }
 }

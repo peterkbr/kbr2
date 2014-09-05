@@ -44,7 +44,7 @@ public class BiralatNumPadInput extends NumPadInput {
             }
         } catch (Exception e) {
         }
-        container.onInvalidInput();
+//        container.onInvalidInput();
         return false;
     }
 

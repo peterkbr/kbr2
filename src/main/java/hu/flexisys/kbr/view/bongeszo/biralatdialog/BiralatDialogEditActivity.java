@@ -60,11 +60,6 @@ public class BiralatDialogEditActivity extends KbrActivity {
             }
 
             @Override
-            public void beep() {
-                BiralatDialogEditActivity.this.beep();
-            }
-
-            @Override
             public void onBiralFragmentResume(BiralFragment biralFragment) {
                 BiralatDialogEditActivity.this.biralFragment = biralFragment;
                 biralFragment.updateFragmentWithEgyed(selectedEgyed);

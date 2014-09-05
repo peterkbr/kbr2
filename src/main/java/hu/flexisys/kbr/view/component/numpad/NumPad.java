@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import hu.flexisys.kbr.R;
+import hu.flexisys.kbr.util.SoundUtil;
 
 /**
  * Created by Peter on 2014.07.13..
@@ -35,6 +36,7 @@ public class NumPad extends LinearLayout {
             num.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
+//                    beep();
                     if (numPadInput != null) {
                         TextView tv = (TextView) view;
                         String text = tv.getText().toString();
@@ -45,6 +47,10 @@ public class NumPad extends LinearLayout {
         }
         addView(numPadView);
     }
+
+//    private void beep() {
+//        SoundUtil.buttonBeep();
+//    }
 
     public NumPadInput getNumPadInput() {
         return numPadInput;

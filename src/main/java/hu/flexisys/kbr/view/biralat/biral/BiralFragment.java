@@ -17,6 +17,7 @@ import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.DateUtil;
 import hu.flexisys.kbr.util.PropertiesUtil;
+import hu.flexisys.kbr.util.SoundUtil;
 import hu.flexisys.kbr.util.biralat.BiralatSzempont;
 import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
 import hu.flexisys.kbr.util.biralat.BiralatTipus;
@@ -149,10 +150,15 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
                 container.onAkako(akakoBiralatNumPadInput.getText().toString());
             }
 
-            @Override
-            public void onInvalidInput() {
-                BiralFragment.this.onInvalidInput();
-            }
+//            @Override
+//            public void onInvalidInput() {
+//                BiralFragment.this.onInvalidInput();
+//            }
+//
+//            @Override
+//            public void onValidInput() {
+//                BiralFragment.this.onValidInput();
+//            }
 
             @Override
             public void onInput() {
@@ -422,10 +428,17 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         stepToNextInput();
     }
 
-    @Override
-    public void onInvalidInput() {
-        container.beep();
-    }
+//    @Override
+//    public void onInvalidInput() {
+////        container.beep();
+//        SoundUtil.errorBeep();
+//    }
+//
+//    @Override
+//    public void onValidInput() {
+////        container.beep();
+//        SoundUtil.buttonBeep();
+//    }
 
     @Override
     public void onInput() {
@@ -448,8 +461,6 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
 
     public interface BiralFragmentContainer {
         public void onAkako(String akako);
-
-        public void beep();
 
         public void onBiralFragmentResume(BiralFragment biralFragment);
     }

@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.TextView;
 import hu.flexisys.kbr.R;
+import hu.flexisys.kbr.util.SoundUtil;
 
 /**
  * Created by Peter on 2014.07.15..
@@ -61,6 +62,9 @@ public class NumPadInput extends TextView {
         }
         if (validateContent(newValue)) {
             onValidInput(newValue);
+            SoundUtil.buttonBeep();
+        } else {
+            SoundUtil.errorBeep();
         }
     }
 

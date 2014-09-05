@@ -24,11 +24,6 @@ public class BiralatPagerAdapter extends FragmentPagerAdapter {
             }
 
             @Override
-            public void beep() {
-                biralatActivity.beep();
-            }
-
-            @Override
             public void onBiralFragmentResume(BiralFragment biralFragment) {
                 biralatActivity.onBiralFragmentResume();
             }

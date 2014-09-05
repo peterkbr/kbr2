@@ -8,6 +8,7 @@ import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
 import hu.flexisys.kbr.util.KbrApplicationUtil;
+import hu.flexisys.kbr.util.SoundUtil;
 import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
 import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
@@ -32,6 +33,7 @@ public class KbrApplication extends Application {
         BiralatSzempontUtil.initBiralatSzempontUtil(this);
         BiralatTipusUtil.initBiralatTipusUtil(this);
         KbrApplicationUtil.initKbrApplicationUtil(this);
+        SoundUtil.initSoundUtil(this);
 
         dbController = new DBController(this, KbrApplicationUtil.getBiraloUserName());
         checkDbConsistency();
@@ -217,5 +219,7 @@ public class KbrApplication extends Application {
         return KbrApplicationUtil.getBiralatTipus();
     }
 
-    public String getBiraloNev(){ return KbrApplicationUtil.getBiraloNev();}
+    public String getBiraloNev() {
+        return KbrApplicationUtil.getBiraloNev();
+    }
 }
