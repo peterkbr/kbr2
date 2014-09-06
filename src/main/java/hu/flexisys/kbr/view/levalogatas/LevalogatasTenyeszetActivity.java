@@ -1,7 +1,6 @@
 package hu.flexisys.kbr.view.levalogatas;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.FragmentTransaction;
@@ -13,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.model.Egyed;
+import hu.flexisys.kbr.util.EmailUtil;
 import hu.flexisys.kbr.util.export.LevalogatasCvsExporter;
 import hu.flexisys.kbr.util.export.LevalogatasPdfExporter;
 import hu.flexisys.kbr.view.KbrActivity;
@@ -145,31 +145,32 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
                     new EmptyTask(new Executable() {
                         @Override
                         public void execute() throws Exception {
-                            List<Egyed> selectedEgyedList = app.getEgyedListByTENAZArray(getSelectedTenazArray());
+                            List<Egyed> selectedEgyedList = app.getEgyedListByTENAZListAndKivalasztott(selectedList, true);
 
-                            ArrayList<Uri> uris = new ArrayList<Uri>();
+                            List<String> pathList = new ArrayList<String>();
                             if (pdf) {
                                 LevalogatasPdfExporter.initLevalogatasPdfExporter("TODO : TENAZ", "TODO : TARTO", app.getBiraloNev());
                                 String pdfFilePath = LevalogatasPdfExporter.export(dir.getPath(), selectedEgyedList);
-                                File fileIn = new File(pdfFilePath);
-                                Uri u = Uri.fromFile(fileIn);
-                                uris.add(u);
+                                pathList.add(pdfFilePath);
                             }
                             if (csv) {
                                 String csvFilePath = LevalogatasCvsExporter.export(dir.getPath(), selectedEgyedList);
-                                File fileIn = new File(csvFilePath);
-                                Uri u = Uri.fromFile(fileIn);
-                                uris.add(u);
+                                pathList.add(csvFilePath);
                             }
 
-                            Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
-                            intent.setType("message/rfc822");
-//                            intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"email@example.com"});
-//                            intent.putExtra(Intent.EXTRA_SUBJECT, "subject here");
-//                            intent.putExtra(Intent.EXTRA_TEXT, "body text");
-                            intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-                            Intent mailer = Intent.createChooser(intent, null);
-                            startActivity(mailer);
+                            StringBuilder subjectBuider = null;
+                            for (String tenaz : selectedList) {
+                                if (subjectBuider == null) {
+                                    subjectBuider = new StringBuilder();
+                                } else {
+                                    subjectBuider.append(",");
+                                }
+                                subjectBuider.append(tenaz);
+                            }
+                            subjectBuider.append(" leválogatott egyedei");
+
+                            EmailUtil.sendMailWithAttachments(null, subjectBuider.toString(), null, pathList);
+
                         }
                     }, new ExecutableFinishedListener() {
                         @Override

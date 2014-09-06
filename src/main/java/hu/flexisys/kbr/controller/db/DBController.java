@@ -6,6 +6,7 @@ import android.util.Log;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
+import hu.flexisys.kbr.util.FileUtil;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -32,13 +33,13 @@ public class DBController {
 
     public DBController(Context context, String userid) {
         this.context = context;
-        innerDBPath = context.getFilesDir().getAbsolutePath().toString() + File.separator + DB_NAME + "_" + userid;
+        innerDBPath = context.getFilesDir().getAbsolutePath().toString() + File.separator + DB_NAME + "_innerDB_" + userid;
         innerConnector = new DBConnector(context, innerDBPath, DB_VERSION);
 
         String dirPath = Environment.getExternalStorageDirectory() + File.separator + "KBR2" + File.separator + "DataBase";
         File dir = new File(dirPath);
         dir.mkdirs();
-        sdCardDBPath = dir.getPath() + File.separator + DB_NAME + "_" + userid;
+        sdCardDBPath = dir.getPath() + File.separator + DB_NAME + "_sdcardDB_" + userid;
         sdCardConnector = new DBConnector(context, sdCardDBPath, DB_VERSION);
     }
 
@@ -139,8 +140,8 @@ public class DBController {
         return innerConnector.getEgyedTehenByTENAZ(tenaz);
     }
 
-    public List<Egyed> getEgyedByTenyeszetAndKivalasztott(Tenyeszet tenyeszet, boolean kivalasztott) {
-        return innerConnector.getEgyedByTENAZAndKIVALASZTOTT(tenyeszet.getTENAZ(), kivalasztott);
+    public List<Egyed> getEgyedByTENAZAndKIVALASZTOTT(String TENAZ, boolean KIVALASZTOTT) {
+        return innerConnector.getEgyedByTENAZAndKIVALASZTOTT(TENAZ, KIVALASZTOTT);
     }
 
     public List<Biralat> getBiralatAll() {
@@ -202,5 +203,30 @@ public class DBController {
             md5 = "0" + md5;
         }
         return md5;
+    }
+
+    public void synchronizeDb(boolean inner) {
+        File src;
+        File dst;
+        if (inner) {
+            src = new File(innerDBPath);
+            dst = new File(sdCardDBPath);
+        } else {
+            src = new File(sdCardDBPath);
+            dst = new File(innerDBPath);
+        }
+        try {
+            FileUtil.copyFile(src, dst);
+        } catch (IOException e) {
+            Log.e(TAG, "synchronizeDb", e);
+        }
+    }
+
+    public String getInnerDBPath() {
+        return innerDBPath;
+    }
+
+    public String getSdCardDBPath() {
+        return sdCardDBPath;
     }
 }

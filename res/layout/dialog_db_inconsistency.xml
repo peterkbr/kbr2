@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:minWidth="350dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:textSize="@dimen/dialog_title_textSize"
+        android:layout_marginBottom="@dimen/dialog_title_margin"
+        android:layout_height="wrap_content"
+        android:text="Hiba! Különbözik a belső és az SD kártyán lévő adatbázis!" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:textSize="@dimen/dialog_message_textSize"
+        android:layout_marginBottom="@dimen/dialog_message_margin"
+        android:layout_height="wrap_content"
+        android:text="Melyik adatbázis kerüljön mentésre?" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton android:id="@+id/dialog_db_inc_chb_inner"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/dialog_message_textSize"
+            android:layout_height="wrap_content"
+            android:text="Belső" />
+
+        <RadioButton
+            android:id="@+id/dialog_db_inc_chb_sdcard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SD kártyán lévő" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/dialog_db_inc_button_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dialog_menu_height"
+        android:text="@string/ok"
+        android:textSize="@dimen/dialog_menu_textsize" />
+</LinearLayout>

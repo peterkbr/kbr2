@@ -30,6 +30,7 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         app = (KbrApplication) getApplication();
+        app.setCurrentActivity(this);
         actionBar = getSupportActionBar();
     }
 

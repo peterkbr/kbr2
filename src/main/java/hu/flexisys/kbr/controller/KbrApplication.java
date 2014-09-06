@@ -1,16 +1,22 @@
 package hu.flexisys.kbr.controller;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 import hu.flexisys.kbr.controller.db.DBController;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
+import hu.flexisys.kbr.util.EmailUtil;
+import hu.flexisys.kbr.util.FileUtil;
 import hu.flexisys.kbr.util.KbrApplicationUtil;
 import hu.flexisys.kbr.util.SoundUtil;
 import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
 import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
+import hu.flexisys.kbr.view.KbrActivity;
+import hu.flexisys.kbr.view.db.DbInconsistencyHandlerActivity;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
 
 import java.util.ArrayList;
@@ -25,6 +31,7 @@ public class KbrApplication extends Application {
 
     private static String TAG = "KBR_APPLICATION";
     private DBController dbController;
+    private KbrActivity currentActivity;
 
     @Override
     public void onCreate() {
@@ -34,9 +41,10 @@ public class KbrApplication extends Application {
         BiralatTipusUtil.initBiralatTipusUtil(this);
         KbrApplicationUtil.initKbrApplicationUtil(this);
         SoundUtil.initSoundUtil(this);
+        EmailUtil.initEmailUtil(this);
+        FileUtil.initFileUtil(this);
 
         dbController = new DBController(this, KbrApplicationUtil.getBiraloUserName());
-        checkDbConsistency();
     }
 
     // WRITE DB
@@ -112,10 +120,10 @@ public class KbrApplication extends Application {
         for (Tenyeszet tenyeszet : tenyeszetList) {
             TenyeszetListModel model = new TenyeszetListModel(tenyeszet);
 
-            List<Egyed> tehenList = dbController.getEgyedTehenByTenyeszet(tenyeszet);
-            model.setEgyedCount(tehenList.size());
-            tehenList = dbController.getEgyedByTenyeszetAndKivalasztott(tenyeszet, true);
-            model.setSelectedEgyedCount(tehenList.size());
+            List<Egyed> egyedList = dbController.getEgyedTehenByTenyeszet(tenyeszet);
+            model.setEgyedCount(egyedList.size());
+            egyedList = dbController.getEgyedByTENAZAndKIVALASZTOTT(tenyeszet.getTENAZ(), true);
+            model.setSelectedEgyedCount(egyedList.size());
 
             List<Biralat> biralatList = dbController.getBiralatByTenyeszetAndFeltoltetlen(tenyeszet.getTENAZ(), true);
             model.setBiralatWaitingForUpload(biralatList.size());
@@ -170,6 +178,14 @@ public class KbrApplication extends Application {
         return egyedList;
     }
 
+    public List<Egyed> getEgyedListByTENAZListAndKivalasztott(List<String> tenazList, boolean kivalasztott) {
+        List<Egyed> egyedList = new ArrayList<Egyed>();
+        for (String tenaz : tenazList) {
+            egyedList.addAll(dbController.getEgyedByTENAZAndKIVALASZTOTT(tenaz, kivalasztott));
+        }
+        return egyedList;
+    }
+
     public List<Biralat> getFeltoltetlenBiralatListByTenazList(List<String> tenazList) {
         List<Biralat> biralatList = new ArrayList<Biralat>();
         for (String TENAZ : tenazList) {
@@ -201,8 +217,17 @@ public class KbrApplication extends Application {
             dbController.checkDbConsistency();
         } catch (Exception e) {
             Log.e(TAG, "checkDbConsistency", e);
-            Toast.makeText(this, "Inkonzisztens DB!", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(currentActivity, DbInconsistencyHandlerActivity.class);
+            Bundle extras = new Bundle();
+            extras.putString(DbInconsistencyHandlerActivity.KEY_INNER_PATH, dbController.getInnerDBPath());
+            extras.putString(DbInconsistencyHandlerActivity.KEY_SDCARD_PATH, dbController.getSdCardDBPath());
+            intent.putExtras(extras);
+            currentActivity.startActivity(intent);
         }
+    }
+
+    public void synchronizeDb(boolean inner) {
+        dbController.synchronizeDb(inner);
     }
 
     // GETTERS, SETTERS
@@ -221,5 +246,18 @@ public class KbrApplication extends Application {
 
     public String getBiraloNev() {
         return KbrApplicationUtil.getBiraloNev();
+    }
+
+    public void setCurrentActivity(KbrActivity kbrActivity) {
+        if (currentActivity == null) {
+            currentActivity = kbrActivity;
+            checkDbConsistency();
+        } else {
+            currentActivity = kbrActivity;
+        }
+    }
+
+    public Context geActivityContext() {
+        return currentActivity;
     }
 }

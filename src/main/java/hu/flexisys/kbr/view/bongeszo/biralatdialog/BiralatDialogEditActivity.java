@@ -29,7 +29,7 @@ public class BiralatDialogEditActivity extends KbrActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActionBar().hide();
+        actionBar.hide();
 
         selectedEgyed = (Egyed) getIntent().getExtras().getSerializable(KEY_EGYED);
         FragmentTransaction ft = getFragmentTransactionWithTag("longClick");
