@@ -7,20 +7,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 import hu.flexisys.kbr.R;
-import hu.flexisys.kbr.controller.db.RemoveTenyeszetArrayTask;
 import hu.flexisys.kbr.controller.network.tenyeszet.DownloadTenyeszetArrayTask;
 import hu.flexisys.kbr.controller.network.tenyeszet.DownloadTenyeszetHandler;
 import hu.flexisys.kbr.model.Tenyeszet;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.NotificationDialog;
-import hu.flexisys.kbr.view.ProgressDialog;
+import hu.flexisys.kbr.view.levalogatas.EmptyTask;
+import hu.flexisys.kbr.view.levalogatas.Executable;
+import hu.flexisys.kbr.view.levalogatas.ExecutableFinishedListener;
 
 import java.util.*;
 
 /**
  * Created by Peter on 2014.07.04..
  */
-public class TenyeszetActivity extends KbrActivity implements FelveszListener, TorlesAlertListener {
+public class TenyeszetActivity extends KbrActivity {
 
     private final List<TenyeszetListModel> tenyeszetList = new ArrayList<TenyeszetListModel>();
     private final List<String> selectedList = new ArrayList<String>();
@@ -109,27 +110,28 @@ public class TenyeszetActivity extends KbrActivity implements FelveszListener, T
 
     public void felvesz() {
         FragmentTransaction ft = getFragmentTransactionWithTag("felveszDialog");
-        FelveszDialog newFragment = FelveszDialog.newInstance(this);
+        FelveszDialog newFragment = FelveszDialog.newInstance(new FelveszListener() {
+
+            @Override
+            public void onFelvesz(String tenaz) {
+                if (tenaz == null || tenaz.isEmpty()) {
+                    toast(R.string.teny_felvesz_error_invalid);
+                } else if (isDuplicate(tenaz)) {
+                    toast(R.string.teny_felvesz_error_duplicate);
+                } else {
+                    Tenyeszet tenyeszet = new Tenyeszet(tenaz);
+                    tenyeszet.setERVENYES(false);
+                    tenyeszet.setLEDAT(new Date(1));
+                    app.insertTenyeszetWithChildren(tenyeszet);
+
+                    TenyeszetListModel model = new TenyeszetListModel(tenyeszet);
+                    tenyeszetList.add(0, model);
+                    selectedList.add(model.getTENAZ());
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
         newFragment.show(ft, "felveszDialog");
-    }
-
-    @Override
-    public void onFelvesz(String tenaz) {
-        if (tenaz == null || tenaz.isEmpty()) {
-            toast(R.string.teny_felvesz_error_invalid);
-        } else if (isDuplicate(tenaz)) {
-            toast(R.string.teny_felvesz_error_duplicate);
-        } else {
-            Tenyeszet tenyeszet = new Tenyeszet(tenaz);
-            tenyeszet.setERVENYES(false);
-            tenyeszet.setLEDAT(new Date(1));
-            app.insertTenyeszetWithChildren(tenyeszet);
-
-            TenyeszetListModel model = new TenyeszetListModel(tenyeszet);
-            tenyeszetList.add(0, model);
-            selectedList.add(model.getTENAZ());
-            adapter.notifyDataSetChanged();
-        }
     }
 
     private Boolean isDuplicate(String tenaz) {
@@ -215,21 +217,59 @@ public class TenyeszetActivity extends KbrActivity implements FelveszListener, T
             }
         }
         FragmentTransaction ft = getFragmentTransactionWithTag("torlesDialog");
-        dialog = TorlesAlertDialog.newInstance(this);
+        dialog = TorlesAlertDialog.newInstance(new TorlesAlertListener() {
+
+            @Override
+            public void onTorles() {
+                dismissDialog();
+
+                startProgressDialog(getString(R.string.teny_progress_torles));
+                EmptyTask torolTask = new EmptyTask(new Executable() {
+                    @Override
+                    public void execute() throws Exception {
+                        for (String tenaz : selectedList) {
+                            app.deleteTenyeszet(tenaz);
+                        }
+                    }
+                }, new ExecutableFinishedListener() {
+                    @Override
+                    public void onFinished() {
+                        dismissDialog();
+
+                        List<String> oldList = new ArrayList<String>(selectedList);
+                        reloadData();
+                        adapter.notifyDataSetChanged();
+
+                        StringBuilder buider = null;
+                        for (String tenaz : oldList) {
+                            if (buider == null) {
+                                buider = new StringBuilder();
+                            } else {
+                                buider.append("\n");
+                            }
+                            boolean deleted = true;
+                            for (TenyeszetListModel model : tenyeszetList) {
+                                if (model.getTENAZ().equals(tenaz)) {
+                                    deleted = false;
+                                    break;
+                                }
+                            }
+                            buider.append(tenaz).append(" - ");
+                            if (deleted) {
+                                buider.append("Törölve");
+                            } else {
+                                buider.append("Törlés sikertelen");
+                            }
+                        }
+
+                        FragmentTransaction ft = getFragmentTransactionWithTag("delete");
+                        dialog = NotificationDialog.newInstance(buider.toString(), null);
+                        dialog.show(ft, "delete");
+                    }
+                });
+                torolTask.execute();
+            }
+        });
         dialog.show(ft, "torlesDialog");
     }
-
-    @Override
-    public void onTorles() {
-        dismissDialog();
-        startProgressDialog(getString(R.string.teny_progress_torles));
-        for (String tenaz : selectedList) {
-            tenyeszetList.remove(new TenyeszetListModel(tenaz));
-        }
-        adapter.notifyDataSetChanged();
-        RemoveTenyeszetArrayTask removeTenyeszetArrayTask = new RemoveTenyeszetArrayTask(app, this);
-        removeTenyeszetArrayTask.execute(selectedList.toArray());
-        selectedList.clear();
-    }
-
 }
