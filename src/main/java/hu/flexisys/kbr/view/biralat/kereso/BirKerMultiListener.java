@@ -8,4 +8,5 @@ import hu.flexisys.kbr.model.Egyed;
 public interface BirKerMultiListener {
 
     public void onSelect(Egyed azono);
+    public void onCancel();
 }

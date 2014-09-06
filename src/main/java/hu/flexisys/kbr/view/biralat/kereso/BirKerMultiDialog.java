@@ -57,7 +57,7 @@ public class BirKerMultiDialog extends KbrDialog {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                listener.onCancel();
             }
         });
         return v;

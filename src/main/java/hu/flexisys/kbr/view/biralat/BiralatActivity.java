@@ -21,7 +21,7 @@ import java.util.*;
 /**
  * Created by Peter on 2014.07.04..
  */
-public class BiralatActivity extends KbrActivity implements BirKerNotfoundListener, BirKerMultiListener {
+public class BiralatActivity extends KbrActivity implements BirKerNotfoundListener {
 
     private static final String TAG = "KBR_BiralatActivity";
 
@@ -230,14 +230,15 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
 
                 @Override
                 public void onBirBirUnsavedBiralatCancel() {
+                    dismissDialog();
                     if (selectedEgyed != null) {
                         updateHasznalatiSzamView(selectedEgyed.getAZONO());
                     }
-                    dismissDialog();
                 }
 
                 @Override
                 public void onBirBirUnsavedBiralatOk() {
+                    dismissDialog();
                     biralFragment.clearCurrentBiralat();
                     keres(null);
                 }
@@ -260,7 +261,18 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         } else if (foundList.size() > 1) {
             selectedEgyed = null;
             FragmentTransaction ft = getFragmentTransactionWithTag("multi");
-            dialog = BirKerMultiDialog.newInstance(this, foundList);
+            dialog = BirKerMultiDialog.newInstance(new BirKerMultiListener() {
+                @Override
+                public void onSelect(Egyed egyed) {
+                    dismissDialog();
+                    onSingleSelect(egyed);
+                }
+
+                @Override
+                public void onCancel() {
+                    dismissDialog();
+                }
+            }, foundList);
             dialog.show(ft, "multi");
         } else {
             selectedEgyed = null;
@@ -304,11 +316,6 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         return null;
     }
 
-    @Override
-    public void onSelect(Egyed egyed) {
-        onSingleSelect(egyed);
-    }
-
     private void onSingleSelect(Egyed egyed) {
         String azono = String.valueOf(egyed.getAZONO());
         updateHasznalatiSzamView(azono);
@@ -319,17 +326,17 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
             dialog = BirKerNotSelectedDialog.newInstance(new BirKerNotselectedListener() {
                 @Override
                 public void onBiralSelected(Egyed egyed) {
+                    dismissDialog();
                     selectedEgyed = egyed;
                     updateUIWithSelectedEgyed();
-                    dismissDialog();
                 }
 
                 @Override
                 public void onCancelSelection() {
+                    dismissDialog();
                     if (selectedEgyed != null) {
                         updateHasznalatiSzamView(selectedEgyed.getAZONO());
                     }
-                    dismissDialog();
                 }
             }, egyed);
             dialog.show(ft, "BirKerNotSelectedDialog");

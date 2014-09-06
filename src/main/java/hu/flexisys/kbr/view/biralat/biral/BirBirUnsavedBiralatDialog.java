@@ -16,14 +16,12 @@ public class BirBirUnsavedBiralatDialog extends KbrDialog {
 
     private BirBirUnsavedBiralatListener listener;
 
-
     public static BirBirUnsavedBiralatDialog newInstance(BirBirUnsavedBiralatListener listener) {
         BirBirUnsavedBiralatDialog dialog = new BirBirUnsavedBiralatDialog();
         dialog.layoutResId = R.layout.dialog_bir_bir_unsaved;
         dialog.listener = listener;
         return dialog;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
