@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import hu.flexisys.kbr.R;
+import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.view.KbrDialog;
 
@@ -79,14 +80,21 @@ public class BirKerMultiDialog extends KbrDialog {
                 textView.setText(String.valueOf(egyed.getAZONO()));
             }
 
+            Boolean biralt = false;
+            for (Biralat biralat : egyed.getBiralatList()) {
+                if (biralat.getFELTOLTETLEN()) {
+                    biralt = true;
+                    break;
+                }
+            }
             if (egyed.getUJ()) {
                 textView.setBackgroundColor(getResources().getColor(R.color.red));
-            } else if (!egyed.getBiralatList().isEmpty()) {
-                textView.setBackgroundColor(getResources().getColor(R.color.blue));
+            } else if (biralt) {
+                textView.setBackgroundColor(getResources().getColor(R.color.light_blue));
             } else if (egyed.getKIVALASZTOTT()) {
                 textView.setBackgroundColor(getResources().getColor(R.color.green));
             } else {
-                textView.setBackgroundColor(getResources().getColor(R.color.gray));
+                textView.setBackgroundColor(getResources().getColor(R.color.transparent));
             }
 
             textView.setClickable(true);
