@@ -47,7 +47,9 @@ public class BirKerMultiDialog extends KbrDialog {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onSelect(selectedEgyed);
+                if (selectedEgyed != null) {
+                    listener.onSelect(selectedEgyed);
+                }
             }
         });
 
