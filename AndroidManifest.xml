@@ -20,6 +20,7 @@
         <activity android:name=".view.KbrActivity" />
         <activity
             android:name=".view.MenuActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,6 +29,7 @@
         </activity>
         <activity
             android:name=".view.tenyeszet.TenyeszetActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -35,6 +37,7 @@
         </activity>
         <activity
             android:name=".view.biralat.BiralatTenyeszetActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -42,6 +45,7 @@
         </activity>
         <activity
             android:name=".view.biralat.BiralatActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
             <meta-data
@@ -51,6 +55,7 @@
 
         <activity
             android:name=".view.levalogatas.LevalogatasTenyeszetActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -66,6 +71,7 @@
         </activity>
         <activity
             android:name=".view.levalogatas.biralatdialog.BiralatDialogActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -74,6 +80,7 @@
 
         <activity
             android:name=".view.bongeszo.tenyeszet.BongeszoTenyeszetActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -81,6 +88,7 @@
         </activity>
         <activity
             android:name=".view.bongeszo.BongeszoActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -88,6 +96,7 @@
         </activity>
         <activity
             android:name=".view.bongeszo.diagram.DiagramActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -95,6 +104,7 @@
         </activity>
         <activity
             android:name=".view.bongeszo.biralatdialog.BiralatDialogEditActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -103,8 +113,7 @@
 
         <activity
             android:name=".view.db.DbInconsistencyHandlerActivity"
-            android:screenOrientation="portrait"></activity>
-
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
     </application>
-
 </manifest>
