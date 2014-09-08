@@ -449,17 +449,27 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
             @Override
             public void execute() {
                 saveEgyedList();
-                filter.clear();
-                reloadData();
                 selectionChanged = false;
             }
         }, new ExecutableFinishedListener() {
             @Override
             public void onFinished() {
-                updateCounters();
-                adapter.notifyDataSetChanged();
                 urit();
-                dismissDialog();
+                updateFilterValues();
+                EmptyTask newTask = new EmptyTask(new Executable() {
+                    @Override
+                    public void execute() throws Exception {
+                        reloadData();
+                    }
+                }, new ExecutableFinishedListener() {
+                    @Override
+                    public void onFinished() {
+                        updateCounters();
+                        adapter.notifyDataSetChanged();
+                        dismissDialog();
+                    }
+                });
+                newTask.execute();
             }
         });
         task.execute();
