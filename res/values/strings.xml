@@ -46,7 +46,7 @@
 
     <!--LEVÁLOGATÁS-->
     <string name="lev_teny_menu_torles">Leválogatás törlése</string>
-    <string name="lev_teny_menu_kuld">Feltöltés</string>
+    <string name="lev_teny_menu_kuld">Küldés</string>
     <string name="lev_teny_menu_tovabb">Tovább</string>
 
     <string name="lev_menu_torles">Minden egyed</string>
@@ -136,6 +136,8 @@
     <string name="bong_teny_kuld_error_nincs_friss_biralat">Csak friss bírálatokat lehet feltölteni!</string>
     <string name="bong_teny_kuld_error_unexported_biralat">A bírálatok feltöltése előtt azokat exportálni kell!</string>
 
+    <string name="bong_menu_feltoltes">Feltöltés</string>
+    <string name="bong_menu_tovabb">Tovább</string>
     <string name="bong_menu_export">Export</string>
     <string name="bong_menu_linearis">Linearis tulajdonságok</string>
     <string name="bong_szuk_menu_szukit">Szűkít</string>

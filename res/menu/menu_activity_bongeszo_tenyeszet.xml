@@ -3,10 +3,11 @@
 
     <item
         android:id="@+id/tovabb"
-        android:title="@string/lev_teny_menu_tovabb"
+        android:title="@string/bong_menu_tovabb"
         kbr:showAsAction="always" />
+
     <item
         android:id="@+id/kuld"
-        android:title="@string/lev_teny_menu_kuld"
+        android:title="@string/bong_menu_feltoltes"
         kbr:showAsAction="always" />
 </menu>

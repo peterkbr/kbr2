@@ -122,7 +122,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
                 bongeszes();
                 return true;
             case R.id.kuld:
-                kuld();
+                feltoltes();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -146,9 +146,9 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
         startActivity(intent);
     }
 
-    // KÜLDÉS
+    // FELTÖLTÉS
 
-    public void kuld() {
+    public void feltoltes() {
         if (selectedList.isEmpty()) {
             return;
         }
@@ -235,5 +235,4 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
             }
         }).execute();
     }
-
 }
