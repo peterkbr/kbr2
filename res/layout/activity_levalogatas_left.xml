@@ -1,352 +1,359 @@
 <!--SZŰKÍTÉS-->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp"
-    android:weightSum="7">
-
-    <TextView
-        android:id="@+id/lev_szuk_telep_name"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:textSize="15sp"
-        android:textStyle="italic"/>
+    android:layout_width="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <CheckBox
-            android:id="@+id/lev_szuk_mar_ellett_chb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Már ellett"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-        <CheckBox
-            android:id="@+id/lev_szuk_nem_biralt_chb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nem bírált"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-        <CheckBox
-            android:id="@+id/lev_szuk_itv_chb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ITV"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-        <CheckBox
-            android:id="@+id/lev_szuk_kivalasztottak_chb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Kiválasztottak"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:weightSum="3">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/input_height"
+            android:id="@+id/lev_szuk_telep_name"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="4dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="Ellés sorszáma(i):"/>
-
-        <EditText
-            android:id="@+id/lev_szuk_elles_sorszamai"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/input_height"
-            android:layout_weight="1"
-            android:background="@drawable/keret"
-            android:gravity="center_vertical"/>
+            android:gravity="center"
+            android:textSize="15sp"
+            android:textStyle="italic" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.8"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <RadioButton
-                android:id="@+id/lev_szuk_hu_radio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="HU"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <RadioButton
-                android:id="@+id/lev_szuk_ku_radio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="KU"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:weightSum="3">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/input_height"
-            android:layout_weight="1"
+            android:layout_margin="4dp"
             android:gravity="center_vertical"
-            android:text="ENAR szám:"/>
+            android:orientation="horizontal">
 
-
-        <EditText
-            android:id="@+id/lev_szuk_enar"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/input_height"
-            android:layout_weight="1.8"
-            android:background="@drawable/keret"
-            android:gravity="center_vertical"
-            android:inputType="number"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:weightSum="3">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/input_height"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="Utolsó ellés dátuma:"/>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:gravity="center_vertical">
+            <CheckBox
+                android:id="@+id/lev_szuk_mar_ellett_chb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/lev_szuk_utolso_elles_tol"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/input_height"
-                android:layout_weight="0.8"
-                android:background="@drawable/keret"
-                android:clickable="true"
-                android:gravity="center_vertical"
-                android:onClick="pickDate"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Már ellett" />
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="@dimen/input_height"
-                android:layout_weight="0.2"
-                android:gravity="center_vertical"
-                android:text="-tól"/>
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <CheckBox
+                android:id="@+id/lev_szuk_nem_biralt_chb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/lev_szuk_utolso_elles_ig"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/input_height"
-                android:layout_weight="0.8"
-                android:background="@drawable/keret"
-                android:clickable="true"
-                android:gravity="center_vertical"
-                android:onClick="pickDate"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nem bírált" />
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="@dimen/input_height"
-                android:layout_weight="0.2"
-                android:gravity="center_vertical"
-                android:text="-ig"/>
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <CheckBox
+                android:id="@+id/lev_szuk_itv_chb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ITV" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <CheckBox
+                android:id="@+id/lev_szuk_kivalasztottak_chb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kiválasztottak" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
         </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:weightSum="3">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/input_height"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="Születés dátuma:"/>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:id="@+id/lev_szuk_szuletes_tol"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/input_height"
-                android:layout_weight="0.8"
-                android:background="@drawable/keret"
-                android:clickable="true"
-                android:gravity="center_vertical"
-                android:onClick="pickDate"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="@dimen/input_height"
-                android:layout_weight="0.2"
-                android:gravity="center_vertical"
-                android:text="-tól"/>
-
-            <TextView
-                android:id="@+id/lev_szuk_szuletes_ig"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/input_height"
-                android:layout_weight="0.8"
-                android:background="@drawable/keret"
-                android:clickable="true"
-                android:gravity="center_vertical"
-                android:inputType="date"
-                android:onClick="pickDate"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="@dimen/input_height"
-                android:layout_weight="0.2"
-                android:gravity="center_vertical"
-                android:text="-ig"/>
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:weightSum="3">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/input_height"
-            android:layout_weight="1"
+            android:layout_margin="4dp"
             android:gravity="center_vertical"
-            android:text="Konstrukciós kód:"/>
+            android:orientation="horizontal"
+            android:weightSum="3">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/input_height"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="Ellés sorszáma(i):" />
 
             <EditText
-                android:id="@+id/lev_szuk_konstrukcios_tol"
+                android:id="@+id/lev_szuk_elles_sorszamai"
                 android:layout_width="0dp"
+                android:digits="0123456789,"
+                android:inputType="number"
+                android:imeOptions="flagNoExtractUi"
                 android:layout_height="@dimen/input_height"
-                android:layout_weight="0.8"
+                android:layout_weight="1"
                 android:background="@drawable/keret"
-                android:gravity="center_vertical"
-                android:inputType="number"/>
+                android:gravity="center_vertical" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <RadioButton
+                    android:id="@+id/lev_szuk_hu_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="HU" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <RadioButton
+                    android:id="@+id/lev_szuk_ku_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="KU" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="3">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="@dimen/input_height"
-                android:layout_weight="0.2"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="-tól"/>
+                android:text="ENAR szám:" />
 
             <EditText
-                android:id="@+id/lev_szuk_konstrukcios_ig"
+                android:id="@+id/lev_szuk_enar"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/input_height"
-                android:layout_weight="0.8"
+                android:layout_weight="1.8"
                 android:background="@drawable/keret"
                 android:gravity="center_vertical"
-                android:inputType="number"/>
+                android:inputType="number"
+                android:imeOptions="flagNoExtractUi" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="3">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="@dimen/input_height"
-                android:layout_weight="0.2"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="-ig"/>
+                android:text="Utolsó ellés dátuma:" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/lev_szuk_utolso_elles_tol"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/input_height"
+                    android:layout_weight="0.8"
+                    android:background="@drawable/keret"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:onClick="pickDate" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/input_height"
+                    android:layout_weight="0.2"
+                    android:gravity="center_vertical"
+                    android:text="-tól" />
+
+                <TextView
+                    android:id="@+id/lev_szuk_utolso_elles_ig"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/input_height"
+                    android:layout_weight="0.8"
+                    android:background="@drawable/keret"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:onClick="pickDate" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/input_height"
+                    android:layout_weight="0.2"
+                    android:gravity="center_vertical"
+                    android:text="-ig" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/input_height"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="Születés dátuma:" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/lev_szuk_szuletes_tol"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/input_height"
+                    android:layout_weight="0.8"
+                    android:background="@drawable/keret"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:onClick="pickDate" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/input_height"
+                    android:layout_weight="0.2"
+                    android:gravity="center_vertical"
+                    android:text="-tól" />
+
+                <TextView
+                    android:id="@+id/lev_szuk_szuletes_ig"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/input_height"
+                    android:layout_weight="0.8"
+                    android:background="@drawable/keret"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:inputType="date"
+                    android:onClick="pickDate" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/input_height"
+                    android:layout_weight="0.2"
+                    android:gravity="center_vertical"
+                    android:text="-ig" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/input_height"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="Konstrukciós kód:" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_vertical">
+
+                <EditText
+                    android:id="@+id/lev_szuk_konstrukcios_tol"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/input_height"
+                    android:layout_weight="0.8"
+                    android:background="@drawable/keret"
+                    android:gravity="center_vertical"
+                    android:inputType="number"
+                    android:imeOptions="flagNoExtractUi" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/input_height"
+                    android:layout_weight="0.2"
+                    android:gravity="center_vertical"
+                    android:text="-tól" />
+
+                <EditText
+                    android:id="@+id/lev_szuk_konstrukcios_ig"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/input_height"
+                    android:layout_weight="0.8"
+                    android:background="@drawable/keret"
+                    android:gravity="center_vertical"
+                    android:inputType="number"
+                    android:imeOptions="flagNoExtractUi" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/input_height"
+                    android:layout_weight="0.2"
+                    android:gravity="center_vertical"
+                    android:text="-ig" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

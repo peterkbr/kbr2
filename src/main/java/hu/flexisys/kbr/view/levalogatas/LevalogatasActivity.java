@@ -1,11 +1,13 @@
 package hu.flexisys.kbr.view.levalogatas;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.util.Log;
 import android.view.*;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.model.Biralat;
@@ -67,6 +69,8 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                 invalidateOptionsMenu();
+                final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(panel.getWindowToken(), 0);
             }
 
             @Override
@@ -154,6 +158,7 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
         });
         task.execute();
 
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     @Override
