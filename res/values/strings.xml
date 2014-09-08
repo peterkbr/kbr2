@@ -112,6 +112,8 @@
 
     <string name="bir_bir_dialog_unfinished_title">Elveti a befejezetlen bírálatot?</string>
 
+    <string name="bir_bir_dialog_exit_title">Valóban kilép, és elveti a bírálatot?</string>
+
     <string name="bir_bir_dialog_akako_title">Ön akadálykódot adott meg.</string>
     <string name="bir_bir_dialog_akako_message">Törli az eddig beírt értékeket?</string>
 
