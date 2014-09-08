@@ -86,6 +86,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
                 @Override
                 public void onBirBirExitBiralatCancel() {
                     dismissDialog();
+                    actionBar.selectTab(actionBar.getTabAt(2));
                 }
             });
             dialog.show(ft, "exit");
