@@ -353,8 +353,23 @@ public class BongeszoActivity extends KbrActivity {
                     new EmptyTask(new Executable() {
                         @Override
                         public void execute() throws Exception {
+                            StringBuilder tenazBuilder = new StringBuilder();
+                            StringBuilder tartoBuilder = new StringBuilder();
+                            List<Tenyeszet> selectedTenyeszetList = app.getTenyeszetListByTENAZArray(selectedTenazArray);
+                            for (Tenyeszet tenyeszet : selectedTenyeszetList) {
+                                if (tenazBuilder.length() > 0) {
+                                    tenazBuilder.append(", ");
+                                }
+                                tenazBuilder.append(tenyeszet.getTENAZ());
+
+                                if (tartoBuilder.length() > 0) {
+                                    tartoBuilder.append(", ");
+                                }
+                                tartoBuilder.append(tenyeszet.getTARTO());
+                            }
+
                             if (pdf) {
-                                BiralatPdfExporter.initBiralatPdfExporter("TODO : TENAZ", "TODO : TARTO", app.getBiraloNev());
+                                BiralatPdfExporter.initBiralatPdfExporter(tenazBuilder.toString(), tartoBuilder.toString(), app.getBiraloNev());
                                 BiralatPdfExporter.export(dir.getPath(), app.getBiralatTipus(), biralatList, egyedMap);
                             }
                             if (csv) {

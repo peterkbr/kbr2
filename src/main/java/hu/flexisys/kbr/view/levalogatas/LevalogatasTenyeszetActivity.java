@@ -16,6 +16,7 @@ import hu.flexisys.kbr.controller.emptytask.Executable;
 import hu.flexisys.kbr.controller.emptytask.ExecutableErrorListener;
 import hu.flexisys.kbr.controller.emptytask.ExecutableFinishedListener;
 import hu.flexisys.kbr.model.Egyed;
+import hu.flexisys.kbr.model.Tenyeszet;
 import hu.flexisys.kbr.util.EmailUtil;
 import hu.flexisys.kbr.util.export.LevalogatasCvsExporter;
 import hu.flexisys.kbr.util.export.LevalogatasPdfExporter;
@@ -151,9 +152,25 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
                         public void execute() throws Exception {
                             List<Egyed> selectedEgyedList = app.getEgyedListByTENAZListAndKivalasztott(selectedList, true);
 
+                            StringBuilder tenazBuilder = new StringBuilder();
+                            StringBuilder tartoBuilder = new StringBuilder();
+                            String[] selectedTenazArray = getSelectedTenazArray();
+                            List<Tenyeszet> selectedTenyeszetList = app.getTenyeszetListByTENAZArray(selectedTenazArray);
+                            for (Tenyeszet tenyeszet : selectedTenyeszetList) {
+                                if (tenazBuilder.length() > 0) {
+                                    tenazBuilder.append(", ");
+                                }
+                                tenazBuilder.append(tenyeszet.getTENAZ());
+
+                                if (tartoBuilder.length() > 0) {
+                                    tartoBuilder.append(", ");
+                                }
+                                tartoBuilder.append(tenyeszet.getTARTO());
+                            }
+
                             List<String> pathList = new ArrayList<String>();
                             if (pdf) {
-                                LevalogatasPdfExporter.initLevalogatasPdfExporter("TODO : TENAZ", "TODO : TARTO", app.getBiraloNev());
+                                LevalogatasPdfExporter.initLevalogatasPdfExporter(tenazBuilder.toString(), tartoBuilder.toString(), app.getBiraloNev());
                                 String pdfFilePath = LevalogatasPdfExporter.export(dir.getPath(), selectedEgyedList);
                                 pathList.add(pdfFilePath);
                             }
