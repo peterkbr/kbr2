@@ -401,9 +401,10 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
             FragmentTransaction ft = getFragmentTransactionWithTag("biralando");
             dialog = BirKerEgyedListDialog.newInstance(biralandoEgyedList, true, new BirKerEgyedListDialog.EgyedClickListener() {
                 @Override
-                public void onEgyedClick(String AZONO, String ORSKO) {
-                    updateHasznalatiSzamView(AZONO, "HU".equals(ORSKO));
-                    keres(null);
+                public void onEgyedClick(Egyed egyed) {
+                    updateHasznalatiSzamView(egyed.getAZONO(), "HU".equals(egyed.getORSKO()));
+//                    keres(null);
+                    onSingleSelect(egyed);
                 }
             });
             dialog.show(ft, "biralando");

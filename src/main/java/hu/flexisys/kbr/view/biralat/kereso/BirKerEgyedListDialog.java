@@ -54,7 +54,7 @@ public class BirKerEgyedListDialog extends KbrDialog {
     }
 
     public interface EgyedClickListener {
-        public void onEgyedClick(String AZONO, String ORSKO);
+        public void onEgyedClick(Egyed egyed);
     }
 
     public class BirKerEgyedListAdapter extends ArrayAdapter<Egyed> {
@@ -81,7 +81,7 @@ public class BirKerEgyedListDialog extends KbrDialog {
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.onEgyedClick(egyed.getAZONO(), egyed.getORSKO());
+                        listener.onEgyedClick(egyed);
                     }
                 });
             }
