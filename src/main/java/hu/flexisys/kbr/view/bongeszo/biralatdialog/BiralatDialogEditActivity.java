@@ -70,7 +70,10 @@ public class BiralatDialogEditActivity extends KbrActivity {
 
 
     public void onSaveBiralatClicked(View view) {
-        if (selectedEgyed != null && biralFragment.getBiralatStarted()) {
+        if (!biralFragment.getBiralatStarted()) {
+            dismissDialog();
+        }
+        if (selectedEgyed != null) {
             Biralat biralat = new Biralat();
             biralat.setTENAZ(selectedEgyed.getTENAZ());
             biralat.setAZONO(selectedEgyed.getAZONO());
