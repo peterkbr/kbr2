@@ -23,14 +23,15 @@ public class LevalogatasListViewAdapter extends ArrayAdapter<Egyed> {
 
     protected final Context context;
     protected final List<Egyed> egyedList;
-    private final OnSelectionChangedListener listener;
+    private final List<String> selectionChangedEgyedAzonoList;
     private final EgyedListContainer container;
 
-    public LevalogatasListViewAdapter(Context context, int resource, List<Egyed> egyedList, OnSelectionChangedListener listener, EgyedListContainer container) {
+    public LevalogatasListViewAdapter(Context context, int resource, List<Egyed> egyedList, List<String> selectionChangedEgyedAzonoList,
+                                      EgyedListContainer container) {
         super(context, resource);
         this.context = context;
         this.egyedList = egyedList;
-        this.listener = listener;
+        this.selectionChangedEgyedAzonoList = selectionChangedEgyedAzonoList;
         this.container = container;
     }
 
@@ -61,7 +62,9 @@ public class LevalogatasListViewAdapter extends ArrayAdapter<Egyed> {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 egyedList.get(position).setKIVALASZTOTT(isChecked);
-                listener.onSelectionChanged();
+                if (!selectionChangedEgyedAzonoList.contains(egyed.getAZONO())) {
+                    selectionChangedEgyedAzonoList.add(egyed.getAZONO());
+                }
             }
         });
         if (color != null) {

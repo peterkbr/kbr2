@@ -27,17 +27,18 @@ import java.util.*;
 /**
  * Created by Peter on 2014.07.21..
  */
-public class LevalogatasActivity extends KbrActivity implements OnSelectionChangedListener, SelectionChangedAlertListener, TorlesAlertListener {
+public class LevalogatasActivity extends KbrActivity implements SelectionChangedAlertListener, TorlesAlertListener {
 
     private static final String TAG = "KBR_LevalogatasActivity";
     private String[] selectedTenazArray;
     private List<Egyed> egyedList;
     private Integer selectedEgyedCounter;
+    private List<String> selectionChangedEgyedAzonoList;
+    private boolean allChanged;
     private LevalogatasListViewAdapter adapter;
 
     private SlidingPaneLayout pane;
     private Filter filter;
-    private Boolean selectionChanged = false;
     private String currentOrderBy;
     private Boolean asc = true;
 
@@ -99,14 +100,16 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
                 for (Egyed egyed : egyedList) {
                     egyed.setKIVALASZTOTT(isChecked);
                 }
-                onSelectionChanged();
+                allChanged = true;
                 adapter.notifyDataSetChanged();
             }
         });
 
         ListView listView = (ListView) findViewById(R.id.teny_list);
         listView.setEmptyView(findViewById(R.id.empty_list_item));
-        adapter = new LevalogatasListViewAdapter(this, R.layout.list_levalogatas, egyedList, this, new LevalogatasListViewAdapter.EgyedListContainer() {
+        selectionChangedEgyedAzonoList = new ArrayList<String>();
+        allChanged = false;
+        adapter = new LevalogatasListViewAdapter(this, R.layout.list_levalogatas, egyedList, selectionChangedEgyedAzonoList, new LevalogatasListViewAdapter.EgyedListContainer() {
             @Override
             public void onLongClick(Egyed egyed) {
                 Intent intent = new Intent(LevalogatasActivity.this, BiralatDialogActivity.class);
@@ -211,7 +214,7 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
     }
 
     private void onHomeClicked() {
-        if (selectionChanged) {
+        if (allChanged || selectionChangedEgyedAzonoList.size() > 0) {
             FragmentTransaction ft = getFragmentTransactionWithTag("selectionChangedDialog");
             dialog = SelectionChangedAlertDialog.newInstance(this);
             dialog.show(ft, "selectionChangedDialog");
@@ -388,12 +391,6 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
         counterView.setText(String.valueOf(egyedList.size()));
     }
 
-    @Override
-    public void onSelectionChanged() {
-        selectionChanged = true;
-    }
-
-
     public void levalogatasTorles() {
         FragmentTransaction ft = getFragmentTransactionWithTag("levalogatasTorlesDialog");
         dialog = LevalogatasTorlesAlertDialog.newInstance(this);
@@ -431,7 +428,8 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
             @Override
             public void execute() {
                 saveEgyedList();
-                selectionChanged = false;
+                selectionChangedEgyedAzonoList.clear();
+                allChanged = false;
             }
         }, new ExecutableFinishedListener() {
             @Override
@@ -449,7 +447,8 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
             @Override
             public void execute() {
                 saveEgyedList();
-                selectionChanged = false;
+                selectionChangedEgyedAzonoList.clear();
+                allChanged = false;
             }
         }, new ExecutableFinishedListener() {
             @Override
@@ -477,7 +476,9 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
 
     private void saveEgyedList() {
         for (Egyed egyed : egyedList) {
-            app.updateEgyedWithSelection(egyed.getAZONO(), egyed.getKIVALASZTOTT());
+            if (allChanged || selectionChangedEgyedAzonoList.contains(egyed.getAZONO())) {
+                app.updateEgyedWithSelection(egyed.getAZONO(), egyed.getKIVALASZTOTT());
+            }
         }
     }
 
@@ -488,7 +489,8 @@ public class LevalogatasActivity extends KbrActivity implements OnSelectionChang
             public void execute() {
                 filter.clear();
                 reloadData();
-                selectionChanged = false;
+                selectionChangedEgyedAzonoList.clear();
+                allChanged = false;
             }
         }, new ExecutableFinishedListener() {
             @Override
