@@ -115,6 +115,7 @@ public class BongeszoActivity extends KbrActivity {
                 Intent intent = new Intent(BongeszoActivity.this, BiralatDialogEditActivity.class);
                 Bundle extras = new Bundle();
                 extras.putSerializable(BiralatDialogEditActivity.KEY_EGYED, currentEgyed);
+                extras.putSerializable(BiralatDialogEditActivity.KEY_BIRALAT, currentBiralat);
                 intent.putExtras(extras);
                 startActivity(intent);
             }

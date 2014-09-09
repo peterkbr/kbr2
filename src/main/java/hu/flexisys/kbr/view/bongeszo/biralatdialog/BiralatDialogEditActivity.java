@@ -12,7 +12,9 @@ import hu.flexisys.kbr.view.biralat.biral.BirBirUnfinishedBiralatDialog;
 import hu.flexisys.kbr.view.biralat.biral.BirBirUnfinishedBiralatListener;
 import hu.flexisys.kbr.view.biralat.biral.BiralFragment;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,6 +23,7 @@ import java.util.Map;
 public class BiralatDialogEditActivity extends KbrActivity {
 
     public static String KEY_EGYED = "KEY_EGYED";
+    public static String KEY_BIRALAT = "KEY_BIRALAT";
 
     public BiralFragment biralFragment;
     private KbrDialog dialog2;
@@ -32,6 +35,12 @@ public class BiralatDialogEditActivity extends KbrActivity {
         actionBar.hide();
 
         selectedEgyed = (Egyed) getIntent().getExtras().getSerializable(KEY_EGYED);
+        Biralat biralat = (Biralat) getIntent().getExtras().getSerializable(KEY_BIRALAT);
+
+        List<Biralat> egyedBiralatList = new ArrayList<Biralat>();
+        egyedBiralatList.add(biralat);
+        selectedEgyed.setBiralatList(egyedBiralatList);
+
         FragmentTransaction ft = getFragmentTransactionWithTag("longClick");
         dialog = BiralatDialogEdit.newInstance(new BiralFragment.BiralFragmentContainer() {
 
@@ -72,6 +81,7 @@ public class BiralatDialogEditActivity extends KbrActivity {
     public void onSaveBiralatClicked(View view) {
         if (!biralFragment.getBiralatStarted()) {
             dismissDialog();
+            return;
         }
         if (selectedEgyed != null) {
             Biralat biralat = new Biralat();

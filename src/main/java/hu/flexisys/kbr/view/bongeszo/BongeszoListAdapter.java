@@ -14,7 +14,6 @@ import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.DateUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -43,18 +42,13 @@ public class BongeszoListAdapter extends ArrayAdapter<Biralat> {
         final Biralat currentBiralat = biralatList.get(position);
         final Egyed currentEgyed = egyedMap.get(currentBiralat.getAZONO());
 
-        if (!currentBiralat.getEXPORTALT()) {
-            List<Biralat> egyedBiralatList = new ArrayList<Biralat>();
-            egyedBiralatList.add(currentBiralat);
-            currentEgyed.setBiralatList(egyedBiralatList);
-            v.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    container.onLongClick(currentEgyed, currentBiralat);
-                    return true;
-                }
-            });
-        }
+        v.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                container.onLongClick(currentEgyed, currentBiralat);
+                return true;
+            }
+        });
 
         TextView textView;
         Integer color = null;
