@@ -34,7 +34,7 @@ public class DBConnector {
 
     // TODO log
     public int removeTenyeszet(String TENAZ) {
-        int removedCount = database.delete(DBScripts.TABLE_TENYESZET, DBScripts.COLUMN_TENYESZET_TENAZ + " = " + TENAZ, null);
+        int removedCount = database.delete(DBScripts.TABLE_TENYESZET, DBScripts.COLUMN_TENYESZET_TENAZ + " = ?", new String[]{TENAZ});
         return removedCount;
     }
 
@@ -100,12 +100,12 @@ public class DBConnector {
 
     // TODO log
     public int removeEgyed(Egyed egyed) {
-        int removedCount = database.delete(DBScripts.TABLE_EGYED, DBScripts.COLUMN_EGYED_AZONO + " = " + egyed.getAZONO(), null);
+        int removedCount = database.delete(DBScripts.TABLE_EGYED, DBScripts.COLUMN_EGYED_AZONO + " = ?", new String[]{egyed.getAZONO()});
         return removedCount;
     }
 
     public int removeEgyedByTENAZ(String TENAZ) {
-        int removedCount = database.delete(DBScripts.TABLE_EGYED, DBScripts.COLUMN_EGYED_TENAZ + " = " + TENAZ, null);
+        int removedCount = database.delete(DBScripts.TABLE_EGYED, DBScripts.COLUMN_EGYED_TENAZ + " = ?", new String[]{TENAZ});
         return removedCount;
     }
 
