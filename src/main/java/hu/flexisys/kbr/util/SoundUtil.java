@@ -9,32 +9,22 @@ import hu.flexisys.kbr.R;
  */
 public class SoundUtil {
 
-    private static Context context;
-    private static MediaPlayer player;
+    private static MediaPlayer errorPlayer;
+    private static MediaPlayer buttonPlayer;
 
     public static void initSoundUtil(Context context) {
-        SoundUtil.context = context;
+        errorPlayer = MediaPlayer.create(context, R.raw.error_beep);
+        errorPlayer.setVolume(0.05f, 0.05f);
+
+        buttonPlayer = MediaPlayer.create(context, R.raw.button_beep);
+        buttonPlayer.setVolume(0.05f, 0.05f);
     }
 
     public static void errorBeep() {
-        Thread t = new Thread() {
-            public void run() {
-                player = MediaPlayer.create(context, R.raw.error_beep);
-                player.setVolume(0.05f, 0.05f);
-                player.start();
-            }
-        };
-        t.start();
+        errorPlayer.start();
     }
 
     public static void buttonBeep() {
-        Thread t = new Thread() {
-            public void run() {
-                player = MediaPlayer.create(context, R.raw.button_beep);
-                player.setVolume(0.05f, 0.05f);
-                player.start();
-            }
-        };
-        t.start();
+        buttonPlayer.start();
     }
 }
