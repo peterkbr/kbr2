@@ -132,7 +132,11 @@ public class BongeszoActivity extends KbrActivity {
             @Override
             public void execute() {
                 reloadData();
-                reorderData(getString(R.string.bong_grid_header_enar));
+                if (currentOrderBy == null || currentOrderBy.isEmpty()) {
+                    reorderData(getString(R.string.bong_grid_header_enar));
+                } else {
+                    reorderData();
+                }
             }
         }, new ExecutableFinishedListener() {
             @Override

@@ -535,6 +535,7 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
             @Override
             public void execute() {
                 reloadData();
+                reorderData();
             }
         }, new ExecutableFinishedListener() {
             @Override
