@@ -374,7 +374,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         } else {
             Date lastBiralatDate = null;
             for (Biralat biralat : selectedEgyed.getBiralatList()) {
-                if (biralat.getBIRDA() != null && !biralat.getFELTOLTETLEN() && (lastBiralatDate == null || lastBiralatDate.before(biralat.getBIRDA()))) {
+                if (biralat.getBIRDA() != null && biralat.getEXPORTALT() && (lastBiralatDate == null || lastBiralatDate.before(biralat.getBIRDA()))) {
                     lastBiralatDate = biralat.getBIRDA();
                 }
             }
