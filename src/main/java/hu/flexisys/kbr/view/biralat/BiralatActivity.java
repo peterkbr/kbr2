@@ -69,7 +69,11 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
 
     @Override
     public void onBackPressed() {
-        onExit();
+        if (actionBar.getSelectedTab().getPosition() == 2) {
+            actionBar.selectTab(actionBar.getTabAt(1));
+        } else {
+            onExit();
+        }
     }
 
     public void onExit() {
