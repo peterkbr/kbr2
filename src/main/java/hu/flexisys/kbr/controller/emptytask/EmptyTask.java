@@ -1,4 +1,4 @@
-package hu.flexisys.kbr.view.levalogatas;
+package hu.flexisys.kbr.controller.emptytask;
 
 import android.os.AsyncTask;
 
@@ -7,6 +7,7 @@ import android.os.AsyncTask;
  */
 public class EmptyTask extends AsyncTask<Void, Void, Void> {
 
+    private PreExecutable preExecutable;
     private Executable executable;
     private ExecutableFinishedListener listener;
     private ExecutableErrorListener errorListener;
@@ -16,10 +17,22 @@ public class EmptyTask extends AsyncTask<Void, Void, Void> {
         this(executable, listener, null);
     }
 
+    public EmptyTask(PreExecutable preExecutable, Executable executable, ExecutableFinishedListener listener) {
+        this(executable, listener, null);
+        this.preExecutable = preExecutable;
+    }
+
     public EmptyTask(Executable executable, ExecutableFinishedListener listener, ExecutableErrorListener errorListener) {
         this.executable = executable;
         this.listener = listener;
         this.errorListener = errorListener;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        if (preExecutable != null) {
+            preExecutable.preExecute();
+        }
     }
 
     @Override

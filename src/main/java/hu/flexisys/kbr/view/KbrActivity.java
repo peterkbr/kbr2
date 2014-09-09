@@ -78,7 +78,10 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
     }
 
     public void dismissDialog() {
-        if (dialog != null && dialog.isVisible()) {
+//        if (dialog != null && dialog.isVisible()) {
+//            dialog.dismiss();
+//        }
+        if (dialog != null) {
             dialog.dismiss();
         }
     }

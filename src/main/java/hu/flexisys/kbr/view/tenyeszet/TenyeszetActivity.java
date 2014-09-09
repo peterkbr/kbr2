@@ -12,9 +12,9 @@ import hu.flexisys.kbr.controller.network.tenyeszet.DownloadTenyeszetHandler;
 import hu.flexisys.kbr.model.Tenyeszet;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.NotificationDialog;
-import hu.flexisys.kbr.view.levalogatas.EmptyTask;
-import hu.flexisys.kbr.view.levalogatas.Executable;
-import hu.flexisys.kbr.view.levalogatas.ExecutableFinishedListener;
+import hu.flexisys.kbr.controller.emptytask.EmptyTask;
+import hu.flexisys.kbr.controller.emptytask.Executable;
+import hu.flexisys.kbr.controller.emptytask.ExecutableFinishedListener;
 
 import java.util.*;
 

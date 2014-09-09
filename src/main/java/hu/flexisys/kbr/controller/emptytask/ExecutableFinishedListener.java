@@ -1,4 +1,4 @@
-package hu.flexisys.kbr.view.levalogatas;
+package hu.flexisys.kbr.controller.emptytask;
 
 /**
  * Created by Peter on 2014.07.21..

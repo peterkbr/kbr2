@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import hu.flexisys.kbr.R;
+import hu.flexisys.kbr.controller.emptytask.*;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
@@ -28,10 +29,6 @@ import hu.flexisys.kbr.view.biralat.BiralatTenyeszetActivity;
 import hu.flexisys.kbr.view.bongeszo.biralatdialog.BiralatDialogEditActivity;
 import hu.flexisys.kbr.view.bongeszo.diagram.DiagramActivity;
 import hu.flexisys.kbr.view.bongeszo.export.ExportDialog;
-import hu.flexisys.kbr.view.levalogatas.EmptyTask;
-import hu.flexisys.kbr.view.levalogatas.Executable;
-import hu.flexisys.kbr.view.levalogatas.ExecutableErrorListener;
-import hu.flexisys.kbr.view.levalogatas.ExecutableFinishedListener;
 
 import java.io.File;
 import java.text.ParseException;
@@ -163,8 +160,12 @@ public class BongeszoActivity extends KbrActivity {
     public void reorder(View view) {
         TextView orderByTV = (TextView) view;
         final String orderBy = orderByTV.getText().toString();
-        startProgressDialog(getString(R.string.bong_progress_sorbarendezes));
-        EmptyTask task = new EmptyTask(new Executable() {
+        EmptyTask task = new EmptyTask(new PreExecutable() {
+            @Override
+            public void preExecute() {
+                startProgressDialog(getString(R.string.bong_progress_sorbarendezes));
+            }
+        }, new Executable() {
             @Override
             public void execute() {
                 reorderData(orderBy);
@@ -177,6 +178,16 @@ public class BongeszoActivity extends KbrActivity {
             }
         });
         task.execute();
+    }
+
+    private void reorderData(String orderBy) {
+        if (asc == null || currentOrderBy == null || !currentOrderBy.equals(orderBy)) {
+            currentOrderBy = orderBy;
+            asc = true;
+        } else {
+            asc = !asc;
+        }
+        reorderData();
     }
 
     private void reorderData() {
@@ -239,16 +250,6 @@ public class BongeszoActivity extends KbrActivity {
             }
         };
         Collections.sort(biralatList, comparator);
-    }
-
-    private void reorderData(String orderBy) {
-        if (asc == null || currentOrderBy == null || !currentOrderBy.equals(orderBy)) {
-            currentOrderBy = orderBy;
-            asc = true;
-        } else {
-            asc = !asc;
-        }
-        reorderData();
     }
 
     private boolean applyFilters(Biralat biralat) {
@@ -358,10 +359,14 @@ public class BongeszoActivity extends KbrActivity {
                                 biralat.setEXPORTALT(true);
                                 app.updateBiralat(biralat);
                             }
+                            reloadData();
+                            reorderData();
                         }
                     }, new ExecutableFinishedListener() {
                         @Override
                         public void onFinished() {
+                            updateCounter();
+                            adapter.notifyDataSetChanged();
                             dismissDialog();
                         }
                     }, new ExecutableErrorListener() {
