@@ -17,7 +17,6 @@ import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.DateUtil;
 import hu.flexisys.kbr.util.PropertiesUtil;
-import hu.flexisys.kbr.util.SoundUtil;
 import hu.flexisys.kbr.util.biralat.BiralatSzempont;
 import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
 import hu.flexisys.kbr.util.biralat.BiralatTipus;
@@ -408,6 +407,11 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         }
     }
 
+    public void selectInputByKod(String kod) {
+        BiralatNumPadInput input = this.szempontKodInputMap.get(kod);
+        selectInput(input);
+    }
+
     private void stepToNextInput() {
         if (!editing) {
             return;
@@ -459,6 +463,29 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
 
     public void setBiralatSaved() {
         biralatStarted = false;
+    }
+
+    public void forceEditing() {
+        editing = true;
+    }
+
+    public String invalidErtAtKod() {
+        String tipus = ((KbrApplication) getActivity().getApplication()).getBiralatTipus();
+        BiralatTipus biralatTipus = BiralatTipusUtil.getBiralatTipus(tipus);
+        for (int i = 0; i < biralatTipus.szempontList.size(); i++) {
+            BiralatSzempont szempont = BiralatSzempontUtil.getBiralatSzempont(biralatTipus.szempontList.get(i));
+            BiralatNumPadInput input = szempontKodInputMap.get(szempont.kod);
+            String stringValue = input.getText().toString();
+            if (stringValue == null && stringValue.isEmpty()) {
+                continue;
+            } else {
+                Integer value = Integer.valueOf(stringValue);
+                if (value < Integer.valueOf(szempont.keszletStart) || value > Integer.valueOf(szempont.keszletEnd)) {
+                    return szempont.kod;
+                }
+            }
+        }
+        return null;
     }
 
     public interface BiralFragmentContainer {

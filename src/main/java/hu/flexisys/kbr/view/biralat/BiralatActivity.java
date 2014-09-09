@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
@@ -429,11 +430,18 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
             Map<String, String> map = biralFragment.getKodErtMap();
             if (akakoString == null || akakoString.isEmpty() || akakoString.equals("3")) {
                 if (map != null) {
-                    if (akakoString != null && !akakoString.isEmpty() && akakoString.equals("3")) {
-                        biralat.setAKAKO(Integer.valueOf(akakoString));
+                    String invalidErtAtKod = invalidErtAtKod();
+                    if (invalidErtAtKod != null) {
+                        Toast.makeText(this, "Érvénytelen bírálat!", Toast.LENGTH_LONG).show();
+                        biralFragment.forceEditing();
+                        biralFragment.selectInputByKod(invalidErtAtKod);
+                    } else {
+                        if (akakoString != null && !akakoString.isEmpty() && akakoString.equals("3")) {
+                            biralat.setAKAKO(Integer.valueOf(akakoString));
+                        }
+                        biralat.setKodErtMap(map);
+                        saveBiralat(biralat);
                     }
-                    biralat.setKodErtMap(map);
-                    saveBiralat(biralat);
                 } else {
                     FragmentTransaction ft = getFragmentTransactionWithTag("unfinished");
                     dialog = BirBirUnfinishedBiralatDialog.newInstance(new BirBirUnfinishedBiralatListener() {
@@ -459,6 +467,10 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
                 }
             }
         }
+    }
+
+    private String invalidErtAtKod() {
+        return biralFragment.invalidErtAtKod();
     }
 
     public void saveBiralat(Biralat biralat) {
