@@ -190,6 +190,8 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     public void updateCurrentBiralatWithAkako(String text) {
         if (text == null || text.isEmpty()) {
             editing = true;
+            clearAkakoView();
+            stepToNextInput();
         } else {
             if (text.equals("3")) {
                 editing = true;

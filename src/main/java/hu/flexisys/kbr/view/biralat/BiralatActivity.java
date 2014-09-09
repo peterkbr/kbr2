@@ -478,7 +478,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
             dialog = BirBirAkakoDialog.newInstance(new BirBirAkakoDialog.BirBirAkakoDialogListener() {
                 @Override
                 public void onNoClicked() {
-                    biralFragment.clearAkakoView();
+                    biralFragment.updateCurrentBiralatWithAkako(null);
                     dismissDialog();
                 }
 
