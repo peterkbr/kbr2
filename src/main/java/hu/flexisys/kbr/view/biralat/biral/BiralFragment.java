@@ -253,6 +253,9 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             updateDetails(selectedEgyedForBiral);
             Biralat lastBiralat = null;
             for (Biralat biralat : selectedEgyedForBiral.getBiralatList()) {
+                if (biralat.getLETOLTOTT()) {
+                    continue;
+                }
                 if (lastBiralat == null || lastBiralat.getBIRDA().getTime() < biralat.getBIRDA().getTime()) {
                     lastBiralat = biralat;
                 }
@@ -260,7 +263,6 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             updateGrid(lastBiralat);
 
             if (lastBiralat != null) {
-
                 if (lastBiralat.getFELTOLTETLEN() && !lastBiralat.getEXPORTALT()) {
                     editing = true;
                 } else {

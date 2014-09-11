@@ -122,14 +122,15 @@ public class DBConnector {
     }
 
     public List<Egyed> getEgyedByTENAZ(String TENAZ) {
-        Cursor cursor = database.query(DBScripts.TABLE_EGYED, DBScripts.COLUMNS_EGYED, DBScripts.COLUMN_EGYED_TENAZ + "=?",
-                new String[]{String.valueOf(TENAZ)}, null, null, null);
+        Cursor cursor =
+                database.query(DBScripts.TABLE_EGYED, DBScripts.COLUMNS_EGYED, DBScripts.COLUMN_EGYED_TENAZ + "=?", new String[]{String.valueOf(TENAZ)}, null,
+                        null, null);
         return getEgyedListFromCursor(cursor);
     }
 
     public List<Egyed> getEgyedTehenByTENAZ(String TENAZ) {
-        Cursor cursor = database.query(DBScripts.TABLE_EGYED, DBScripts.COLUMNS_EGYED, DBScripts.COLUMN_EGYED_TENAZ + "=? AND " + DBScripts.COLUMN_EGYED_ELLSO + " <> 0",
-                new String[]{String.valueOf(TENAZ)}, null, null, null);
+        Cursor cursor = database.query(DBScripts.TABLE_EGYED, DBScripts.COLUMNS_EGYED,
+                DBScripts.COLUMN_EGYED_TENAZ + "=? AND " + DBScripts.COLUMN_EGYED_ELLSO + " <> 0", new String[]{String.valueOf(TENAZ)}, null, null, null);
         return getEgyedListFromCursor(cursor);
     }
 
@@ -202,15 +203,17 @@ public class DBConnector {
     }
 
     public List<Biralat> getBiralatByTENAZ(String TENAZ) {
-        Cursor cursor = database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, DBScripts.COLUMN_BIRALAT_TENAZ + "=?",
-                new String[]{String.valueOf(TENAZ)}, null, null, null);
+        Cursor cursor =
+                database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, DBScripts.COLUMN_BIRALAT_TENAZ + "=?", new String[]{String.valueOf(TENAZ)},
+                        null, null, null);
         return getBiralatListFromCursor(cursor);
     }
 
 
     public List<Biralat> getBiralatByAZONO(String azono) {
-        Cursor cursor = database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, DBScripts.COLUMN_BIRALAT_AZONO + "=?",
-                new String[]{String.valueOf(azono)}, null, null, null);
+        Cursor cursor =
+                database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, DBScripts.COLUMN_BIRALAT_AZONO + "=?", new String[]{String.valueOf(azono)},
+                        null, null, null);
         return getBiralatListFromCursor(cursor);
     }
 
@@ -263,7 +266,7 @@ public class DBConnector {
         biralat.setAKAKO(cursor.getInt(6));
         biralat.setFELTOLTETLEN(cursor.getInt(7) != 0);
         biralat.setEXPORTALT(cursor.getInt(8) != 0);
-        biralat.setEXPORTALT(cursor.getInt(9) != 0);
+        biralat.setLETOLTOTT(cursor.getInt(9) != 0);
 
         int i = 9;
         biralat.setKOD01(cursor.getString(++i));
