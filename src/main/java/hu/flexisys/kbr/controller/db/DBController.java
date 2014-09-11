@@ -1,7 +1,6 @@
 package hu.flexisys.kbr.controller.db;
 
 import android.content.Context;
-import android.os.Environment;
 import android.util.Log;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
@@ -33,14 +32,23 @@ public class DBController {
 
     public DBController(Context context, String userid) {
         this.context = context;
-        innerDBPath = context.getFilesDir().getAbsolutePath().toString() + File.separator + DB_NAME + "_innerDB_" + userid;
+        innerDBPath = FileUtil.getInnerAppPath() + File.separator + DB_NAME + "_innerDB_" + userid;
         innerConnector = new DBConnector(context, innerDBPath, DB_VERSION);
 
-        String dirPath = Environment.getExternalStorageDirectory() + File.separator + "KBR2" + File.separator + "DataBase";
+        String dirPath = FileUtil.getExternalAppPath() + File.separator + "DataBase";
         File dir = new File(dirPath);
         dir.mkdirs();
         sdCardDBPath = dir.getPath() + File.separator + DB_NAME + "_sdcardDB_" + userid;
         sdCardConnector = new DBConnector(context, sdCardDBPath, DB_VERSION);
+
+//        File storageDir = new File("/mnt/");
+//        if (storageDir.isDirectory()) {
+//            String[] list = storageDir.list();
+// find KBR2 folder on any of these:
+//            for (String direct : list) {
+//                Log.i(TAG, direct);
+//            }
+//        }
     }
 
 

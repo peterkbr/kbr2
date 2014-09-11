@@ -2,7 +2,6 @@ package hu.flexisys.kbr.view.bongeszo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.util.Log;
@@ -17,6 +16,7 @@ import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
 import hu.flexisys.kbr.util.DateUtil;
+import hu.flexisys.kbr.util.FileUtil;
 import hu.flexisys.kbr.util.biralat.BiralatSzempont;
 import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
 import hu.flexisys.kbr.util.biralat.BiralatTipus;
@@ -344,7 +344,7 @@ public class BongeszoActivity extends KbrActivity {
             dialog = ExportDialog.newInstance(new ExportDialog.ExportListener() {
                 @Override
                 public void onExport(final boolean pdf, final boolean csv) {
-                    String dirPath = Environment.getExternalStorageDirectory() + File.separator + "KBR2" + File.separator + "Export" + File.separator + "Bírálatok";
+                    String dirPath = FileUtil.getExternalAppPath() + File.separator + "Export" + File.separator + "Bírálatok";
                     final File dir = new File(dirPath);
                     dir.mkdirs();
                     dismissDialog();

@@ -19,6 +19,14 @@ public class FileUtil {
         FileUtil.context = context;
     }
 
+    public static String getExternalAppPath() {
+        return System.getenv("SECONDARY_STORAGE") + File.separator + "KBR2";
+    }
+
+    public static String getInnerAppPath() {
+        return context.getFilesDir().getAbsolutePath();
+    }
+
     public static void copyFile(File src, File dst) throws IOException {
         FileChannel inChannel = new FileInputStream(src).getChannel();
         FileChannel outChannel = new FileOutputStream(dst).getChannel();

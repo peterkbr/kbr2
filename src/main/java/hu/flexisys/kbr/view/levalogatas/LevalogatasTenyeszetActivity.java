@@ -18,6 +18,7 @@ import hu.flexisys.kbr.controller.emptytask.ExecutableFinishedListener;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
 import hu.flexisys.kbr.util.EmailUtil;
+import hu.flexisys.kbr.util.FileUtil;
 import hu.flexisys.kbr.util.export.LevalogatasCvsExporter;
 import hu.flexisys.kbr.util.export.LevalogatasPdfExporter;
 import hu.flexisys.kbr.view.KbrActivity;
@@ -141,7 +142,7 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
             dialog = ExportDialog.newInstance(new ExportDialog.ExportListener() {
                 @Override
                 public void onExport(final boolean pdf, final boolean csv) {
-                    String dirPath = Environment.getExternalStorageDirectory() + File.separator + "KBR2" + File.separator + "Export" + File.separator + "Leválogatás";
+                    String dirPath = FileUtil.getExternalAppPath() + File.separator + "Export" + File.separator + "Leválogatás";
                     final File dir = new File(dirPath);
                     dir.mkdirs();
                     dismissDialog();
