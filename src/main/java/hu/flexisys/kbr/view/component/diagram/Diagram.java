@@ -15,9 +15,10 @@ import hu.flexisys.kbr.view.bongeszo.diagram.DiagramModel;
 public class Diagram extends LinearLayout {
 
     TextView name;
-    LinearLayout red;
-    LinearLayout yellow;
-    LinearLayout green;
+    private LinearLayout parent;
+    private LinearLayout red;
+    private LinearLayout yellow;
+    private LinearLayout green;
 
     public Diagram(Context context) {
         super(context);
@@ -34,6 +35,7 @@ public class Diagram extends LinearLayout {
         View diagramView = inflater.inflate(R.layout.component_diagram, this, false);
 
         name = (TextView) diagramView.findViewById(R.id.diagram_name);
+        parent = (LinearLayout) diagramView.findViewById(R.id.diagram_parent);
         red = (LinearLayout) diagramView.findViewById(R.id.diagram_red);
         yellow = (LinearLayout) diagramView.findViewById(R.id.diagram_yellow);
         green = (LinearLayout) diagramView.findViewById(R.id.diagram_green);
@@ -42,6 +44,9 @@ public class Diagram extends LinearLayout {
 
     public void updateValues(DiagramModel model) {
         name.setText(model.name);
+
+        int weightSum = model.red + model.green + model.yellow;
+        parent.setWeightSum(weightSum);
 
         LinearLayout.LayoutParams params;
 
