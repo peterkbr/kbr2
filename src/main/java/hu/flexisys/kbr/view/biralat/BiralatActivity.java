@@ -229,6 +229,11 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     }
 
     public void keres(View view) {
+        String hasznalatiSzamValue = hasznalatiInput.getText().toString();
+        if (hasznalatiSzamValue == null || hasznalatiSzamValue.isEmpty()) {
+            return;
+        }
+
         hasznalatiInput.select();
         if (biralFragment.getBiralatStarted()) {
             FragmentTransaction ft = getFragmentTransactionWithTag("unsaved");
@@ -253,7 +258,6 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
             return;
         }
 
-        String hasznalatiSzamValue = hasznalatiInput.getText().toString();
         if (hu && hasznalatiSzamValue.length() < 4) {
             while (hasznalatiSzamValue.length() < 4) {
                 hasznalatiSzamValue = "0" + hasznalatiSzamValue;
