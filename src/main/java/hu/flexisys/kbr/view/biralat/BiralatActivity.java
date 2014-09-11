@@ -79,7 +79,8 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     public void onExit() {
         String akakoString = biralFragment.getAkako();
         Map<String, String> map = biralFragment.getKodErtMap();
-        if ((biralFragment.getBiralatStarted() && (akakoString == null || akakoString.isEmpty() || akakoString.equals("3")) && map == null) || biralFragment.getBiralatStarted()) {
+        if ((biralFragment.getBiralatStarted() && (akakoString == null || akakoString.isEmpty() || akakoString.equals("3")) && map == null) ||
+                biralFragment.getBiralatStarted()) {
             FragmentTransaction ft = getFragmentTransactionWithTag("exit");
             dialog = BirBirExitBiralatDialog.newInstance(new BirBirExitBiralatDialog.BirBirExitBiralatDialogListener() {
                 @Override
@@ -412,7 +413,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
                 @Override
                 public void onEgyedClick(Egyed egyed) {
                     updateHasznalatiSzamView(egyed.getAZONO(), "HU".equals(egyed.getORSKO()));
-//                    keres(null);
+                    //                    keres(null);
                     onSingleSelect(egyed);
                 }
             });
@@ -429,6 +430,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
             biralat.setAZONO(selectedEgyed.getAZONO());
             biralat.setFELTOLTETLEN(true);
             biralat.setEXPORTALT(false);
+            biralat.setLETOLTOTT(false);
             biralat.setORSKO(selectedEgyed.getORSKO());
             biralat.setKULAZ(app.getBiraloAzonosito());
             biralat.setBIRDA(new Date());

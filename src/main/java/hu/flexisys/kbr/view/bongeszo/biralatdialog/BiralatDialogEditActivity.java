@@ -89,6 +89,7 @@ public class BiralatDialogEditActivity extends KbrActivity {
             biralat.setAZONO(selectedEgyed.getAZONO());
             biralat.setFELTOLTETLEN(true);
             biralat.setEXPORTALT(false);
+            biralat.setLETOLTOTT(false);
             biralat.setORSKO(selectedEgyed.getORSKO());
             biralat.setKULAZ(app.getBiraloAzonosito());
             biralat.setBIRDA(new Date());

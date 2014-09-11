@@ -54,6 +54,7 @@ public class DBUtil {
         values.put(DBScripts.COLUMN_BIRALAT_AKAKO, biralat.getAKAKO());
         values.put(DBScripts.COLUMN_BIRALAT_FELTOLTETLEN, biralat.getFELTOLTETLEN());
         values.put(DBScripts.COLUMN_BIRALAT_EXPORTALT, biralat.getEXPORTALT());
+        values.put(DBScripts.COLUMN_BIRALAT_LETOLTOTT, biralat.getLETOLTOTT());
         values.put(DBScripts.COLUMN_BIRALAT_KOD01, biralat.getKOD01());
         values.put(DBScripts.COLUMN_BIRALAT_ERT01, biralat.getERT01());
         values.put(DBScripts.COLUMN_BIRALAT_KOD02, biralat.getKOD02());

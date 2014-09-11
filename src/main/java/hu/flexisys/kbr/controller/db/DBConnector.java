@@ -263,8 +263,9 @@ public class DBConnector {
         biralat.setAKAKO(cursor.getInt(6));
         biralat.setFELTOLTETLEN(cursor.getInt(7) != 0);
         biralat.setEXPORTALT(cursor.getInt(8) != 0);
+        biralat.setEXPORTALT(cursor.getInt(9) != 0);
 
-        int i = 8;
+        int i = 9;
         biralat.setKOD01(cursor.getString(++i));
         biralat.setERT01(cursor.getString(++i));
         biralat.setKOD02(cursor.getString(++i));

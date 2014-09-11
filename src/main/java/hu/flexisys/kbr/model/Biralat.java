@@ -18,6 +18,7 @@ public class Biralat implements Serializable {
     private Integer AKAKO;
     private Boolean FELTOLTETLEN;
     private Boolean EXPORTALT;
+    private Boolean LETOLTOTT;
     private String KOD01;
     private String ERT01;
     private String KOD02;
@@ -320,6 +321,14 @@ public class Biralat implements Serializable {
 
     public void setEXPORTALT(Boolean EXPORTALT) {
         this.EXPORTALT = EXPORTALT;
+    }
+
+    public Boolean getLETOLTOTT() {
+        return LETOLTOTT;
+    }
+
+    public void setLETOLTOTT(Boolean LETOLTOTT) {
+        this.LETOLTOTT = LETOLTOTT;
     }
 
     public String getKOD01() {

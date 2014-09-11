@@ -314,6 +314,7 @@ public class XmlUtil {
                         biralat.setORSKO(egyed.getORSKO());
                         biralat.setFELTOLTETLEN(false);
                         biralat.setEXPORTALT(true);
+                        biralat.setLETOLTOTT(true);
                         egyed.addBiralat(biralat);
                     }
                     egyed.setKIVALASZTOTT(false);
