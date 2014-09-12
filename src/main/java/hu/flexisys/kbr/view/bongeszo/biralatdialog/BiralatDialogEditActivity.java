@@ -54,7 +54,7 @@ public class BiralatDialogEditActivity extends KbrActivity {
                     dialog2 = BirBirAkakoDialog.newInstance(new BirBirAkakoDialog.BirBirAkakoDialogListener() {
                         @Override
                         public void onNoClicked() {
-                            biralFragment.clearAkakoView();
+                            biralFragment.updateCurrentBiralatWithAkako(null);
                             dialog2.dismiss();
                         }
 
@@ -106,20 +106,20 @@ public class BiralatDialogEditActivity extends KbrActivity {
                     saveBiralat(biralat);
                 } else {
                     FragmentTransaction ft = getFragmentTransactionWithTag("unfinished");
-                    dialog = BirBirUnfinishedBiralatDialog.newInstance(new BirBirUnfinishedBiralatListener() {
+                    dialog2 = BirBirUnfinishedBiralatDialog.newInstance(new BirBirUnfinishedBiralatListener() {
                         @Override
                         public void onBirBirUnfinishedBiralatCancel() {
-                            dismissDialog();
+                            dialog2.dismiss();
                         }
 
                         @Override
                         public void onBirBirUnfinishedBiralatOk() {
-                            biralFragment.clearCurrentBiralat();
-                            actionBar.selectTab(actionBar.getTabAt(1));
+                            dialog2.dismiss();
                             dismissDialog();
+                            finish();
                         }
                     });
-                    dialog.show(ft, "unfinished");
+                    dialog2.show(ft, "unfinished");
                 }
             } else {
                 Integer akakoInt = Integer.valueOf(akakoString);
@@ -135,5 +135,6 @@ public class BiralatDialogEditActivity extends KbrActivity {
         biralFragment.setBiralatSaved();
         app.updateBiralat(biralat);
         dismissDialog();
+        finish();
     }
 }

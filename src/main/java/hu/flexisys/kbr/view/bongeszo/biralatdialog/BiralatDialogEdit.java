@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import hu.flexisys.kbr.R;
-import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.view.KbrDialog;
 import hu.flexisys.kbr.view.biralat.biral.BiralFragment;
 
@@ -46,7 +45,6 @@ public class BiralatDialogEdit extends KbrDialog {
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        getActivity().finish();
     }
 
 }
