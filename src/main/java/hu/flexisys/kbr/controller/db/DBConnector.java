@@ -185,15 +185,12 @@ public class DBConnector {
         return removedCount;
     }
 
-    public int removeFeltoltetlenBiralat(String TENAZ, String AZONO) {
+    public int removeBiralat(String TENAZ, String AZONO) {
         StringBuilder where = new StringBuilder();
-        where.append(DBScripts.COLUMN_BIRALAT_TENAZ).append(" = ").append(TENAZ);
+        where.append(DBScripts.COLUMN_BIRALAT_TENAZ).append(" = ").append("?");
         where.append(" AND ");
-        where.append(DBScripts.COLUMN_BIRALAT_AZONO).append(" = ").append(AZONO);
-        where.append(" AND ");
-        where.append(DBScripts.COLUMN_BIRALAT_FELTOLTETLEN).append(" > ").append("0");
-
-        int removedCount = database.delete(DBScripts.TABLE_BIRALAT, where.toString(), null);
+        where.append(DBScripts.COLUMN_BIRALAT_AZONO).append(" = ").append("?");
+        int removedCount = database.delete(DBScripts.TABLE_BIRALAT, where.toString(), new String[]{TENAZ, AZONO});
         return removedCount;
     }
 

@@ -376,8 +376,10 @@ public class BongeszoActivity extends KbrActivity {
                                 BiralatCvsExporter.export(dir.getPath(), app.getBiralatTipus(), biralatList, egyedMap);
                             }
                             for (Biralat biralat : biralatList) {
-                                biralat.setEXPORTALT(true);
-                                app.updateBiralat(biralat);
+                                if (!biralat.getEXPORTALT()) {
+                                    biralat.setEXPORTALT(true);
+                                    app.updateBiralat(biralat);
+                                }
                             }
                             reloadData();
                             reorderData();
