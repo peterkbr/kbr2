@@ -74,6 +74,7 @@ public class BiralatDialogEditActivity extends KbrActivity {
                 biralFragment.updateFragmentWithEgyed(selectedEgyed);
             }
         });
+        dialog.setCancelable(false);
         dialog.show(ft, "longClick");
     }
 
