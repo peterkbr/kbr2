@@ -11,6 +11,7 @@ import hu.flexisys.kbr.view.biralat.biral.BirBirAkakoDialog;
 import hu.flexisys.kbr.view.biralat.biral.BirBirUnfinishedBiralatDialog;
 import hu.flexisys.kbr.view.biralat.biral.BirBirUnfinishedBiralatListener;
 import hu.flexisys.kbr.view.biralat.biral.BiralFragment;
+import hu.flexisys.kbr.view.levalogatas.biralatdialog.BiralatDialog;
 
 import java.util.*;
 
@@ -40,41 +41,60 @@ public class BiralatDialogEditActivity extends KbrActivity {
         selectedEgyed.setBiralatList(egyedBiralatList);
 
         FragmentTransaction ft = getFragmentTransactionWithTag("longClick");
-        dialog = BiralatDialogEdit.newInstance(new BiralFragment.BiralFragmentContainer() {
 
-            @Override
-            public void onAkako(final String akako) {
-                if (akako.equals("3")) {
-                    biralFragment.updateCurrentBiralatWithAkako(akako);
-                } else {
-                    FragmentTransaction ft = getFragmentTransactionWithTag("biralando");
-                    dialog2 = null;
-                    dialog2 = BirBirAkakoDialog.newInstance(new BirBirAkakoDialog.BirBirAkakoDialogListener() {
-                        @Override
-                        public void onNoClicked() {
-                            biralFragment.updateCurrentBiralatWithAkako(null);
-                            dialog2.dismiss();
-                        }
 
-                        @Override
-                        public void onYesClicked() {
-                            biralFragment.updateCurrentBiralatWithAkako(akako);
-                            dialog2.dismiss();
-                        }
-                    });
-                    dialog2.show(ft, "biralando");
+        if (isWithin30Days(selectedEgyed.getELLDA())) {
+            openReadonlyDialog();
+        } else {
+            Date lastBiralatDate = null;
+            for (Biralat biralat : selectedEgyed.getBiralatList()) {
+                if (biralat.getBIRDA() != null && biralat.getEXPORTALT() && (lastBiralatDate == null || lastBiralatDate.before(biralat.getBIRDA()))) {
+                    lastBiralatDate = biralat.getBIRDA();
                 }
             }
+            if (isWithin30Days(lastBiralatDate)) {
+                openReadonlyDialog();
+            } else {
+                if (selectedBiralat.getLETOLTOTT()) {
+                    openReadonlyDialog();
+                } else {
+                    dialog = BiralatDialogEdit.newInstance(new BiralFragment.BiralFragmentContainer() {
 
-            @Override
-            public void onBiralFragmentResume(BiralFragment biralFragment) {
-                BiralatDialogEditActivity.this.biralFragment = biralFragment;
-//                biralFragment.updateFragmentWithEgyed(selectedEgyed);
-                updateUIWithSelectedEgyed();
+                        @Override
+                        public void onAkako(final String akako) {
+                            if (akako.equals("3")) {
+                                biralFragment.updateCurrentBiralatWithAkako(akako);
+                            } else {
+                                FragmentTransaction ft = getFragmentTransactionWithTag("biralando");
+                                dialog2 = null;
+                                dialog2 = BirBirAkakoDialog.newInstance(new BirBirAkakoDialog.BirBirAkakoDialogListener() {
+                                    @Override
+                                    public void onNoClicked() {
+                                        biralFragment.updateCurrentBiralatWithAkako(null);
+                                        dialog2.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onYesClicked() {
+                                        biralFragment.updateCurrentBiralatWithAkako(akako);
+                                        dialog2.dismiss();
+                                    }
+                                });
+                                dialog2.show(ft, "biralando");
+                            }
+                        }
+
+                        @Override
+                        public void onBiralFragmentResume(BiralFragment biralFragment) {
+                            BiralatDialogEditActivity.this.biralFragment = biralFragment;
+                            biralFragment.updateFragmentWithEgyed(selectedEgyed);
+                        }
+                    });
+                    dialog.setCancelable(false);
+                    dialog.show(ft, "longClick");
+                }
             }
-        });
-        dialog.setCancelable(false);
-        dialog.show(ft, "longClick");
+        }
     }
 
     private boolean isWithin30Days(Date date) {
@@ -89,26 +109,14 @@ public class BiralatDialogEditActivity extends KbrActivity {
         return false;
     }
 
-    private void updateUIWithSelectedEgyed() {
-        if (isWithin30Days(selectedEgyed.getELLDA())) {
-            biralFragment.updateFragmentWithEgyed(selectedEgyed, false);
-        } else {
-            Date lastBiralatDate = null;
-            for (Biralat biralat : selectedEgyed.getBiralatList()) {
-                if (biralat.getBIRDA() != null && biralat.getEXPORTALT() && (lastBiralatDate == null || lastBiralatDate.before(biralat.getBIRDA()))) {
-                    lastBiralatDate = biralat.getBIRDA();
-                }
-            }
-            if (isWithin30Days(lastBiralatDate)) {
-                biralFragment.updateFragmentWithEgyed(selectedEgyed, false);
-            } else {
-                if (selectedBiralat.getLETOLTOTT()) {
-                    biralFragment.updateFragmentWithEgyed(selectedEgyed, false);
-                } else {
-                    biralFragment.updateFragmentWithEgyed(selectedEgyed);
-                }
-            }
-        }
+    private void openReadonlyDialog() {
+        List<Biralat> biralatList = new ArrayList<Biralat>();
+        biralatList.add(selectedBiralat);
+
+        FragmentTransaction ft = getFragmentTransactionWithTag("longClick");
+        dialog = BiralatDialog.newInstance(biralatList);
+        dialog.setCancelable(false);
+        dialog.show(ft, "longClick");
     }
 
     public void onSaveBiralatClicked(View view) {

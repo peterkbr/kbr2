@@ -1,6 +1,5 @@
 package hu.flexisys.kbr.view.levalogatas.biralatdialog;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -43,15 +42,10 @@ public class BiralatDialog extends KbrDialog {
             @Override
             public void onClick(View v) {
                 dismiss();
+                getActivity().finish();
             }
         });
         return v;
-    }
-
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-        getActivity().finish();
     }
 
     private class BiralatDialogFragmentAdapter extends FragmentStatePagerAdapter {
