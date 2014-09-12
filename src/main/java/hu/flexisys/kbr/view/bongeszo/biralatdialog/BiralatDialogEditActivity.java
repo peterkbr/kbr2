@@ -12,10 +12,7 @@ import hu.flexisys.kbr.view.biralat.biral.BirBirUnfinishedBiralatDialog;
 import hu.flexisys.kbr.view.biralat.biral.BirBirUnfinishedBiralatListener;
 import hu.flexisys.kbr.view.biralat.biral.BiralFragment;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by peter on 04/09/14.
@@ -28,6 +25,7 @@ public class BiralatDialogEditActivity extends KbrActivity {
     public BiralFragment biralFragment;
     private KbrDialog dialog2;
     private Egyed selectedEgyed;
+    private Biralat selectedBiralat;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,10 +33,10 @@ public class BiralatDialogEditActivity extends KbrActivity {
         actionBar.hide();
 
         selectedEgyed = (Egyed) getIntent().getExtras().getSerializable(KEY_EGYED);
-        Biralat biralat = (Biralat) getIntent().getExtras().getSerializable(KEY_BIRALAT);
+        selectedBiralat = (Biralat) getIntent().getExtras().getSerializable(KEY_BIRALAT);
 
         List<Biralat> egyedBiralatList = new ArrayList<Biralat>();
-        egyedBiralatList.add(biralat);
+        egyedBiralatList.add(selectedBiralat);
         selectedEgyed.setBiralatList(egyedBiralatList);
 
         FragmentTransaction ft = getFragmentTransactionWithTag("longClick");
@@ -71,17 +69,52 @@ public class BiralatDialogEditActivity extends KbrActivity {
             @Override
             public void onBiralFragmentResume(BiralFragment biralFragment) {
                 BiralatDialogEditActivity.this.biralFragment = biralFragment;
-                biralFragment.updateFragmentWithEgyed(selectedEgyed);
+//                biralFragment.updateFragmentWithEgyed(selectedEgyed);
+                updateUIWithSelectedEgyed();
             }
         });
         dialog.setCancelable(false);
         dialog.show(ft, "longClick");
     }
 
+    private boolean isWithin30Days(Date date) {
+        if (date != null && date.getTime() > 0) {
+            Calendar cal = Calendar.getInstance();
+            cal.roll(Calendar.DAY_OF_YEAR, -30);
+            Date maxDate = cal.getTime();
+            if (maxDate.before(date)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void updateUIWithSelectedEgyed() {
+        if (isWithin30Days(selectedEgyed.getELLDA())) {
+            biralFragment.updateFragmentWithEgyed(selectedEgyed, false);
+        } else {
+            Date lastBiralatDate = null;
+            for (Biralat biralat : selectedEgyed.getBiralatList()) {
+                if (biralat.getBIRDA() != null && biralat.getEXPORTALT() && (lastBiralatDate == null || lastBiralatDate.before(biralat.getBIRDA()))) {
+                    lastBiralatDate = biralat.getBIRDA();
+                }
+            }
+            if (isWithin30Days(lastBiralatDate)) {
+                biralFragment.updateFragmentWithEgyed(selectedEgyed, false);
+            } else {
+                if (selectedBiralat.getLETOLTOTT()) {
+                    biralFragment.updateFragmentWithEgyed(selectedEgyed, false);
+                } else {
+                    biralFragment.updateFragmentWithEgyed(selectedEgyed);
+                }
+            }
+        }
+    }
 
     public void onSaveBiralatClicked(View view) {
         if (!biralFragment.getBiralatStarted()) {
             dismissDialog();
+            finish();
             return;
         }
         if (selectedEgyed != null) {
