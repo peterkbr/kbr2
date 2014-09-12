@@ -263,7 +263,7 @@ public class TenyeszetActivity extends KbrActivity {
                         }
 
                         FragmentTransaction ft = getFragmentTransactionWithTag("delete");
-                        dialog = NotificationDialog.newInstance(buider.toString(), null);
+                        dialog = NotificationDialog.newInstance("A törlés eredménye", buider.toString());
                         dialog.show(ft, "delete");
                     }
                 });
