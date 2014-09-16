@@ -185,14 +185,30 @@ public class DBConnector {
         return removedCount;
     }
 
-    public int removeBiralat(String TENAZ, String AZONO) {
-        StringBuilder where = new StringBuilder();
-        where.append(DBScripts.COLUMN_BIRALAT_TENAZ).append(" = ").append("?");
-        where.append(" AND ");
-        where.append(DBScripts.COLUMN_BIRALAT_AZONO).append(" = ").append("?");
-        int removedCount = database.delete(DBScripts.TABLE_BIRALAT, where.toString(), new String[]{TENAZ, AZONO});
-        return removedCount;
+
+    public int updateBiralat(Biralat biralat) {
+        Long id = biralat.getId();
+        if (id == null) {
+            id = addBiralat(biralat);
+            if (id != null && id > 0) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+        ContentValues values = DBUtil.mapBiralatToContentValues(biralat);
+        int count = database.update(DBScripts.TABLE_BIRALAT, values, DBScripts.COLUMN_BIRALAT_ID + " = " + id, null);
+        return count;
     }
+
+//    public int removeBiralat(String TENAZ, String AZONO) {
+//        StringBuilder where = new StringBuilder();
+//        where.append(DBScripts.COLUMN_BIRALAT_TENAZ).append(" = ").append("?");
+//        where.append(" AND ");
+//        where.append(DBScripts.COLUMN_BIRALAT_AZONO).append(" = ").append("?");
+//        int removedCount = database.delete(DBScripts.TABLE_BIRALAT, where.toString(), new String[]{TENAZ, AZONO});
+//        return removedCount;
+//    }
 
     public List<Biralat> getBiralatAll() {
         Cursor cursor = database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, null, null, null, null, null);
@@ -254,78 +270,80 @@ public class DBConnector {
 
     private Biralat getBiralatFromCursor(Cursor cursor) {
         Biralat biralat = new Biralat();
-        biralat.setAZONO(cursor.getString(0));
-        biralat.setTENAZ(cursor.getString(1));
-        biralat.setORSKO(cursor.getString(2));
-        biralat.setBIRDA(new Date(cursor.getLong(3)));
-        biralat.setBIRTI(cursor.getInt(4));
-        biralat.setKULAZ(cursor.getString(5));
-        biralat.setAKAKO(cursor.getInt(6));
-        biralat.setFELTOLTETLEN(cursor.getInt(7) != 0);
-        biralat.setEXPORTALT(cursor.getInt(8) != 0);
-        biralat.setLETOLTOTT(cursor.getInt(9) != 0);
+        int i = 0;
+        biralat.setId(cursor.getLong(i++));
+        biralat.setAZONO(cursor.getString(i++));
+        biralat.setTENAZ(cursor.getString(i++));
+        biralat.setORSKO(cursor.getString(i++));
+        biralat.setBIRDA(new Date(cursor.getLong(i++)));
+        biralat.setBIRTI(cursor.getInt(i++));
+        biralat.setKULAZ(cursor.getString(i++));
+        biralat.setAKAKO(cursor.getInt(i++));
+        biralat.setFELTOLTETLEN(cursor.getInt(i++) != 0);
+        biralat.setEXPORTALT(cursor.getInt(i++) != 0);
+        biralat.setLETOLTOTT(cursor.getInt(i++) != 0);
 
-        int i = 9;
-        biralat.setKOD01(cursor.getString(++i));
-        biralat.setERT01(cursor.getString(++i));
-        biralat.setKOD02(cursor.getString(++i));
-        biralat.setERT02(cursor.getString(++i));
-        biralat.setKOD03(cursor.getString(++i));
-        biralat.setERT03(cursor.getString(++i));
-        biralat.setKOD04(cursor.getString(++i));
-        biralat.setERT04(cursor.getString(++i));
-        biralat.setKOD05(cursor.getString(++i));
-        biralat.setERT05(cursor.getString(++i));
-        biralat.setKOD06(cursor.getString(++i));
-        biralat.setERT06(cursor.getString(++i));
-        biralat.setKOD07(cursor.getString(++i));
-        biralat.setERT07(cursor.getString(++i));
-        biralat.setKOD08(cursor.getString(++i));
-        biralat.setERT08(cursor.getString(++i));
-        biralat.setKOD09(cursor.getString(++i));
-        biralat.setERT09(cursor.getString(++i));
-        biralat.setKOD10(cursor.getString(++i));
-        biralat.setERT10(cursor.getString(++i));
-        biralat.setKOD11(cursor.getString(++i));
-        biralat.setERT11(cursor.getString(++i));
-        biralat.setKOD12(cursor.getString(++i));
-        biralat.setERT12(cursor.getString(++i));
-        biralat.setKOD13(cursor.getString(++i));
-        biralat.setERT13(cursor.getString(++i));
-        biralat.setKOD14(cursor.getString(++i));
-        biralat.setERT14(cursor.getString(++i));
-        biralat.setKOD15(cursor.getString(++i));
-        biralat.setERT15(cursor.getString(++i));
-        biralat.setKOD16(cursor.getString(++i));
-        biralat.setERT16(cursor.getString(++i));
-        biralat.setKOD17(cursor.getString(++i));
-        biralat.setERT17(cursor.getString(++i));
-        biralat.setKOD18(cursor.getString(++i));
-        biralat.setERT18(cursor.getString(++i));
-        biralat.setKOD19(cursor.getString(++i));
-        biralat.setERT19(cursor.getString(++i));
-        biralat.setKOD20(cursor.getString(++i));
-        biralat.setERT20(cursor.getString(++i));
-        biralat.setKOD21(cursor.getString(++i));
-        biralat.setERT21(cursor.getString(++i));
-        biralat.setKOD22(cursor.getString(++i));
-        biralat.setERT22(cursor.getString(++i));
-        biralat.setKOD23(cursor.getString(++i));
-        biralat.setERT23(cursor.getString(++i));
-        biralat.setKOD24(cursor.getString(++i));
-        biralat.setERT24(cursor.getString(++i));
-        biralat.setKOD25(cursor.getString(++i));
-        biralat.setERT25(cursor.getString(++i));
-        biralat.setKOD26(cursor.getString(++i));
-        biralat.setERT26(cursor.getString(++i));
-        biralat.setKOD27(cursor.getString(++i));
-        biralat.setERT27(cursor.getString(++i));
-        biralat.setKOD28(cursor.getString(++i));
-        biralat.setERT28(cursor.getString(++i));
-        biralat.setKOD29(cursor.getString(++i));
-        biralat.setERT29(cursor.getString(++i));
-        biralat.setKOD30(cursor.getString(++i));
-        biralat.setERT30(cursor.getString(++i));
+        biralat.setKOD01(cursor.getString(i++));
+        biralat.setERT01(cursor.getString(i++));
+        biralat.setKOD02(cursor.getString(i++));
+        biralat.setERT02(cursor.getString(i++));
+        biralat.setKOD03(cursor.getString(i++));
+        biralat.setERT03(cursor.getString(i++));
+        biralat.setKOD04(cursor.getString(i++));
+        biralat.setERT04(cursor.getString(i++));
+        biralat.setKOD05(cursor.getString(i++));
+        biralat.setERT05(cursor.getString(i++));
+        biralat.setKOD06(cursor.getString(i++));
+        biralat.setERT06(cursor.getString(i++));
+        biralat.setKOD07(cursor.getString(i++));
+        biralat.setERT07(cursor.getString(i++));
+        biralat.setKOD08(cursor.getString(i++));
+        biralat.setERT08(cursor.getString(i++));
+        biralat.setKOD09(cursor.getString(i++));
+        biralat.setERT09(cursor.getString(i++));
+        biralat.setKOD10(cursor.getString(i++));
+        biralat.setERT10(cursor.getString(i++));
+        biralat.setKOD11(cursor.getString(i++));
+        biralat.setERT11(cursor.getString(i++));
+        biralat.setKOD12(cursor.getString(i++));
+        biralat.setERT12(cursor.getString(i++));
+        biralat.setKOD13(cursor.getString(i++));
+        biralat.setERT13(cursor.getString(i++));
+        biralat.setKOD14(cursor.getString(i++));
+        biralat.setERT14(cursor.getString(i++));
+        biralat.setKOD15(cursor.getString(i++));
+        biralat.setERT15(cursor.getString(i++));
+        biralat.setKOD16(cursor.getString(i++));
+        biralat.setERT16(cursor.getString(i++));
+        biralat.setKOD17(cursor.getString(i++));
+        biralat.setERT17(cursor.getString(i++));
+        biralat.setKOD18(cursor.getString(i++));
+        biralat.setERT18(cursor.getString(i++));
+        biralat.setKOD19(cursor.getString(i++));
+        biralat.setERT19(cursor.getString(i++));
+        biralat.setKOD20(cursor.getString(i++));
+        biralat.setERT20(cursor.getString(i++));
+        biralat.setKOD21(cursor.getString(i++));
+        biralat.setERT21(cursor.getString(i++));
+        biralat.setKOD22(cursor.getString(i++));
+        biralat.setERT22(cursor.getString(i++));
+        biralat.setKOD23(cursor.getString(i++));
+        biralat.setERT23(cursor.getString(i++));
+        biralat.setKOD24(cursor.getString(i++));
+        biralat.setERT24(cursor.getString(i++));
+        biralat.setKOD25(cursor.getString(i++));
+        biralat.setERT25(cursor.getString(i++));
+        biralat.setKOD26(cursor.getString(i++));
+        biralat.setERT26(cursor.getString(i++));
+        biralat.setKOD27(cursor.getString(i++));
+        biralat.setERT27(cursor.getString(i++));
+        biralat.setKOD28(cursor.getString(i++));
+        biralat.setERT28(cursor.getString(i++));
+        biralat.setKOD29(cursor.getString(i++));
+        biralat.setERT29(cursor.getString(i++));
+        biralat.setKOD30(cursor.getString(i++));
+        biralat.setERT30(cursor.getString(i));
         return biralat;
     }
+
 }

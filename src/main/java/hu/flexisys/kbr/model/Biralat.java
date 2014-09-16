@@ -9,6 +9,7 @@ import java.util.Map;
  */
 public class Biralat implements Serializable {
 
+    private Long id;
     private String AZONO;
     private String TENAZ;
     private String ORSKO;
@@ -250,6 +251,14 @@ public class Biralat implements Serializable {
     }
 
     // GETTERS, SETTERS
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getTENAZ() {
         return TENAZ;

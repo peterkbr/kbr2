@@ -112,10 +112,12 @@ public class DBController {
     }
 
     public void updateBiralat(Biralat biralat) {
-        innerConnector.removeBiralat(biralat.getTENAZ(), biralat.getAZONO());
-        innerConnector.addBiralat(biralat);
-        sdCardConnector.removeBiralat(biralat.getTENAZ(), biralat.getAZONO());
-        sdCardConnector.addBiralat(biralat);
+//        innerConnector.removeBiralat(biralat.getTENAZ(), biralat.getAZONO());
+//        innerConnector.addBiralat(biralat);
+//        sdCardConnector.removeBiralat(biralat.getTENAZ(), biralat.getAZONO());
+//        sdCardConnector.addBiralat(biralat);
+        innerConnector.updateBiralat(biralat);
+        sdCardConnector.updateBiralat(biralat);
     }
 
     // READ FROM DB
