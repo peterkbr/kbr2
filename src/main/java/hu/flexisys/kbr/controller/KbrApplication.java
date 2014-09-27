@@ -19,6 +19,7 @@ import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
 import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.db.DbInconsistencyHandlerActivity;
+import hu.flexisys.kbr.view.db.SendDbActivity;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
 
 import java.io.BufferedReader;
@@ -295,12 +296,24 @@ public class KbrApplication extends Application {
         } catch (Exception e) {
             Log.e(TAG, "checkDbConsistency", e);
             Intent intent = new Intent(currentActivity, DbInconsistencyHandlerActivity.class);
-            Bundle extras = new Bundle();
-            extras.putString(DbInconsistencyHandlerActivity.KEY_INNER_PATH, dbController.getInnerDBPath());
-            extras.putString(DbInconsistencyHandlerActivity.KEY_SDCARD_PATH, dbController.getSdCardDBPath());
+            Bundle extras = getDbPathExtras();
             intent.putExtras(extras);
             currentActivity.startActivity(intent);
         }
+    }
+
+    public void sendDbs() {
+        Intent intent = new Intent(currentActivity, SendDbActivity.class);
+        Bundle extras = getDbPathExtras();
+        intent.putExtras(extras);
+        currentActivity.startActivity(intent);
+    }
+
+    private Bundle getDbPathExtras() {
+        Bundle extras = new Bundle();
+        extras.putString(DbInconsistencyHandlerActivity.KEY_INNER_PATH, dbController.getInnerDBPath());
+        extras.putString(DbInconsistencyHandlerActivity.KEY_SDCARD_PATH, dbController.getSdCardDBPath());
+        return extras;
     }
 
     public void synchronizeDb(boolean inner) {

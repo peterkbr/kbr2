@@ -84,7 +84,7 @@ public class MenuActivity extends KbrActivity {
                 app.exportLog();
                 return true;
             case R.id.db:
-                Toast.makeText(this, "Not implemented yet!", Toast.LENGTH_SHORT).show();
+                app.sendDbs();
                 return true;
             case R.id.menu:
                 Toast.makeText(this, "Not implemented yet!", Toast.LENGTH_SHORT).show();
