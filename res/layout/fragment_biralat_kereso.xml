@@ -168,11 +168,11 @@
 
                 <TextView
                     android:id="@+id/bir_ker_enar"
-                    android:layout_width="180dp"
-                    android:layout_height="50dp"
+                    android:layout_width="220dp"
+                    android:layout_height="55dp"
                     android:background="@color/green"
                     android:gravity="center"
-                    android:textSize="22sp" />
+                    android:textSize="30sp" />
 
                 <LinearLayout
                     android:id="@+id/bir_ker_itvLayout"
