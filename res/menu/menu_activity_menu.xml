@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kbr="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/a_More"
+        android:icon="@drawable/moreoverflow"
+        android:title="More"
+        kbr:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/log"
+                android:title="Log küldése"
+                kbr:showAsAction="always" />
+
+            <item
+                android:id="@+id/db"
+                android:title="DB küldése"
+                kbr:showAsAction="always" />
+            <item
+                android:id="@+id/menu"
+                android:title="Beállítások"
+                kbr:showAsAction="always" />
+        </menu>
+    </item>
+</menu>
