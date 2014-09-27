@@ -278,7 +278,13 @@ public class DBConnector {
         biralat.setBIRDA(new Date(cursor.getLong(i++)));
         biralat.setBIRTI(cursor.getInt(i++));
         biralat.setKULAZ(cursor.getString(i++));
-        biralat.setAKAKO(cursor.getInt(i++));
+
+        Integer AKAKO = cursor.getInt(i++);
+        if (AKAKO == null || AKAKO < 1 || AKAKO > 5) {
+            AKAKO = null;
+        }
+        biralat.setAKAKO(AKAKO);
+
         biralat.setFELTOLTETLEN(cursor.getInt(i++) != 0);
         biralat.setEXPORTALT(cursor.getInt(i++) != 0);
         biralat.setLETOLTOTT(cursor.getInt(i++) != 0);
