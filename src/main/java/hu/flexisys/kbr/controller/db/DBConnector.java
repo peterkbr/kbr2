@@ -41,20 +41,20 @@ public class DBConnector {
     public int removeSelectionFromTenyeszet(String TENAZ) {
         ContentValues values = new ContentValues();
         values.put(DBScripts.COLUMN_EGYED_KIVALASZTOTT, false);
-        int count = database.update(DBScripts.TABLE_EGYED, values, DBScripts.COLUMN_EGYED_TENAZ + " = " + TENAZ, null);
+        int count = database.update(DBScripts.TABLE_EGYED, values, DBScripts.COLUMN_EGYED_TENAZ + " = ?", new String[]{TENAZ});
         return count;
     }
 
     public int updateTenyeszet(Tenyeszet tenyeszet) {
         ContentValues values = DBUtil.mapTenyeszetToContentValues(tenyeszet);
-        int count = database.update(DBScripts.TABLE_TENYESZET, values, DBScripts.COLUMN_TENYESZET_TENAZ + " = " + tenyeszet.getTENAZ(), null);
+        int count = database.update(DBScripts.TABLE_TENYESZET, values, DBScripts.COLUMN_TENYESZET_TENAZ + " = ?", new String[]{tenyeszet.getTENAZ()});
         return count;
     }
 
     public int updateTenyeszetByTENAZWithERVENYES(String TENAZ, Boolean ERVENYES) {
         ContentValues values = new ContentValues();
         values.put(DBScripts.COLUMN_TENYESZET_ERVENYES, ERVENYES);
-        int count = database.update(DBScripts.TABLE_TENYESZET, values, DBScripts.COLUMN_TENYESZET_TENAZ + " = " + TENAZ, null);
+        int count = database.update(DBScripts.TABLE_TENYESZET, values, DBScripts.COLUMN_TENYESZET_TENAZ + " = ?", new String[]{TENAZ});
         return count;
     }
 
@@ -112,7 +112,7 @@ public class DBConnector {
     public int updateEgyedByAZONOWithKIVALASZTOTT(String AZONO, Boolean KIVALASZTOTT) {
         ContentValues values = new ContentValues();
         values.put(DBScripts.COLUMN_EGYED_KIVALASZTOTT, KIVALASZTOTT);
-        int count = database.update(DBScripts.TABLE_EGYED, values, DBScripts.COLUMN_EGYED_AZONO + " = " + AZONO, null);
+        int count = database.update(DBScripts.TABLE_EGYED, values, DBScripts.COLUMN_EGYED_AZONO + " = ?", new String[]{AZONO});
         return count;
     }
 
@@ -123,7 +123,7 @@ public class DBConnector {
 
     public List<Egyed> getEgyedByTENAZ(String TENAZ) {
         Cursor cursor =
-                database.query(DBScripts.TABLE_EGYED, DBScripts.COLUMNS_EGYED, DBScripts.COLUMN_EGYED_TENAZ + "=?", new String[]{String.valueOf(TENAZ)}, null,
+                database.query(DBScripts.TABLE_EGYED, DBScripts.COLUMNS_EGYED, DBScripts.COLUMN_EGYED_TENAZ + " = ?", new String[]{String.valueOf(TENAZ)}, null,
                         null, null);
         return getEgyedListFromCursor(cursor);
     }
@@ -136,7 +136,7 @@ public class DBConnector {
 
     public List<Egyed> getEgyedByTENAZAndKIVALASZTOTT(String TENAZ, Boolean KIVALASZTOTT) {
         StringBuilder selectBuilder = new StringBuilder();
-        selectBuilder.append(DBScripts.COLUMN_EGYED_TENAZ).append("=").append(TENAZ);
+        selectBuilder.append(DBScripts.COLUMN_EGYED_TENAZ).append(" = ").append(TENAZ);
         selectBuilder.append(" AND ");
         selectBuilder.append(DBScripts.COLUMN_EGYED_KIVALASZTOTT).append(KIVALASZTOTT ? "=1" : "=0");
         Cursor cursor = database.query(DBScripts.TABLE_EGYED, DBScripts.COLUMNS_EGYED, selectBuilder.toString(), null, null, null, null);
@@ -181,7 +181,7 @@ public class DBConnector {
     }
 
     public int removeBiralatByTENAZ(String TENAZ) {
-        int removedCount = database.delete(DBScripts.TABLE_BIRALAT, DBScripts.COLUMN_BIRALAT_TENAZ + " = " + TENAZ, null);
+        int removedCount = database.delete(DBScripts.TABLE_BIRALAT, DBScripts.COLUMN_BIRALAT_TENAZ + " = ?", new String[]{TENAZ});
         return removedCount;
     }
 
@@ -217,7 +217,7 @@ public class DBConnector {
 
     public List<Biralat> getBiralatByTENAZ(String TENAZ) {
         Cursor cursor =
-                database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, DBScripts.COLUMN_BIRALAT_TENAZ + "=?", new String[]{String.valueOf(TENAZ)},
+                database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, DBScripts.COLUMN_BIRALAT_TENAZ + " = ?", new String[]{String.valueOf(TENAZ)},
                         null, null, null);
         return getBiralatListFromCursor(cursor);
     }
@@ -225,7 +225,7 @@ public class DBConnector {
 
     public List<Biralat> getBiralatByAZONO(String azono) {
         Cursor cursor =
-                database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, DBScripts.COLUMN_BIRALAT_AZONO + "=?", new String[]{String.valueOf(azono)},
+                database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, DBScripts.COLUMN_BIRALAT_AZONO + " = ?", new String[]{String.valueOf(azono)},
                         null, null, null);
         return getBiralatListFromCursor(cursor);
     }
