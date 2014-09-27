@@ -59,8 +59,10 @@ public class BiralatCvsExporter {
             builder.append(csvSeparator).append(biralat.getAZONO());
             builder.append(csvSeparator).append(biralat.getTENAZ());
             builder.append(csvSeparator).append(DateUtil.formatDate(biralat.getBIRDA()));
-            builder.append(csvSeparator).append(String.valueOf(egyedMap.get(biralat.getAZONO()).getELLSO()));
-            builder.append(csvSeparator).append("???");
+
+            Egyed egyed = egyedMap.get(biralat.getAZONO());
+            builder.append(csvSeparator).append(String.valueOf(egyed.getELLSO()));
+            builder.append(csvSeparator).append(String.valueOf(egyed.getSZINE()));
             for (BiralatSzempont szempont : szempontList) {
                 builder.append(csvSeparator).append(biralat.getErtByKod(szempont.kod));
             }

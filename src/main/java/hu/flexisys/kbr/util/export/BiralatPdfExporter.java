@@ -122,8 +122,10 @@ public class BiralatPdfExporter {
 
             table.addCell(getCell(biralat.getTENAZ()));
             table.addCell(getCell(DateUtil.formatDate(biralat.getBIRDA())));
-            table.addCell(getCell(String.valueOf(egyedMap.get(biralat.getAZONO()).getELLSO())));
-            table.addCell(getCell("???"));
+            
+            Egyed egyed = egyedMap.get(biralat.getAZONO());
+            table.addCell(getCell(String.valueOf(egyed.getELLSO())));
+            table.addCell(getCell(String.valueOf(egyed.getSZINE())));
             for (BiralatSzempont szempont : szempontList) {
                 table.addCell(getCell(biralat.getErtByKod(szempont.kod)));
             }
