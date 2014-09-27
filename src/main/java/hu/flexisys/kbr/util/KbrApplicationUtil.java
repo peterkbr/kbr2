@@ -12,7 +12,7 @@ import java.util.Properties;
  */
 public class KbrApplicationUtil {
 
-    public static String TAG = "KbrApplicationUtil";
+    public static String TAG = "KBR2_KbrApplicationUtil";
     private static Context context;
     private static String biralatTipus;
     private static String biraloAzonosito;

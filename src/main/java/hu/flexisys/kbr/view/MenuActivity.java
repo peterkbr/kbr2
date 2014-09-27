@@ -2,6 +2,7 @@ package hu.flexisys.kbr.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.*;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,11 +12,22 @@ import hu.flexisys.kbr.view.bongeszo.tenyeszet.BongeszoTenyeszetActivity;
 import hu.flexisys.kbr.view.levalogatas.LevalogatasTenyeszetActivity;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetActivity;
 
+import java.io.IOException;
+
 public class MenuActivity extends KbrActivity {
+
+    private static final String TAG = "KBR2_MenuActivity";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        try {
+            Runtime.getRuntime().exec("logcat -c");
+        } catch (IOException e) {
+            Log.e(TAG, "clear log", e);
+        }
+
         setContentView(R.layout.activity_menu);
 
         View customView = LayoutInflater.from(this).inflate(R.layout.activity_menu_actionbar, null);
@@ -69,7 +81,7 @@ public class MenuActivity extends KbrActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.log:
-                Toast.makeText(this, "Not implemented yet!", Toast.LENGTH_SHORT).show();
+                app.exportLog();
                 return true;
             case R.id.db:
                 Toast.makeText(this, "Not implemented yet!", Toast.LENGTH_SHORT).show();
@@ -81,6 +93,5 @@ public class MenuActivity extends KbrActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }
 

@@ -24,7 +24,7 @@ import java.util.*;
  */
 public class BiralatActivity extends KbrActivity implements BirKerNotfoundListener {
 
-    private static final String TAG = "KBR_BiralatActivity";
+    private static final String TAG = "KBR2_BiralatActivity";
 
     private String[] selectedTenazArray;
     private BiralatPagerAdapter adapter;

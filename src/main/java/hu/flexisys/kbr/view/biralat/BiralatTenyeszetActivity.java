@@ -8,10 +8,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 import hu.flexisys.kbr.R;
-import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.controller.emptytask.EmptyTask;
 import hu.flexisys.kbr.controller.emptytask.Executable;
 import hu.flexisys.kbr.controller.emptytask.ExecutableFinishedListener;
+import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.tenyeszet.LevalogatasTorlesAlertDialog;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetAdapter;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
@@ -100,7 +100,7 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
                 dismissDialog();
             }
         });
-        task.execute();
+        startMyTask(task);
     }
 
     private void reloadData() {

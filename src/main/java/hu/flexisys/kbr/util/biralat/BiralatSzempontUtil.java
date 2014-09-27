@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class BiralatSzempontUtil {
 
-    public static String TAG = "BiralatSzempontUtil";
+    public static String TAG = "KBR2_BiralatSzempontUtil";
     private static Map<String, BiralatSzempont> biralatSzempontMap;
 
     public static void initBiralatSzempontUtil(Context context) {

@@ -39,7 +39,7 @@ import java.util.List;
  */
 public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesAlertListener {
 
-    private static final String TAG = "LevalogatasTenyeszetActivity";
+    private static final String TAG = "KBR2_LevalogatasTenyeszetActivity";
     public static String EXTRAKEY_SELECTEDTENAZLIST = "selectedTenazArray";
     private final List<TenyeszetListModel> tenyeszetList = new ArrayList<TenyeszetListModel>();
     private final List<String> selectedList = new ArrayList<String>();
@@ -148,7 +148,7 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
                     dismissDialog();
 
                     startProgressDialog(getString(R.string.bong_progress_export));
-                    new EmptyTask(new Executable() {
+                    EmptyTask task = new EmptyTask(new Executable() {
                         @Override
                         public void execute() throws Exception {
                             List<Egyed> selectedEgyedList = app.getEgyedListByTENAZListAndKivalasztott(selectedList, true);
@@ -205,9 +205,11 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
                             dismissDialog();
                             Log.e(TAG, e.getMessage(), e);
                             // TODO i18n
-                            Toast.makeText(LevalogatasTenyeszetActivity.this, "Hiba történt az exportálás során! Az SD kártya nem írható.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LevalogatasTenyeszetActivity.this, "Hiba történt az exportálás során! Az SD kártya nem írható.", Toast.LENGTH_LONG)
+                                    .show();
                         }
-                    }).execute();
+                    });
+                    startMyTask(task);
                 }
             });
             dialog.show(ft, "exportDialog");
@@ -244,7 +246,7 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
                 dismissDialog();
             }
         });
-        task.execute();
+        startMyTask(task);
     }
 
 

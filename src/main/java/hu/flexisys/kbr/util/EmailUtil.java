@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class EmailUtil {
 
-    private static final String TAG = "EmailUtil";
+    private static final String TAG = "KBR2_EmailUtil";
     private static KbrApplication app;
 
     public static void initEmailUtil(KbrApplication app) {

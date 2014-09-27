@@ -32,7 +32,7 @@ import java.util.*;
  */
 public class LevalogatasActivity extends KbrActivity implements SelectionChangedAlertListener, TorlesAlertListener {
 
-    private static final String TAG = "KBR_LevalogatasActivity";
+    private static final String TAG = "KBR2_LevalogatasActivity";
     private String[] selectedTenazArray;
     private List<Egyed> egyedList;
     private Integer selectedEgyedCounter;
@@ -162,7 +162,7 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
                 dismissDialog();
             }
         });
-        task.execute();
+        startMyTask(task);
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
@@ -419,7 +419,7 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
                 dismissDialog();
             }
         });
-        task.execute();
+        startMyTask(task);
     }
 
     // LEVÁLOGATÁS
@@ -441,7 +441,7 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
                 finish();
             }
         });
-        task.execute();
+        startMyTask(task);
     }
 
     public void mentes() {
@@ -471,10 +471,10 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
                         dismissDialog();
                     }
                 });
-                newTask.execute();
+                startMyTask(newTask);
             }
         });
-        task.execute();
+        startMyTask(task);
     }
 
     private void saveEgyedList() {
@@ -503,7 +503,7 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
                 dismissDialog();
             }
         });
-        task.execute();
+        startMyTask(task);
     }
 
     public void reorder(View view) {
@@ -522,7 +522,7 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
                 dismissDialog();
             }
         });
-        task.execute();
+        startMyTask(task);
     }
 
     // SZŰKÍTÉS
@@ -545,7 +545,7 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
                 dismissDialog();
             }
         });
-        task.execute();
+        startMyTask(task);
     }
 
     private void szukitToKivalasztottak() {

@@ -13,6 +13,10 @@ public class EmptyTask extends AsyncTask<Void, Void, Void> {
     private ExecutableErrorListener errorListener;
     private Exception exception;
 
+    public EmptyTask(Executable executable) {
+        this(executable, null, null);
+    }
+
     public EmptyTask(Executable executable, ExecutableFinishedListener listener) {
         this(executable, listener, null);
     }
@@ -50,7 +54,7 @@ public class EmptyTask extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(aVoid);
         if (exception != null) {
             errorListener.onError(exception);
-        } else {
+        } else if (listener != null) {
             listener.onFinished();
         }
     }

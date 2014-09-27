@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class DbInconsistencyHandlerActivity extends KbrActivity {
 
-    private static final String TAG = "DbInconsistencyHandlerActivity";
+    private static final String TAG = "KBR2_DbInconsistencyHandlerActivity";
     public static String KEY_INNER_PATH = "KEY_INNER_PATH";
     public static String KEY_SDCARD_PATH = "KEY_SDCARD_PATH";
     private File innerErrorFile;

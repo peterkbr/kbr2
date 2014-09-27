@@ -35,7 +35,7 @@ import java.util.*;
  */
 public class BiralFragment extends Fragment implements NumPadInputContainer {
 
-    private static String TAG = "BiralFragment";
+    private static String TAG = "KBR2_BiralFragment";
     private BiralFragmentContainer container;
     private NumPad numpad;
     private BiralPanel biralPanel;

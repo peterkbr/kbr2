@@ -23,7 +23,7 @@ import java.util.HashMap;
  */
 public class DownloadTenyeszetArrayTask extends AsyncTask<Object, Void, Void> {
 
-    public static String TAG = "KBR_downloadTenyeszet";
+    public static String TAG = "KBR2_downloadTenyeszet";
     private final DownloadTenyeszetHandler downloadTenyeszetHandler;
     private HashMap<String, String> resultMap;
     private KbrApplication app;

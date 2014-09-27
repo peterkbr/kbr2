@@ -9,6 +9,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 import hu.flexisys.kbr.R;
+import hu.flexisys.kbr.controller.emptytask.EmptyTask;
+import hu.flexisys.kbr.controller.emptytask.Executable;
+import hu.flexisys.kbr.controller.emptytask.ExecutableFinishedListener;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.NetworkUtil;
@@ -17,9 +20,6 @@ import hu.flexisys.kbr.util.XmlUtilException;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.NotificationDialog;
 import hu.flexisys.kbr.view.bongeszo.BongeszoActivity;
-import hu.flexisys.kbr.controller.emptytask.EmptyTask;
-import hu.flexisys.kbr.controller.emptytask.Executable;
-import hu.flexisys.kbr.controller.emptytask.ExecutableFinishedListener;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -40,7 +40,7 @@ import java.util.List;
  */
 public class BongeszoTenyeszetActivity extends KbrActivity {
 
-    public static final String TAG = "KBR_BongeszoTenyeszetActivity";
+    public static final String TAG = "KBR2_BongeszoTenyeszetActivity";
     public static String EXTRAKEY_SELECTEDTENAZLIST = "selectedTenazArray";
     private final List<TenyeszetListModel> tenyeszetList = new ArrayList<TenyeszetListModel>();
     private final List<String> selectedList = new ArrayList<String>();
@@ -187,7 +187,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
 
         startProgressDialog(getString(R.string.bong_teny_progress_kuldes));
         final Boolean[] success = {null};
-        new EmptyTask(new Executable() {
+        EmptyTask task = new EmptyTask(new Executable() {
             @Override
             public void execute() {
                 List<Biralat> feltoltetlenBiralatList = app.getFeltoltetlenBiralatListByTenazList(selectedTenyeszetList);
@@ -233,6 +233,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
                 dialog = NotificationDialog.newInstance(title, null);
                 dialog.show(ft, "notificationDialog");
             }
-        }).execute();
+        });
+        startMyTask(task);
     }
 }

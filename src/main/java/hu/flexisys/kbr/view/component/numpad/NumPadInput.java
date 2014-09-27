@@ -12,7 +12,7 @@ import hu.flexisys.kbr.util.SoundUtil;
  */
 public class NumPadInput extends TextView {
 
-    public static final String TAG = "NumPadInput";
+    public static final String TAG = "KBR2_NumPadInput";
     protected String numValue;
     protected Boolean selected;
     protected Boolean active;

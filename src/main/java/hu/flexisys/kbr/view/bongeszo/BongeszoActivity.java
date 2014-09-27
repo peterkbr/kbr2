@@ -45,7 +45,7 @@ public class BongeszoActivity extends KbrActivity {
     public static final String ert4 = "21";
     public static final String ert5 = "15";
     public static final String ert6 = "25";
-    private static final String TAG = "KBR_BongeszoActivity";
+    private static final String TAG = "KBR2_BongeszoActivity";
     private String[] selectedTenazArray;
     private List<Biralat> biralatList;
     private Map<String, Egyed> egyedMap;
@@ -147,7 +147,7 @@ public class BongeszoActivity extends KbrActivity {
                 pane.closePane();
             }
         });
-        task.execute();
+        startMyTask(task);
     }
 
     // LIST
@@ -182,7 +182,7 @@ public class BongeszoActivity extends KbrActivity {
                 dismissDialog();
             }
         });
-        task.execute();
+        startMyTask(task);
     }
 
     private void reorderData(String orderBy) {
@@ -350,7 +350,7 @@ public class BongeszoActivity extends KbrActivity {
                     dismissDialog();
 
                     startProgressDialog(getString(R.string.bong_progress_export));
-                    new EmptyTask(new Executable() {
+                    EmptyTask emptyTask = new EmptyTask(new Executable() {
                         @Override
                         public void execute() throws Exception {
                             StringBuilder tenazBuilder = new StringBuilder();
@@ -399,7 +399,8 @@ public class BongeszoActivity extends KbrActivity {
                             // TODO i18n
                             Toast.makeText(BongeszoActivity.this, "Hiba történt az exportálás során! Az SD kártya nem írható.", Toast.LENGTH_LONG).show();
                         }
-                    }).execute();
+                    });
+                    startMyTask(emptyTask);
                 }
             });
             dialog.show(ft, "exportDialog");
@@ -441,7 +442,7 @@ public class BongeszoActivity extends KbrActivity {
                 dismissDialog();
             }
         });
-        task.execute();
+        startMyTask(task);
     }
 
     private void urit() {

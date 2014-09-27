@@ -1,5 +1,7 @@
 package hu.flexisys.kbr.view;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -24,6 +26,7 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
     protected KbrApplication app;
     protected ActionBar actionBar;
     protected KbrDialog dialog;
+    protected Boolean leaving;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,26 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
         app = (KbrApplication) getApplication();
         app.setCurrentActivity(this);
         actionBar = getSupportActionBar();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        leaving = false;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!leaving) {
+            app.exportLog(false);
+        }
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        leaving = true;
+        super.startActivity(intent);
     }
 
     public FragmentTransaction getFragmentTransactionWithTag(String tag) {
@@ -89,6 +112,17 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
     @Override
     public void onProgressEnded() {
         dismissDialog();
+    }
+
+
+    // TASKS
+
+    protected void startMyTask(AsyncTask asyncTask, Object[] params) {
+        app.startMyTask(asyncTask, params);
+    }
+
+    protected void startMyTask(AsyncTask asyncTask) {
+        app.startMyTask(asyncTask);
     }
 
     // MESSAGING

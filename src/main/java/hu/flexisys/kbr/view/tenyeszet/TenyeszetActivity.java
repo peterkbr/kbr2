@@ -7,14 +7,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 import hu.flexisys.kbr.R;
+import hu.flexisys.kbr.controller.emptytask.EmptyTask;
+import hu.flexisys.kbr.controller.emptytask.Executable;
+import hu.flexisys.kbr.controller.emptytask.ExecutableFinishedListener;
 import hu.flexisys.kbr.controller.network.tenyeszet.DownloadTenyeszetArrayTask;
 import hu.flexisys.kbr.controller.network.tenyeszet.DownloadTenyeszetHandler;
 import hu.flexisys.kbr.model.Tenyeszet;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.NotificationDialog;
-import hu.flexisys.kbr.controller.emptytask.EmptyTask;
-import hu.flexisys.kbr.controller.emptytask.Executable;
-import hu.flexisys.kbr.controller.emptytask.ExecutableFinishedListener;
 
 import java.util.*;
 
@@ -197,7 +197,7 @@ public class TenyeszetActivity extends KbrActivity {
                 dialog.show(ft, "notificationDialog");
             }
         });
-        downloadTenyeszetArrayTask.execute(selectedList.toArray());
+        startMyTask(downloadTenyeszetArrayTask, selectedList.toArray());
     }
 
     // TENYÉSZETEK TÖRLÉSE
@@ -267,7 +267,7 @@ public class TenyeszetActivity extends KbrActivity {
                         dialog.show(ft, "delete");
                     }
                 });
-                torolTask.execute();
+                startMyTask(torolTask);
             }
         });
         dialog.show(ft, "torlesDialog");

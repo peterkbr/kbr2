@@ -3,22 +3,28 @@ package hu.flexisys.kbr.controller;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import hu.flexisys.kbr.controller.db.DBController;
+import hu.flexisys.kbr.controller.emptytask.EmptyTask;
+import hu.flexisys.kbr.controller.emptytask.Executable;
+import hu.flexisys.kbr.controller.emptytask.ExecutableFinishedListener;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
-import hu.flexisys.kbr.util.EmailUtil;
-import hu.flexisys.kbr.util.FileUtil;
-import hu.flexisys.kbr.util.KbrApplicationUtil;
-import hu.flexisys.kbr.util.SoundUtil;
+import hu.flexisys.kbr.util.*;
 import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
 import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.db.DbInconsistencyHandlerActivity;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -29,9 +35,14 @@ import java.util.List;
  */
 public class KbrApplication extends Application {
 
-    private static String TAG = "KBR_APPLICATION";
+    private static String TAG = "KBR2_APPLICATION";
+    private static Boolean exportLog;
+    private static String logFilePath;
+    private static Boolean sendEmail;
     private DBController dbController;
     private KbrActivity currentActivity;
+
+    // LOG
 
     @Override
     public void onCreate() {
@@ -45,6 +56,72 @@ public class KbrApplication extends Application {
         FileUtil.initFileUtil(this);
 
         dbController = new DBController(this, KbrApplicationUtil.getBiraloUserName());
+
+        startLog();
+    }
+
+    private void startLog() {
+        exportLog = false;
+        sendEmail = true;
+
+        String dirPath = FileUtil.getExternalAppPath() + File.separator + "LOG";
+        File dir = new File(dirPath);
+        dir.mkdirs();
+        logFilePath = dirPath + File.separator + "KBRLog_" + DateUtil.getRequestId() + ".txt";
+
+        EmptyTask exportLogTask = new EmptyTask(new Executable() {
+            @Override
+            public void execute() throws Exception {
+
+                try {
+                    Process process = Runtime.getRuntime().exec("logcat -v long");
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+                    StringBuilder log = new StringBuilder();
+                    String line;
+                    while ((line = bufferedReader.readLine()) != null && !exportLog) {
+                        if (line.startsWith("[ ")) {
+                            log.append("\n");
+                        }
+                        log.append(line);
+                    }
+
+                    File logFile = new File(logFilePath);
+                    if (!logFile.exists()) {
+                        logFile.createNewFile();
+                    }
+
+                    FileOutputStream outStream = new FileOutputStream(logFile, true);
+                    byte[] buffer = log.toString().getBytes();
+
+                    outStream.write(buffer);
+                    outStream.close();
+                } catch (Exception e) {
+                    Log.e(TAG, "exportLog", e);
+                }
+            }
+        }, new ExecutableFinishedListener() {
+            @Override
+            public void onFinished() {
+                List<String> pathList = new ArrayList<String>();
+                pathList.add(logFilePath);
+                if (sendEmail) {
+                    EmailUtil.sendMailWithAttachments(new String[]{"info@flexisys.hu"}, "[KBR2][LOG] " + getBiraloNev(), null, pathList);
+                }
+                startLog();
+            }
+        });
+
+        startMyTask(exportLogTask);
+    }
+
+    public void exportLog(Boolean sendEmail) {
+        exportLog = true;
+        KbrApplication.sendEmail = sendEmail;
+    }
+
+    public void exportLog() {
+        exportLog(true);
     }
 
     // WRITE DB
@@ -260,4 +337,21 @@ public class KbrApplication extends Application {
     public Context geActivityContext() {
         return currentActivity;
     }
+
+    public void startMyTask(AsyncTask asyncTask, Object[] params) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
+        } else {
+            asyncTask.execute(params);
+        }
+    }
+
+    public void startMyTask(AsyncTask asyncTask) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new Void[]{});
+        } else {
+            asyncTask.execute(new Void[]{});
+        }
+    }
+
 }
