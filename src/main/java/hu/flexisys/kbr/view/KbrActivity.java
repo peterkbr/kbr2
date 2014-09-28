@@ -33,8 +33,20 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         app = (KbrApplication) getApplication();
-        app.setCurrentActivity(this);
         actionBar = getSupportActionBar();
+        app.setCurrentActivity(this);
+
+        if (KbrApplication.errorOnInit != null) {
+            FragmentTransaction ft = getFragmentTransactionWithTag("error");
+            String[] arr = KbrApplication.errorOnInit.split(";");
+            dialog = NotificationDialog.newInstance(arr[0], arr[1], new NotificationDialog.OkListener() {
+                @Override
+                public void onOkClicked() {
+                    finish();
+                }
+            });
+            dialog.show(ft, "error");
+        }
     }
 
     @Override

@@ -15,13 +15,19 @@ public class NotificationDialog extends KbrDialog {
 
     private String title;
     private String message;
+    private OkListener okListener;
 
-    public static NotificationDialog newInstance(String title, String message) {
+    public static NotificationDialog newInstance(String title, String message, OkListener okListener) {
         NotificationDialog f = new NotificationDialog();
         f.layoutResId = R.layout.dialog_notification;
         f.title = title;
         f.message = message;
+        f.okListener = okListener;
         return f;
+    }
+
+    public static NotificationDialog newInstance(String title, String message) {
+        return newInstance(title, message, null);
     }
 
     @Override
@@ -40,10 +46,17 @@ public class NotificationDialog extends KbrDialog {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (okListener != null) {
+                    okListener.onOkClicked();
+                }
                 dismiss();
             }
         });
         return v;
+    }
+
+    public interface OkListener {
+        public void onOkClicked();
     }
 
 }

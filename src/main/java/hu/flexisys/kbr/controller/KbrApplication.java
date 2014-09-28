@@ -3,6 +3,7 @@ package hu.flexisys.kbr.controller;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ import java.util.List;
  */
 public class KbrApplication extends Application {
 
+    public static String errorOnInit = null;
     private static String TAG = "KBR2_APPLICATION";
     private static Boolean exportLog;
     private static String logFilePath;
@@ -48,6 +50,7 @@ public class KbrApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        startLog();
 
         BiralatSzempontUtil.initBiralatSzempontUtil(this);
         BiralatTipusUtil.initBiralatTipusUtil(this);
@@ -56,9 +59,12 @@ public class KbrApplication extends Application {
         EmailUtil.initEmailUtil(this);
         FileUtil.initFileUtil(this);
 
-        dbController = new DBController(this, KbrApplicationUtil.getBiraloUserName());
-
-        startLog();
+        try {
+            dbController = new DBController(this, KbrApplicationUtil.getBiraloUserName());
+        } catch (SQLiteCantOpenDatabaseException e) {
+            Log.e(TAG, "init DBController", e);
+            errorOnInit = "Hiba történt az adatbázis inicializálásakor!;Kérem ellenőrizze a készülék SD kártyáját!";
+        }
     }
 
     private void startLog() {
@@ -341,7 +347,9 @@ public class KbrApplication extends Application {
     public void setCurrentActivity(KbrActivity kbrActivity) {
         if (currentActivity == null) {
             currentActivity = kbrActivity;
-            checkDbConsistency();
+            if (errorOnInit == null) {
+                checkDbConsistency();
+            }
         } else {
             currentActivity = kbrActivity;
         }

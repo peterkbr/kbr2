@@ -6,6 +6,7 @@ import android.view.*;
 import android.widget.TextView;
 import android.widget.Toast;
 import hu.flexisys.kbr.R;
+import hu.flexisys.kbr.controller.KbrApplication;
 import hu.flexisys.kbr.view.biralat.BiralatTenyeszetActivity;
 import hu.flexisys.kbr.view.bongeszo.tenyeszet.BongeszoTenyeszetActivity;
 import hu.flexisys.kbr.view.levalogatas.LevalogatasTenyeszetActivity;
@@ -31,6 +32,10 @@ public class MenuActivity extends KbrActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (KbrApplication.errorOnInit != null) {
+            return;
+        }
+
         TextView counter = (TextView) findViewById(R.id.menu_biralat_counter);
         int counterValue = app.getFeltoltetlenBiralatList().size();
         counter.setText(getString(R.string.menu_biralat_counter, counterValue));
