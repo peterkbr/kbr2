@@ -280,9 +280,9 @@ public class DBConnector {
         biralat.setKULAZ(cursor.getString(i++));
 
         Integer AKAKO = cursor.getInt(i++);
-        if (AKAKO == null || AKAKO < 1 || AKAKO > 5) {
-            AKAKO = null;
-        }
+//        if (AKAKO == null || AKAKO < 1 || AKAKO > 5) {
+//            AKAKO = null;
+//        }
         biralat.setAKAKO(AKAKO);
 
         biralat.setFELTOLTETLEN(cursor.getInt(i++) != 0);
