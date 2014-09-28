@@ -401,7 +401,13 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     public void showBiraltList(View view) {
         if (!biraltEgyedList.isEmpty()) {
             FragmentTransaction ft = getFragmentTransactionWithTag("biralt");
-            dialog = BirKerEgyedListDialog.newInstance(biraltEgyedList);
+            dialog = BirKerEgyedListDialog.newInstance(biraltEgyedList, true, new BirKerEgyedListDialog.EgyedClickListener() {
+                @Override
+                public void onEgyedClick(Egyed egyed) {
+                    updateHasznalatiSzamView(egyed.getAZONO(), "HU".equals(egyed.getORSKO()));
+                    onSingleSelect(egyed);
+                }
+            });
             dialog.show(ft, "biralt");
         }
     }
@@ -413,7 +419,6 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
                 @Override
                 public void onEgyedClick(Egyed egyed) {
                     updateHasznalatiSzamView(egyed.getAZONO(), "HU".equals(egyed.getORSKO()));
-                    //                    keres(null);
                     onSingleSelect(egyed);
                 }
             });
