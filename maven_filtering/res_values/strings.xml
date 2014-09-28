@@ -3,8 +3,6 @@
 
     <string name="app_name">${app.name}</string>
     <string name="app_test_name">${app.test.name}</string>
-    <string name="app_play_version_code">${app.play.version.code}</string>
-    <string name="app_play_version_name">${app.play.version.name}</string>
 
     <!--BASIC INTERFACE-->
     <string name="ok">OK</string>

@@ -15,7 +15,7 @@
         <android.sdk.path>/Users/peter/dev/tools/android-sdk-macosx</android.sdk.path>
 
         <app.name>Küllemi bírálat</app.name>
-        <app.test.name>Figyelem, ez egy tesztverzió! 0.7</app.test.name>
+        <app.test.name>Figyelem, ez egy tesztverzió! 1.0</app.test.name>
         <app.play.version.code>1</app.play.version.code>
         <app.play.version.name>1.0</app.play.version.name>
     </properties>

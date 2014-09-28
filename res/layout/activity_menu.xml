@@ -18,6 +18,15 @@
         android:textSize="24sp" />
 
     <TextView
+        android:id="@+id/menu_test_name"
+        android:textColor="@color/red"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:width="300dp"
+        android:gravity="center"
+        android:textSize="20sp" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1" />
