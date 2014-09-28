@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Küllemi bírálat</string>
-    <string name="app_test_name">Figyelem, ez egy tesztverzió! 0.7</string>
-    <string name="app_play_version_code">1</string>
-    <string name="app_play_version_name">1.0</string>
+    <string name="app_name">${app.name}</string>
+    <string name="app_test_name">${app.test.name}</string>
+    <string name="app_play_version_code">${app.play.version.code}</string>
+    <string name="app_play_version_name">${app.play.version.name}</string>
 
     <!--BASIC INTERFACE-->
     <string name="ok">OK</string>

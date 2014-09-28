@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>hu.flexisys</groupId>
-	<artifactId>kbr2</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<packaging>apk</packaging>
-	<name>kbr2</name>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>hu.flexisys</groupId>
+    <artifactId>kbr2</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>apk</packaging>
+    <name>kbr2</name>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<platform.version>4.3_r2</platform.version>
-		<android.plugin.version>3.8.2</android.plugin.version>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <platform.version>4.4W_r1</platform.version>
+        <android.plugin.version>3.8.2</android.plugin.version>
         <android.sdk.path>/Users/peter/dev/tools/android-sdk-macosx</android.sdk.path>
-	</properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>android</groupId>
-			<artifactId>android</artifactId>
-			<version>${platform.version}</version>
-			<scope>provided</scope>
-		</dependency>
+        <app.name>Küllemi bírálat</app.name>
+        <app.test.name>Figyelem, ez egy tesztverzió! 0.7</app.test.name>
+        <app.play.version.code>1</app.play.version.code>
+        <app.play.version.name>1.0</app.play.version.name>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>android</groupId>
+            <artifactId>android</artifactId>
+            <version>${platform.version}</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>android.support</groupId>
             <artifactId>compatibility-v4</artifactId>
@@ -44,29 +49,40 @@
             <artifactId>itextpdf</artifactId>
             <version>5.0.6</version>
         </dependency>
-	</dependencies>
-	<build>
-		<finalName>${project.artifactId}</finalName>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
-					<artifactId>android-maven-plugin</artifactId>
-					<version>${android.plugin.version}</version>
-					<extensions>true</extensions>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-		<plugins>
-			<plugin>
-				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
-				<artifactId>android-maven-plugin</artifactId>
-				<configuration>
-					<sdk>
-						<platform>18</platform>
-					</sdk>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+
+        <resources>
+            <resource>
+                <directory>${project.basedir}/maven_filtering/res_values</directory>
+                <filtering>true</filtering>
+                <targetPath>${project.basedir}/res/values</targetPath>
+            </resource>
+        </resources>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                    <artifactId>android-maven-plugin</artifactId>
+                    <version>${android.plugin.version}</version>
+                    <extensions>true</extensions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                <artifactId>android-maven-plugin</artifactId>
+                <configuration>
+                    <sdk>
+                        <path>${android.sdk.path}</path>
+                        <platform>20</platform>
+                    </sdk>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

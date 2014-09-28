@@ -21,13 +21,6 @@ public class MenuActivity extends KbrActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        try {
-            Runtime.getRuntime().exec("logcat -c");
-        } catch (IOException e) {
-            Log.e(TAG, "clear log", e);
-        }
-
         setContentView(R.layout.activity_menu);
 
         View customView = LayoutInflater.from(this).inflate(R.layout.activity_menu_actionbar, null);
