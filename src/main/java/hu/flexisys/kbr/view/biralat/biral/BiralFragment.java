@@ -96,7 +96,12 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         for (int i = 0; i < biralatTipus.szempontList.size(); i++) {
             BiralatSzempont szempont = BiralatSzempontUtil.getBiralatSzempont(biralatTipus.szempontList.get(i));
 
-            BiralPanelElement element = new BiralPanelElement(getActivity());
+            BiralPanelElement element;
+            if (szempont.keszletEnd.length() > 1) {
+                element = new BiralPanelElement(getActivity(), R.layout.component_biral_panel_element_double);
+            } else {
+                element = new BiralPanelElement(getActivity());
+            }
             BiralatNumPadInput input = element.getInput();
             LinearLayout layout = element.getLayout();
             TextView label = element.getLabel();
