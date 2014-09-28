@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:minWidth="350dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:textSize="@dimen/dialog_title_textSize"
+        android:layout_marginBottom="@dimen/dialog_title_margin"
+        android:layout_height="wrap_content"
+        android:text="Leválogatás exportálása" />
+
+    <LinearLayout
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/dialog_message_textSize"
+                android:layout_marginBottom="@dimen/dialog_message_margin"
+                android:layout_height="wrap_content"
+                android:text="Formátum(ok) választása:" />
+
+            <CheckBox
+                android:id="@+id/dialog_export_checkBox_pdf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PDF" />
+
+            <CheckBox
+                android:id="@+id/dialog_export_checkBox_csv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CSV" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/dialog_message_textSize"
+                android:layout_marginBottom="@dimen/dialog_message_margin"
+                android:layout_height="wrap_content"
+                android:text="Sorrend választása:" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ENAR" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="HASZN" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ellés dátum" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Konstr" />
+            </RadioGroup>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/dialog_export_ok"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dialog_menu_height"
+            android:layout_weight="1"
+            android:text="@string/ok"
+            android:textSize="@dimen/dialog_menu_textsize" />
+
+        <Button
+            android:id="@+id/dialog_export_cancel"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dialog_menu_height"
+            android:layout_weight="1"
+            android:text="@string/cancel"
+            android:textSize="@dimen/dialog_menu_textsize" />
+
+    </LinearLayout>
+</LinearLayout>
