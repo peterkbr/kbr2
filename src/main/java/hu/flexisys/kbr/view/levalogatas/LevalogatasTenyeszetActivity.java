@@ -152,7 +152,7 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
                                 @Override
                                 public int compare(Egyed leftEgyed, Egyed rightEgyed) {
                                     if (orderBy.equals(getString(R.string.lev_exp_dialog_enar))) {
-                                        return Long.valueOf(leftEgyed.getAZONO()).compareTo(Long.valueOf(rightEgyed.getAZONO()));
+                                        return leftEgyed.getAZONO().compareTo(rightEgyed.getAZONO());
                                     } else if (orderBy.equals(getString(R.string.lev_exp_dialog_haszn))) {
 //                                        String leftHaszn = "", rightHaszn = "";
 //                                        try {
@@ -173,7 +173,7 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
 //                                            return leftHaszn.compareTo(rightHaszn);
 //                                        }
 //                                        return 0;
-                                        return Long.valueOf(leftEgyed.getAZONO()).compareTo(Long.valueOf(rightEgyed.getAZONO()));
+                                        return leftEgyed.getAZONO().compareTo(rightEgyed.getAZONO());
                                     } else if (orderBy.equals(getString(R.string.lev_exp_dialog_ell))) {
                                         return leftEgyed.getSZULD().compareTo(rightEgyed.getSZULD());
                                     } else if (orderBy.equals(getString(R.string.lev_exp_dialog_konstr))) {

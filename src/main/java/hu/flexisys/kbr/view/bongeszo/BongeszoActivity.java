@@ -213,7 +213,7 @@ public class BongeszoActivity extends KbrActivity {
                         value = 1;
                     }
                 } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_enar))) {
-                    value = Long.valueOf(left.getAZONO()).compareTo(Long.valueOf(right.getAZONO()));
+                    value = left.getAZONO().compareTo(right.getAZONO());
                 } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_datum))) {
                     value = left.getBIRDA().compareTo(right.getBIRDA());
                 } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_es))) {

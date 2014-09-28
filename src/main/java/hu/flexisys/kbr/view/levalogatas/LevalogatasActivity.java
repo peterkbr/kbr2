@@ -295,7 +295,7 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
                         value = 1;
                     }
                 } else if (currentOrderBy.equals(getString(R.string.lev_grid_header_enar))) {
-                    value = Long.valueOf(leftEgyed.getAZONO()).compareTo(Long.valueOf(rightEgyed.getAZONO()));
+                    value = leftEgyed.getAZONO().compareTo(rightEgyed.getAZONO());
                 } else if (currentOrderBy.equals(getString(R.string.lev_grid_header_es))) {
                     value = leftEgyed.getELLSO().compareTo(rightEgyed.getELLSO());
                 } else if (currentOrderBy.equals(getString(R.string.lev_grid_header_elles_datuma))) {
