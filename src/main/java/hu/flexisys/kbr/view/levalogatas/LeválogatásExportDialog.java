@@ -5,9 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.Toast;
+import android.widget.*;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.view.KbrDialog;
 
@@ -44,7 +42,11 @@ public class LeválogatásExportDialog extends KbrDialog {
                     Toast.makeText(getActivity(), "Kérem válasszon formátumot!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                listener.onExport(pdf, csv);
+                RadioGroup orderGroup = (RadioGroup) v.findViewById(R.id.order_radioGroup);
+                int id = orderGroup.getCheckedRadioButtonId();
+                RadioButton radio = (RadioButton) v.findViewById(id);
+                String orderBy = radio.getText().toString();
+                listener.onExport(pdf, csv, orderBy);
             }
         });
 
@@ -60,6 +62,6 @@ public class LeválogatásExportDialog extends KbrDialog {
     }
 
     public interface ExportListener {
-        public void onExport(boolean pdf, boolean csv);
+        public void onExport(boolean pdf, boolean csv, String orderBy);
     }
 }

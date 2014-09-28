@@ -85,6 +85,11 @@
     <string name="lev_dialog_biralat_counter">%1$d/%2$d</string>
     <string name="lev_dialog_biralat_datum">Bírálat dátuma: %1$s</string>
 
+    <string name="lev_exp_dialog_enar">ENAR</string>
+    <string name="lev_exp_dialog_haszn">HASZN</string>
+    <string name="lev_exp_dialog_ell">Ellés dátum</string>
+    <string name="lev_exp_dialog_konstr">Konstr</string>
+
     <!--BÍRÁLAT-->
     <string name="bir_menu_torles">Leválogatás törlése</string>
     <string name="bir_menu_biral">Bírál</string>

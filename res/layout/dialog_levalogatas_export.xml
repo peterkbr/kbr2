@@ -64,32 +64,55 @@
                 android:layout_height="wrap_content"
                 android:text="Sorrend választása:" />
 
-            <RadioGroup
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ENAR" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
 
-                <RadioButton
+                <RadioGroup
+                    android:id="@+id/order_radioGroup"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="HASZN" />
+                    android:orientation="vertical"
+                    android:gravity="left"
+                    android:layout_height="wrap_content">
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ellés dátum" />
+                    <RadioButton
+                        android:id="@+id/enar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lev_exp_dialog_enar" />
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Konstr" />
-            </RadioGroup>
+                    <RadioButton
+                        android:id="@+id/haszn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lev_exp_dialog_haszn" />
+
+                    <RadioButton
+                        android:id="@+id/elles"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lev_exp_dialog_ell" />
+
+                    <RadioButton
+                        android:id="@+id/konstr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lev_exp_dialog_konstr" />
+                </RadioGroup>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+
         </LinearLayout>
     </LinearLayout>
 

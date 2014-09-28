@@ -2,7 +2,6 @@ package hu.flexisys.kbr.view.levalogatas;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
@@ -22,17 +21,13 @@ import hu.flexisys.kbr.util.FileUtil;
 import hu.flexisys.kbr.util.export.LevalogatasCvsExporter;
 import hu.flexisys.kbr.util.export.LevalogatasPdfExporter;
 import hu.flexisys.kbr.view.KbrActivity;
-import hu.flexisys.kbr.view.bongeszo.export.ExportDialog;
 import hu.flexisys.kbr.view.tenyeszet.LevalogatasTorlesAlertDialog;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModelComparatorByLetda;
 import hu.flexisys.kbr.view.tenyeszet.TorlesAlertListener;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Peter on 2014.07.04..
@@ -139,9 +134,9 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
     public void kuld() {
         if (selectedList.size() > 0) {
             FragmentTransaction ft = getFragmentTransactionWithTag("exportDialog");
-            dialog = ExportDialog.newInstance(new ExportDialog.ExportListener() {
+            dialog = LeválogatásExportDialog.newInstance(new LeválogatásExportDialog.ExportListener() {
                 @Override
-                public void onExport(final boolean pdf, final boolean csv) {
+                public void onExport(final boolean pdf, final boolean csv, final String orderBy) {
                     String dirPath = FileUtil.getExternalAppPath() + File.separator + "Export" + File.separator + "Leválogatás";
                     final File dir = new File(dirPath);
                     dir.mkdirs();
@@ -152,6 +147,41 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
                         @Override
                         public void execute() throws Exception {
                             List<Egyed> selectedEgyedList = app.getEgyedListByTENAZListAndKivalasztott(selectedList, true);
+
+                            Collections.sort(selectedEgyedList, new Comparator<Egyed>() {
+                                @Override
+                                public int compare(Egyed leftEgyed, Egyed rightEgyed) {
+                                    if (orderBy.equals(getString(R.string.lev_exp_dialog_enar))) {
+                                        return Long.valueOf(leftEgyed.getAZONO()).compareTo(Long.valueOf(rightEgyed.getAZONO()));
+                                    } else if (orderBy.equals(getString(R.string.lev_exp_dialog_haszn))) {
+//                                        String leftHaszn = "", rightHaszn = "";
+//                                        try {
+//                                            String azono = leftEgyed.getAZONO();
+//                                            if (azono.length() == 10) {
+//                                                leftHaszn = leftEgyed.getAZONO().substring(0, 5);
+//                                            }
+//                                        } catch (Exception e) {
+//                                        }
+//                                        try {
+//                                            String azono = rightEgyed.getAZONO();
+//                                            if (azono.length() == 10) {
+//                                                rightHaszn = rightEgyed.getAZONO().substring(0, 5);
+//                                            }
+//                                        } catch (Exception e) {
+//                                        }
+//                                        if (leftHaszn.length() == rightHaszn.length() && leftHaszn.length() == 4) {
+//                                            return leftHaszn.compareTo(rightHaszn);
+//                                        }
+//                                        return 0;
+                                        return Long.valueOf(leftEgyed.getAZONO()).compareTo(Long.valueOf(rightEgyed.getAZONO()));
+                                    } else if (orderBy.equals(getString(R.string.lev_exp_dialog_ell))) {
+                                        return leftEgyed.getSZULD().compareTo(rightEgyed.getSZULD());
+                                    } else if (orderBy.equals(getString(R.string.lev_exp_dialog_konstr))) {
+                                        return leftEgyed.getKONSK().compareTo(rightEgyed.getKONSK());
+                                    }
+                                    return 0;
+                                }
+                            });
 
                             StringBuilder tenazBuilder = new StringBuilder();
                             StringBuilder tartoBuilder = new StringBuilder();
