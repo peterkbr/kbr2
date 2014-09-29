@@ -1,7 +1,9 @@
 package hu.flexisys.kbr.util.export;
 
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.DateUtil;
 
@@ -14,17 +16,7 @@ import java.util.List;
 /**
  * Created by peter on 01/09/14.
  */
-public class LevalogatasPdfExporter {
-
-    private static String tenaz;
-    private static String tarto;
-    private static String biralo;
-
-    public static void initLevalogatasPdfExporter(String TENAZ, String TARTO, String BIRALO) {
-        tenaz = TENAZ;
-        tarto = TARTO;
-        biralo = BIRALO;
-    }
+public class LevalogatasPdfExporter extends PdfExporter {
 
     public static String export(String basePath, List<Egyed> selectedEgyedList) throws DocumentException, FileNotFoundException {
         String path = basePath + File.separator + "pdfExport_" + DateUtil.formatTimestampFileName(new Date()) + ".pdf";
@@ -33,10 +25,10 @@ public class LevalogatasPdfExporter {
         Integer contentMarging_bottom = 30;
         Integer contentMarging_horizontal = 20;
         Rectangle page = PageSize.A4.rotate();
-        Document document = new Document(page, contentMarging_horizontal, contentMarging_horizontal, contentMarging_top, contentMarging_bottom);
+        Document document = new Document(page, contentMarging_horizontal, contentMarging_horizontal, 2 * margin, contentMarging_bottom);
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path));
         writer.setBoxSize("art", new Rectangle(page.getLeft() + margin, page.getBottom() + margin, page.getRight() - margin, page.getTop() - margin));
-        writer.setPageEvent(new HeaderFooter());
+        writer.setPageEvent(new HeaderFooter("Bírálatra leválogatott egyedek", null));
         document.open();
         document.add(createPdfTable(selectedEgyedList));
         document.close();
@@ -139,26 +131,4 @@ public class LevalogatasPdfExporter {
         return cell;
     }
 
-    private static class HeaderFooter extends PdfPageEventHelper {
-        private Phrase header;
-        private int pagenumber;
-
-        @Override
-        public void onOpenDocument(PdfWriter writer, Document document) {
-            String headerText = tenaz + " - " + tarto + ", " + biralo;
-            header = new Phrase(headerText);
-            pagenumber = 0;
-        }
-
-        public void onStartPage(PdfWriter writer, Document document) {
-            ++pagenumber;
-        }
-
-        public void onEndPage(PdfWriter writer, Document document) {
-            Rectangle content = writer.getBoxSize("art");
-            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, header, content.getLeft(), content.getTop() - 20, 0);
-            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(String.format("- %d -", pagenumber)),
-                    (content.getLeft() + content.getRight()) / 2, content.getBottom(), 0);
-        }
-    }
 }

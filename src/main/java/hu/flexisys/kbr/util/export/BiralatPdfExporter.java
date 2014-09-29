@@ -21,20 +21,10 @@ import java.util.Map;
 /**
  * 0Created by peter on 31/08/14.
  */
-public class BiralatPdfExporter {
+public class BiralatPdfExporter extends PdfExporter {
 
-    private static String tenaz;
-    private static String tarto;
-    private static String biralo;
-
-    public static void initBiralatPdfExporter(String TENAZ, String TARTO, String BIRALO) {
-        tenaz = TENAZ;
-        tarto = TARTO;
-        biralo = BIRALO;
-    }
-
-    public static void export(String basePath, String biralatTipus, List<Biralat> biralatList,
-                              Map<String, Egyed> egyedMap) throws DocumentException, FileNotFoundException {
+    public static void export(String basePath, String biralatTipus, List<Biralat> biralatList, Map<String, Egyed> egyedMap)
+            throws DocumentException, FileNotFoundException {
         String path = basePath + File.separator + "pdfExport_" + DateUtil.formatTimestampFileName(new Date()) + ".pdf";
         BiralatTipus tipus = BiralatTipusUtil.getBiralatTipus(biralatTipus);
         List<BiralatSzempont> szempontList = new ArrayList<BiralatSzempont>();
@@ -47,10 +37,11 @@ public class BiralatPdfExporter {
         Integer contentMarging_vertical = 65;
         Integer contentMarging_horizontal = 20;
         Rectangle page = PageSize.A4.rotate();
-        Document document = new Document(page, contentMarging_horizontal, contentMarging_horizontal, contentMarging_vertical, contentMarging_vertical);
+        Document document = new Document(page, contentMarging_horizontal, contentMarging_horizontal, 2 * margin, contentMarging_vertical);
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path));
         writer.setBoxSize("art", new Rectangle(page.getLeft() + margin, page.getBottom() + margin, page.getRight() - margin, page.getTop() - margin));
-        writer.setPageEvent(new HeaderFooter());
+        writer.setPageEvent(new HeaderFooter("Szarvasmarha bírálati lap",
+                "A bírálati adatokat tartalmazó listát átvettem:.......................................................P.H."));
         document.open();
         document.add(createPdfTable(szempontList, biralatList, egyedMap));
         document.close();
@@ -122,7 +113,7 @@ public class BiralatPdfExporter {
 
             table.addCell(getCell(biralat.getTENAZ()));
             table.addCell(getCell(DateUtil.formatDate(biralat.getBIRDA())));
-            
+
             Egyed egyed = egyedMap.get(biralat.getAZONO());
             table.addCell(getCell(String.valueOf(egyed.getELLSO())));
             table.addCell(getCell(String.valueOf(egyed.getSZINE())));
@@ -159,38 +150,4 @@ public class BiralatPdfExporter {
         return cell;
     }
 
-    private static class HeaderFooter extends PdfPageEventHelper {
-        private Phrase header;
-        private Phrase footer;
-        private int pagenumber;
-
-        @Override
-        public void onOpenDocument(PdfWriter writer, Document document) {
-            String headerText = tenaz + " - " + tarto + ", " + biralo;
-            header = new Phrase(headerText);
-            footer = new Phrase("A bírálati adatokat tartalmazó listát átvettem:.......................................................P.H.");
-            pagenumber = 0;
-        }
-
-        public void onStartPage(PdfWriter writer, Document document) {
-            ++pagenumber;
-        }
-
-        public void onEndPage(PdfWriter writer, Document document) {
-            Integer boxMargin_top = 35;
-            Integer boxMargin_bottom = 50;
-            PdfContentByte canvas = writer.getDirectContent();
-            Rectangle content = writer.getBoxSize("art");
-
-            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, header, content.getLeft(), content.getTop() - 20, 0);
-            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, footer, content.getLeft(), content.getBottom() + 25, 0);
-            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(String.format("- %d -", pagenumber)),
-                    (content.getLeft() + content.getRight()) / 2, content.getBottom(), 0);
-
-            Rectangle box = new Rectangle(content.getLeft(), content.getBottom() + boxMargin_bottom, content.getRight(), content.getTop() - boxMargin_top);
-            box.setBorder(Rectangle.BOX);
-            box.setBorderWidth(1);
-            canvas.rectangle(box);
-        }
-    }
 }

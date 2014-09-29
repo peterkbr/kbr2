@@ -45,7 +45,10 @@ public class LeválogatásExportDialog extends KbrDialog {
                 RadioGroup orderGroup = (RadioGroup) v.findViewById(R.id.order_radioGroup);
                 int id = orderGroup.getCheckedRadioButtonId();
                 RadioButton radio = (RadioButton) v.findViewById(id);
-                String orderBy = radio.getText().toString();
+                String orderBy = null;
+                if (radio != null) {
+                    orderBy = radio.getText().toString();
+                }
                 listener.onExport(pdf, csv, orderBy);
             }
         });

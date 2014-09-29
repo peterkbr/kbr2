@@ -369,7 +369,7 @@ public class BongeszoActivity extends KbrActivity {
                             }
 
                             if (pdf) {
-                                BiralatPdfExporter.initBiralatPdfExporter(tenazBuilder.toString(), tartoBuilder.toString(), app.getBiraloNev());
+                                BiralatPdfExporter.initPdfExporter(tenazBuilder.toString(), tartoBuilder.toString(), app.getBiraloNev());
                                 BiralatPdfExporter.export(dir.getPath(), app.getBiralatTipus(), biralatList, egyedMap);
                             }
                             if (csv) {

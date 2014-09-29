@@ -148,12 +148,13 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
                         public void execute() throws Exception {
                             List<Egyed> selectedEgyedList = app.getEgyedListByTENAZListAndKivalasztott(selectedList, true);
 
-                            Collections.sort(selectedEgyedList, new Comparator<Egyed>() {
-                                @Override
-                                public int compare(Egyed leftEgyed, Egyed rightEgyed) {
-                                    if (orderBy.equals(getString(R.string.lev_exp_dialog_enar))) {
-                                        return leftEgyed.getAZONO().compareTo(rightEgyed.getAZONO());
-                                    } else if (orderBy.equals(getString(R.string.lev_exp_dialog_haszn))) {
+                            if (orderBy != null) {
+                                Collections.sort(selectedEgyedList, new Comparator<Egyed>() {
+                                    @Override
+                                    public int compare(Egyed leftEgyed, Egyed rightEgyed) {
+                                        if (orderBy.equals(getString(R.string.lev_exp_dialog_enar))) {
+                                            return leftEgyed.getAZONO().compareTo(rightEgyed.getAZONO());
+                                        } else if (orderBy.equals(getString(R.string.lev_exp_dialog_haszn))) {
 //                                        String leftHaszn = "", rightHaszn = "";
 //                                        try {
 //                                            String azono = leftEgyed.getAZONO();
@@ -173,15 +174,16 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
 //                                            return leftHaszn.compareTo(rightHaszn);
 //                                        }
 //                                        return 0;
-                                        return leftEgyed.getAZONO().compareTo(rightEgyed.getAZONO());
-                                    } else if (orderBy.equals(getString(R.string.lev_exp_dialog_ell))) {
-                                        return leftEgyed.getSZULD().compareTo(rightEgyed.getSZULD());
-                                    } else if (orderBy.equals(getString(R.string.lev_exp_dialog_konstr))) {
-                                        return leftEgyed.getKONSK().compareTo(rightEgyed.getKONSK());
+                                            return leftEgyed.getAZONO().compareTo(rightEgyed.getAZONO());
+                                        } else if (orderBy.equals(getString(R.string.lev_exp_dialog_ell))) {
+                                            return leftEgyed.getSZULD().compareTo(rightEgyed.getSZULD());
+                                        } else if (orderBy.equals(getString(R.string.lev_exp_dialog_konstr))) {
+                                            return leftEgyed.getKONSK().compareTo(rightEgyed.getKONSK());
+                                        }
+                                        return 0;
                                     }
-                                    return 0;
-                                }
-                            });
+                                });
+                            }
 
                             StringBuilder tenazBuilder = new StringBuilder();
                             StringBuilder tartoBuilder = new StringBuilder();
@@ -201,7 +203,7 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
 
                             List<String> pathList = new ArrayList<String>();
                             if (pdf) {
-                                LevalogatasPdfExporter.initLevalogatasPdfExporter(tenazBuilder.toString(), tartoBuilder.toString(), app.getBiraloNev());
+                                LevalogatasPdfExporter.initPdfExporter(tenazBuilder.toString(), tartoBuilder.toString(), app.getBiraloNev());
                                 String pdfFilePath = LevalogatasPdfExporter.export(dir.getPath(), selectedEgyedList);
                                 pathList.add(pdfFilePath);
                             }
