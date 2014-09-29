@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
@@ -16,19 +15,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="@dimen/dialog_title_textSize"/>
+        android:textSize="@dimen/dialog_title_textSize" />
 
     <TextView
         android:id="@+id/dialog_notification_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="@dimen/dialog_message_textSize"/>
+        android:textSize="@dimen/dialog_message_textSize" />
+
+    <ScrollView
+        android:id="@+id/dialog_notification_message_long_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/dialog_notification_message_long"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="@dimen/dialog_message_textSize" />
+    </ScrollView>
 
     <Button
         android:id="@+id/dialog_notification_ok"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dialog_menu_height"
         android:text="@string/ok"
-        android:textSize="@dimen/dialog_menu_textsize"/>
+        android:textSize="@dimen/dialog_menu_textsize" />
 </LinearLayout>

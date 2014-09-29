@@ -39,7 +39,17 @@ public class NotificationDialog extends KbrDialog {
             titleTextView.setText(title);
         }
         if (message != null) {
-            TextView messageTextView = (TextView) v.findViewById(R.id.dialog_notification_message);
+            TextView messageTextView;
+
+            String[] lines = message.split("\r\n|\r|\n");
+            if (lines.length < 15) {
+                v.findViewById(R.id.dialog_notification_message_long_layout).setVisibility(View.GONE);
+                messageTextView = (TextView) v.findViewById(R.id.dialog_notification_message);
+            } else {
+                v.findViewById(R.id.dialog_notification_message).setVisibility(View.GONE);
+                messageTextView = (TextView) v.findViewById(R.id.dialog_notification_message_long);
+            }
+
             messageTextView.setText(message);
         }
         Button ok = (Button) v.findViewById(R.id.dialog_notification_ok);
