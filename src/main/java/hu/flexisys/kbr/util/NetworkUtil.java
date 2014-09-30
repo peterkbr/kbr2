@@ -52,7 +52,7 @@ public class NetworkUtil {
             if (akakko != null && akakko > 0 && akakko <= 5) {
                 requestBuilder.append(" akako=\"").append(biralat.getAKAKO()).append("\"");
             } else {
-                requestBuilder.append(" akako=\"").append("null").append("\"");
+                requestBuilder.append(" akako=\"").append("").append("\"");
             }
             if (biralat.getERT01() != null && !biralat.getERT01().isEmpty()) {
                 requestBuilder.append(" ert01=\"").append(biralat.getERT01()).append("\"");
