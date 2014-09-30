@@ -17,132 +17,69 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textSize="18sp"
-        android:text="Felhasználó:" />
+        android:text="Felhasználó:"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/admin_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/keret"
-        android:textSize="20sp"
         android:clickable="true"
-        android:onClick="openList" />
+        android:onClick="openList"
+        android:textSize="20sp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textSize="18sp"
-        android:text="Szerver URL:" />
+        android:text="Szerver URL:"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/admin_url"
         android:layout_width="match_parent"
-        android:textSize="20sp"
         android:layout_height="wrap_content"
         android:background="@drawable/keret"
-        android:inputType="textUri" />
+        android:inputType="textUri"
+        android:textSize="20sp" />
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textSize="18sp"
-        android:text="Központi email cím:" />
+        android:text="Központi email cím:"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/admin_email"
         android:layout_width="match_parent"
-        android:textSize="20sp"
         android:layout_height="wrap_content"
         android:background="@drawable/keret"
-        android:inputType="textEmailAddress" />
-
-
-    <!--<ListView-->
-    <!--android:id="@+id/admin_userlist"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_marginTop="25dp"-->
-    <!--android:layout_weight="1" />-->
-
-    <!--<TextView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:width="300dp"-->
-    <!--android:gravity="center"-->
-    <!--android:text="Beállítások"-->
-    <!--android:textSize="24sp" />-->
-
-    <!--<TextView-->
-    <!--android:layout_marginTop="25dp"-->
-    <!--android:text="Teljes név:"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:gravity="center"-->
-    <!--android:layout_height="wrap_content" />-->
-
-    <!--<EditText-->
-    <!--android:id="@+id/admin_name"-->
-    <!--android:gravity="center"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:height="@dimen/input_height"-->
-    <!--android:layout_height="@dimen/input_height"-->
-    <!--android:background="@drawable/keret"-->
-    <!--android:inputType="textPersonName" />-->
-
-    <!--<TextView-->
-    <!--android:layout_marginTop="25dp"-->
-    <!--android:text="Felhasználói név:"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:gravity="center"-->
-    <!--android:layout_height="wrap_content" />-->
-
-    <!--<EditText-->
-    <!--android:height="@dimen/input_height"-->
-    <!--android:gravity="center"-->
-    <!--android:id="@+id/admin_username"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="@dimen/input_height"-->
-    <!--android:background="@drawable/keret"-->
-    <!--android:inputType="text" />-->
-
-    <!--<TextView-->
-    <!--android:layout_marginTop="25dp"-->
-    <!--android:text="Felhasználói id:"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:gravity="center"-->
-    <!--android:layout_height="wrap_content" />-->
-
-    <!--<EditText-->
-    <!--android:id="@+id/admin_id"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:height="@dimen/input_height"-->
-    <!--android:gravity="center"-->
-    <!--android:layout_height="@dimen/input_height"-->
-    <!--android:background="@drawable/keret"-->
-    <!--android:inputType="text" />-->
+        android:inputType="textEmailAddress"
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="save"
             android:layout_gravity="center"
-            android:layout_marginTop="25dp"
+            android:onClick="save"
             android:text="Mentés" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="cancel"
             android:layout_gravity="center"
-            android:layout_marginTop="25dp"
+            android:layout_marginLeft="25dp"
+            android:onClick="cancel"
             android:text="Mégsem" />
     </LinearLayout>
 

@@ -123,7 +123,7 @@ public class KbrApplication extends Application {
                 List<String> pathList = new ArrayList<String>();
                 pathList.add(logFilePath);
                 if (sendEmail) {
-                    EmailUtil.sendMailWithAttachments(new String[]{"info@flexisys.hu"}, "[KBR2][LOG] " + getBiraloNev(), null, pathList);
+                    EmailUtil.sendMailWithAttachments(new String[]{KbrApplicationUtil.getSupportEmail()}, "[KBR2][LOG] " + getBiraloNev(), null, pathList);
                 }
                 startLog();
             }

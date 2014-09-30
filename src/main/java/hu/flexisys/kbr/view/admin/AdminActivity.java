@@ -31,6 +31,7 @@ public class AdminActivity extends KbrActivity {
     private TextView nameTV;
     private EditText urlET;
     private EditText emailET;
+    private ListPopupWindow listPopupWindow;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -91,7 +92,7 @@ public class AdminActivity extends KbrActivity {
     }
 
     public void openList(View view) {
-        ListPopupWindow listPopupWindow = new ListPopupWindow(this);
+        listPopupWindow = new ListPopupWindow(this);
         listPopupWindow.setWidth(ListPopupWindow.FILL_PARENT);
         listPopupWindow.setAnchorView(view);
         listPopupWindow.setAdapter(new UserAdapter(this));
@@ -158,6 +159,7 @@ public class AdminActivity extends KbrActivity {
                     selectedId = id;
                     nameTV.setText(nameMap.get(id));
                     notifyDataSetChanged();
+                    listPopupWindow.dismiss();
                 }
             });
             return rowView;

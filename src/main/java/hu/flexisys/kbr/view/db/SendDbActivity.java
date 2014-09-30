@@ -10,6 +10,7 @@ import hu.flexisys.kbr.controller.emptytask.PreExecutable;
 import hu.flexisys.kbr.util.DateUtil;
 import hu.flexisys.kbr.util.EmailUtil;
 import hu.flexisys.kbr.util.FileUtil;
+import hu.flexisys.kbr.util.KbrApplicationUtil;
 import hu.flexisys.kbr.view.KbrActivity;
 
 import java.io.File;
@@ -85,7 +86,6 @@ public class SendDbActivity extends KbrActivity {
         List<String> pathList = new ArrayList<String>();
         pathList.add(innerErrorFile.getAbsolutePath());
         pathList.add(sdcardErrorFile.getAbsolutePath());
-        EmailUtil.sendMailWithAttachments(new String[]{"franyo.peter@gmail.com"}, subject + app.getBiraloNev(), null, pathList);
-//        EmailUtil.sendMailWithAttachments(new String[]{"info@flexisys.hu"}, "[KBR2][ERROR][DB inkonzisztencia] " + app.getBiraloNev(), null, pathList);
+        EmailUtil.sendMailWithAttachments(new String[]{KbrApplicationUtil.getSupportEmail()}, subject + app.getBiraloNev(), null, pathList);
     }
 }
