@@ -155,28 +155,22 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
                                         if (orderBy.equals(getString(R.string.lev_exp_dialog_enar))) {
                                             return leftEgyed.getAZONO().compareTo(rightEgyed.getAZONO());
                                         } else if (orderBy.equals(getString(R.string.lev_exp_dialog_haszn))) {
-//                                        String leftHaszn = "", rightHaszn = "";
-//                                        try {
-//                                            String azono = leftEgyed.getAZONO();
-//                                            if (azono.length() == 10) {
-//                                                leftHaszn = leftEgyed.getAZONO().substring(0, 5);
-//                                            }
-//                                        } catch (Exception e) {
-//                                        }
-//                                        try {
-//                                            String azono = rightEgyed.getAZONO();
-//                                            if (azono.length() == 10) {
-//                                                rightHaszn = rightEgyed.getAZONO().substring(0, 5);
-//                                            }
-//                                        } catch (Exception e) {
-//                                        }
-//                                        if (leftHaszn.length() == rightHaszn.length() && leftHaszn.length() == 4) {
-//                                            return leftHaszn.compareTo(rightHaszn);
-//                                        }
-//                                        return 0;
-                                            return leftEgyed.getAZONO().compareTo(rightEgyed.getAZONO());
+                                            String leftOrsko = leftEgyed.getORSKO();
+                                            String rightOrsko = rightEgyed.getORSKO();
+                                            if (leftOrsko.equals("HU") && rightOrsko.equals("HU")) {
+                                                String leftHaszn, rightHaszn;
+                                                leftHaszn = leftEgyed.getAZONO().substring(5, 9);
+                                                rightHaszn = rightEgyed.getAZONO().substring(5, 9);
+                                                return leftHaszn.compareTo(rightHaszn);
+                                            } else if (leftOrsko.equals("HU")) {
+                                                return -1;
+                                            } else if (rightOrsko.equals("HU")) {
+                                                return 1;
+                                            } else {
+                                                return leftEgyed.getAZONO().compareTo(rightEgyed.getAZONO());
+                                            }
                                         } else if (orderBy.equals(getString(R.string.lev_exp_dialog_ell))) {
-                                            return leftEgyed.getSZULD().compareTo(rightEgyed.getSZULD());
+                                            return leftEgyed.getELLDA().compareTo(rightEgyed.getELLDA());
                                         } else if (orderBy.equals(getString(R.string.lev_exp_dialog_konstr))) {
                                             return leftEgyed.getKONSK().compareTo(rightEgyed.getKONSK());
                                         }
