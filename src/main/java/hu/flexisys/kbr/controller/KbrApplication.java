@@ -51,8 +51,8 @@ public class KbrApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        startLog();
         init();
+        startLog();
     }
 
     public void init() {
@@ -81,40 +81,49 @@ public class KbrApplication extends Application {
         exportLog = false;
         sendEmail = true;
 
-        String dirPath = FileUtil.getExternalAppPath() + File.separator + "LOG";
-        File dir = new File(dirPath);
-        dir.mkdirs();
-        logFilePath = dirPath + File.separator + "KBRLog_" + DateUtil.getRequestId() + ".txt";
-
         EmptyTask exportLogTask = new EmptyTask(new Executable() {
             @Override
             public void execute() throws Exception {
 
                 try {
-                    Process process = Runtime.getRuntime().exec("logcat -v long");
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-                    StringBuilder log = new StringBuilder();
-                    String line;
-                    while ((line = bufferedReader.readLine()) != null && !exportLog) {
-                        if (line.startsWith("[ ")) {
-                            log.append("\n");
-                        }
-                        log.append(line);
-                    }
-
+                    String dirPath = FileUtil.getExternalAppPath() + File.separator + "LOG";
+                    File dir = new File(dirPath);
+                    dir.mkdirs();
+                    logFilePath = dirPath + File.separator + "KBRLog_" + DateUtil.getRequestId() + ".txt";
                     File logFile = new File(logFilePath);
                     if (!logFile.exists()) {
                         logFile.createNewFile();
                     }
 
+                    Process process = Runtime.getRuntime().exec("logcat -v long");
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+                    StringBuilder log = new StringBuilder();
+                    String line;
+                    while (!exportLog) {
+                        line = bufferedReader.readLine();
+                        if (line == null) {
+                            continue;
+                        }
+                        if (line.startsWith("[ ")) {
+                            log.append("\n");
+                        }
+                        log.append(line);
+//                        if (log.length() > 1000) {
+//                            FileOutputStream outStream = new FileOutputStream(logFile, true);
+//                            byte[] buffer = log.toString().getBytes();
+//                            outStream.write(buffer);
+//                            outStream.close();
+//                        }
+                    }
                     FileOutputStream outStream = new FileOutputStream(logFile, true);
                     byte[] buffer = log.toString().getBytes();
-
                     outStream.write(buffer);
                     outStream.close();
+
                 } catch (Exception e) {
                     Log.e(TAG, "exportLog", e);
+                    sendEmail = false;
                 }
             }
         }, new ExecutableFinishedListener() {
