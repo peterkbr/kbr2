@@ -24,18 +24,25 @@
         android:gravity="center"
         android:textSize="@dimen/dialog_message_textSize" />
 
-    <ScrollView
-        android:id="@+id/dialog_notification_message_long_layout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/dialog_notification_message_long"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="@dimen/dialog_message_textSize" />
-    </ScrollView>
+        <ScrollView
+            android:id="@+id/dialog_notification_message_long_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/dialog_notification_message_long"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/dialog_message_textSize" />
+        </ScrollView>
+    </LinearLayout>
 
     <Button
         android:id="@+id/dialog_notification_ok"
