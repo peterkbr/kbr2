@@ -133,24 +133,12 @@ public class AdminActivity extends KbrActivity {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rowView = inflater.inflate(R.layout.list_user, parent, false);
 
-            int colorResId = R.color.gray;
-            int textColorResId = R.color.white;
-            if (id.equals(selectedId)) {
-                colorResId = R.color.white;
-                textColorResId = R.color.black;
-            }
-
             TextView textView = (TextView) rowView.findViewById(R.id.user_id);
             textView.setText(id);
-            textView.setTextColor(textColorResId);
             textView = (TextView) rowView.findViewById(R.id.user_name);
             textView.setText(name);
-            textView.setTextColor(textColorResId);
             textView = (TextView) rowView.findViewById(R.id.user_userName);
             textView.setText(userName);
-            textView.setTextColor(textColorResId);
-
-            rowView.setBackgroundColor(getResources().getColor(colorResId));
 
             rowView.setClickable(true);
             rowView.setOnClickListener(new View.OnClickListener() {
