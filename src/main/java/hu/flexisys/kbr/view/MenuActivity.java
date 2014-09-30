@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.TextView;
-import android.widget.Toast;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.KbrApplication;
+import hu.flexisys.kbr.view.admin.AdminActivity;
 import hu.flexisys.kbr.view.biralat.BiralatTenyeszetActivity;
 import hu.flexisys.kbr.view.bongeszo.tenyeszet.BongeszoTenyeszetActivity;
 import hu.flexisys.kbr.view.levalogatas.LevalogatasTenyeszetActivity;
@@ -15,6 +15,8 @@ import hu.flexisys.kbr.view.tenyeszet.TenyeszetActivity;
 public class MenuActivity extends KbrActivity {
 
     private static final String TAG = "KBR2_MenuActivity";
+
+    private Boolean startedAdminSettings = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,17 @@ public class MenuActivity extends KbrActivity {
     protected void onResume() {
         super.onResume();
         if (KbrApplication.errorOnInit != null) {
+            return;
+        }
+
+        if (!KbrApplication.initialized) {
+            if (startedAdminSettings) {
+                finish();
+                return;
+            }
+            Intent intent = new Intent(this, AdminActivity.class);
+            startActivity(intent);
+            startedAdminSettings = true;
             return;
         }
 
@@ -90,7 +103,8 @@ public class MenuActivity extends KbrActivity {
                 app.sendDbs();
                 return true;
             case R.id.menu:
-                Toast.makeText(this, "Not implemented yet!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, AdminActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

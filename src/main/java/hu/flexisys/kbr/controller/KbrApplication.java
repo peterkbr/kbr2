@@ -38,6 +38,7 @@ import java.util.List;
 public class KbrApplication extends Application {
 
     public static String errorOnInit = null;
+    public static Boolean initialized = false;
     private static String TAG = "KBR2_APPLICATION";
     private static Boolean exportLog;
     private static String logFilePath;
@@ -51,19 +52,28 @@ public class KbrApplication extends Application {
     public void onCreate() {
         super.onCreate();
         startLog();
+        init();
+    }
 
+    public void init() {
         BiralatSzempontUtil.initBiralatSzempontUtil(this);
         BiralatTipusUtil.initBiralatTipusUtil(this);
+        NetworkUtil.initNetworkUtil(this);
         KbrApplicationUtil.initKbrApplicationUtil(this);
         SoundUtil.initSoundUtil(this);
         EmailUtil.initEmailUtil(this);
         FileUtil.initFileUtil(this);
 
-        try {
-            dbController = new DBController(this, KbrApplicationUtil.getBiraloUserName());
-        } catch (SQLiteCantOpenDatabaseException e) {
-            Log.e(TAG, "init DBController", e);
-            errorOnInit = "Hiba történt az adatbázis inicializálásakor!;Kérem ellenőrizze a készülék SD kártyáját!";
+        if (KbrApplicationUtil.initialized()) {
+            initialized = true;
+            try {
+                dbController = new DBController(this, KbrApplicationUtil.getBiraloUserName());
+            } catch (SQLiteCantOpenDatabaseException e) {
+                Log.e(TAG, "init DBController", e);
+                errorOnInit = "Hiba történt az adatbázis inicializálásakor!;Kérem ellenőrizze a készülék SD kártyáját!";
+            }
+        } else {
+            initialized = false;
         }
     }
 
@@ -336,18 +346,18 @@ public class KbrApplication extends Application {
         return KbrApplicationUtil.getBiraloAzonosito();
     }
 
-    public String getBiralatTipus() {
-        return KbrApplicationUtil.getBiralatTipus();
-    }
-
     public String getBiraloNev() {
         return KbrApplicationUtil.getBiraloNev();
+    }
+
+    public String getBiralatTipus() {
+        return KbrApplicationUtil.getBiralatTipus();
     }
 
     public void setCurrentActivity(KbrActivity kbrActivity) {
         if (currentActivity == null) {
             currentActivity = kbrActivity;
-            if (errorOnInit == null) {
+            if (errorOnInit == null && initialized) {
                 checkDbConsistency();
             }
         } else {

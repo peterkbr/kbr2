@@ -1,5 +1,7 @@
 package hu.flexisys.kbr.util;
 
+import android.content.Context;
+import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.model.Biralat;
 
 import java.util.List;
@@ -9,7 +11,11 @@ import java.util.List;
  */
 public class NetworkUtil {
 
-    public static String SERVICE_URL = "http://tomcat7.devapp01.si.hu/EnarPdaServer/sendxml";
+    public static String SERVICE_URL;
+
+    public static void initNetworkUtil(Context context) {
+        SERVICE_URL = context.getString(R.string.server_url);
+    }
 
     // <?xml version="1.0" encoding="utf-8"?> <request type="kullemteny"
     // id="201105193"

@@ -21,7 +21,6 @@ public class LevalogatasPdfExporter extends PdfExporter {
     public static String export(String basePath, List<Egyed> selectedEgyedList) throws DocumentException, FileNotFoundException {
         String path = basePath + File.separator + "pdfExport_" + DateUtil.formatTimestampFileName(new Date()) + ".pdf";
         Integer margin = 10;
-        Integer contentMarging_top = 40;
         Integer contentMarging_bottom = 30;
         Integer contentMarging_horizontal = 20;
         Rectangle page = PageSize.A4.rotate();

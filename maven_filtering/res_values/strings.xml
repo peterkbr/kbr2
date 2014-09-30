@@ -4,6 +4,10 @@
     <string name="app_name">${app.name}</string>
     <string name="app_test_name">${app.test.name}</string>
 
+    <string name="biralat_tipus">${init.tipus}</string>
+    <string name="server_url">${init.url}</string>
+    <string name="support_email">${init.email}</string>
+
     <!--BASIC INTERFACE-->
     <string name="ok">OK</string>
     <string name="yes">Igen</string>

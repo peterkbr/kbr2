@@ -18,6 +18,10 @@
         <app.test.name>Figyelem, ez egy tesztverzió! 1.0</app.test.name>
         <app.play.version.code>1</app.play.version.code>
         <app.play.version.name>1.0</app.play.version.name>
+
+        <init.tipus>7</init.tipus>
+        <init.url>http://tomcat7.devapp01.si.hu/EnarPdaServer/sendxml</init.url>
+        <init.email>info@flexisys.hu</init.email>
     </properties>
 
     <dependencies>
