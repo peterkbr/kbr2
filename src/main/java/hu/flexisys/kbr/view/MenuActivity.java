@@ -6,6 +6,7 @@ import android.view.*;
 import android.widget.TextView;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.KbrApplication;
+import hu.flexisys.kbr.util.LogUtil;
 import hu.flexisys.kbr.view.admin.AdminActivity;
 import hu.flexisys.kbr.view.biralat.BiralatTenyeszetActivity;
 import hu.flexisys.kbr.view.bongeszo.tenyeszet.BongeszoTenyeszetActivity;
@@ -97,7 +98,7 @@ public class MenuActivity extends KbrActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.log:
-                app.exportLog();
+                LogUtil.exportLog();
                 return true;
             case R.id.db:
                 app.sendDbs();

@@ -23,10 +23,10 @@ import java.util.Calendar;
  */
 public class KbrActivity extends ActionBarActivity implements ProgressHandler {
 
+    private static final String TAG = "KBR2_KbrActivity";
     protected KbrApplication app;
     protected ActionBar actionBar;
     protected KbrDialog dialog;
-    protected Boolean leaving;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,20 +52,15 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
     @Override
     protected void onResume() {
         super.onResume();
-        leaving = false;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (!leaving) {
-            app.exportLog(false);
-        }
     }
 
     @Override
     public void startActivity(Intent intent) {
-        leaving = true;
         super.startActivity(intent);
     }
 
@@ -150,4 +145,5 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
     public void errorBeep() {
         SoundUtil.errorBeep();
     }
+
 }
