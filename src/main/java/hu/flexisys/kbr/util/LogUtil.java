@@ -70,7 +70,6 @@ public class LogUtil {
                             exportLog = true;
                             sendEmail = false;
                         }
-                        Thread.sleep(50);
                     }
 
                     FileOutputStream outStream = new FileOutputStream(logFile, true);
