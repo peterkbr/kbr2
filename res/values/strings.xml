@@ -6,7 +6,7 @@
 
     <string name="biralat_tipus">7</string>
     <string name="server_url">http://tomcat7.devapp01.si.hu/EnarPdaServer/sendxml</string>
-    <string name="support_email">info@flexisys.hu</string>
+    <string name="support_email">kbr@flexisys.hu</string>
 
     <!--BASIC INTERFACE-->
     <string name="ok">OK</string>
