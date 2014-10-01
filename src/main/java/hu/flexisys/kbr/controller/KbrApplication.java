@@ -9,9 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import hu.flexisys.kbr.controller.db.DBController;
-import hu.flexisys.kbr.controller.emptytask.EmptyTask;
-import hu.flexisys.kbr.controller.emptytask.Executable;
-import hu.flexisys.kbr.controller.emptytask.ExecutableFinishedListener;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
@@ -23,10 +20,6 @@ import hu.flexisys.kbr.view.db.DbInconsistencyHandlerActivity;
 import hu.flexisys.kbr.view.db.SendDbActivity;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -40,9 +33,6 @@ public class KbrApplication extends Application {
     public static String errorOnInit = null;
     public static Boolean initialized = false;
     private static String TAG = "KBR2_APPLICATION";
-    private static Boolean exportLog;
-    private static String logFilePath;
-    private static Boolean sendEmail;
     private DBController dbController;
     private KbrActivity currentActivity;
 
@@ -52,7 +42,9 @@ public class KbrApplication extends Application {
     public void onCreate() {
         super.onCreate();
         init();
-        startLog();
+
+        LogUtil.initLogUtil(this);
+        LogUtil.startLog();
     }
 
     public void init() {
@@ -75,79 +67,6 @@ public class KbrApplication extends Application {
         } else {
             initialized = false;
         }
-    }
-
-    private void startLog() {
-        exportLog = false;
-        sendEmail = true;
-
-        EmptyTask exportLogTask = new EmptyTask(new Executable() {
-            @Override
-            public void execute() throws Exception {
-
-                try {
-                    String dirPath = FileUtil.getExternalAppPath() + File.separator + "LOG";
-                    File dir = new File(dirPath);
-                    dir.mkdirs();
-                    logFilePath = dirPath + File.separator + "KBRLog_" + DateUtil.getRequestId() + ".txt";
-                    File logFile = new File(logFilePath);
-                    if (!logFile.exists()) {
-                        logFile.createNewFile();
-                    }
-
-                    Process process = Runtime.getRuntime().exec("logcat -v long");
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-                    StringBuilder log = new StringBuilder();
-                    String line;
-                    while (!exportLog) {
-                        line = bufferedReader.readLine();
-                        if (line == null) {
-                            continue;
-                        }
-                        if (line.startsWith("[ ")) {
-                            log.append("\n");
-                        }
-                        log.append(line);
-//                        if (log.length() > 1000) {
-//                            FileOutputStream outStream = new FileOutputStream(logFile, true);
-//                            byte[] buffer = log.toString().getBytes();
-//                            outStream.write(buffer);
-//                            outStream.close();
-//                        }
-                    }
-                    FileOutputStream outStream = new FileOutputStream(logFile, true);
-                    byte[] buffer = log.toString().getBytes();
-                    outStream.write(buffer);
-                    outStream.close();
-
-                } catch (Exception e) {
-                    Log.e(TAG, "exportLog", e);
-                    sendEmail = false;
-                }
-            }
-        }, new ExecutableFinishedListener() {
-            @Override
-            public void onFinished() {
-                List<String> pathList = new ArrayList<String>();
-                pathList.add(logFilePath);
-                if (sendEmail) {
-                    EmailUtil.sendMailWithAttachments(new String[]{KbrApplicationUtil.getSupportEmail()}, "[KBR2][LOG] " + getBiraloNev(), null, pathList);
-                }
-                startLog();
-            }
-        });
-
-        startMyTask(exportLogTask);
-    }
-
-    public void exportLog(Boolean sendEmail) {
-        exportLog = true;
-        KbrApplication.sendEmail = sendEmail;
-    }
-
-    public void exportLog() {
-        exportLog(true);
     }
 
     // WRITE DB
