@@ -56,19 +56,17 @@ public class LogUtil {
                     StringBuilder log = new StringBuilder();
                     String line;
                     int i = 0;
-                    while (!exportLog) {
-                        line = bufferedReader.readLine();
-                        if (line == null) {
-                            continue;
-                        }
+                    while ((line = bufferedReader.readLine()) != null && !exportLog) {
                         if (line.startsWith("[ ")) {
                             log.append("\n");
                         }
                         log.append(line);
-                        i++;
                         if (i > 300) {
                             exportLog = true;
                             sendEmail = false;
+                            i = 0;
+                        } else {
+                            i++;
                         }
                     }
 

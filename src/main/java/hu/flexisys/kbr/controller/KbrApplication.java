@@ -44,7 +44,7 @@ public class KbrApplication extends Application {
         init();
 
         LogUtil.initLogUtil(this);
-        LogUtil.startLog();
+//        LogUtil.startLog();
     }
 
     public void init() {
