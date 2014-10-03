@@ -6,6 +6,7 @@ import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
 import hu.flexisys.kbr.util.FileUtil;
+import hu.flexisys.kbr.util.LogUtil;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -17,8 +18,6 @@ import java.util.List;
  * Created by Peter on 2014.07.01..
  */
 public class DBController {
-
-    public static final String TAG = "KBR2_DBController";
 
     private static String DB_NAME = "KBR2_DB";
     private static int DB_VERSION = 1;
@@ -46,7 +45,7 @@ public class DBController {
 //            String[] list = storageDir.list();
 // find KBR2 folder on any of these:
 //            for (String direct : list) {
-//                Log.i(TAG, direct);
+//                Log.i(LogUtil2.TAG, direct);
 //            }
 //        }
     }
@@ -60,20 +59,20 @@ public class DBController {
     }
 
     public void removeTenyeszet(String TENAZ) {
-        Log.i(TAG, "removeTenyeszet from innerConnector:" + TENAZ);
+        Log.i(LogUtil.TAG, "removeTenyeszet from innerConnector:" + TENAZ);
         removeTenyeszet(innerConnector, TENAZ);
-        Log.i(TAG, "removeTenyeszet from sdCardConnector:" + TENAZ);
+        Log.i(LogUtil.TAG, "removeTenyeszet from sdCardConnector:" + TENAZ);
         removeTenyeszet(sdCardConnector, TENAZ);
     }
 
     private void removeTenyeszet(DBConnector connector, String TENAZ) {
         int ok = connector.removeTenyeszet(TENAZ);
-        Log.i(TAG, "removeTenyeszet:" + TENAZ + " - tenyeszet:" + ok);
+        Log.i(LogUtil.TAG, "removeTenyeszet:" + TENAZ + " - tenyeszet:" + ok);
         if (ok == 1) {
             int egyedCounter = connector.removeEgyedByTENAZ(TENAZ);
-            Log.i(TAG, "removeTenyeszet:" + TENAZ + " - egyed:" + egyedCounter);
+            Log.i(LogUtil.TAG, "removeTenyeszet:" + TENAZ + " - egyed:" + egyedCounter);
             int biralatCounter = connector.removeBiralatByTENAZ(TENAZ);
-            Log.i(TAG, "removeTenyeszet:" + TENAZ + " - biralat:" + biralatCounter);
+            Log.i(LogUtil.TAG, "removeTenyeszet:" + TENAZ + " - biralat:" + biralatCounter);
         }
     }
 
@@ -184,7 +183,7 @@ public class DBController {
         String innerMD5 = getMD5EncryptedString(innerDBPath);
         String sdCardMD5 = getMD5EncryptedString(sdCardDBPath);
         if (!innerMD5.equals(sdCardMD5)) {
-            throw new Exception(TAG + ":checkDbConsistency:different db");
+            throw new Exception(LogUtil.TAG + ":checkDbConsistency:different db");
         }
     }
 
@@ -197,15 +196,15 @@ public class DBController {
             buf.read(bytes, 0, bytes.length);
             buf.close();
         } catch (FileNotFoundException e) {
-            Log.e(TAG, "getMD5EncryptedString", e);
+            Log.e(LogUtil.TAG, "getMD5EncryptedString", e);
         } catch (IOException e) {
-            Log.e(TAG, "getMD5EncryptedString", e);
+            Log.e(LogUtil.TAG, "getMD5EncryptedString", e);
         }
         MessageDigest mdEnc = null;
         try {
             mdEnc = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {
-            Log.e(TAG, "getMD5EncryptedString", e);
+            Log.e(LogUtil.TAG, "getMD5EncryptedString", e);
         }
         mdEnc.update(bytes, 0, bytes.length);
         String md5 = new BigInteger(1, mdEnc.digest()).toString(16);
@@ -228,7 +227,7 @@ public class DBController {
         try {
             FileUtil.copyFile(src, dst);
         } catch (IOException e) {
-            Log.e(TAG, "synchronizeDb", e);
+            Log.e(LogUtil.TAG, "synchronizeDb", e);
         }
     }
 

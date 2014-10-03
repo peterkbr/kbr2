@@ -18,6 +18,7 @@ import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
 import hu.flexisys.kbr.util.EmailUtil;
 import hu.flexisys.kbr.util.FileUtil;
+import hu.flexisys.kbr.util.LogUtil;
 import hu.flexisys.kbr.util.export.LevalogatasCvsExporter;
 import hu.flexisys.kbr.util.export.LevalogatasPdfExporter;
 import hu.flexisys.kbr.view.KbrActivity;
@@ -34,7 +35,6 @@ import java.util.*;
  */
 public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesAlertListener {
 
-    private static final String TAG = "KBR2_LevalogatasTenyeszetActivity";
     public static String EXTRAKEY_SELECTEDTENAZLIST = "selectedTenazArray";
     private final List<TenyeszetListModel> tenyeszetList = new ArrayList<TenyeszetListModel>();
     private final List<String> selectedList = new ArrayList<String>();
@@ -229,7 +229,7 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
                         @Override
                         public void onError(Exception e) {
                             dismissDialog();
-                            Log.e(TAG, e.getMessage(), e);
+                            Log.e(LogUtil.TAG, e.getMessage(), e);
                             // TODO i18n
                             Toast.makeText(LevalogatasTenyeszetActivity.this, "Hiba történt az exportálás során! Az SD kártya nem írható.", Toast.LENGTH_LONG)
                                     .show();

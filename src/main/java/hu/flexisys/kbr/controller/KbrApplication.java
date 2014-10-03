@@ -32,7 +32,6 @@ public class KbrApplication extends Application {
 
     public static String errorOnInit = null;
     public static Boolean initialized = false;
-    private static String TAG = "KBR2_APPLICATION";
     private DBController dbController;
     private KbrActivity currentActivity;
 
@@ -41,10 +40,12 @@ public class KbrApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.i(LogUtil.TAG, "KbrApp created");
         init();
 
         LogUtil.initLogUtil(this);
-//        LogUtil.startLog();
+//        LogUtil2.initLogUtil(this);
+//        LogUtil2.startLog();
     }
 
     public void init() {
@@ -61,7 +62,7 @@ public class KbrApplication extends Application {
             try {
                 dbController = new DBController(this, KbrApplicationUtil.getBiraloUserName());
             } catch (SQLiteCantOpenDatabaseException e) {
-                Log.e(TAG, "init DBController", e);
+                Log.e(LogUtil.TAG, "init DBController", e);
                 errorOnInit = "Hiba történt az adatbázis inicializálásakor!;Kérem ellenőrizze a készülék SD kártyáját!";
             }
         } else {
@@ -238,7 +239,7 @@ public class KbrApplication extends Application {
         try {
             dbController.checkDbConsistency();
         } catch (Exception e) {
-            Log.e(TAG, "checkDbConsistency", e);
+            Log.e(LogUtil.TAG, "checkDbConsistency", e);
             Intent intent = new Intent(currentActivity, DbInconsistencyHandlerActivity.class);
             Bundle extras = getDbPathExtras();
             intent.putExtras(extras);

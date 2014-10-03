@@ -10,6 +10,7 @@ import android.widget.Toast;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
+import hu.flexisys.kbr.util.LogUtil;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.NotificationDialog;
 import hu.flexisys.kbr.view.biralat.biral.*;
@@ -23,8 +24,6 @@ import java.util.*;
  * Created by Peter on 2014.07.04..
  */
 public class BiralatActivity extends KbrActivity implements BirKerNotfoundListener {
-
-    private static final String TAG = "KBR2_BiralatActivity";
 
     private String[] selectedTenazArray;
     private BiralatPagerAdapter adapter;
@@ -107,7 +106,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         biralandoEgyedList = new ArrayList<Egyed>();
 
         if (egyedList.isEmpty()) {
-            Log.i(TAG, "Üres az egyedlista!");
+            Log.i(LogUtil.TAG, "Üres az egyedlista!");
         } else {
             List<Biralat> biralatList = app.getBiralatListByTENAZArray(selectedTenazArray);
             HashMap<String, ArrayList<Biralat>> biralatMap = new HashMap<String, ArrayList<Biralat>>();

@@ -14,6 +14,7 @@ import hu.flexisys.kbr.controller.emptytask.Executable;
 import hu.flexisys.kbr.controller.emptytask.ExecutableFinishedListener;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
+import hu.flexisys.kbr.util.LogUtil;
 import hu.flexisys.kbr.util.NetworkUtil;
 import hu.flexisys.kbr.util.XmlUtil;
 import hu.flexisys.kbr.util.XmlUtilException;
@@ -40,7 +41,6 @@ import java.util.List;
  */
 public class BongeszoTenyeszetActivity extends KbrActivity {
 
-    public static final String TAG = "KBR2_BongeszoTenyeszetActivity";
     public static String EXTRAKEY_SELECTEDTENAZLIST = "selectedTenazArray";
     private final List<TenyeszetListModel> tenyeszetList = new ArrayList<TenyeszetListModel>();
     private final List<String> selectedList = new ArrayList<String>();
@@ -210,11 +210,11 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
                         reloadData();
                     }
                 } catch (IOException e) {
-                    Log.e(TAG, "accessing network", e);
+                    Log.e(LogUtil.TAG, "accessing network", e);
                 } catch (XmlUtilException e) {
-                    Log.e(TAG, "send/server error\n" + e.getMessage(), e);
+                    Log.e(LogUtil.TAG, "send/server error\n" + e.getMessage(), e);
                 } catch (XmlPullParserException e) {
-                    Log.e(TAG, "parsing response", e);
+                    Log.e(LogUtil.TAG, "parsing response", e);
                 }
             }
         }, new ExecutableFinishedListener() {

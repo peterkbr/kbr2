@@ -19,10 +19,8 @@ import java.util.List;
 public class LogUtil {
 
 
-    private static final String TAG = "KBR2_LogUtil";
-    private static Boolean exportLog = false;
+    public static final String TAG = "KBR2";
     private static String logFilePath = null;
-    private static Boolean sendEmail = true;
 
     private static KbrApplication app;
 
@@ -35,48 +33,34 @@ public class LogUtil {
             @Override
             public void execute() throws Exception {
                 try {
-                    String dirPath = FileUtil.getExternalAppPath() + File.separator + "LOG";
-                    File dir = new File(dirPath);
-                    dir.mkdirs();
-                    if (logFilePath == null || sendEmail) {
+
+                    if (logFilePath == null) {
+                        String dirPath = FileUtil.getExternalAppPath() + File.separator + "LOG";
+                        File dir = new File(dirPath);
+                        dir.mkdirs();
                         logFilePath = dirPath + File.separator + "KBRLog_" + DateUtil.getRequestId() + ".txt";
+                    }
+
+                    Process process = Runtime.getRuntime().exec(new String[]{"logcat", "-d", "AndroidRuntime:E " + TAG + ":V *:S"});
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+                    StringBuilder log = new StringBuilder();
+                    String line;
+                    String separator = System.getProperty("line.separator");
+                    while ((line = bufferedReader.readLine()) != null) {
+                        log.append(line).append(separator);
                     }
 
                     File logFile = new File(logFilePath);
                     if (!logFile.exists()) {
                         logFile.createNewFile();
                     }
-
-                    exportLog = false;
-                    sendEmail = true;
-
-                    Process process = Runtime.getRuntime().exec("logcat -v long");
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-                    StringBuilder log = new StringBuilder();
-                    String line;
-                    int i = 0;
-                    while ((line = bufferedReader.readLine()) != null && !exportLog) {
-                        if (line.startsWith("[ ")) {
-                            log.append("\n");
-                        }
-                        log.append(line);
-                        if (i > 300) {
-                            exportLog = true;
-                            sendEmail = false;
-                            i = 0;
-                        } else {
-                            i++;
-                        }
-                    }
-
                     FileOutputStream outStream = new FileOutputStream(logFile, true);
                     byte[] buffer = log.toString().getBytes();
                     outStream.write(buffer);
                     outStream.close();
                 } catch (Exception e) {
                     Log.e(TAG, "exportLog", e);
-                    sendEmail = false;
                 }
             }
         }, new ExecutableFinishedListener() {
@@ -84,19 +68,10 @@ public class LogUtil {
             public void onFinished() {
                 List<String> pathList = new ArrayList<String>();
                 pathList.add(logFilePath);
-                if (sendEmail) {
-                    EmailUtil.sendMailWithAttachments(new String[]{KbrApplicationUtil.getSupportEmail()}, "[KBR2][LOG] " + app.getBiraloNev(), null, pathList);
-                }
-                startLog();
+                EmailUtil.sendMailWithAttachments(new String[]{KbrApplicationUtil.getSupportEmail()}, "[KBR2][LOG] " + app.getBiraloNev(), null, pathList);
             }
         });
-
         app.startMyTask(exportLogTask);
-    }
-
-    public static void exportLog() {
-        exportLog = true;
-        sendEmail = true;
     }
 
 }

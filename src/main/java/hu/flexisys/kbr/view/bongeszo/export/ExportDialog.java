@@ -16,7 +16,6 @@ import hu.flexisys.kbr.view.KbrDialog;
  */
 public class ExportDialog extends KbrDialog {
 
-    private static final String TAG = "KBR2_ExportDialog";
     private ExportListener listener;
 
     public static KbrDialog newInstance(ExportListener listener) {

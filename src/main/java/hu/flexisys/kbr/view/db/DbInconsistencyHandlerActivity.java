@@ -2,6 +2,7 @@ package hu.flexisys.kbr.view.db;
 
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import hu.flexisys.kbr.util.LogUtil;
 
 import java.io.IOException;
 
@@ -9,8 +10,6 @@ import java.io.IOException;
  * Created by peter on 06/09/14.
  */
 public class DbInconsistencyHandlerActivity extends SendDbActivity {
-
-    private static final String TAG = "KBR2_DbInconsistencyHandlerActivity";
 
     @Override
     protected void resume() {
@@ -39,7 +38,7 @@ public class DbInconsistencyHandlerActivity extends SendDbActivity {
                     copyDbFiles();
                     sendDbEmail("[KBR2][ERROR][DB inkonzisztencia] ");
                 } catch (IOException e) {
-                    Log.e(TAG, e.getMessage(), e);
+                    Log.e(LogUtil.TAG, e.getMessage(), e);
                 }
                 dismissDialog();
                 finish();

@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.TextView;
 import hu.flexisys.kbr.R;
+import hu.flexisys.kbr.util.LogUtil;
 import hu.flexisys.kbr.util.SoundUtil;
 
 /**
@@ -12,7 +13,6 @@ import hu.flexisys.kbr.util.SoundUtil;
  */
 public class NumPadInput extends TextView {
 
-    public static final String TAG = "KBR2_NumPadInput";
     protected String numValue;
     protected Boolean selected;
     protected Boolean active;
@@ -86,7 +86,7 @@ public class NumPadInput extends TextView {
             }
             return true;
         } catch (Exception e) {
-            Log.e(TAG, "Invalid input", e);
+            Log.e(LogUtil.TAG, "Invalid input", e);
         }
         return false;
     }

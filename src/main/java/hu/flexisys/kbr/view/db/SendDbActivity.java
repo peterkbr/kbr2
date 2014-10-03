@@ -7,10 +7,7 @@ import hu.flexisys.kbr.controller.emptytask.EmptyTask;
 import hu.flexisys.kbr.controller.emptytask.Executable;
 import hu.flexisys.kbr.controller.emptytask.ExecutableFinishedListener;
 import hu.flexisys.kbr.controller.emptytask.PreExecutable;
-import hu.flexisys.kbr.util.DateUtil;
-import hu.flexisys.kbr.util.EmailUtil;
-import hu.flexisys.kbr.util.FileUtil;
-import hu.flexisys.kbr.util.KbrApplicationUtil;
+import hu.flexisys.kbr.util.*;
 import hu.flexisys.kbr.view.KbrActivity;
 
 import java.io.File;
@@ -24,7 +21,6 @@ import java.util.List;
  */
 public class SendDbActivity extends KbrActivity {
 
-    private static final String TAG = "KBR2_SendDbActivity";
     public static String KEY_INNER_PATH = "KEY_INNER_PATH";
     public static String KEY_SDCARD_PATH = "KEY_SDCARD_PATH";
     private File innerErrorFile;
@@ -49,7 +45,7 @@ public class SendDbActivity extends KbrActivity {
                 try {
                     copyDbFiles();
                 } catch (IOException e) {
-                    Log.e(TAG, e.getMessage(), e);
+                    Log.e(LogUtil.TAG, e.getMessage(), e);
                 }
             }
         }, new ExecutableFinishedListener() {

@@ -23,7 +23,6 @@ import java.util.Calendar;
  */
 public class KbrActivity extends ActionBarActivity implements ProgressHandler {
 
-    private static final String TAG = "KBR2_KbrActivity";
     protected KbrApplication app;
     protected ActionBar actionBar;
     protected KbrDialog dialog;

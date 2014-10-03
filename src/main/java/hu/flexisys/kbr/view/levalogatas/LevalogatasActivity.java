@@ -17,6 +17,7 @@ import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
 import hu.flexisys.kbr.util.DateUtil;
+import hu.flexisys.kbr.util.LogUtil;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.ProgressDialog;
 import hu.flexisys.kbr.view.biralat.BiralatTenyeszetActivity;
@@ -32,7 +33,6 @@ import java.util.*;
  */
 public class LevalogatasActivity extends KbrActivity implements SelectionChangedAlertListener, TorlesAlertListener {
 
-    private static final String TAG = "KBR2_LevalogatasActivity";
     private String[] selectedTenazArray;
     private List<Egyed> egyedList;
     private Integer selectedEgyedCounter;
@@ -629,7 +629,7 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
                 longValue = DateUtil.getDateFromDateString(filterValue).getTime();
             }
         } catch (ParseException e) {
-            Log.e(TAG, "Date parse error", e);
+            Log.e(LogUtil.TAG, "Date parse error", e);
         }
         return longValue;
     }

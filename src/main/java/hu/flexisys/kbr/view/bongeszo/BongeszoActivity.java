@@ -17,6 +17,7 @@ import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
 import hu.flexisys.kbr.util.DateUtil;
 import hu.flexisys.kbr.util.FileUtil;
+import hu.flexisys.kbr.util.LogUtil;
 import hu.flexisys.kbr.util.biralat.BiralatSzempont;
 import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
 import hu.flexisys.kbr.util.biralat.BiralatTipus;
@@ -45,7 +46,6 @@ public class BongeszoActivity extends KbrActivity {
     public static final String ert4 = "21";
     public static final String ert5 = "15";
     public static final String ert6 = "25";
-    private static final String TAG = "KBR2_BongeszoActivity";
     private String[] selectedTenazArray;
     private List<Biralat> biralatList;
     private Map<String, Egyed> egyedMap;
@@ -395,7 +395,7 @@ public class BongeszoActivity extends KbrActivity {
                         @Override
                         public void onError(Exception e) {
                             dismissDialog();
-                            Log.e(TAG, e.getMessage(), e);
+                            Log.e(LogUtil.TAG, e.getMessage(), e);
                             // TODO i18n
                             Toast.makeText(BongeszoActivity.this, "Hiba történt az exportálás során! Az SD kártya nem írható.", Toast.LENGTH_LONG).show();
                         }
@@ -415,14 +415,14 @@ public class BongeszoActivity extends KbrActivity {
             TextView datumTol = (TextView) findViewById(R.id.bong_szuk_datum_tol);
             datumTolFilter = DateUtil.getDateFromDateString(datumTol.getText().toString()).getTime();
         } catch (ParseException e) {
-            Log.e(TAG, "Date parse error", e);
+            Log.e(LogUtil.TAG, "Date parse error", e);
             datumTolFilter = null;
         }
         try {
             TextView datumIg = (TextView) findViewById(R.id.bong_szuk_datum_ig);
             datumIgFilter = DateUtil.getDateFromDateString(datumIg.getText().toString()).getTime();
         } catch (ParseException e) {
-            Log.e(TAG, "Date parse error", e);
+            Log.e(LogUtil.TAG, "Date parse error", e);
             datumIgFilter = null;
         }
         CheckBox elkuldetlenCheckBox = (CheckBox) findViewById(R.id.bong_szuk_elkuldetlen);

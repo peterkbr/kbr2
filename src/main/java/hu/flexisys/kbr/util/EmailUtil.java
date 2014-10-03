@@ -15,7 +15,6 @@ import java.util.List;
  */
 public class EmailUtil {
 
-    private static final String TAG = "KBR2_EmailUtil";
     private static KbrApplication app;
 
     public static void initEmailUtil(KbrApplication app) {
@@ -25,7 +24,7 @@ public class EmailUtil {
     public static void sendMailWithAttachments(String[] addresses, String subject, String content, List<String> pathList) {
         Context context = app.getApplicationContext();
         if (context == null) {
-            Log.e(TAG, "EmailUtil got no context from KbrApplication");
+            Log.e(LogUtil.TAG, "EmailUtil got no context from KbrApplication");
             return;
         }
 

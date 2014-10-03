@@ -15,8 +15,6 @@ import hu.flexisys.kbr.view.tenyeszet.TenyeszetActivity;
 
 public class MenuActivity extends KbrActivity {
 
-    private static final String TAG = "KBR2_MenuActivity";
-
     private Boolean startedAdminSettings = false;
 
     @Override
@@ -98,7 +96,8 @@ public class MenuActivity extends KbrActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.log:
-                LogUtil.exportLog();
+//                LogUtil.exportLog();
+                LogUtil.startLog();
                 return true;
             case R.id.db:
                 app.sendDbs();
