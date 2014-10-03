@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.db.DBController;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
@@ -19,6 +20,9 @@ import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.db.DbInconsistencyHandlerActivity;
 import hu.flexisys.kbr.view.db.SendDbActivity;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
+import org.acra.ACRA;
+import org.acra.ReportingInteractionMode;
+import org.acra.annotation.ReportsCrashes;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,6 +32,10 @@ import java.util.List;
 /**
  * Created by Peter on 2014.07.01..
  */
+@ReportsCrashes(formKey = "",
+        mailTo = "kbr@flexisys.hu",
+        mode = ReportingInteractionMode.TOAST,
+        resToastText = R.string.crash_toast_text)
 public class KbrApplication extends Application {
 
     public static String errorOnInit = null;
@@ -40,12 +48,9 @@ public class KbrApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(LogUtil.TAG, "KbrApp created");
+        ACRA.init(this);
         init();
-
         LogUtil.initLogUtil(this);
-//        LogUtil2.initLogUtil(this);
-//        LogUtil2.startLog();
     }
 
     public void init() {
