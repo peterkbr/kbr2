@@ -59,6 +59,17 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        app.activityDestroyed();
+    }
+
+    @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
     }

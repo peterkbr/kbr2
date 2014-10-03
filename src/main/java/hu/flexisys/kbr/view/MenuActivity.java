@@ -96,8 +96,8 @@ public class MenuActivity extends KbrActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.log:
-//                LogUtil.exportLog();
-                LogUtil.startLog();
+                LogUtil.exportLog();
+//                LogUtil.startLog();
                 return true;
             case R.id.db:
                 app.sendDbs();

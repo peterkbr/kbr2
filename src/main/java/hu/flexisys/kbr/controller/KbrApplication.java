@@ -44,6 +44,7 @@ public class KbrApplication extends Application {
     private KbrActivity currentActivity;
 
     // LOG
+    private int activityCounter = 0;
 
     @Override
     public void onCreate() {
@@ -51,7 +52,10 @@ public class KbrApplication extends Application {
         ACRA.init(this);
         init();
         LogUtil.initLogUtil(this);
+        LogUtil.startLog();
     }
+
+    // WRITE DB
 
     public void init() {
         BiralatSzempontUtil.initBiralatSzempontUtil(this);
@@ -74,8 +78,6 @@ public class KbrApplication extends Application {
             initialized = false;
         }
     }
-
-    // WRITE DB
 
     public void insertEgyed(Egyed egyed) {
         dbController.addEgyed(egyed);
@@ -134,13 +136,13 @@ public class KbrApplication extends Application {
         checkDbConsistency();
     }
 
+    // READ DB
+
     public int updateEgyedWithSelection(String azono, Boolean selection) {
         int count = dbController.updateEgyedByAZONOWithKIVALASZTOTT(azono, selection);
         checkDbConsistency();
         return count;
     }
-
-    // READ DB
 
     public List<TenyeszetListModel> getTenyeszetListModels() {
         ArrayList<TenyeszetListModel> list = new ArrayList<TenyeszetListModel>();
@@ -266,11 +268,11 @@ public class KbrApplication extends Application {
         return extras;
     }
 
+    // GETTERS, SETTERS
+
     public void synchronizeDb(boolean inner) {
         dbController.synchronizeDb(inner);
     }
-
-    // GETTERS, SETTERS
 
     public String getBiraloUserId() {
         return KbrApplicationUtil.getBiraloUserName();
@@ -289,6 +291,7 @@ public class KbrApplication extends Application {
     }
 
     public void setCurrentActivity(KbrActivity kbrActivity) {
+        activityCounter++;
         if (currentActivity == null) {
             currentActivity = kbrActivity;
             if (errorOnInit == null && initialized) {
@@ -296,6 +299,13 @@ public class KbrApplication extends Application {
             }
         } else {
             currentActivity = kbrActivity;
+        }
+    }
+
+    public void activityDestroyed() {
+        activityCounter--;
+        if (activityCounter < 1) {
+            LogUtil.stopLog();
         }
     }
 
@@ -318,5 +328,4 @@ public class KbrApplication extends Application {
             asyncTask.execute(new Void[]{});
         }
     }
-
 }
