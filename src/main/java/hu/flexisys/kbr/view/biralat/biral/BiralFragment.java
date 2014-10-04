@@ -236,7 +236,6 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
 
     public Map<String, String> getKodErtMap() {
         Map<String, String> map = new HashMap<String, String>();
-
         for (String kod : szempontKodInputMap.keySet()) {
             BiralatNumPadInput input = szempontKodInputMap.get(kod);
             String ert = input.getText().toString();
@@ -452,11 +451,10 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         if (!editing) {
             return;
         }
+
         if (currentSzempontKod == null) {
             currentSzempontKod = szempontKodList.get(0);
         } else if (currentSzempontKod.equals(szempontKodList.get(szempontKodList.size() - 2))) {
-            Integer vp = calcVp();
-            vpBiralatNumPadInput.setText(String.valueOf(vp));
             currentSzempontKod = null;
         } else {
             for (int i = 0; i < szempontKodList.size(); i++) {
@@ -467,19 +465,29 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
                 }
             }
         }
-        selectInputByKod(currentSzempontKod);
 
-//        for (BiralatNumPadInput input : biralatNumPadInputs) {
-//            if (input.getId() == vpBiralatNumPadInput.getId()) {
-//                Integer vp = calcVp();
-//                vpBiralatNumPadInput.setText(String.valueOf(vp));
-//                break;
-//            }
-//            if (input.getText().toString().isEmpty()) {
-//                selectInput(input);
-//                break;
-//            }
-//        }
+        String akakoString = getAkako();
+        if (calcableVp() && getBiralatStarted() && (akakoString == null || akakoString.isEmpty() || akakoString.equals("3"))) {
+            Integer vp = calcVp();
+            vpBiralatNumPadInput.setText(String.valueOf(vp));
+            currentSzempontKod = null;
+        }
+
+        selectInputByKod(currentSzempontKod);
+    }
+
+    private Boolean calcableVp() {
+        for (String kod : szempontKodInputMap.keySet()) {
+            if (kod.equals(inputIdSzempontKodMap.get(vpBiralatNumPadInput.getId()))) {
+                continue;
+            }
+            BiralatNumPadInput input = szempontKodInputMap.get(kod);
+            String ert = input.getText().toString();
+            if (ert == null || ert.isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
