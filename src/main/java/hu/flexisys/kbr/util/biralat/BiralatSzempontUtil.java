@@ -3,6 +3,7 @@ package hu.flexisys.kbr.util.biralat;
 import android.content.Context;
 import android.util.Log;
 import hu.flexisys.kbr.R;
+import hu.flexisys.kbr.util.LogUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +17,6 @@ import java.util.Map;
  */
 public class BiralatSzempontUtil {
 
-    public static String TAG = "KBR2_BiralatSzempontUtil";
     private static Map<String, BiralatSzempont> biralatSzempontMap;
 
     public static void initBiralatSzempontUtil(Context context) {
@@ -43,7 +43,7 @@ public class BiralatSzempontUtil {
                     biralatSzempontMap.put(id, szempont);
                 }
             } catch (IOException e) {
-                Log.e(TAG, "loadBiralatSzempontMap", e);
+                Log.e(LogUtil.TAG, "loadBiralatSzempontMap", e);
             }
         }
     }

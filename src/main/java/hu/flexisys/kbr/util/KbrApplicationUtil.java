@@ -14,7 +14,6 @@ import java.util.Properties;
  */
 public class KbrApplicationUtil {
 
-    public static String TAG = "KBR2_KbrApplicationUtil";
     private static KbrApplication context;
     private static String biralatTipus;
     private static String serverUrl;
@@ -63,7 +62,7 @@ public class KbrApplicationUtil {
             }
             setData();
         } catch (IOException e) {
-            Log.e(TAG, "loadBiralatSzempontMap", e);
+            Log.e(LogUtil.TAG, "loadBiralatSzempontMap", e);
         }
     }
 

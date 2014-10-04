@@ -4,10 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import hu.flexisys.kbr.controller.KbrApplication;
 import hu.flexisys.kbr.model.Tenyeszet;
-import hu.flexisys.kbr.util.DateUtil;
-import hu.flexisys.kbr.util.NetworkUtil;
-import hu.flexisys.kbr.util.XmlUtil;
-import hu.flexisys.kbr.util.XmlUtilException;
+import hu.flexisys.kbr.util.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -23,7 +20,6 @@ import java.util.HashMap;
  */
 public class DownloadTenyeszetArrayTask extends AsyncTask<Object, Void, Void> {
 
-    public static String TAG = "KBR2_downloadTenyeszet";
     private final DownloadTenyeszetHandler downloadTenyeszetHandler;
     private HashMap<String, String> resultMap;
     private KbrApplication app;
@@ -38,7 +34,7 @@ public class DownloadTenyeszetArrayTask extends AsyncTask<Object, Void, Void> {
     protected Void doInBackground(Object... params) {
         for (Object param : params) {
             String TENAZ = (String) param;
-            Log.i(TAG, "DOWNLOAD STARTED:" + TENAZ + ":" + DateUtil.getRequestId());
+            Log.i(LogUtil.TAG, "DOWNLOAD STARTED:" + TENAZ + ":" + DateUtil.getRequestId());
             String requestXml = NetworkUtil.getKullemtenyRequestBody(app.getBiraloUserId(), TENAZ);
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost post = new HttpPost(NetworkUtil.SERVICE_URL);
@@ -48,26 +44,26 @@ public class DownloadTenyeszetArrayTask extends AsyncTask<Object, Void, Void> {
                 HttpResponse response = httpclient.execute(post);
                 responseValue = EntityUtils.toString(response.getEntity());
             } catch (IOException e) {
-                Log.e(TAG, "accessing network", e);
+                Log.e(LogUtil.TAG, "accessing network", e);
             }
             if (responseValue != null && !responseValue.isEmpty()) {
                 try {
-                    Log.i(TAG, "DOWNLOADED:" + TENAZ + ":" + DateUtil.getRequestId());
+                    Log.i(LogUtil.TAG, "DOWNLOADED:" + TENAZ + ":" + DateUtil.getRequestId());
                     Tenyeszet tenyeszet = XmlUtil.parseKullemtenyXml(responseValue);
-                    Log.i(TAG, "PARSED:" + TENAZ + ":" + DateUtil.getRequestId());
+                    Log.i(LogUtil.TAG, "PARSED:" + TENAZ + ":" + DateUtil.getRequestId());
                     app.deleteTenyeszet(tenyeszet.getTENAZ());
-                    Log.i(TAG, "OLD TENYESZET DATA REMOVED:" + TENAZ + ":" + DateUtil.getRequestId());
+                    Log.i(LogUtil.TAG, "OLD TENYESZET DATA REMOVED:" + TENAZ + ":" + DateUtil.getRequestId());
                     app.insertTenyeszetWithChildren(tenyeszet);
-                    Log.i(TAG, "INSERTED:" + TENAZ + ":" + DateUtil.getRequestId());
+                    Log.i(LogUtil.TAG, "INSERTED:" + TENAZ + ":" + DateUtil.getRequestId());
                     resultMap.put(TENAZ, "Sikeres letöltés");
                 } catch (XmlUtilException xmlE) {
                     app.updateTenyeszetByTENAZWithERVENYES(TENAZ, false);
                     resultMap.put(TENAZ, "Sikertelen letöltés : \n" + xmlE.getMessage());
-                    Log.e(TAG, "parsing xml", xmlE);
+                    Log.e(LogUtil.TAG, "parsing xml", xmlE);
                 } catch (Exception e) {
                     app.updateTenyeszetByTENAZWithERVENYES(TENAZ, false);
                     resultMap.put(TENAZ, "Sikertelen letöltés");
-                    Log.e(TAG, "parsing xml", e);
+                    Log.e(LogUtil.TAG, "parsing xml", e);
                 }
             }
         }
