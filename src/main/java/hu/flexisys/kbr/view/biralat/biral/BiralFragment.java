@@ -16,6 +16,7 @@ import hu.flexisys.kbr.controller.KbrApplication;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.DateUtil;
+import hu.flexisys.kbr.util.LogUtil;
 import hu.flexisys.kbr.util.PropertiesUtil;
 import hu.flexisys.kbr.util.biralat.BiralatSzempont;
 import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
@@ -35,12 +36,14 @@ import java.util.*;
  */
 public class BiralFragment extends Fragment implements NumPadInputContainer {
 
-    private static String TAG = "KBR2_BiralFragment";
     private BiralFragmentContainer container;
     private NumPad numpad;
     private BiralPanel biralPanel;
 
     private Map<String, BiralatNumPadInput> szempontKodInputMap;
+    private Map<Integer, String> inputIdSzempontKodMap;
+    private List<String> szempontKodList;
+    private String currentSzempontKod;
     private List<BiralatNumPadInput> biralatNumPadInputs;
     private BiralatNumPadInput vpBiralatNumPadInput;
     private BiralatNumPadInput akakoBiralatNumPadInput;
@@ -73,12 +76,13 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         try {
             layoutProperties = PropertiesUtil.loadProperties(getActivity(), R.raw.biralat_tipus_layout);
         } catch (IOException e) {
-            Log.e(TAG, "Error while loading colors", e);
+            Log.e(LogUtil.TAG, "Error while loading colors", e);
         }
 
         String tipus = ((KbrApplication) getActivity().getApplication()).getBiralatTipus();
         BiralatTipus biralatTipus = BiralatTipusUtil.getBiralatTipus(tipus);
         szempontKodInputMap = new HashMap<String, BiralatNumPadInput>();
+        inputIdSzempontKodMap = new HashMap<Integer, String>();
 
         vpFormulaSzempontKodList = new ArrayList<String>();
         vpFormulaWeightMap = new HashMap<String, String>();
@@ -93,8 +97,10 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         breakPoints.add(20);
         biralPanel.setUp(maxHeight);
 
+        szempontKodList = new ArrayList<String>();
+        currentSzempontKod = null;
         for (int i = 0; i < biralatTipus.szempontList.size(); i++) {
-            BiralatSzempont szempont = BiralatSzempontUtil.getBiralatSzempont(biralatTipus.szempontList.get(i));
+            final BiralatSzempont szempont = BiralatSzempontUtil.getBiralatSzempont(biralatTipus.szempontList.get(i));
 
             BiralPanelElement element;
             if (szempont.keszletEnd.length() > 1) {
@@ -120,14 +126,17 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             input.setKeszletEnd(szempont.keszletEnd);
             input.setContainer(this);
             input.setId(currentId++);
+            inputIdSzempontKodMap.put(input.getId(), szempont.kod);
             input.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    BiralFragment.this.selectInput(v);
+                    String kod = inputIdSzempontKodMap.get(v.getId());
+                    BiralFragment.this.selectInputByKod(kod);
                 }
             });
             biralatNumPadInputs.add(input);
 
+            szempontKodList.add(szempont.kod);
             szempontKodInputMap.put(szempont.kod, input);
 
             biralPanel.addElement(element);
@@ -174,6 +183,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             @Override
             public void onClick(View v) {
                 BiralFragment.this.selectInput(v);
+                currentSzempontKod = null;
             }
         });
         biralPanel.addElement(element);
@@ -373,6 +383,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
                 input.unSelect();
             }
         }
+
     }
 
     public void clearGrid() {
@@ -405,6 +416,13 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             return;
         }
 
+        if (inputView == null) {
+            for (BiralatNumPadInput input : biralatNumPadInputs) {
+                input.unSelect();
+            }
+            return;
+        }
+
         for (BiralatNumPadInput input : biralatNumPadInputs) {
             if (input.getId() == inputView.getId()) {
                 input.select();
@@ -422,7 +440,11 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     }
 
     public void selectInputByKod(String kod) {
-        BiralatNumPadInput input = this.szempontKodInputMap.get(kod);
+        currentSzempontKod = kod;
+        BiralatNumPadInput input = null;
+        if (kod != null) {
+            input = this.szempontKodInputMap.get(kod);
+        }
         selectInput(input);
     }
 
@@ -430,17 +452,34 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         if (!editing) {
             return;
         }
-        for (BiralatNumPadInput input : biralatNumPadInputs) {
-            if (input.getId() == vpBiralatNumPadInput.getId()) {
-                Integer vp = calcVp();
-                vpBiralatNumPadInput.setText(String.valueOf(vp));
-                break;
-            }
-            if (input.getText().toString().isEmpty()) {
-                selectInput(input);
-                break;
+        if (currentSzempontKod == null) {
+            currentSzempontKod = szempontKodList.get(0);
+        } else if (currentSzempontKod.equals(szempontKodList.get(szempontKodList.size() - 2))) {
+            Integer vp = calcVp();
+            vpBiralatNumPadInput.setText(String.valueOf(vp));
+            currentSzempontKod = null;
+        } else {
+            for (int i = 0; i < szempontKodList.size(); i++) {
+                String szempontKod = szempontKodList.get(i);
+                if (szempontKod.equals(currentSzempontKod)) {
+                    currentSzempontKod = szempontKodList.get(++i);
+                    break;
+                }
             }
         }
+        selectInputByKod(currentSzempontKod);
+
+//        for (BiralatNumPadInput input : biralatNumPadInputs) {
+//            if (input.getId() == vpBiralatNumPadInput.getId()) {
+//                Integer vp = calcVp();
+//                vpBiralatNumPadInput.setText(String.valueOf(vp));
+//                break;
+//            }
+//            if (input.getText().toString().isEmpty()) {
+//                selectInput(input);
+//                break;
+//            }
+//        }
     }
 
     @Override
