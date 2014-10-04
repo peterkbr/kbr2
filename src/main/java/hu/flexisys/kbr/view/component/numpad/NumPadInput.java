@@ -33,7 +33,7 @@ public class NumPadInput extends TextView {
         setUp(attrs);
     }
 
-    private void setUp(AttributeSet attrs) {
+    protected void setUp(AttributeSet attrs) {
         if (attrs != null) {
             maxLength = attrs.getAttributeIntValue("http://schemas.android.com/apk/res/android", "maxLength", -1);
         }
@@ -43,7 +43,7 @@ public class NumPadInput extends TextView {
         updateColor();
     }
 
-    private void updateColor() {
+    protected void updateColor() {
         int colorResId = R.color.white;
         if (selected) {
             colorResId = R.color.pink;

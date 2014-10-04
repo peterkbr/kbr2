@@ -2,6 +2,7 @@ package hu.flexisys.kbr.view.component.numpad;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import hu.flexisys.kbr.R;
 
 /**
  * Created by peter on 29/07/14.
@@ -11,6 +12,7 @@ public class BiralatNumPadInput extends NumPadInput {
     private NumPadInputContainer container;
     private String keszletStart;
     private String keszletEnd;
+    private boolean oldContent;
 
     public BiralatNumPadInput(Context context) {
         super(context);
@@ -24,8 +26,34 @@ public class BiralatNumPadInput extends NumPadInput {
         super(context, attrs, defStyle);
     }
 
+
+    @Override
+    protected void setUp(AttributeSet attrs) {
+        super.setUp(attrs);
+        oldContent = false;
+    }
+
+    public void addOldContent(String oldValue) {
+        if (validateContent(oldValue)) {
+            oldContent = true;
+            setText(oldValue);
+        }
+    }
+
+    public void removeOldContent() {
+        oldContent = false;
+        numValue = "";
+        setText("");
+        updateColor();
+    }
+
     @Override
     public void onValidInput(String newValue) {
+        if (oldContent) {
+            oldContent = false;
+            numValue = "";
+            setText(numValue);
+        }
         super.onValidInput(newValue);
         container.onInput();
         if (hasMaxLength()) {
@@ -46,6 +74,28 @@ public class BiralatNumPadInput extends NumPadInput {
         }
 //        container.onInvalidInput();
         return false;
+    }
+
+    @Override
+    public CharSequence getText() {
+        if (oldContent) {
+            return "";
+        }
+        return super.getText();
+    }
+
+    @Override
+    protected void updateColor() {
+        int colorResId = R.color.white;
+        if (oldContent) {
+            colorResId = R.color.purple;
+        }
+        if (selected) {
+            colorResId = R.color.pink;
+        } else if (active) {
+            colorResId = R.color.green;
+        }
+        setBackgroundColor(getContext().getResources().getColor(colorResId));
     }
 
     // GETTERS, SETTERS

@@ -145,6 +145,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             }
         }
         vpBiralatNumPadInput = biralatNumPadInputs.get(biralatNumPadInputs.size() - 1);
+        vpBiralatNumPadInput.setClickable(false);
 
         // akako
         BiralPanelElement element = new BiralPanelElement(getActivity());
@@ -266,15 +267,23 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             editing = true;
             updateDetails(selectedEgyedForBiral);
             Biralat lastBiralat = null;
+            Biralat oldBiralat = null;
             for (Biralat biralat : selectedEgyedForBiral.getBiralatList()) {
                 if (editable && biralat.getLETOLTOTT()) {
+                    if (oldBiralat == null || oldBiralat.getBIRDA().getTime() < biralat.getBIRDA().getTime()) {
+                        oldBiralat = biralat;
+                    }
                     continue;
                 }
                 if (lastBiralat == null || lastBiralat.getBIRDA().getTime() < biralat.getBIRDA().getTime()) {
                     lastBiralat = biralat;
                 }
             }
-            updateGrid(lastBiralat);
+            if (lastBiralat == null && oldBiralat != null) {
+                updateGrid(oldBiralat, true);
+            } else {
+                updateGrid(lastBiralat);
+            }
 
             if (lastBiralat != null) {
                 if (lastBiralat.getFELTOLTETLEN() && !lastBiralat.getEXPORTALT()) {
@@ -373,16 +382,23 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     }
 
     private void updateGrid(Biralat biralat) {
+        updateGrid(biralat, false);
+    }
+
+    private void updateGrid(Biralat biralat, boolean old) {
         clearGrid();
         if (biralat != null) {
             for (String kod : szempontKodInputMap.keySet()) {
                 BiralatNumPadInput input = szempontKodInputMap.get(kod);
                 String value = biralat.getErtByKod(kod);
-                input.setText(value);
+                if (old) {
+                    input.addOldContent(value);
+                } else {
+                    input.setText(value);
+                }
                 input.unSelect();
             }
         }
-
     }
 
     public void clearGrid() {
@@ -466,13 +482,6 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             }
         }
 
-        String akakoString = getAkako();
-        if (calcableVp() && getBiralatStarted() && (akakoString == null || akakoString.isEmpty() || akakoString.equals("3"))) {
-            Integer vp = calcVp();
-            vpBiralatNumPadInput.setText(String.valueOf(vp));
-            currentSzempontKod = null;
-        }
-
         selectInputByKod(currentSzempontKod);
     }
 
@@ -492,6 +501,12 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
 
     @Override
     public void onMaxLengthReached() {
+        String akakoString = getAkako();
+        if (calcableVp() && getBiralatStarted() && (akakoString == null || akakoString.isEmpty() || akakoString.equals("3"))) {
+            Integer vp = calcVp();
+            vpBiralatNumPadInput.removeOldContent();
+            vpBiralatNumPadInput.setText(String.valueOf(vp));
+        }
         stepToNextInput();
     }
 
