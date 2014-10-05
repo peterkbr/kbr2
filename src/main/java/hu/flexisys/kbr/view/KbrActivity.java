@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
+import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.KbrApplication;
 import hu.flexisys.kbr.util.SoundUtil;
 import hu.flexisys.kbr.view.levalogatas.DatePickedListener;
@@ -92,7 +93,7 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
         int mDay = c.get(Calendar.DAY_OF_MONTH);
 
         FragmentTransaction ft = getFragmentTransactionWithTag("datePickerDialog");
-        dialog = KbrDatePickerDialog.newInstance(new DatePickedListener() {
+        dialog = KbrDatePickerDialog.newInstance(getTitleForDatePickerDialog(view.getId()), new DatePickedListener() {
             @Override
             public void onClear() {
                 dateEditText.setText("");
@@ -106,8 +107,35 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
             }
         }, mYear, mMonth, mDay);
         dialog.show(ft, "datePickerDialog");
-
     }
+
+    private String getTitleForDatePickerDialog(int id) {
+        String title;
+        switch (id) {
+            case R.id.lev_szuk_utolso_elles_tol:
+                title = "Utolsó ellés dátuma -tól";
+                break;
+            case R.id.lev_szuk_utolso_elles_ig:
+                title = "Utolsó ellés dátuma -ig";
+                break;
+            case R.id.lev_szuk_szuletes_tol:
+                title = "Születés dátuma -tól";
+                break;
+            case R.id.lev_szuk_szuletes_ig:
+                title = "Születés dátuma -ig";
+                break;
+            case R.id.bong_szuk_datum_tol:
+                title = "Bírálat időpontja -tól";
+                break;
+            case R.id.bong_szuk_datum_ig:
+                title = "Bírálat időpontja -ig";
+                break;
+            default:
+                title = "Dátumválasztó";
+        }
+        return title;
+    }
+
 
     // PROGRESS
 

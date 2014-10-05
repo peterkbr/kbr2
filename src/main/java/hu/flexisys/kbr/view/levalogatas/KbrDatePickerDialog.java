@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.TextView;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.view.KbrDialog;
 
@@ -15,14 +16,17 @@ import hu.flexisys.kbr.view.KbrDialog;
  */
 public class KbrDatePickerDialog extends KbrDialog implements DatePicker.OnDateChangedListener {
 
+
+    private String title;
     private DatePickedListener listener;
     private int year;
     private int month;
     private int day;
 
-    public static KbrDialog newInstance(DatePickedListener listener, int mYear, int mMonth, int mDay) {
+    public static KbrDialog newInstance(String title, DatePickedListener listener, int mYear, int mMonth, int mDay) {
         KbrDatePickerDialog f = new KbrDatePickerDialog();
         f.layoutResId = R.layout.dialog_date_picker;
+        f.title = title;
         f.listener = listener;
         f.year = mYear;
         f.month = mMonth;
@@ -33,6 +37,9 @@ public class KbrDatePickerDialog extends KbrDialog implements DatePicker.OnDateC
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
+
+        TextView titleView = (TextView) v.findViewById(R.id.datePickerTitle);
+        titleView.setText(title);
 
         DatePicker mDatePicker = (DatePicker) v.findViewById(R.id.datePicker);
         mDatePicker.init(year, month, day, this);
