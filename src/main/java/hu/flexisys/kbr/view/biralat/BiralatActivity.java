@@ -268,6 +268,9 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         if (foundList.size() == 1) {
             Egyed egyed = foundList.get(0);
             onSingleSelect(egyed);
+            if (!"HU".equals(egyed.getORSKO())) {
+                hasznalatiInput.setText(hasznalatiSzamValue);
+            }
         } else if (foundList.size() > 1) {
             selectedEgyed = null;
             FragmentTransaction ft = getFragmentTransactionWithTag("multi");
@@ -276,6 +279,9 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
                 public void onSelect(Egyed egyed) {
                     dismissDialog();
                     onSingleSelect(egyed);
+                    if (!"HU".equals(egyed.getORSKO())) {
+                        hasznalatiInput.setText("----");
+                    }
                 }
 
                 @Override
