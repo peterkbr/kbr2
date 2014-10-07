@@ -8,25 +8,17 @@ import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
 import hu.flexisys.kbr.util.biralat.BiralatTipus;
 import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Created by peter on 31/08/14.
  */
-public class BiralatCvsExporter {
+public class BiralatCvsExporter extends CsvExporter {
 
     public static void export(String basePath, String biralatTipus, List<Biralat> biralatList, Map<String, Egyed> egyedMap) throws IOException {
-        String path = basePath + File.separator + "csvExport_" + DateUtil.formatTimestampFileName(new Date()) + ".csv";
-        FileOutputStream fOut = new FileOutputStream(new File(path));
-        OutputStreamWriter osw = new OutputStreamWriter(fOut);
-
         BiralatTipus tipus = BiralatTipusUtil.getBiralatTipus(biralatTipus);
         List<BiralatSzempont> szempontList = new ArrayList<BiralatSzempont>();
         for (String szempontId : tipus.szempontList) {
@@ -35,7 +27,6 @@ public class BiralatCvsExporter {
         }
 
         StringBuilder builder = new StringBuilder();
-        String csvSeparator = ";";
 
         // header
         builder.append("#");
@@ -70,8 +61,14 @@ public class BiralatCvsExporter {
             builder.append("\n");
         }
 
-        osw.write(builder.toString());
-        osw.flush();
-        osw.close();
+//        String path = basePath + File.separator + "csvExport_" + DateUtil.formatTimestampFileName(new Date()) + ".csv";
+//        FileOutputStream fOut = new FileOutputStream(new File(path));
+//        OutputStreamWriter osw = new OutputStreamWriter(fOut);
+//
+//        osw.write(builder.toString());
+//        osw.flush();
+//        osw.close();
+
+        writeToFile(basePath, builder.toString());
     }
 }

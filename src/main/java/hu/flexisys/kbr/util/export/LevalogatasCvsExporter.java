@@ -3,24 +3,15 @@ package hu.flexisys.kbr.util.export;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.DateUtil;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.Date;
 import java.util.List;
 
 /**
  * Created by peter on 01/09/14.
  */
-public class LevalogatasCvsExporter {
+public class LevalogatasCvsExporter extends CsvExporter {
     public static String export(String basePath, List<Egyed> selectedEgyedList) throws IOException {
-        String path = basePath + File.separator + "csvExport_" + DateUtil.formatTimestampFileName(new Date()) + ".csv";
-        FileOutputStream fOut = new FileOutputStream(new File(path));
-        OutputStreamWriter osw = new OutputStreamWriter(fOut);
-
         StringBuilder builder = new StringBuilder();
-        String csvSeparator = ";";
 
         // header
         builder.append("#");
@@ -61,9 +52,15 @@ public class LevalogatasCvsExporter {
             builder.append("\n");
         }
 
-        osw.write(builder.toString());
-        osw.flush();
-        osw.close();
+//        String path = basePath + File.separator + "csvExport_" + DateUtil.formatTimestampFileName(new Date()) + ".csv";
+//        FileOutputStream fOut = new FileOutputStream(new File(path));
+//        OutputStreamWriter osw = new OutputStreamWriter(fOut);
+//
+//        osw.write(builder.toString());
+//        osw.flush();
+//        osw.close();
+
+        String path = writeToFile(basePath, builder.toString());
         return path;
     }
 }
