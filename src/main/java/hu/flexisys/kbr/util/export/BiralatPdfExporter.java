@@ -1,7 +1,9 @@
 package hu.flexisys.kbr.util.export;
 
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.DateUtil;
@@ -33,11 +35,8 @@ public class BiralatPdfExporter extends PdfExporter {
             szempontList.add(szempont);
         }
 
-        Integer margin = 10;
-        Integer contentMarging_vertical = 65;
-        Integer contentMarging_horizontal = 20;
         Rectangle page = PageSize.A4.rotate();
-        Document document = new Document(page, contentMarging_horizontal, contentMarging_horizontal, 2 * margin, contentMarging_vertical);
+        Document document = new Document(page, contentMarging_horizontal, contentMarging_horizontal, contentMargin_top, contentMargin_bottom);
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path));
         writer.setBoxSize("art", new Rectangle(page.getLeft() + margin, page.getBottom() + margin, page.getRight() - margin, page.getTop() - margin));
         writer.setPageEvent(new HeaderFooter("Szarvasmarha bírálati lap",

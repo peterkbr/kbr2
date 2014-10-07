@@ -12,12 +12,18 @@ public class PdfExporter {
     protected static String tarto;
     protected static String biralo;
 
+    protected static Integer margin = 10;
+    protected static Integer contentMargin_top = 20;
+    protected static Integer contentMargin_bottom = 65;
+    protected static Integer contentMarging_horizontal = 20;
+    protected static Integer boxMargin_top = 35;
+    protected static Integer boxMargin_bottom = 50;
+
     public static void initPdfExporter(String TENAZ, String TARTO, String BIRALO) {
         tenaz = TENAZ;
         tarto = TARTO;
         biralo = BIRALO;
     }
-
 
     protected static class HeaderFooter extends PdfPageEventHelper {
 
@@ -36,8 +42,6 @@ public class PdfExporter {
         public void onStartPage(PdfWriter writer, Document document) {
             ++pagenumber;
 
-            Integer boxMargin_top = 35;
-            Integer boxMargin_bottom = 50;
             PdfContentByte canvas = writer.getDirectContent();
             Rectangle content = writer.getBoxSize("art");
 
@@ -90,8 +94,6 @@ public class PdfExporter {
             cell.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             return cell;
-
         }
     }
-
 }

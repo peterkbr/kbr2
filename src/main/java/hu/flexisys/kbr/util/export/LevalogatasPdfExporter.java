@@ -20,13 +20,12 @@ public class LevalogatasPdfExporter extends PdfExporter {
 
     public static String export(String basePath, List<Egyed> selectedEgyedList) throws DocumentException, FileNotFoundException {
         String path = basePath + File.separator + "pdfExport_" + DateUtil.formatTimestampFileName(new Date()) + ".pdf";
-        Integer margin = 10;
-        Integer contentMarging_bottom = 30;
-        Integer contentMarging_horizontal = 20;
         Rectangle page = PageSize.A4.rotate();
-        Document document = new Document(page, contentMarging_horizontal, contentMarging_horizontal, 2 * margin, contentMarging_bottom);
+        Document document = new Document(page, contentMarging_horizontal, contentMarging_horizontal, 2 * margin, contentMargin_bottom);
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path));
         writer.setBoxSize("art", new Rectangle(page.getLeft() + margin, page.getBottom() + margin, page.getRight() - margin, page.getTop() - margin));
+        boxMargin_bottom = 35;
+        contentMargin_bottom = 50;
         writer.setPageEvent(new HeaderFooter("Bírálatra leválogatott egyedek", null));
         document.open();
         document.add(createPdfTable(selectedEgyedList));
