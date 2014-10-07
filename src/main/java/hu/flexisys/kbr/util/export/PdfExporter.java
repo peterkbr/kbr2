@@ -14,10 +14,10 @@ public class PdfExporter {
 
     protected static Integer margin = 10;
     protected static Integer contentMargin_top = 20;
-    protected static Integer contentMargin_bottom = 65;
+    protected static Integer contentMargin_bottom = 70;
     protected static Integer contentMarging_horizontal = 20;
     protected static Integer boxMargin_top = 35;
-    protected static Integer boxMargin_bottom = 50;
+    protected static Integer boxMargin_bottom = 55;
 
     public static void initPdfExporter(String TENAZ, String TARTO, String BIRALO) {
         tenaz = TENAZ;

@@ -130,7 +130,7 @@ public class BiralatPdfExporter extends PdfExporter {
         columnWidths[j++] = 75f;
         columnWidths[j++] = 90f;
         columnWidths[j++] = 25f;
-        columnWidths[j++] = 90f;
+        columnWidths[j++] = 29f;
         for (int k = 0; k < szempontList.size(); k++) {
             columnWidths[j++] = 29f;
         }
