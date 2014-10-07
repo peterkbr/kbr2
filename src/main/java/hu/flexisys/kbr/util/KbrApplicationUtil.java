@@ -21,6 +21,7 @@ public class KbrApplicationUtil {
     private static String biraloAzonosito;
     private static String biraloNev;
     private static String biraloUserName;
+    private static String testName;
 
     private static String SHARED_PREF_KEY = "KBR2_SHARED_PREF_KEY";
     private static String KEY_BIRALAT_TIPUS = "KEY_BIRALAT_TIPUS";
@@ -60,6 +61,12 @@ public class KbrApplicationUtil {
                 biraloNev = biraloValues[0];
                 biraloUserName = biraloValues[1];
             }
+            String productionUrl = context.getString(R.string.production_url);
+            if (productionUrl.equals(serverUrl)) {
+                testName = null;
+            } else {
+                testName = context.getString(R.string.app_test_name);
+            }
             setData();
         } catch (IOException e) {
             Log.e(LogUtil.TAG, "loadBiralatSzempontMap", e);
@@ -81,6 +88,13 @@ public class KbrApplicationUtil {
             init();
         }
         return serverUrl;
+    }
+
+    public static String getTestName() {
+        if (serverUrl == null) {
+            init();
+        }
+        return testName;
     }
 
     public static String getSupportEmail() {

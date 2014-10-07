@@ -6,6 +6,7 @@
 
     <string name="biralat_tipus">${init.tipus}</string>
     <string name="server_url">${init.url}</string>
+    <string name="production_url">${production.url}</string>
     <string name="support_email">${init.email}</string>
     <string name="crash_toast_text">Az alkalmazás belső hiba miatt leállt!\nKérjük, hogy a generált riportot változtatás nélkül küldje el számunkra!</string>
 

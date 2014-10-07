@@ -292,14 +292,15 @@ public class KbrApplication extends Application {
 
     public void setCurrentActivity(KbrActivity kbrActivity) {
         activityCounter++;
-        if (currentActivity == null) {
-            currentActivity = kbrActivity;
-            if (errorOnInit == null && initialized) {
-                checkDbConsistency();
-            }
-        } else {
-            currentActivity = kbrActivity;
-        }
+//        if (currentActivity == null) {
+//            currentActivity = kbrActivity;
+//            if (errorOnInit == null && initialized) {
+//                checkDbConsistency();
+//            }
+//        } else {
+//            currentActivity = kbrActivity;
+//        }
+        currentActivity = kbrActivity;
     }
 
     public void activityDestroyed() {

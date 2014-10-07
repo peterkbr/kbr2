@@ -6,6 +6,7 @@ import android.view.*;
 import android.widget.TextView;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.KbrApplication;
+import hu.flexisys.kbr.util.KbrApplicationUtil;
 import hu.flexisys.kbr.util.LogUtil;
 import hu.flexisys.kbr.view.admin.AdminActivity;
 import hu.flexisys.kbr.view.biralat.BiralatTenyeszetActivity;
@@ -48,13 +49,15 @@ public class MenuActivity extends KbrActivity {
             return;
         }
 
+        app.checkDbConsistency();
+
         TextView counter = (TextView) findViewById(R.id.menu_biralat_counter);
         int counterValue = app.getFeltoltetlenBiralatList().size();
         counter.setText(getString(R.string.menu_biralat_counter, counterValue));
 
         TextView testName = (TextView) findViewById(R.id.menu_test_name);
-        String testNameValue = getResources().getString(R.string.app_test_name);
-        if (testNameValue.isEmpty()) {
+        String testNameValue = KbrApplicationUtil.getTestName();
+        if (testNameValue == null || testNameValue.isEmpty()) {
             testName.setVisibility(View.GONE);
         } else {
             testName.setText(testNameValue);
