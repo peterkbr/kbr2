@@ -207,10 +207,16 @@ public class BongeszoActivity extends KbrActivity {
                 Egyed rightEgyed = egyedMap.get(right.getAZONO());
                 int value = 0;
                 if (currentOrderBy.equals(getString(R.string.lev_grid_header_ok))) {
-                    if (!left.getORSKO().equals("HU") && right.getORSKO().equals("HU")) {
+                    String leftOrsko = leftEgyed.getORSKO();
+                    String rightOrsko = rightEgyed.getORSKO();
+                    if (leftOrsko.equals(rightOrsko)) {
+                        value = 0;
+                    } else if (leftOrsko.equals("HU")) {
                         value = -1;
-                    } else if (left.getORSKO().equals("HU") && !right.getORSKO().equals("HU")) {
+                    } else if (rightOrsko.equals("HU")) {
                         value = 1;
+                    } else {
+                        return leftOrsko.compareTo(rightOrsko);
                     }
                 } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_enar))) {
                     value = left.getAZONO().compareTo(right.getAZONO());

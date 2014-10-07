@@ -112,20 +112,21 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
         listView.setEmptyView(findViewById(R.id.empty_list_item));
         selectionChangedEgyedAzonoList = new ArrayList<String>();
         allChanged = false;
-        adapter = new LevalogatasListViewAdapter(this, R.layout.list_levalogatas, egyedList, selectionChangedEgyedAzonoList, new LevalogatasListViewAdapter.EgyedListContainer() {
-            @Override
-            public void onLongClick(Egyed egyed) {
-                Intent intent = new Intent(LevalogatasActivity.this, BiralatDialogActivity.class);
-                Bundle extras = new Bundle();
-                extras.putString(BiralatDialogActivity.KEY_AZONO, egyed.getAZONO());
-                intent.putExtras(extras);
-                startActivity(intent);
+        adapter = new LevalogatasListViewAdapter(this, R.layout.list_levalogatas, egyedList, selectionChangedEgyedAzonoList,
+                new LevalogatasListViewAdapter.EgyedListContainer() {
+                    @Override
+                    public void onLongClick(Egyed egyed) {
+                        Intent intent = new Intent(LevalogatasActivity.this, BiralatDialogActivity.class);
+                        Bundle extras = new Bundle();
+                        extras.putString(BiralatDialogActivity.KEY_AZONO, egyed.getAZONO());
+                        intent.putExtras(extras);
+                        startActivity(intent);
 //                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 //                FragmentTransaction ft = getFragmentTransactionWithTag("longClick");
 //                dialog = BiralatDialog.newInstance(egyed.getBiralatList());
 //                dialog.show(ft, "longClick");
-            }
-        });
+                    }
+                });
         listView.setAdapter(adapter);
 
         final RadioButton huButton = (RadioButton) findViewById(R.id.lev_szuk_hu_radio);
@@ -289,10 +290,16 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
             public int compare(Egyed leftEgyed, Egyed rightEgyed) {
                 int value = 0;
                 if (currentOrderBy.equals(getString(R.string.lev_grid_header_ok))) {
-                    if (!leftEgyed.getORSKO().equals("HU") && rightEgyed.getORSKO().equals("HU")) {
+                    String leftOrsko = leftEgyed.getORSKO();
+                    String rightOrsko = rightEgyed.getORSKO();
+                    if (leftOrsko.equals(rightOrsko)) {
+                        value = 0;
+                    } else if (leftOrsko.equals("HU")) {
                         value = -1;
-                    } else if (leftEgyed.getORSKO().equals("HU") && !rightEgyed.getORSKO().equals("HU")) {
+                    } else if (rightOrsko.equals("HU")) {
                         value = 1;
+                    } else {
+                        return leftOrsko.compareTo(rightOrsko);
                     }
                 } else if (currentOrderBy.equals(getString(R.string.lev_grid_header_enar))) {
                     value = leftEgyed.getAZONO().compareTo(rightEgyed.getAZONO());
