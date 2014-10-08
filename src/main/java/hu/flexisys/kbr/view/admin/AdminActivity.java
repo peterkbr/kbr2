@@ -59,28 +59,16 @@ public class AdminActivity extends KbrActivity {
     }
 
     private void loadData() throws IOException {
+        Properties biraloProperties = PropertiesUtil.loadProperties(this, R.raw.biralok);
         idList = new ArrayList<String>();
-        idList.add("01");
-        idList.add("02");
-        idList.add("03");
-        idList.add("04");
-        idList.add("05");
-        idList.add("06");
-        idList.add("07");
-        idList.add("08");
-        idList.add("09");
-        idList.add("10");
-        idList.add("13");
-        idList.add("14");
-        idList.add("15");
-        idList.add("16");
-        idList.add("17");
-        idList.add("18");
-        idList.add("19");
+        Enumeration e = biraloProperties.propertyNames();
+        for (; e.hasMoreElements(); ) {
+            idList.add(String.valueOf(e.nextElement()));
+        }
+        Collections.sort(idList);
         nameMap = new HashMap<String, String>();
         userNameMap = new HashMap<String, String>();
 
-        Properties biraloProperties = PropertiesUtil.loadProperties(this, R.raw.biralok);
         for (String id : idList) {
             String biraloString = biraloProperties.getProperty(id);
             String[] biraloValues = biraloString.split(",");
