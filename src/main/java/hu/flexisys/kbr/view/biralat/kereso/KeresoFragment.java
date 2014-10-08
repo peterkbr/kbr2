@@ -99,7 +99,7 @@ public class KeresoFragment extends Fragment {
 
             textView = (TextView) view.findViewById(R.id.bir_ker_enar);
             text = String.valueOf(selectedEgyedForKereso.getAZONO());
-            if (text.length() == 10) {
+            if ("HU".equals(selectedEgyedForKereso.getORSKO()) && text.length() == 10) {
                 Spanned spanned = Html.fromHtml(text.substring(0, 5) + " <b>" + text.substring(5, 9) + "</b> " + text.substring(9));
                 textView.setText(spanned);
             } else {

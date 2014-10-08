@@ -316,7 +316,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         View detailsView = view.findViewById(R.id.bir_bir_details_layout);
 
         String text = String.valueOf(egyed.getAZONO());
-        if (text.length() == 10) {
+        if ("HU".equals(egyed.getORSKO()) && text.length() == 10) {
             Spanned spanned = Html.fromHtml(text.substring(0, 5) + " <b>" + text.substring(5, 9) + "</b> " + text.substring(9));
             enarTextView.setText(spanned);
         } else {

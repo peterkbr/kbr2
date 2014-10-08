@@ -70,7 +70,7 @@ public class BirKerEgyedListDialog extends KbrDialog {
             View rowView = inflater.inflate(R.layout.list_bir_ker_egyed_list, parent, false);
             TextView textView = (TextView) rowView.findViewById(R.id.bir_ker_dialog_egyed_list_enar);
             String enar = String.valueOf(egyed.getAZONO());
-            if (enar.length() == 10) {
+            if ("HU".equals(egyed.getORSKO()) && enar.length() == 10) {
                 Spanned spanned = Html.fromHtml(enar.substring(0, 5) + "  <b>" + enar.substring(5, 9) + "</b>  " + enar.substring(9));
                 textView.setText(spanned);
             } else {
