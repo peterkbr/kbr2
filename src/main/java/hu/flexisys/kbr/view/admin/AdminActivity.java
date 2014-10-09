@@ -59,6 +59,7 @@ public class AdminActivity extends KbrActivity {
     }
 
     private void loadData() throws IOException {
+        selectedId = KbrApplicationUtil.getBiraloAzonosito();
         Properties biraloProperties = PropertiesUtil.loadProperties(this, R.raw.biralok);
         idList = new ArrayList<String>();
         Enumeration e = biraloProperties.propertyNames();

@@ -60,6 +60,7 @@ public class MenuActivity extends KbrActivity {
         if (testNameValue == null || testNameValue.isEmpty()) {
             testName.setVisibility(View.GONE);
         } else {
+            testName.setVisibility(View.VISIBLE);
             testName.setText(testNameValue);
         }
     }

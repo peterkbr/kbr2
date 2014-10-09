@@ -37,7 +37,7 @@ public class DownloadTenyeszetArrayTask extends AsyncTask<Object, Void, Void> {
             Log.i(LogUtil.TAG, "DOWNLOAD STARTED:" + TENAZ + ":" + DateUtil.getRequestId());
             String requestXml = NetworkUtil.getKullemtenyRequestBody(app.getBiraloUserId(), TENAZ);
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost post = new HttpPost(NetworkUtil.SERVICE_URL);
+            HttpPost post = new HttpPost(KbrApplicationUtil.getServerUrl());
             String responseValue = null;
             try {
                 post.setEntity(new StringEntity(requestXml));

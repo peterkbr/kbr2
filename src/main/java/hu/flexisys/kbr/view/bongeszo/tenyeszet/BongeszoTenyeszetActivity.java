@@ -14,10 +14,7 @@ import hu.flexisys.kbr.controller.emptytask.Executable;
 import hu.flexisys.kbr.controller.emptytask.ExecutableFinishedListener;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
-import hu.flexisys.kbr.util.LogUtil;
-import hu.flexisys.kbr.util.NetworkUtil;
-import hu.flexisys.kbr.util.XmlUtil;
-import hu.flexisys.kbr.util.XmlUtilException;
+import hu.flexisys.kbr.util.*;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.NotificationDialog;
 import hu.flexisys.kbr.view.bongeszo.BongeszoActivity;
@@ -193,7 +190,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
                 List<Biralat> feltoltetlenBiralatList = app.getFeltoltetlenBiralatListByTenazList(selectedTenyeszetList);
                 String requestBody = NetworkUtil.getKullembirRequestBody(app.getBiraloUserId(), feltoltetlenBiralatList);
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost post = new HttpPost(NetworkUtil.SERVICE_URL);
+                HttpPost post = new HttpPost(KbrApplicationUtil.getServerUrl());
                 String responseValue;
                 try {
                     post.setEntity(new StringEntity(requestBody));

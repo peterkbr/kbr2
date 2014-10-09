@@ -11,10 +11,7 @@ import java.util.List;
  */
 public class NetworkUtil {
 
-    public static String SERVICE_URL;
-
     public static void initNetworkUtil(Context context) {
-        SERVICE_URL = context.getString(R.string.server_url);
     }
 
     // <?xml version="1.0" encoding="utf-8"?> <request type="kullemteny"

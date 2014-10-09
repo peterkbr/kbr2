@@ -3,6 +3,7 @@ package hu.flexisys.kbr.controller.network.tenyeszet;
 import android.os.AsyncTask;
 import android.util.Log;
 import hu.flexisys.kbr.model.Tenyeszet;
+import hu.flexisys.kbr.util.KbrApplicationUtil;
 import hu.flexisys.kbr.util.NetworkUtil;
 import hu.flexisys.kbr.util.XmlUtil;
 import org.apache.http.HttpResponse;
@@ -33,7 +34,7 @@ public class TenyeszetLoader extends AsyncTask<String, Void, Tenyeszet> {
             String tenaz = params[i];
             String requestXml = NetworkUtil.getKullemtenyRequestBody(userid, tenaz);
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost post = new HttpPost(NetworkUtil.SERVICE_URL);
+            HttpPost post = new HttpPost(KbrApplicationUtil.getServerUrl());
             String responseValue = null;
             try {
                 post.setEntity(new StringEntity(requestXml));
