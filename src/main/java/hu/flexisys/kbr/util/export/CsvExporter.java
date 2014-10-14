@@ -17,9 +17,6 @@ public class CsvExporter {
     public static String writeToFile(String basePath, String content) throws IOException {
         String path = basePath + File.separator + "csvExport_" + DateUtil.formatTimestampFileName(new Date()) + ".csv";
         OutputStream os = new FileOutputStream(path);
-        os.write(239);
-        os.write(187);
-        os.write(191);
         OutputStreamWriter outputStreamWriter = new OutputStreamWriter(os, Charset.forName("UTF-8").newEncoder());
         outputStreamWriter.write(content);
         outputStreamWriter.flush();
