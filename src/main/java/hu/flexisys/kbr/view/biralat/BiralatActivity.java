@@ -32,6 +32,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     private List<Egyed> biraltEgyedList;
     private List<Egyed> biralandoEgyedList;
     private Egyed selectedEgyed;
+    private Biralat selectedBiralat;
     private Boolean hu;
     private KeresoFragment keresoFragment;
     private BiralFragment biralFragment;
@@ -436,6 +437,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     public void onSaveBiralatClicked(View view) {
         if (selectedEgyed != null && biralFragment.getBiralatStarted()) {
             Biralat biralat = new Biralat();
+            biralat.setId(selectedBiralat.getId());
             biralat.setTENAZ(selectedEgyed.getTENAZ());
             biralat.setAZONO(selectedEgyed.getAZONO());
             biralat.setFELTOLTETLEN(true);
@@ -494,8 +496,8 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     }
 
     public void saveBiralat(Biralat biralat) {
-        biralFragment.setBiralatSaved();
         app.updateBiralat(biralat);
+        biralFragment.setBiralatSaved();
         reloadData();
         selectedEgyed = findEgyedByAzono(selectedEgyed.getAZONO());
         keresoFragment.updateKeresoButtons(egyedList);
@@ -523,5 +525,9 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
             });
             dialog.show(ft, "biralando");
         }
+    }
+
+    public void selectBiralat(Biralat lastBiralat) {
+        selectedBiralat = lastBiralat;
     }
 }

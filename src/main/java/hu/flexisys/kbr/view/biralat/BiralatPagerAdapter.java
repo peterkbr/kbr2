@@ -3,6 +3,7 @@ package hu.flexisys.kbr.view.biralat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.view.biralat.biral.BiralFragment;
 import hu.flexisys.kbr.view.biralat.kereso.KeresoFragment;
 
@@ -26,6 +27,11 @@ public class BiralatPagerAdapter extends FragmentPagerAdapter {
             @Override
             public void onBiralFragmentResume(BiralFragment biralFragment) {
                 biralatActivity.onBiralFragmentResume();
+            }
+
+            @Override
+            public void selectBiralat(Biralat lastBiralat) {
+                biralatActivity.selectBiralat(lastBiralat);
             }
         });
     }

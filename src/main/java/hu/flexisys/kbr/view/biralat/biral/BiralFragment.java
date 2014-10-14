@@ -282,6 +282,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             if (lastBiralat == null && oldBiralat != null) {
                 updateGrid(oldBiralat, true);
             } else {
+                container.selectBiralat(lastBiralat);
                 updateGrid(lastBiralat);
             }
 
@@ -568,5 +569,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         public void onAkako(String akako);
 
         public void onBiralFragmentResume(BiralFragment biralFragment);
+
+        public void selectBiralat(Biralat lastBiralat);
     }
 }

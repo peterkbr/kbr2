@@ -89,6 +89,11 @@ public class BiralatDialogEditActivity extends KbrActivity {
                             BiralatDialogEditActivity.this.biralFragment = biralFragment;
                             biralFragment.updateFragmentWithEgyed(selectedEgyed);
                         }
+
+                        @Override
+                        public void selectBiralat(Biralat lastBiralat) {
+                            selectedBiralat = lastBiralat;
+                        }
                     });
                     dialog.setCancelable(false);
                     dialog.show(ft, "longClick");
@@ -127,6 +132,7 @@ public class BiralatDialogEditActivity extends KbrActivity {
         }
         if (selectedEgyed != null) {
             Biralat biralat = new Biralat();
+            biralat.setId(selectedBiralat.getId());
             biralat.setTENAZ(selectedEgyed.getTENAZ());
             biralat.setAZONO(selectedEgyed.getAZONO());
             biralat.setFELTOLTETLEN(true);
@@ -174,8 +180,8 @@ public class BiralatDialogEditActivity extends KbrActivity {
     }
 
     public void saveBiralat(Biralat biralat) {
-        biralFragment.setBiralatSaved();
         app.updateBiralat(biralat);
+        biralFragment.setBiralatSaved();
         dismissDialog();
         finish();
     }
