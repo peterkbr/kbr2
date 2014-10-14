@@ -132,7 +132,9 @@ public class BiralatDialogEditActivity extends KbrActivity {
         }
         if (selectedEgyed != null) {
             Biralat biralat = new Biralat();
-            biralat.setId(selectedBiralat.getId());
+            if (selectedBiralat != null) {
+                biralat.setId(selectedBiralat.getId());
+            }
             biralat.setTENAZ(selectedEgyed.getTENAZ());
             biralat.setAZONO(selectedEgyed.getAZONO());
             biralat.setFELTOLTETLEN(true);

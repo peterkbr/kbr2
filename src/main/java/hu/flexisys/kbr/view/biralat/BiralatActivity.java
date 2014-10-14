@@ -437,7 +437,9 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     public void onSaveBiralatClicked(View view) {
         if (selectedEgyed != null && biralFragment.getBiralatStarted()) {
             Biralat biralat = new Biralat();
-            biralat.setId(selectedBiralat.getId());
+            if (selectedBiralat != null) {
+                biralat.setId(selectedBiralat.getId());
+            }
             biralat.setTENAZ(selectedEgyed.getTENAZ());
             biralat.setAZONO(selectedEgyed.getAZONO());
             biralat.setFELTOLTETLEN(true);
