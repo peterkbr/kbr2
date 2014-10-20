@@ -102,7 +102,7 @@ public class BongeszoListAdapter extends ArrayAdapter<Biralat> {
         }
 
         textView = (TextView) v.findViewById(R.id.bong_list_ert2);
-        // 47 : TR : Tejelő erősség
+        // 47 : TE : Tejelő erősség
         textView.setText(currentBiralat.getErtByKod("47"));
         if (color != null) {
             colorParent(textView, color);
@@ -122,12 +122,12 @@ public class BongeszoListAdapter extends ArrayAdapter<Biralat> {
             colorParent(textView, color);
         }
 
-        textView = (TextView) v.findViewById(R.id.bong_list_ert5);
-        // 15 : BH : Elülső bimbó hossza
-        textView.setText(currentBiralat.getErtByKod("15"));
-        if (color != null) {
-            colorParent(textView, color);
-        }
+//        textView = (TextView) v.findViewById(R.id.bong_list_ert5);
+//        // 15 : BH : Elülső bimbó hossza
+//        textView.setText(currentBiralat.getErtByKod("15"));
+//        if (color != null) {
+//            colorParent(textView, color);
+//        }
 
         textView = (TextView) v.findViewById(R.id.bong_list_ert6);
         // 25 : VP : végpont
