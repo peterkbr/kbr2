@@ -409,6 +409,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         }
         akakoBiralatNumPadInput.setText("");
         akakoBiralatNumPadInput.unSelect();
+        currentSzempontKod = null;
     }
 
     private void updateAkakoView(String akako) {
