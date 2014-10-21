@@ -38,16 +38,11 @@ public class DownloadTenyeszetArrayTask extends AsyncTask<Object, Void, Void> {
             String requestXml = NetworkUtil.getKullemtenyRequestBody(app.getBiraloUserId(), TENAZ);
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost post = new HttpPost(KbrApplicationUtil.getServerUrl());
-            String responseValue = null;
             try {
                 post.setEntity(new StringEntity(requestXml));
                 HttpResponse response = httpclient.execute(post);
-                responseValue = EntityUtils.toString(response.getEntity());
-            } catch (IOException e) {
-                Log.e(LogUtil.TAG, "accessing network", e);
-            }
-            if (responseValue != null && !responseValue.isEmpty()) {
-                try {
+                String responseValue = EntityUtils.toString(response.getEntity());
+                if (responseValue != null && !responseValue.isEmpty()) {
                     Log.i(LogUtil.TAG, "DOWNLOADED:" + TENAZ + ":" + DateUtil.getRequestId());
                     Tenyeszet tenyeszet = XmlUtil.parseKullemtenyXml(responseValue);
                     Log.i(LogUtil.TAG, "PARSED:" + TENAZ + ":" + DateUtil.getRequestId());
@@ -56,15 +51,18 @@ public class DownloadTenyeszetArrayTask extends AsyncTask<Object, Void, Void> {
                     app.insertTenyeszetWithChildren(tenyeszet);
                     Log.i(LogUtil.TAG, "INSERTED:" + TENAZ + ":" + DateUtil.getRequestId());
                     resultMap.put(TENAZ, "Sikeres letöltés");
-                } catch (XmlUtilException xmlE) {
-                    app.updateTenyeszetByTENAZWithERVENYES(TENAZ, false);
-                    resultMap.put(TENAZ, "Sikertelen letöltés : \n" + xmlE.getMessage());
-                    Log.e(LogUtil.TAG, "parsing xml", xmlE);
-                } catch (Exception e) {
-                    app.updateTenyeszetByTENAZWithERVENYES(TENAZ, false);
-                    resultMap.put(TENAZ, "Sikertelen letöltés");
-                    Log.e(LogUtil.TAG, "parsing xml", e);
                 }
+            } catch (IOException e) {
+                Log.e(LogUtil.TAG, "accessing network", e);
+                resultMap.put(TENAZ, "Sikertelen letöltés : \n" + "Hiba az internet hozzáférés során!");
+            } catch (XmlUtilException xmlE) {
+                app.updateTenyeszetByTENAZWithERVENYES(TENAZ, false);
+                resultMap.put(TENAZ, "Sikertelen letöltés : \n" + xmlE.getMessage());
+                Log.e(LogUtil.TAG, "parsing xml", xmlE);
+            } catch (Exception e) {
+                app.updateTenyeszetByTENAZWithERVENYES(TENAZ, false);
+                resultMap.put(TENAZ, "Sikertelen letöltés");
+                Log.e(LogUtil.TAG, "parsing xml", e);
             }
         }
         return null;

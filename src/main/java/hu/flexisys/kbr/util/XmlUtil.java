@@ -11,6 +11,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 /**
  * Created by Peter on 2014.07.02..
@@ -108,6 +109,9 @@ public class XmlUtil {
     private static final String TN_EGYED_ERT30 = "ert30";
 
     public static Tenyeszet parseKullemtenyXml(String xml) throws XmlUtilException, XmlPullParserException, ParseException, IOException {
+        int[] xmlCounter = new int[2];
+        contXmlData(xml, xmlCounter);
+
         Tenyeszet tenyeszet = new Tenyeszet();
 
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -327,12 +331,80 @@ public class XmlUtil {
             eventType = xpp.next();
         }
         tenyeszet.setERVENYES(true);
+
+        if (xmlCounter[0] != tenyeszet.getEgyedList().size()) {
+            throw new XmlUtilException("Feldolgozási hiba!");
+        } else {
+            int biralatok = 0;
+            for (Egyed egyed : tenyeszet.getEgyedList()) {
+                if (egyed.getBiralatList() != null) {
+                    biralatok += egyed.getBiralatList().size();
+                }
+            }
+            if (xmlCounter[1] != biralatok) {
+                throw new XmlUtilException("Feldolgozási hiba!");
+            }
+        }
         return tenyeszet;
     }
 
+    private static void contXmlData(String xml, int[] counter) throws XmlPullParserException, XmlUtilException, ParseException, IOException {
+        XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+        factory.setNamespaceAware(true);
+        XmlPullParser xpp = factory.newPullParser();
+
+        xpp.setInput(new StringReader(xml));
+        int eventType = xpp.getEventType();
+        counter[0] = 0;
+        counter[1] = 0;
+        ArrayList<String> azonoList = new ArrayList<String>();
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+            if (eventType == XmlPullParser.START_TAG) {
+
+                if (xpp.getName().equals(TN_RESPONSE)) {
+                    int count = xpp.getAttributeCount();
+                    for (int i = 0; i < count; i++) {
+                        if (xpp.getAttributeName(i).equals(TN_RESPONSE_RESULT_CODE)) {
+                            String code = xpp.getAttributeValue(i);
+                            if (code == null || !code.equals("0")) {
+                                return;
+                            }
+                            break;
+                        }
+                    }
+                } else if (xpp.getName().equals(TN_EGYED)) {
+                    String azono = null;
+                    Boolean biralat = null;
+                    int count = xpp.getAttributeCount();
+                    for (int i = 0; i < count; i++) {
+                        if (xpp.getAttributeName(i).equals(TN_EGYED_AZONO)) {
+                            azono = xpp.getAttributeValue(i);
+                            if (!azonoList.contains(azono)) {
+                                counter[0]++;
+                            }
+                            if (biralat != null) {
+                                break;
+                            }
+                        } else if (xpp.getAttributeName(i).equals(TN_EGYED_BIRDA)) {
+                            String value = xpp.getAttributeValue(i);
+                            if (value != null) {
+                                biralat = true;
+                                counter[1]++;
+                            } else {
+                                biralat = false;
+                            }
+                            if (azono != null) {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            eventType = xpp.next();
+        }
+    }
 
     public static Boolean parseKullembirXml(String xml) throws XmlPullParserException, XmlUtilException, IOException {
-
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
         factory.setNamespaceAware(true);
         XmlPullParser xpp = factory.newPullParser();
