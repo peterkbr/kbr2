@@ -49,7 +49,7 @@
                             android:id="@+id/bir_ker_check_hu"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:onClick="huClicked" />
+                            android:onClick="HUClicked" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
                             android:id="@+id/bir_ker_check_ku"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:onClick="huClicked" />
+                            android:onClick="HUClicked" />
 
                         <TextView
                             android:layout_width="wrap_content"

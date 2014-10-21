@@ -95,8 +95,6 @@ public class KeresoFragment extends Fragment {
             TextView textView;
             String text;
 
-            updateHURadio(selectedEgyedForKereso.getORSKO().equals("HU"));
-
             textView = (TextView) view.findViewById(R.id.bir_ker_enar);
             text = String.valueOf(selectedEgyedForKereso.getAZONO());
             if ("HU".equals(selectedEgyedForKereso.getORSKO()) && text.length() == 10) {
