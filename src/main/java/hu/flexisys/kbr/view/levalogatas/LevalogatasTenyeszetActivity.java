@@ -249,6 +249,9 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
     // LEVÁLOGATÁS TÖRLÉSE
 
     public void levalogatasTorlese() {
+        if (selectedList.isEmpty()) {
+            return;
+        }
         FragmentTransaction ft = getFragmentTransactionWithTag("levalogatasTorlesDialog");
         dialog = LevalogatasTorlesAlertDialog.newInstance(this);
         dialog.show(ft, "levalogatasTorlesDialog");
