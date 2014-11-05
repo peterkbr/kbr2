@@ -168,7 +168,7 @@
 
                 <TextView
                     android:id="@+id/bir_ker_enar"
-                    android:layout_width="220dp"
+                    android:layout_width="240dp"
                     android:layout_height="55dp"
                     android:background="@color/green"
                     android:gravity="center"
@@ -190,7 +190,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/bir_ker_itv_label"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
 

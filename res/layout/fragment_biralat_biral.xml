@@ -27,7 +27,7 @@
 
                 <TextView
                     android:id="@+id/bir_bir_enar"
-                    android:layout_width="220dp"
+                    android:layout_width="240dp"
                     android:layout_height="55dp"
                     android:background="@color/green"
                     android:gravity="center"
