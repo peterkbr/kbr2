@@ -23,7 +23,7 @@ import java.util.*;
 /**
  * Created by Peter on 2014.07.04..
  */
-public class BiralatActivity extends KbrActivity implements BirKerNotfoundListener {
+public class BiralatActivity extends KbrActivity implements BirKerNotfoundListener, BirKerEgyedListDialog.EgyedListDialogContainer {
 
     private String[] selectedTenazArray;
     private BiralatPagerAdapter adapter;
@@ -36,6 +36,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     private Boolean hu;
     private KeresoFragment keresoFragment;
     private BiralFragment biralFragment;
+    private Boolean showingEgyedListDialog = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -414,7 +415,8 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     }
 
     public void showBiraltList(View view) {
-        if (!biraltEgyedList.isEmpty()) {
+        if (!biraltEgyedList.isEmpty() && !showingEgyedListDialog) {
+            showingEgyedListDialog = true;
             FragmentTransaction ft = getFragmentTransactionWithTag("biralt");
             dialog = BirKerEgyedListDialog.newInstance(biraltEgyedList, true, new BirKerEgyedListDialog.EgyedClickListener() {
                 @Override
@@ -422,13 +424,14 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
                     updateHasznalatiSzamView(egyed.getAZONO(), "HU".equals(egyed.getORSKO()));
                     onSingleSelect(egyed);
                 }
-            });
+            }, this);
             dialog.show(ft, "biralt");
         }
     }
 
     public void showBiralandoList(View view) {
-        if (!biralandoEgyedList.isEmpty()) {
+        if (!biralandoEgyedList.isEmpty() && !showingEgyedListDialog) {
+            showingEgyedListDialog = true;
             FragmentTransaction ft = getFragmentTransactionWithTag("biralando");
             dialog = BirKerEgyedListDialog.newInstance(biralandoEgyedList, true, new BirKerEgyedListDialog.EgyedClickListener() {
                 @Override
@@ -436,9 +439,14 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
                     updateHasznalatiSzamView(egyed.getAZONO(), "HU".equals(egyed.getORSKO()));
                     onSingleSelect(egyed);
                 }
-            });
+            }, this);
             dialog.show(ft, "biralando");
         }
+    }
+
+    @Override
+    public void onDismissEgyedListDialog() {
+        showingEgyedListDialog = false;
     }
 
     // BÍRÁLAT
@@ -542,4 +550,5 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     public void selectBiralat(Biralat lastBiralat) {
         selectedBiralat = lastBiralat;
     }
+
 }

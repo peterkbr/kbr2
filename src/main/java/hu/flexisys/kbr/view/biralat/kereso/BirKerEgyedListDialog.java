@@ -1,6 +1,7 @@
 package hu.flexisys.kbr.view.biralat.kereso;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Html;
@@ -23,19 +24,22 @@ public class BirKerEgyedListDialog extends KbrDialog {
     private List<Egyed> selectedEgyedList;
     private Boolean clickable;
     private EgyedClickListener listener;
+    private EgyedListDialogContainer container;
 
-    public static BirKerEgyedListDialog newInstance(List<Egyed> selectedEgyedList, Boolean clickable, EgyedClickListener listener) {
+    public static BirKerEgyedListDialog newInstance(List<Egyed> selectedEgyedList, Boolean clickable, EgyedClickListener listener,
+                                                    EgyedListDialogContainer container) {
         BirKerEgyedListDialog f = new BirKerEgyedListDialog();
         f.layoutResId = R.layout.dialog_bir_ker_egyed_list;
         f.selectedEgyedList = selectedEgyedList;
         f.clickable = clickable;
         f.listener = listener;
+        f.container = container;
         return f;
     }
 
-    public static BirKerEgyedListDialog newInstance(List<Egyed> selectedEgyedList) {
-        return newInstance(selectedEgyedList, false, null);
-    }
+//    public static BirKerEgyedListDialog newInstance(List<Egyed> selectedEgyedList) {
+//        return newInstance(selectedEgyedList, false, null);
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,8 +57,18 @@ public class BirKerEgyedListDialog extends KbrDialog {
         return v;
     }
 
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        container.onDismissEgyedListDialog();
+    }
+
     public interface EgyedClickListener {
         public void onEgyedClick(Egyed egyed);
+    }
+
+    public interface EgyedListDialogContainer {
+        public void onDismissEgyedListDialog();
     }
 
     public class BirKerEgyedListAdapter extends ArrayAdapter<Egyed> {
