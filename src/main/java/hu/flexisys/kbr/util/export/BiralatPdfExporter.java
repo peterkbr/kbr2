@@ -81,12 +81,10 @@ public class BiralatPdfExporter extends PdfExporter {
             String azono = biralat.getAZONO();
             String orsko = egyedMap.get(biralat.getAZONO()).getORSKO();
             if ("HU".equals(orsko) && azono.length() == 10) {
-                Font font = new Font();
-                font.setSize(9f);
+                Font font = getFont(9f);
 
-                Font enarFont = new Font();
+                Font enarFont = getFont(9f);
                 enarFont.setColor(BaseColor.RED);
-                enarFont.setSize(9f);
 
 //                Phrase p1 = new Phrase(azono.substring(0, 5), font);
 //                Phrase p2 = new Phrase(azono.substring(5, 9), enarFont);
@@ -141,9 +139,7 @@ public class BiralatPdfExporter extends PdfExporter {
     }
 
     private static PdfPCell getCell(String value) {
-        Font font = new Font();
-        font.setSize(9f);
-        PdfPCell cell = new PdfPCell(new Phrase(value, font));
+        PdfPCell cell = new PdfPCell(new Phrase(value, getFont(9f)));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         return cell;
