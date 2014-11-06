@@ -48,7 +48,7 @@ public class BiralatPdfExporter extends PdfExporter {
 
     private static PdfPTable createPdfTable(List<BiralatSzempont> szempontList, List<Biralat> biralatList, Map<String, Egyed> egyedMap)
             throws DocumentException {
-        int tableSize = 8 + szempontList.size();
+        int tableSize = 7 + szempontList.size();
         PdfPTable table = new PdfPTable(tableSize);
         table.setWidthPercentage(100f);
 
@@ -61,7 +61,6 @@ public class BiralatPdfExporter extends PdfExporter {
         table.addCell(getCell("#"));
         table.addCell(getCell("OK"));
         table.addCell(getCell("ENAR"));
-        table.addCell(getCell("Telep"));
         table.addCell(getCell("Dátum"));
         table.addCell(getCell("Ell"));
         table.addCell(getCell("Sz"));
@@ -107,8 +106,7 @@ public class BiralatPdfExporter extends PdfExporter {
             } else {
                 table.addCell(getCell(azono));
             }
-
-            table.addCell(getCell(biralat.getTENAZ()));
+            
             table.addCell(getCell(DateUtil.formatDate(biralat.getBIRDA())));
 
             Egyed egyed = egyedMap.get(biralat.getAZONO());
@@ -125,7 +123,6 @@ public class BiralatPdfExporter extends PdfExporter {
         columnWidths[j++] = 30f;
         columnWidths[j++] = 30f;
         columnWidths[j++] = 100f;
-        columnWidths[j++] = 75f;
         columnWidths[j++] = 90f;
         columnWidths[j++] = 25f;
         columnWidths[j++] = 29f;
