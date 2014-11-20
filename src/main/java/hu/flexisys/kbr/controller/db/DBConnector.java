@@ -174,17 +174,16 @@ public class DBConnector {
 
     // BÍRÁLATOK KEZELÉSE
 
-    public long addBiralat(Biralat biralat) {
-        ContentValues values = DBUtil.mapBiralatToContentValues(biralat);
-        long id = database.insert(DBScripts.TABLE_BIRALAT, null, values);
-        return id;
-    }
-
     public int removeBiralatByTENAZ(String TENAZ) {
         int removedCount = database.delete(DBScripts.TABLE_BIRALAT, DBScripts.COLUMN_BIRALAT_TENAZ + " = ?", new String[]{TENAZ});
         return removedCount;
     }
 
+    private long addBiralat(Biralat biralat) {
+        ContentValues values = DBUtil.mapBiralatToContentValues(biralat);
+        long id = database.insert(DBScripts.TABLE_BIRALAT, null, values);
+        return id;
+    }
 
     public int updateBiralat(Biralat biralat) {
         Long id = biralat.getId();

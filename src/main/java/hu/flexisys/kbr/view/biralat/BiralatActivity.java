@@ -474,6 +474,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
                         }
                         biralat.setKodErtMap(map);
                         saveBiralat(biralat);
+                        biralFragment.updateFragmentWithEgyed(selectedEgyed);
                     }
                 } else {
                     FragmentTransaction ft = getFragmentTransactionWithTag("unfinished");
@@ -497,6 +498,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
                 if (akakoInt > 0 && akakoInt < 6) {
                     biralat.setAKAKO(akakoInt);
                     saveBiralat(biralat);
+                    biralFragment.updateFragmentWithEgyed(selectedEgyed);
                 }
             }
         }
@@ -509,8 +511,9 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     public void saveBiralat(Biralat biralat) {
         app.updateBiralat(biralat);
         biralFragment.setBiralatSaved();
+        String azono = selectedEgyed.getAZONO();
         reloadData();
-        selectedEgyed = findEgyedByAzono(selectedEgyed.getAZONO());
+        selectedEgyed = findEgyedByAzono(azono);
         keresoFragment.updateKeresoButtons(egyedList);
         changeHUSelection(selectedEgyed);
         keresoFragment.updateDetails(selectedEgyed);
