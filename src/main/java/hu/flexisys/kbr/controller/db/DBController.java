@@ -105,16 +105,7 @@ public class DBController {
         return count;
     }
 
-    public void addBiralat(Biralat biralat) {
-        innerConnector.addBiralat(biralat);
-        sdCardConnector.addBiralat(biralat);
-    }
-
     public void updateBiralat(Biralat biralat) {
-//        innerConnector.removeBiralat(biralat.getTENAZ(), biralat.getAZONO());
-//        innerConnector.addBiralat(biralat);
-//        sdCardConnector.removeBiralat(biralat.getTENAZ(), biralat.getAZONO());
-//        sdCardConnector.addBiralat(biralat);
         innerConnector.updateBiralat(biralat);
         sdCardConnector.updateBiralat(biralat);
     }

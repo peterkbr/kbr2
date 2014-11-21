@@ -1,5 +1,6 @@
 package hu.flexisys.kbr.util.export;
 
+import android.util.Log;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 
@@ -23,6 +24,18 @@ public class PdfExporter {
         tenaz = TENAZ;
         tarto = TARTO;
         biralo = BIRALO;
+    }
+
+    public static Font getFont(float size) {
+        Font font;
+        try {
+            BaseFont baseFont = BaseFont.createFont("assets/opensans.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            font = new Font(baseFont, size);
+        } catch (Exception e) {
+            Log.e("PdfExporter : getBaseFont", e.getMessage(), e);
+            font = new Font();
+        }
+        return font;
     }
 
     protected static class HeaderFooter extends PdfPageEventHelper {
@@ -64,13 +77,10 @@ public class PdfExporter {
                 e.printStackTrace();
             }
 
-            Font font = new Font();
-            font.setSize(20f);
-            Phrase p = new Phrase("Holstein-fríz Tenyésztők Egyesülete", font);
+            Phrase p = new Phrase("Holstein-fríz Tenyésztők Egyesülete", getFont(20f));
             ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, p, content.getLeft() + 20, content.getTop() - 30, 0);
 
-            font.setSize(25f);
-            p = new Phrase(title, font);
+            p = new Phrase(title, getFont(25f));
             ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, p, content.getLeft() + 20, content.getTop() - 65, 0);
 
             if (footer != null) {
@@ -88,9 +98,7 @@ public class PdfExporter {
         }
 
         public PdfPCell getHeaderCell(String value) {
-            Font font = new Font();
-            font.setSize(12f);
-            PdfPCell cell = new PdfPCell(new Phrase(value, font));
+            PdfPCell cell = new PdfPCell(new Phrase(value, getFont(12f)));
             cell.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             return cell;

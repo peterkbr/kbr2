@@ -65,13 +65,11 @@ public class LevalogatasPdfExporter extends PdfExporter {
             String azono = egyed.getAZONO();
             String orsko = egyed.getORSKO();
             if ("HU".equals(orsko) && azono.length() == 10) {
-                // enar szám
-                Font font = new Font();
-                font.setSize(12f);
+                Font font = getFont(12f);
 
-                Font enarFont = new Font();
+                // enar szám
+                Font enarFont = getFont(12f);
                 enarFont.setColor(BaseColor.RED);
-                enarFont.setSize(12f);
 
                 Phrase phrase = new Phrase();
                 phrase.add(new Chunk(azono.substring(0, 5), font));
@@ -121,8 +119,7 @@ public class LevalogatasPdfExporter extends PdfExporter {
 
 
     private static PdfPCell getCell(String value) {
-        Font font = new Font();
-        font.setSize(12f);
+        Font font = getFont(12f);
         PdfPCell cell = new PdfPCell(new Phrase(value, font));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);

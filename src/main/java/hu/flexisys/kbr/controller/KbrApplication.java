@@ -94,7 +94,7 @@ public class KbrApplication extends Application {
         for (Egyed egyed : tenyeszet.getEgyedList()) {
             dbController.addEgyed(egyed);
             for (Biralat biralat : egyed.getBiralatList()) {
-                dbController.addBiralat(biralat);
+                dbController.updateBiralat(biralat);
             }
         }
         checkDbConsistency();

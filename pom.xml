@@ -23,6 +23,7 @@
         <init.url>http://tomcat7.devapp01.si.hu/EnarPdaServer/sendxml</init.url>
         <init.email>kbr@flexisys.hu</init.email>
         <production.url>http://appserver.mgszh.gov.hu:8888/EnarPdaServer/sendxml</production.url>
+        <test.url>http://tomcat7.devapp01.si.hu/EnarPdaServer/sendxml</test.url>
     </properties>
 
     <dependencies>
