@@ -80,7 +80,7 @@ public class NumPadInput extends TextView {
 
     protected Boolean validateContent(String newContent) {
         try {
-            Integer.parseInt(newContent);
+            Long.parseLong(newContent);
             if (hasMaxLength() && newContent.length() > maxLength) {
                 throw new Exception("Input is too long");
             }
