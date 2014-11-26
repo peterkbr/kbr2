@@ -20,6 +20,7 @@ public class Biralat implements Serializable {
     private Boolean FELTOLTETLEN;
     private Boolean EXPORTALT;
     private Boolean LETOLTOTT;
+    private String MEGJEGYZES;
     private String KOD01;
     private String ERT01;
     private String KOD02;
@@ -82,6 +83,7 @@ public class Biralat implements Serializable {
     private String ERT30;
 
     public Biralat() {
+        MEGJEGYZES = null;
     }
 
     public void setKodErtMap(Map<String, String> map) {
@@ -338,6 +340,14 @@ public class Biralat implements Serializable {
 
     public void setLETOLTOTT(Boolean LETOLTOTT) {
         this.LETOLTOTT = LETOLTOTT;
+    }
+
+    public String getMEGJEGYZES() {
+        return MEGJEGYZES;
+    }
+
+    public void setMEGJEGYZES(String MEGJEGYZES) {
+        this.MEGJEGYZES = MEGJEGYZES;
     }
 
     public String getKOD01() {

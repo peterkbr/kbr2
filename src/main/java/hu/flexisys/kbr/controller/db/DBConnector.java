@@ -285,6 +285,8 @@ public class DBConnector {
         biralat.setEXPORTALT(cursor.getInt(i++) != 0);
         biralat.setLETOLTOTT(cursor.getInt(i++) != 0);
 
+        biralat.setMEGJEGYZES(cursor.getString(i++));
+
         biralat.setKOD01(cursor.getString(i++));
         biralat.setERT01(cursor.getString(i++));
         biralat.setKOD02(cursor.getString(i++));

@@ -24,6 +24,8 @@ public class FileUtil {
             externalBaseDir = Environment.getExternalStorageDirectory().getAbsolutePath();
         }
         extarnalAppPath = externalBaseDir + File.separator + "KBR2";
+        File dir = new File(extarnalAppPath);
+        dir.mkdirs();
     }
 
     public static String getExternalAppPath() {

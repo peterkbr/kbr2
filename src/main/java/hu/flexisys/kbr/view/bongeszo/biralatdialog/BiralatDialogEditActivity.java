@@ -1,16 +1,16 @@
 package hu.flexisys.kbr.view.bongeszo.biralatdialog;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.KbrDialog;
-import hu.flexisys.kbr.view.biralat.biral.BirBirAkakoDialog;
-import hu.flexisys.kbr.view.biralat.biral.BirBirUnfinishedBiralatDialog;
-import hu.flexisys.kbr.view.biralat.biral.BirBirUnfinishedBiralatListener;
-import hu.flexisys.kbr.view.biralat.biral.BiralFragment;
+import hu.flexisys.kbr.view.biralat.biral.*;
 import hu.flexisys.kbr.view.levalogatas.biralatdialog.BiralatDialog;
 
 import java.util.*;
@@ -94,6 +94,28 @@ public class BiralatDialogEditActivity extends KbrActivity {
                         public void selectBiralat(Biralat lastBiralat) {
                             selectedBiralat = lastBiralat;
                         }
+
+                        @Override
+                        public void openMegjegyzesDialog(String megjegyzes) {
+                            FragmentTransaction ft = getFragmentTransactionWithTag("megjegyzes");
+                            dialog2 = BirBirMegjegyzesDialog.newInstance(new BirBirMegjegyzesDialog.BirBirMegjegyzesListener() {
+                                @Override
+                                public void onBirBirBirBirMegjegyzesCancel(EditText et) {
+                                    final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
+                                    dialog2.dismiss();
+                                }
+
+                                @Override
+                                public void onBirBirBirBirMegjegyzesOk(EditText et, String newMegjegyzes) {
+                                    final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
+                                    biralFragment.setMegjegyzes(newMegjegyzes);
+                                    dialog2.dismiss();
+                                }
+                            }, megjegyzes);
+                            dialog2.show(ft, "megjegyzes");
+                        }
                     });
                     dialog.setCancelable(false);
                     dialog.show(ft, "longClick");
@@ -140,6 +162,7 @@ public class BiralatDialogEditActivity extends KbrActivity {
             biralat.setFELTOLTETLEN(true);
             biralat.setEXPORTALT(false);
             biralat.setLETOLTOTT(false);
+            biralat.setMEGJEGYZES(biralFragment.getMegjegyzes());
             biralat.setORSKO(selectedEgyed.getORSKO());
             biralat.setKULAZ(app.getBiraloAzonosito());
             biralat.setBIRDA(new Date());

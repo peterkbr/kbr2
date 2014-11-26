@@ -50,10 +50,23 @@ public class BongeszoListAdapter extends ArrayAdapter<Biralat> {
             }
         });
 
+        Boolean hasMegjegyzes = currentBiralat.getMEGJEGYZES() != null && !currentBiralat.getMEGJEGYZES().isEmpty();
+        if (hasMegjegyzes) {
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    container.showMegjegyzes(currentBiralat.getMEGJEGYZES());
+                }
+            });
+        }
         TextView textView;
         Integer color = null;
         if (!currentBiralat.getEXPORTALT()) {
-            color = context.getResources().getColor(R.color.green);
+            if (hasMegjegyzes) {
+                color = context.getResources().getColor(R.color.light_blue);
+            } else {
+                color = context.getResources().getColor(R.color.green);
+            }
         } else if (currentBiralat.getFELTOLTETLEN()) {
             color = context.getResources().getColor(R.color.yellow);
         }
@@ -162,5 +175,7 @@ public class BongeszoListAdapter extends ArrayAdapter<Biralat> {
 
     public interface BongeszoListContainer {
         public void onLongClick(Egyed currentEgyed, Biralat currentBiralat);
+
+        public void showMegjegyzes(String megjegyzes);
     }
 }

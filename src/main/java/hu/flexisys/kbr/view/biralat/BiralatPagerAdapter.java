@@ -33,6 +33,11 @@ public class BiralatPagerAdapter extends FragmentPagerAdapter {
             public void selectBiralat(Biralat lastBiralat) {
                 biralatActivity.selectBiralat(lastBiralat);
             }
+
+            @Override
+            public void openMegjegyzesDialog(String megjegyzes) {
+                biralatActivity.openMegjegyzesDialog(megjegyzes);
+            }
         });
     }
 

@@ -1,11 +1,14 @@
 package hu.flexisys.kbr.view.biralat;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.model.Biralat;
@@ -462,6 +465,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
             biralat.setFELTOLTETLEN(true);
             biralat.setEXPORTALT(false);
             biralat.setLETOLTOTT(false);
+            biralat.setMEGJEGYZES(biralFragment.getMegjegyzes());
             biralat.setORSKO(selectedEgyed.getORSKO());
             biralat.setKULAZ(app.getBiraloAzonosito());
             biralat.setBIRDA(new Date());
@@ -554,4 +558,24 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         selectedBiralat = lastBiralat;
     }
 
+    public void openMegjegyzesDialog(String megjegyzes) {
+        FragmentTransaction ft = getFragmentTransactionWithTag("megjegyzes");
+        dialog = BirBirMegjegyzesDialog.newInstance(new BirBirMegjegyzesDialog.BirBirMegjegyzesListener() {
+            @Override
+            public void onBirBirBirBirMegjegyzesCancel(EditText et) {
+                final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
+                dismissDialog();
+            }
+
+            @Override
+            public void onBirBirBirBirMegjegyzesOk(EditText et, String megjegyzes) {
+                final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
+                biralFragment.setMegjegyzes(megjegyzes);
+                dismissDialog();
+            }
+        }, megjegyzes);
+        dialog.show(ft, "megjegyzes");
+    }
 }

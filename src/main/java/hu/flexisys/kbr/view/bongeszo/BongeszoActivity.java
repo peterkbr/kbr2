@@ -119,6 +119,13 @@ public class BongeszoActivity extends KbrActivity {
                 intent.putExtras(extras);
                 startActivity(intent);
             }
+
+            @Override
+            public void showMegjegyzes(String megjegyzes) {
+                FragmentTransaction ft = getFragmentTransactionWithTag("megjegyzes");
+                dialog = BongMegjegyzesDialog.newInstance(megjegyzes);
+                dialog.show(ft, "megjegyzes");
+            }
         });
         biralatListView.setAdapter(adapter);
     }

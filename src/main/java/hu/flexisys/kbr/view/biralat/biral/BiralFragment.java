@@ -52,6 +52,8 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     private Boolean editing;
     private Boolean biralatStarted;
 
+    private String megjegyzes;
+
     public static BiralFragment newInstance(BiralFragmentContainer container) {
         BiralFragment fragment = new BiralFragment();
         fragment.container = container;
@@ -260,6 +262,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     public void updateFragmentWithEgyed(Egyed selectedEgyedForBiral, Boolean editable) {
         clearDetails();
         clearGrid();
+        megjegyzes = null;
         if (selectedEgyedForBiral == null) {
             editing = false;
             biralatStarted = false;
@@ -284,22 +287,23 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             } else {
                 container.selectBiralat(lastBiralat);
                 updateGrid(lastBiralat);
-            }
+                if (lastBiralat != null) {
+                    megjegyzes = lastBiralat.getMEGJEGYZES();
 
-            if (lastBiralat != null) {
-                if (lastBiralat.getFELTOLTETLEN() && !lastBiralat.getEXPORTALT()) {
-                    editing = true;
-                } else {
-                    editing = false;
-                }
-
-                String akakoValue = String.valueOf(lastBiralat.getAKAKO());
-                if (akakoValue != null && !akakoValue.isEmpty() && !akakoValue.equals("0")) {
-                    if (!akakoValue.equals("3")) {
+                    if (lastBiralat.getFELTOLTETLEN() && !lastBiralat.getEXPORTALT()) {
+                        editing = true;
+                    } else {
                         editing = false;
-                        clearGrid();
                     }
-                    updateAkakoView(akakoValue);
+
+                    String akakoValue = String.valueOf(lastBiralat.getAKAKO());
+                    if (akakoValue != null && !akakoValue.isEmpty() && !akakoValue.equals("0")) {
+                        if (!akakoValue.equals("3")) {
+                            editing = false;
+                            clearGrid();
+                        }
+                        updateAkakoView(akakoValue);
+                    }
                 }
             }
             if (editing && editable) {
@@ -314,6 +318,16 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     private void updateDetails(Egyed egyed) {
         View view = getView();
         TextView enarTextView = (TextView) view.findViewById(R.id.bir_bir_enar);
+        enarTextView.setClickable(true);
+        enarTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (editing) {
+                    container.openMegjegyzesDialog(megjegyzes);
+                }
+            }
+        });
+
         View detailsView = view.findViewById(R.id.bir_bir_details_layout);
 
         String text = String.valueOf(egyed.getAZONO());
@@ -566,11 +580,22 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         return null;
     }
 
+    public String getMegjegyzes() {
+        return megjegyzes;
+    }
+
+    public void setMegjegyzes(String megjegyzes) {
+        this.megjegyzes = megjegyzes;
+        biralatStarted = true;
+    }
+
     public interface BiralFragmentContainer {
         public void onAkako(String akako);
 
         public void onBiralFragmentResume(BiralFragment biralFragment);
 
         public void selectBiralat(Biralat lastBiralat);
+
+        public void openMegjegyzesDialog(String megjegyzes);
     }
 }
