@@ -39,7 +39,9 @@ public class KeresoFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        activity.onKeresoFragmentResume();
+        if (activity != null) {
+            activity.onKeresoFragmentResume();
+        }
     }
 
     // UPDATE THE VIEWS

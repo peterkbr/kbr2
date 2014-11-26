@@ -146,6 +146,9 @@ public class KbrApplication extends Application {
 
     public List<TenyeszetListModel> getTenyeszetListModels() {
         ArrayList<TenyeszetListModel> list = new ArrayList<TenyeszetListModel>();
+        if (dbController == null) {
+            init();
+        }
         List<Tenyeszet> tenyeszetList = dbController.getTenyeszetAll();
         for (Tenyeszet tenyeszet : tenyeszetList) {
             TenyeszetListModel model = new TenyeszetListModel(tenyeszet);

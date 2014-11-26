@@ -28,6 +28,9 @@ public class ExportDialog extends KbrDialog {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (layoutResId == 0) {
+            layoutResId = R.layout.dialog_export;
+        }
         final View v = super.onCreateView(inflater, container, savedInstanceState);
 
         Button ok = (Button) v.findViewById(R.id.dialog_export_ok);
