@@ -47,7 +47,7 @@ public class PdfExporter {
         public HeaderFooter(String title, String footerValue) {
             this.title = title;
             if (footerValue != null) {
-                footer = new Phrase(footerValue);
+                footer = new Phrase(footerValue, getFont(10f));
             }
             pagenumber = 0;
         }
@@ -86,7 +86,7 @@ public class PdfExporter {
             if (footer != null) {
                 ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, footer, content.getLeft(), content.getBottom() + 25, 0);
             }
-            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(String.format("- %d -", pagenumber)),
+            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(String.format("- %d -", pagenumber), getFont(12f)),
                     (content.getLeft() + content.getRight()) / 2, content.getBottom(), 0);
 
 
