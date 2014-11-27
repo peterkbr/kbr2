@@ -310,7 +310,11 @@ public class BongeszoActivity extends KbrActivity {
         for (String szempontId : tipus.szempontList) {
             BiralatSzempont szempont = BiralatSzempontUtil.getBiralatSzempont(szempontId);
             szempontList.add(szempont);
-            diagramValueMap.put(szempont.kod, new Integer[]{0, 0, 0});
+            Integer[] arr = new Integer[szempont.kategoriaBounds.length];
+            for (int i = 0; i < arr.length; i++) {
+                arr[i] = 0;
+            }
+            diagramValueMap.put(szempont.kod, arr);
         }
 
         for (Biralat biralat : biralatList) {
@@ -320,16 +324,14 @@ public class BongeszoActivity extends KbrActivity {
                     continue;
                 }
                 Integer ert = Integer.parseInt(ertString);
-                int yellowStart = Integer.parseInt(szempont.kategoriaMiddle);
-                int greenStart = Integer.parseInt(szempont.kategoriaEnd);
-                int i = 2;
-                if (ert < yellowStart) {
-                    i = 0;
-                } else if (ert < greenStart) {
-                    i = 1;
+                int k = 0;
+                for (int i = 1; i < szempont.kategoriaBounds.length; i++) {
+                    if (szempont.kategoriaBounds[i] < ert) {
+                        k = i;
+                    }
                 }
                 Integer[] arr = diagramValueMap.get(szempont.kod);
-                arr[i]++;
+                arr[k]++;
                 diagramValueMap.put(szempont.kod, arr);
             }
         }
@@ -337,13 +339,25 @@ public class BongeszoActivity extends KbrActivity {
         ArrayList<String> diagramValuesList = new ArrayList<String>();
         for (BiralatSzempont szempont : szempontList) {
             Integer[] values = diagramValueMap.get(szempont.kod);
-            StringBuilder builder = new StringBuilder();
-            Integer sum = values[0] + values[1] + values[2];
-            Double i = 100d / sum;
-            Integer value_0 = (int) Math.floor(values[0] * i);
-            Integer value_1 = (int) Math.floor(values[1] * i);
-            Integer value_2 = (int) Math.floor(values[2] * i);
-            builder.append(szempont.rovidNev).append(",").append(value_0).append(",").append(value_1).append(",").append(value_2);
+            StringBuilder builder = new StringBuilder(szempont.rovidNev);
+
+
+            Integer sum = 0;
+            for (Integer i : values) {
+                sum += i;
+            }
+            Double d = 100d / sum;
+            for (int i = 0; i < values.length; i++) {
+                builder.append(",").append((int) Math.floor(values[i] * d));
+            }
+
+//            Integer sum = values[0] + values[1] + values[2];
+//            Double i = 100d / sum;
+//            Integer value_0 = (int) Math.floor(values[0] * i);
+//            Integer value_1 = (int) Math.floor(values[1] * i);
+//            Integer value_2 = (int) Math.floor(values[2] * i);
+//            builder.append(szempont.rovidNev).append(",").append(value_0).append(",").append(value_1).append(",").append(value_2);
+
             diagramValuesList.add(builder.toString());
         }
         return diagramValuesList;

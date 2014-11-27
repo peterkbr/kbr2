@@ -10,21 +10,10 @@ public class BiralatSzempont {
     public String nev;
     public String keszletStart;
     public String keszletEnd;
-    public String kategoriaStart;
-    public String kategoriaMiddle;
-    public String kategoriaEnd;
-
-    public BiralatSzempont(String kod, String rovidNev, String nev, String keszletStart, String keszletEnd, String kategoriaStart, String kategoriaMiddle,
-                           String kategoriaEnd) {
-        this.kod = kod;
-        this.rovidNev = rovidNev;
-        this.nev = nev;
-        this.keszletStart = keszletStart;
-        this.keszletEnd = keszletEnd;
-        this.kategoriaStart = kategoriaStart;
-        this.kategoriaMiddle = kategoriaMiddle;
-        this.kategoriaEnd = kategoriaEnd;
-    }
+    //    public String kategoriaStart;
+//    public String kategoriaMiddle;
+//    public String kategoriaEnd;
+    public Integer[] kategoriaBounds;
 
     public BiralatSzempont(String kod, String valuesString) {
         String[] values = valuesString.split(",");
@@ -33,8 +22,12 @@ public class BiralatSzempont {
         this.nev = values[1];
         this.keszletStart = values[2];
         this.keszletEnd = values[3];
-        this.kategoriaStart = values[4];
-        this.kategoriaMiddle = values[5];
-        this.kategoriaEnd = values[6];
+        kategoriaBounds = new Integer[values.length - 4];
+        for (int i = 4, j = 0; i < values.length; i++, j++) {
+            kategoriaBounds[j] = Integer.parseInt(values[i]);
+        }
+//        this.kategoriaStart = values[4];
+//        this.kategoriaMiddle = values[5];
+//        this.kategoriaEnd = values[6];
     }
 }

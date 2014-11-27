@@ -49,7 +49,7 @@ public class KbrApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        ACRA.init(this);
+//        ACRA.init(this);
         init();
         LogUtil.initLogUtil(this);
         LogUtil.startLog();
