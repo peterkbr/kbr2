@@ -262,6 +262,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     public void updateFragmentWithEgyed(Egyed selectedEgyedForBiral, Boolean editable) {
         clearDetails();
         clearGrid();
+        container.selectBiralat(null);
         megjegyzes = null;
         if (selectedEgyedForBiral == null) {
             editing = false;
