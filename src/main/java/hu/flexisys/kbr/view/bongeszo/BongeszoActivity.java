@@ -326,7 +326,7 @@ public class BongeszoActivity extends KbrActivity {
                 Integer ert = Integer.parseInt(ertString);
                 int k = 0;
                 for (int i = 1; i < szempont.kategoriaBounds.length; i++) {
-                    if (szempont.kategoriaBounds[i] < ert) {
+                    if (ert >= szempont.kategoriaBounds[i]) {
                         k = i;
                     }
                 }
