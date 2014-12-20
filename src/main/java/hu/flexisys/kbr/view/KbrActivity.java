@@ -115,11 +115,19 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
 
             @Override
             public void onDatePicked(int year, int monthOfYear, int dayOfMonth) {
-                dateEditText.setText(year + "." + (monthOfYear + 1) + "." + dayOfMonth);
+                dateEditText.setText(year + "." + getNulledString(monthOfYear + 1) + "." + getNulledString(dayOfMonth));
                 dismissDialog();
             }
         }, mYear, mMonth, mDay);
         dialog.show(ft, "datePickerDialog");
+    }
+
+    private String getNulledString(int intValue) {
+        if (intValue < 10) {
+            return "0" + intValue;
+        } else {
+            return String.valueOf(intValue);
+        }
     }
 
     private String getTitleForDatePickerDialog(int id) {
