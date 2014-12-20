@@ -419,8 +419,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
 
     public void clearGrid() {
         for (BiralatNumPadInput input : biralatNumPadInputs) {
-            input.setText("");
-            input.unSelect();
+            input.clear();
         }
         akakoBiralatNumPadInput.setText("");
         akakoBiralatNumPadInput.unSelect();

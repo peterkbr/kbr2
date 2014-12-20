@@ -33,6 +33,14 @@ public class BiralatNumPadInput extends NumPadInput {
         oldContent = false;
     }
 
+    public void clear() {
+        oldContent = false;
+        numValue = "";
+        setText("");
+        unSelect();
+        updateColor();
+    }
+
     public void addOldContent(String oldValue) {
         if (validateContent(oldValue)) {
             oldContent = true;
