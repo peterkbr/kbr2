@@ -87,10 +87,23 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
 
     public void pickDate(final View view) {
         final TextView dateEditText = (TextView) view;
-        final Calendar c = Calendar.getInstance();
-        int mYear = c.get(Calendar.YEAR);
-        int mMonth = c.get(Calendar.MONTH);
-        int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+        Integer mYear;
+        Integer mMonth;
+        Integer mDay;
+
+        String dateString = dateEditText.getText().toString();
+        String[] dateStringArray = dateString.split("\\.");
+        if (dateStringArray.length == 3) {
+            mYear = Integer.valueOf(dateStringArray[0]);
+            mMonth = Integer.valueOf(dateStringArray[1]) - 1;
+            mDay = Integer.valueOf(dateStringArray[2]);
+        } else {
+            final Calendar c = Calendar.getInstance();
+            mYear = c.get(Calendar.YEAR);
+            mMonth = c.get(Calendar.MONTH);
+            mDay = c.get(Calendar.DAY_OF_MONTH);
+        }
 
         FragmentTransaction ft = getFragmentTransactionWithTag("datePickerDialog");
         dialog = KbrDatePickerDialog.newInstance(getTitleForDatePickerDialog(view.getId()), new DatePickedListener() {
