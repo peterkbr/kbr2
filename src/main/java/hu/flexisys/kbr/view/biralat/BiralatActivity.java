@@ -350,29 +350,29 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         updateHasznalatiSzamView(azono, "HU".equals(egyed.getORSKO()));
         dismissDialog();
 
-        if (!egyed.getKIVALASZTOTT()) {
-            FragmentTransaction ft = getFragmentTransactionWithTag("BirKerNotSelectedDialog");
-            dialog = BirKerNotSelectedDialog.newInstance(new BirKerNotselectedListener() {
-                @Override
-                public void onBiralSelected(Egyed egyed) {
-                    dismissDialog();
-                    selectedEgyed = egyed;
-                    updateUIWithSelectedEgyed();
-                }
-
-                @Override
-                public void onCancelSelection() {
-                    dismissDialog();
-                    if (selectedEgyed != null) {
-                        updateHasznalatiSzamView(selectedEgyed.getAZONO(), hu);
-                    }
-                }
-            }, egyed);
-            dialog.show(ft, "BirKerNotSelectedDialog");
-        } else {
-            selectedEgyed = egyed;
-            updateUIWithSelectedEgyed();
-        }
+//        if (!egyed.getKIVALASZTOTT()) {
+//            FragmentTransaction ft = getFragmentTransactionWithTag("BirKerNotSelectedDialog");
+//            dialog = BirKerNotSelectedDialog.newInstance(new BirKerNotselectedListener() {
+//                @Override
+//                public void onBiralSelected(Egyed egyed) {
+//                    dismissDialog();
+//                    selectedEgyed = egyed;
+//                    updateUIWithSelectedEgyed();
+//                }
+//
+//                @Override
+//                public void onCancelSelection() {
+//                    dismissDialog();
+//                    if (selectedEgyed != null) {
+//                        updateHasznalatiSzamView(selectedEgyed.getAZONO(), hu);
+//                    }
+//                }
+//            }, egyed);
+//            dialog.show(ft, "BirKerNotSelectedDialog");
+//        } else {
+        selectedEgyed = egyed;
+        updateUIWithSelectedEgyed();
+//        }
     }
 
     private boolean isWithin30Days(Date date) {
