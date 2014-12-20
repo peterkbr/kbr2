@@ -365,10 +365,21 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
             }
         }
 
-        String enar = (String) filter.get(Filter.ENAR);
-        if (enar != null && !enar.isEmpty() && (egyed.getAZONO() == null || !egyed.getAZONO().contains(String.valueOf(enar)))) {
-            return false;
+        String enarFilter = (String) filter.get(Filter.ENAR);
+        if (enarFilter != null && !enarFilter.isEmpty()) {
+            String[] enarArray = enarFilter.split(",");
+            Boolean pass = false;
+            for (String enar : enarArray) {
+                if (egyed.getAZONO().contains(String.valueOf(enar))) {
+                    pass = true;
+                    break;
+                }
+            }
+            if (!pass) {
+                return false;
+            }
         }
+
 
         Long szuletesTol = (Long) filter.get(Filter.SZULETES_TOL);
         Long szuletesIg = (Long) filter.get(Filter.SZULETES_IG);

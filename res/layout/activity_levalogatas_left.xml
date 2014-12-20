@@ -1,7 +1,7 @@
 <!--SZŰKÍTÉS-->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -105,13 +105,13 @@
             <EditText
                 android:id="@+id/lev_szuk_elles_sorszamai"
                 android:layout_width="0dp"
-                android:digits="0123456789,"
-                android:inputType="number"
-                android:imeOptions="flagNoExtractUi"
                 android:layout_height="@dimen/input_height"
                 android:layout_weight="1"
                 android:background="@drawable/keret"
-                android:gravity="center_vertical" />
+                android:digits="0123456789,"
+                android:gravity="center_vertical"
+                android:imeOptions="flagNoExtractUi"
+                android:inputType="number" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -169,7 +169,8 @@
                 android:layout_height="@dimen/input_height"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="ENAR szám:" />
+                android:text="ENAR szám(ok):" />
+
 
             <EditText
                 android:id="@+id/lev_szuk_enar"
@@ -177,9 +178,11 @@
                 android:layout_height="@dimen/input_height"
                 android:layout_weight="1.8"
                 android:background="@drawable/keret"
+                android:digits="0123456789,"
                 android:gravity="center_vertical"
-                android:inputType="number"
-                android:imeOptions="flagNoExtractUi" />
+                android:imeOptions="flagNoExtractUi"
+                android:inputType="number" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -327,8 +330,8 @@
                     android:layout_weight="0.8"
                     android:background="@drawable/keret"
                     android:gravity="center_vertical"
-                    android:inputType="number"
-                    android:imeOptions="flagNoExtractUi" />
+                    android:imeOptions="flagNoExtractUi"
+                    android:inputType="number" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -344,8 +347,8 @@
                     android:layout_weight="0.8"
                     android:background="@drawable/keret"
                     android:gravity="center_vertical"
-                    android:inputType="number"
-                    android:imeOptions="flagNoExtractUi" />
+                    android:imeOptions="flagNoExtractUi"
+                    android:inputType="number" />
 
                 <TextView
                     android:layout_width="0dp"
