@@ -72,10 +72,10 @@ public class NumPadInput extends TextView {
         if (selected) {
             selected = false;
             active = true;
-            updateColor();
         }
         numValue = newValue;
         setText(numValue);
+        updateColor();
     }
 
     protected Boolean validateContent(String newContent) {

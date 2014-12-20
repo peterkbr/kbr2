@@ -12,6 +12,7 @@ public class BiralatNumPadInput extends NumPadInput {
     private NumPadInputContainer container;
     private String keszletStart;
     private String keszletEnd;
+    private boolean newContent;
     private boolean oldContent;
 
     public BiralatNumPadInput(Context context) {
@@ -34,11 +35,16 @@ public class BiralatNumPadInput extends NumPadInput {
     }
 
     public void clear() {
+        newContent = false;
         oldContent = false;
         numValue = "";
         setText("");
         unSelect();
         updateColor();
+    }
+
+    public void newInput() {
+        newContent = true;
     }
 
     public void addOldContent(String oldValue) {
@@ -48,8 +54,9 @@ public class BiralatNumPadInput extends NumPadInput {
         }
     }
 
-    public void removeOldContent() {
+    public void removeSpecialContent() {
         oldContent = false;
+        newContent = false;
         numValue = "";
         setText("");
         updateColor();
@@ -57,8 +64,9 @@ public class BiralatNumPadInput extends NumPadInput {
 
     @Override
     public void onValidInput(String newValue) {
-        if (oldContent) {
+        if (oldContent || newContent) {
             oldContent = false;
+            newContent = false;
             numValue = "";
             setText(numValue);
         }
@@ -97,6 +105,8 @@ public class BiralatNumPadInput extends NumPadInput {
         int colorResId = R.color.white;
         if (oldContent) {
             colorResId = R.color.purple;
+        } else if (newContent) {
+            colorResId = R.color.light_yellow;
         }
         if (selected) {
             colorResId = R.color.pink;

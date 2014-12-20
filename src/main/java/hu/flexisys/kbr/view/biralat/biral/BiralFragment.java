@@ -283,7 +283,9 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
                     lastBiralat = biralat;
                 }
             }
-            if (lastBiralat == null && oldBiralat != null) {
+            if (lastBiralat == null && oldBiralat == null) {
+                updateGridForNew();
+            } else if (lastBiralat == null) {
                 updateGrid(oldBiralat, true);
             } else {
                 container.selectBiralat(lastBiralat);
@@ -397,7 +399,16 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         detailsView.setVisibility(View.INVISIBLE);
     }
 
+    private void updateGridForNew() {
+        for (String kod : szempontKodInputMap.keySet()) {
+            BiralatNumPadInput input = szempontKodInputMap.get(kod);
+            input.newInput();
+            input.unSelect();
+        }
+    }
+
     private void updateGrid(Biralat biralat) {
+        clearGrid();
         updateGrid(biralat, false);
     }
 
@@ -520,7 +531,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         String akakoString = getAkako();
         if (calcableVp() && getBiralatStarted() && (akakoString == null || akakoString.isEmpty() || akakoString.equals("3"))) {
             Integer vp = calcVp();
-            vpBiralatNumPadInput.removeOldContent();
+            vpBiralatNumPadInput.removeSpecialContent();
             vpBiralatNumPadInput.setText(String.valueOf(vp));
         }
         stepToNextInput();
