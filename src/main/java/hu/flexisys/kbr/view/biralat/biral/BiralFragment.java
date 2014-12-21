@@ -150,12 +150,12 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         vpBiralatNumPadInput.setClickable(false);
 
         // akako
-        BiralPanelElement element = new BiralPanelElement(getActivity());
+        BiralPanelElement element = new BiralPanelElement(getActivity(), R.layout.component_biral_panel_element_double);
         akakoBiralatNumPadInput = element.getInput();
         LinearLayout layout = element.getLayout();
         TextView label = element.getLabel();
 
-        layout.setBackgroundColor(getResources().getColor(R.color.red));
+        layout.setBackgroundColor(getResources().getColor(R.color.orange_red));
         label.setText("AK ");
         akakoBiralatNumPadInput.setMaxLength(1);
         akakoBiralatNumPadInput.setKeszletStart("1");

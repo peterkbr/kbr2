@@ -109,7 +109,7 @@ public class BiralatNumPadInput extends NumPadInput {
             colorResId = R.color.light_yellow;
         }
         if (selected) {
-            colorResId = R.color.pink;
+            colorResId = R.color.red;
         } else if (active) {
             colorResId = R.color.green;
         }
