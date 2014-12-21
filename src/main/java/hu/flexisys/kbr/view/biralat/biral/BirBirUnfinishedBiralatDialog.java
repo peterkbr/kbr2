@@ -2,11 +2,13 @@ package hu.flexisys.kbr.view.biralat.biral;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import hu.flexisys.kbr.R;
+import hu.flexisys.kbr.util.SoundUtil;
 import hu.flexisys.kbr.view.KbrDialog;
 
 /**
@@ -43,5 +45,11 @@ public class BirBirUnfinishedBiralatDialog extends KbrDialog {
             }
         });
         return v;
+    }
+
+    @Override
+    public int show(FragmentTransaction transaction, String tag) {
+        SoundUtil.buttonBeep();
+        return super.show(transaction, tag);
     }
 }

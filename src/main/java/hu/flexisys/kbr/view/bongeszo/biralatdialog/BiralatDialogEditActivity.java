@@ -6,8 +6,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
+import hu.flexisys.kbr.util.SoundUtil;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.KbrDialog;
 import hu.flexisys.kbr.view.biralat.biral.*;
@@ -172,11 +174,19 @@ public class BiralatDialogEditActivity extends KbrActivity {
             Map<String, String> map = biralFragment.getKodErtMap();
             if (akakoString == null || akakoString.isEmpty() || akakoString.equals("3")) {
                 if (map != null) {
-                    if (akakoString != null && !akakoString.isEmpty() && akakoString.equals("3")) {
-                        biralat.setAKAKO(Integer.valueOf(akakoString));
+                    String invalidErtAtKod = invalidErtAtKod();
+                    if (invalidErtAtKod != null) {
+                        SoundUtil.buttonBeep();
+                        Toast.makeText(this, "Érvénytelen bírálat!", Toast.LENGTH_LONG).show();
+                        biralFragment.forceEditing();
+                        biralFragment.selectInputByKod(invalidErtAtKod);
+                    } else {
+                        if (akakoString != null && !akakoString.isEmpty() && akakoString.equals("3")) {
+                            biralat.setAKAKO(Integer.valueOf(akakoString));
+                        }
+                        biralat.setKodErtMap(map);
+                        saveBiralat(biralat);
                     }
-                    biralat.setKodErtMap(map);
-                    saveBiralat(biralat);
                 } else {
                     FragmentTransaction ft = getFragmentTransactionWithTag("unfinished");
                     dialog2 = BirBirUnfinishedBiralatDialog.newInstance(new BirBirUnfinishedBiralatListener() {
@@ -202,6 +212,10 @@ public class BiralatDialogEditActivity extends KbrActivity {
                 }
             }
         }
+    }
+
+    private String invalidErtAtKod() {
+        return biralFragment.invalidErtAtKod();
     }
 
     public void saveBiralat(Biralat biralat) {

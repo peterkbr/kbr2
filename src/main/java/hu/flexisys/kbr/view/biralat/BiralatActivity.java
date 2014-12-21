@@ -14,6 +14,7 @@ import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.LogUtil;
+import hu.flexisys.kbr.util.SoundUtil;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.NotificationDialog;
 import hu.flexisys.kbr.view.biralat.biral.*;
@@ -477,6 +478,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
                 if (map != null) {
                     String invalidErtAtKod = invalidErtAtKod();
                     if (invalidErtAtKod != null) {
+                        SoundUtil.buttonBeep();
                         Toast.makeText(this, "Érvénytelen bírálat!", Toast.LENGTH_LONG).show();
                         biralFragment.forceEditing();
                         biralFragment.selectInputByKod(invalidErtAtKod);
