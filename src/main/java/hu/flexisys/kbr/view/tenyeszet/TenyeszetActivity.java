@@ -54,6 +54,7 @@ public class TenyeszetActivity extends KbrActivity {
 
         List<TenyeszetListModel> rawList = app.getTenyeszetListModels();
         List<TenyeszetListModel> oldList = new ArrayList<TenyeszetListModel>();
+
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_YEAR, -14);
         for (TenyeszetListModel model : rawList) {

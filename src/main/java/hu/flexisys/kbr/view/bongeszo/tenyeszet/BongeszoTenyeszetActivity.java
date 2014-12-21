@@ -19,6 +19,7 @@ import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.NotificationDialog;
 import hu.flexisys.kbr.view.bongeszo.BongeszoActivity;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
+import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModelComparatorByLetda;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -30,7 +31,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -66,8 +66,10 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
     private void reloadData() {
         tenyeszetList.clear();
         selectedList.clear();
+
         List<TenyeszetListModel> rawList = app.getTenyeszetListModels();
         List<TenyeszetListModel> oldList = new ArrayList<TenyeszetListModel>();
+
         for (TenyeszetListModel model : rawList) {
             if (model.getERVENYES()) {
                 Boolean hasBiralat = model.getBiralatCount() > 0;
@@ -88,18 +90,8 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
                 }
             }
         }
-        Collections.sort(tenyeszetList, new Comparator<TenyeszetListModel>() {
-            @Override
-            public int compare(TenyeszetListModel lhs, TenyeszetListModel rhs) {
-                if (lhs.getLEDAT().getTime() < rhs.getLEDAT().getTime()) {
-                    return -1;
-                }
-                if (lhs.getLEDAT().getTime() == rhs.getLEDAT().getTime()) {
-                    return 0;
-                }
-                return 1;
-            }
-        });
+        
+        Collections.sort(tenyeszetList, new TenyeszetListModelComparatorByLetda());
         tenyeszetList.addAll(oldList);
     }
 
