@@ -70,10 +70,11 @@ public class LevalogatasPdfExporter extends PdfExporter {
                 // enar szám
                 Font enarFont = getFont(12f);
                 enarFont.setColor(BaseColor.RED);
+                enarFont.setStyle(Font.BOLD);
 
                 Phrase phrase = new Phrase();
                 phrase.add(new Chunk(azono.substring(0, 5), font));
-                phrase.add(new Chunk(azono.substring(5, 9), enarFont));
+                phrase.add(new Chunk(" " + azono.substring(5, 9) + " ", enarFont));
                 phrase.add(new Chunk(azono.substring(9), font));
 
                 PdfPCell cell = new PdfPCell(phrase);

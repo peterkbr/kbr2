@@ -39,8 +39,7 @@ public class BiralatPdfExporter extends PdfExporter {
         Document document = new Document(page, contentMarging_horizontal, contentMarging_horizontal, contentMargin_top, contentMargin_bottom);
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path));
         writer.setBoxSize("art", new Rectangle(page.getLeft() + margin, page.getBottom() + margin, page.getRight() - margin, page.getTop() - margin));
-        writer.setPageEvent(new HeaderFooter("Szarvasmarha bírálati lap",
-                "A bírálati adatokat tartalmazó listát átvettem:.......................................................P.H."));
+        writer.setPageEvent(new HeaderFooter("Szarvasmarha bírálati lap", null));
         document.open();
         document.add(createPdfTable(szempontList, biralatList, egyedMap));
         document.close();
@@ -58,7 +57,7 @@ public class BiralatPdfExporter extends PdfExporter {
         // t.setBorderWidth(1);
 
         // header
-        table.addCell(getCell("#"));
+        table.addCell(getCell("#", true, false));
         table.addCell(getCell("OK"));
         table.addCell(getCell("ENAR"));
         table.addCell(getCell("Dátum"));
@@ -67,14 +66,14 @@ public class BiralatPdfExporter extends PdfExporter {
         for (BiralatSzempont szempont : szempontList) {
             table.addCell(getCell(szempont.rovidNev));
         }
-        table.addCell(getCell("A"));
+        table.addCell(getCell("A", false, true));
 
         table.setHeaderRows(1);
 
         // values
         int i = 1;
         for (Biralat biralat : biralatList) {
-            table.addCell(getCell(String.valueOf(i++)));
+            table.addCell(getCell(String.valueOf(i++), true, false));
             table.addCell(getCell(biralat.getORSKO()));
 
             String azono = biralat.getAZONO();
@@ -84,6 +83,7 @@ public class BiralatPdfExporter extends PdfExporter {
 
                 Font enarFont = getFont(9f);
                 enarFont.setColor(BaseColor.RED);
+                enarFont.setStyle(Font.BOLD);
 
 //                Phrase p1 = new Phrase(azono.substring(0, 5), font);
 //                Phrase p2 = new Phrase(azono.substring(5, 9), enarFont);
@@ -91,7 +91,7 @@ public class BiralatPdfExporter extends PdfExporter {
 
                 Phrase phrase = new Phrase();
                 phrase.add(new Chunk(azono.substring(0, 5), font));
-                phrase.add(new Chunk(azono.substring(5, 9), enarFont));
+                phrase.add(new Chunk(" " + azono.substring(5, 9) + " ", enarFont));
                 phrase.add(new Chunk(azono.substring(9), font));
 
 //                PdfPRow row = new PdfPRow(new PdfPCell[]{new PdfPCell(p1), new PdfPCell(p2), new PdfPCell(p3)});
@@ -102,11 +102,14 @@ public class BiralatPdfExporter extends PdfExporter {
                 PdfPCell cell = new PdfPCell(phrase);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                cell.setBorderWidthLeft(0L);
+                cell.setBorderWidthRight(0L);
+
                 table.addCell(cell);
             } else {
                 table.addCell(getCell(azono));
             }
-            
+
             table.addCell(getCell(DateUtil.formatDate(biralat.getBIRDA())));
 
             Egyed egyed = egyedMap.get(biralat.getAZONO());
@@ -115,7 +118,7 @@ public class BiralatPdfExporter extends PdfExporter {
             for (BiralatSzempont szempont : szempontList) {
                 table.addCell(getCell(biralat.getErtByKod(szempont.kod)));
             }
-            table.addCell(getCell(String.valueOf(biralat.getAKAKO())));
+            table.addCell(getCell(String.valueOf(biralat.getAKAKO()), false, true));
         }
 
         float[] columnWidths = new float[tableSize];
@@ -135,11 +138,22 @@ public class BiralatPdfExporter extends PdfExporter {
         return table;
     }
 
-    private static PdfPCell getCell(String value) {
+    private static PdfPCell getCell(String value, boolean left, boolean right) {
         PdfPCell cell = new PdfPCell(new Phrase(value, getFont(9f)));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        if (!left) {
+            cell.setBorderWidthLeft(0L);
+        }
+        if (!right) {
+            cell.setBorderWidthRight(0L);
+        }
+
         return cell;
+    }
+
+    private static PdfPCell getCell(String value) {
+        return getCell(value, false, false);
     }
 
 }

@@ -55,7 +55,7 @@ public class PdfExporter {
         public void onStartPage(PdfWriter writer, Document document) {
             ++pagenumber;
 
-            PdfContentByte canvas = writer.getDirectContent();
+//            PdfContentByte canvas = writer.getDirectContent();
             Rectangle content = writer.getBoxSize("art");
 
             int tableSize = 2;
@@ -63,11 +63,11 @@ public class PdfExporter {
             table.setWidthPercentage(55f);
 
             table.addCell(getHeaderCell("Tenyészet azonosító:"));
-            table.addCell(getHeaderCell(tenaz));
+            table.addCell(getHeaderCell(tenaz, true));
             table.addCell(getHeaderCell("Gazdaság neve:"));
             table.addCell(getHeaderCell(tarto));
             table.addCell(getHeaderCell("Bíráló:"));
-            table.addCell(getHeaderCell(biralo));
+            table.addCell(getHeaderCell(biralo, true));
             table.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
             try {
@@ -90,18 +90,30 @@ public class PdfExporter {
                     (content.getLeft() + content.getRight()) / 2, content.getBottom(), 0);
 
 
-            Rectangle box = new Rectangle(content.getLeft(), content.getBottom() + boxMargin_bottom, content.getRight(),
-                    content.getTop() - boxMargin_top - table.getTotalHeight());
-            box.setBorder(Rectangle.BOX);
-            box.setBorderWidth(1);
-            canvas.rectangle(box);
+//            Rectangle box = new Rectangle(content.getLeft(), content.getBottom() + boxMargin_bottom, content.getRight(),
+//                    content.getTop() - boxMargin_top - table.getTotalHeight());
+//            box.setBorder(Rectangle.BOX);
+//            box.setBorderWidth(1);
+//            canvas.rectangle(box);
+        }
+
+        public PdfPCell getHeaderCell(String value, boolean bold) {
+            Font font;
+            if (bold) {
+                font = getFont(14f);
+                font.setStyle(Font.BOLD);
+            } else {
+                font = getFont(12f);
+            }
+            PdfPCell cell = new PdfPCell(new Phrase(value, font));
+            cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            cell.setBorder(Rectangle.NO_BORDER);
+            return cell;
         }
 
         public PdfPCell getHeaderCell(String value) {
-            PdfPCell cell = new PdfPCell(new Phrase(value, getFont(12f)));
-            cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            return cell;
+            return getHeaderCell(value, false);
         }
     }
 }
