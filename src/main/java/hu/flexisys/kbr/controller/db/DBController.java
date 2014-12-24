@@ -110,6 +110,11 @@ public class DBController {
         sdCardConnector.updateBiralat(biralat);
     }
 
+    public void removeBiralat(Biralat biralat) {
+        innerConnector.removeBiralat(biralat);
+        sdCardConnector.removeBiralat(biralat);
+    }
+
     // READ FROM DB
 
     public Tenyeszet getTenyeszetByTENAZ(String tenaz) {

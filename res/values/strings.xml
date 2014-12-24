@@ -175,6 +175,7 @@
 
     <string name="bong_progress_sorbarendezes">Sorbarendezés folyamatban…</string>
     <string name="bong_progress_szukites">Szűkítés folyamatban…</string>
+    <string name="bong_progress_delete">Törlés folyamatban…</string>
     <string name="bong_progress_export">Exportálás folyamatban…</string>
 
 </resources>

@@ -200,14 +200,17 @@ public class DBConnector {
         return count;
     }
 
-//    public int removeBiralat(String TENAZ, String AZONO) {
-//        StringBuilder where = new StringBuilder();
-//        where.append(DBScripts.COLUMN_BIRALAT_TENAZ).append(" = ").append("?");
-//        where.append(" AND ");
-//        where.append(DBScripts.COLUMN_BIRALAT_AZONO).append(" = ").append("?");
-//        int removedCount = database.delete(DBScripts.TABLE_BIRALAT, where.toString(), new String[]{TENAZ, AZONO});
-//        return removedCount;
-//    }
+    // itt kihasználjuk, hogy csak egy db exportálatlan bírálat tartozhat egy egyedhez
+    public int removeBiralat(Biralat biralat) {
+        StringBuilder where = new StringBuilder();
+        where.append(DBScripts.COLUMN_BIRALAT_TENAZ).append(" = ").append("?");
+        where.append(" AND ");
+        where.append(DBScripts.COLUMN_BIRALAT_AZONO).append(" = ").append("?");
+        where.append(" AND ");
+        where.append(DBScripts.COLUMN_BIRALAT_EXPORTALT).append(" = ").append("0");
+        int removedCount = database.delete(DBScripts.TABLE_BIRALAT, where.toString(), new String[]{biralat.getTENAZ(), biralat.getAZONO()});
+        return removedCount;
+    }
 
     public List<Biralat> getBiralatAll() {
         Cursor cursor = database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, null, null, null, null, null);
@@ -349,5 +352,4 @@ public class DBConnector {
         biralat.setERT30(cursor.getString(i));
         return biralat;
     }
-
 }

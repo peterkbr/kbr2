@@ -25,6 +25,7 @@ import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.util.export.BiralatCvsExporter;
 import hu.flexisys.kbr.util.export.BiralatPdfExporter;
 import hu.flexisys.kbr.view.KbrActivity;
+import hu.flexisys.kbr.view.KbrDialog;
 import hu.flexisys.kbr.view.ProgressDialog;
 import hu.flexisys.kbr.view.biralat.BiralatTenyeszetActivity;
 import hu.flexisys.kbr.view.bongeszo.biralatdialog.BiralatDialogEditActivity;
@@ -56,6 +57,8 @@ public class BongeszoActivity extends KbrActivity {
     private SlidingPaneLayout pane;
     private String currentOrderBy;
     private Boolean asc = null;
+
+    private KbrDialog dialog2;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -111,13 +114,63 @@ public class BongeszoActivity extends KbrActivity {
         biralatListView.setEmptyView(findViewById(R.id.empty_list_item));
         adapter = new BongeszoListAdapter(this, 0, biralatList, egyedMap, new BongeszoListAdapter.BongeszoListContainer() {
             @Override
-            public void onLongClick(Egyed currentEgyed, Biralat currentBiralat) {
-                Intent intent = new Intent(BongeszoActivity.this, BiralatDialogEditActivity.class);
-                Bundle extras = new Bundle();
-                extras.putSerializable(BiralatDialogEditActivity.KEY_EGYED, currentEgyed);
-                extras.putSerializable(BiralatDialogEditActivity.KEY_BIRALAT, currentBiralat);
-                intent.putExtras(extras);
-                startActivity(intent);
+            public void onLongClick(final Egyed currentEgyed, final Biralat currentBiralat) {
+                if (currentBiralat.getEXPORTALT()) {
+                    showBiralatViewEdit(currentEgyed, currentBiralat);
+                } else {
+                    FragmentTransaction ft = getFragmentTransactionWithTag("longClick");
+                    dialog = BongLongClickDialog.newInstance(new BongLongClickDialog.LongClickDialogListener() {
+
+                        @Override
+                        public void onView() {
+                            dismissDialog();
+                            showBiralatViewEdit(currentEgyed, currentBiralat);
+                        }
+
+                        @Override
+                        public void onDelete() {
+                            dismissDialog();
+                            FragmentTransaction ft = getFragmentTransactionWithTag("delete");
+                            dialog2 = null;
+                            dialog2 = BongLongClickDeleteDialog.newInstance(new BongLongClickDeleteDialog.BongLongClickDeleteDialogListener() {
+                                @Override
+                                public void onDelete() {
+                                    dialog2.dismiss();
+                                    startProgressDialog(getString(R.string.bong_progress_delete));
+                                    app.removeBiralat(currentBiralat);
+                                    EmptyTask task = new EmptyTask(new Executable() {
+                                        @Override
+                                        public void execute() {
+                                            reloadData();
+                                            reorderData();
+                                        }
+                                    }, new ExecutableFinishedListener() {
+                                        @Override
+                                        public void onFinished() {
+                                            updateCounter();
+                                            adapter.notifyDataSetChanged();
+                                            dismissDialog();
+                                        }
+                                    });
+                                    startMyTask(task);
+                                }
+
+                                @Override
+                                public void onDismiss() {
+                                    dialog2.dismiss();
+                                }
+                            }, currentEgyed);
+                            dialog2.show(ft, "delete");
+                        }
+
+                        @Override
+                        public void onDismiss() {
+                            dismissDialog();
+                        }
+                    });
+                    dialog.show(ft, "longClick");
+
+                }
             }
 
             @Override
@@ -128,6 +181,15 @@ public class BongeszoActivity extends KbrActivity {
             }
         });
         biralatListView.setAdapter(adapter);
+    }
+
+    private void showBiralatViewEdit(Egyed currentEgyed, Biralat currentBiralat) {
+        Intent intent = new Intent(BongeszoActivity.this, BiralatDialogEditActivity.class);
+        Bundle extras = new Bundle();
+        extras.putSerializable(BiralatDialogEditActivity.KEY_EGYED, currentEgyed);
+        extras.putSerializable(BiralatDialogEditActivity.KEY_BIRALAT, currentBiralat);
+        intent.putExtras(extras);
+        startActivity(intent);
     }
 
     @Override

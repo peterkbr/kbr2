@@ -49,7 +49,7 @@ public class KbrApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        ACRA.init(this);
+        ACRA.init(this);
         init();
         LogUtil.initLogUtil(this);
         LogUtil.startLog();
@@ -133,6 +133,11 @@ public class KbrApplication extends Application {
 
     public void removeSelectionFromTenyeszet(String tenaz) {
         dbController.removeSelectionFromTenyeszet(tenaz);
+        checkDbConsistency();
+    }
+
+    public void removeBiralat(Biralat biralat) {
+        dbController.removeBiralat(biralat);
         checkDbConsistency();
     }
 
