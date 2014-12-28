@@ -37,9 +37,6 @@
                 <init.url>http://tomcat7.devapp01.si.hu/EnarPdaServer/sendxml</init.url>
                 <init.email>kbr@flexisys.hu</init.email>
             </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
         </profile>
 
         <profile>
