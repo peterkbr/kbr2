@@ -1,7 +1,6 @@
 package hu.flexisys.kbr.view.biralat.kereso;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +38,7 @@ public class BirKerNotfoundDialog extends KbrDialog {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         tenazSpinner = (Spinner) v.findViewById(R.id.bir_ker_dialog_notfound_tenaz_spinner);

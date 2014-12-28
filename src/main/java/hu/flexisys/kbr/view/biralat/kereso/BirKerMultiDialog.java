@@ -2,7 +2,6 @@ package hu.flexisys.kbr.view.biralat.kereso;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +36,7 @@ public class BirKerMultiDialog extends KbrDialog {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         ListView list = (ListView) v.findViewById(R.id.bir_ker_dialog_multi_list);

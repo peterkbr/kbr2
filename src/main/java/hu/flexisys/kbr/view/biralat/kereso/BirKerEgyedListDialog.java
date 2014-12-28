@@ -3,7 +3,6 @@ package hu.flexisys.kbr.view.biralat.kereso;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.LayoutInflater;
@@ -42,7 +41,7 @@ public class BirKerEgyedListDialog extends KbrDialog {
 //    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         ListView list = (ListView) v.findViewById(R.id.bir_ker_dialog_egyed_list);
         list.setAdapter(new BirKerEgyedListAdapter(getActivity(), R.layout.list_bir_ker_egyed_list));

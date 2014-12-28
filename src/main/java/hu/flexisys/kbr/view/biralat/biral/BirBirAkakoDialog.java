@@ -1,7 +1,6 @@
 package hu.flexisys.kbr.view.biralat.biral;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,7 @@ public class BirBirAkakoDialog extends KbrDialog {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         Button cancel = (Button) v.findViewById(R.id.bir_bir_dialog_akako_nem);
@@ -49,6 +48,7 @@ public class BirBirAkakoDialog extends KbrDialog {
 
     public interface BirBirAkakoDialogListener {
         public void onNoClicked();
+
         public void onYesClicked();
     }
 }

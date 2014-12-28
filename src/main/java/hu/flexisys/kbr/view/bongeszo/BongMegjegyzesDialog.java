@@ -1,7 +1,6 @@
 package hu.flexisys.kbr.view.bongeszo;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,7 @@ public class BongMegjegyzesDialog extends KbrDialog {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         final EditText megjegyzesET = (EditText) v.findViewById(R.id.bong_megjegyzes);
         megjegyzesET.setText(megjegyzes);
