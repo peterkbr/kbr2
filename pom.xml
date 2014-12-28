@@ -124,6 +124,41 @@
         </profile>
     </profiles>
 
+    <build>
+        <finalName>${project.artifactId}</finalName>
+
+        <resources>
+            <resource>
+                <directory>${project.basedir}/maven_filtering/res_values</directory>
+                <filtering>true</filtering>
+                <targetPath>${project.basedir}/res/values</targetPath>
+            </resource>
+        </resources>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                    <artifactId>android-maven-plugin</artifactId>
+                    <version>${android.plugin.version}</version>
+                    <extensions>true</extensions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                <artifactId>android-maven-plugin</artifactId>
+                <configuration>
+                    <sdk>
+                        <path>${android.sdk.path}</path>
+                        <platform>20</platform>
+                    </sdk>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>android</groupId>
@@ -160,38 +195,36 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <finalName>${project.artifactId}</finalName>
+    <repositories>
+        <repository>
+            <id>public</id>
+            <name>Flexi public proxy</name>
+            <url>http://10.0.8.243:8081/nexus/content/groups/public</url>
+        </repository>
 
-        <resources>
-            <resource>
-                <directory>${project.basedir}/maven_filtering/res_values</directory>
-                <filtering>true</filtering>
-                <targetPath>${project.basedir}/res/values</targetPath>
-            </resource>
-        </resources>
+        <repository>
+            <id>intra-releases</id>
+            <name>Flexi intra release</name>
+            <url>http://10.0.8.243:8081/nexus/content/repositories/intra-releases</url>
+        </repository>
 
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>com.jayway.maven.plugins.android.generation2</groupId>
-                    <artifactId>android-maven-plugin</artifactId>
-                    <version>${android.plugin.version}</version>
-                    <extensions>true</extensions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>com.jayway.maven.plugins.android.generation2</groupId>
-                <artifactId>android-maven-plugin</artifactId>
-                <configuration>
-                    <sdk>
-                        <path>${android.sdk.path}</path>
-                        <platform>20</platform>
-                    </sdk>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+        <repository>
+            <id>intra-snapshots</id>
+            <name>Flexi intra snapshots</name>
+            <url>http://10.0.8.243:8081/nexus/content/repositories/intra-snapshots</url>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>intra-releases</id>
+            <name>Flexisys intra-releases</name>
+            <url>http://10.0.8.243:8081/nexus/content/repositories/intra-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>intra-snapshots</id>
+            <name>Flexisys intra-snapshots</name>
+            <url>http://10.0.8.243:8081/nexus/content/repositories/intra-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
