@@ -11,12 +11,12 @@ import hu.flexisys.kbr.view.KbrDialog;
 /**
  * Created by peter on 25/08/14.
  */
-public class LeválogatásExportDialog extends KbrDialog {
+public class LevalogatasExportDialog extends KbrDialog {
 
     private ExportListener listener;
 
     public static KbrDialog newInstance(ExportListener listener) {
-        LeválogatásExportDialog dialog = new LeválogatásExportDialog();
+        LevalogatasExportDialog dialog = new LevalogatasExportDialog();
         dialog.layoutResId = R.layout.dialog_levalogatas_export;
         dialog.listener = listener;
         return dialog;

@@ -134,7 +134,7 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
     public void kuld() {
         if (selectedList.size() > 0) {
             FragmentTransaction ft = getFragmentTransactionWithTag("exportDialog");
-            dialog = LeválogatásExportDialog.newInstance(new LeválogatásExportDialog.ExportListener() {
+            dialog = LevalogatasExportDialog.newInstance(new LevalogatasExportDialog.ExportListener() {
                 @Override
                 public void onExport(final boolean pdf, final boolean csv, final String orderBy) {
                     String dirPath = FileUtil.getExternalAppPath() + File.separator + "Export" + File.separator + "Leválogatás";
