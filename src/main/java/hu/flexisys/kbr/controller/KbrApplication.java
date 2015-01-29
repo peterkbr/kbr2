@@ -72,7 +72,7 @@ public class KbrApplication extends Application {
                 dbController = new DBController(this, KbrApplicationUtil.getBiraloUserName());
             } catch (SQLiteCantOpenDatabaseException e) {
                 Log.e(LogUtil.TAG, "init DBController", e);
-                errorOnInit = "Hiba történt az adatbázis inicializálásakor!;Kérem ellenőrizze a készülék SD kártyáját!";
+                errorOnInit = "Hiba történt az adatbázis inicializálásakor!;Kérem, ellenőrizze a készülék SD kártyáját!";
             }
         } else {
             initialized = false;

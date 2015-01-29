@@ -97,7 +97,7 @@
             android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.bongeszo.BongeszoTenyeszetActivity" />
+                android:value=".view.bongeszo.tenyeszet.BongeszoTenyeszetActivity" />
         </activity>
         <activity
             android:name=".view.bongeszo.diagram.DiagramActivity"

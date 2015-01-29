@@ -55,7 +55,7 @@ public class AdminActivity extends KbrActivity {
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(this, "Kérem mentse az adatokat!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Kérem, mentse az adatokat!", Toast.LENGTH_LONG).show();
     }
 
     private void loadData() throws IOException {

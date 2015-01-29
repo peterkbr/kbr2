@@ -37,7 +37,7 @@ public class LevalogatasExportDialog extends KbrDialog {
                 Boolean csv = csvCheckBox.isChecked();
                 if (!pdf && !csv) {
                     // TODO i18n
-                    Toast.makeText(getActivity(), "Kérem válasszon formátumot!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Kérem, válasszon formátumot!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 RadioGroup orderGroup = (RadioGroup) v.findViewById(R.id.order_radioGroup);
