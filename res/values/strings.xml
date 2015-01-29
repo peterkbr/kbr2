@@ -133,13 +133,23 @@
     <string-array name="bir_ker_dialog_notfound_orsko_list">
         <item>HU</item>
         <item>AT</item>
-        <item>UA</item>
-        <item>SK</item>
+        <item>BE</item>
+        <item>CZ</item>
+        <item>DE</item>
+        <item>DK</item>
+        <item>EL</item>
+        <item>FR</item>
         <item>HR</item>
+        <item>IE</item>
+        <item>IT</item>
+        <item>LU</item>
+        <item>NL</item>
         <item>PL</item>
         <item>RO</item>
-        <item>DE</item>
-        <item>CZ</item>
+        <item>SI</item>
+        <item>SK</item>
+        <item>UA</item>
+        <item>UK</item>
     </string-array>
 
     <string name="bir_teny_progress_torles">Törlés folyamatban…</string>
