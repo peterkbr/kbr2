@@ -44,6 +44,8 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
     private Filter filter;
     private String currentOrderBy;
     private Boolean asc = true;
+    private CheckBox selectAll;
+    private boolean ignoreSelectAll = false;
 
     // MENU IN ACTIONBAR
 
@@ -96,10 +98,14 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
         }
         telep.setText(text);
 
-        CheckBox selectAll = (CheckBox) findViewById(R.id.lev_select_all);
+        selectAll = (CheckBox) findViewById(R.id.lev_select_all);
         selectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (ignoreSelectAll) {
+                    ignoreSelectAll = false;
+                    return;
+                }
                 for (Egyed egyed : egyedList) {
                     egyed.setKIVALASZTOTT(isChecked);
                 }
@@ -183,7 +189,8 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        int itemId = item.getItemId();
+        switch (itemId) {
             case android.R.id.home:
                 onHomeClicked();
                 return true;
@@ -195,26 +202,36 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
                 return true;
             case R.id.mentes:
                 mentes();
+                resetSelectAll();
                 return true;
             case R.id.torles:
                 torles();
+                resetSelectAll();
                 return true;
             case R.id.levalogatas_torles:
                 levalogatasTorles();
+                resetSelectAll();
                 return true;
             case R.id.szukit:
                 szukit();
+                resetSelectAll();
                 return true;
             case R.id.urit:
                 urit();
                 return true;
             case R.id.kivalasztottak:
                 szukitToKivalasztottak();
+                resetSelectAll();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
 
+    private void resetSelectAll() {
+        ignoreSelectAll = true;
+        selectAll.setChecked(false);
+        ignoreSelectAll = false;
     }
 
     private void onHomeClicked() {
