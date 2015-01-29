@@ -27,13 +27,13 @@
             android:id="@+id/bong_longClickDelete_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Törlés" />
+            android:text="Igen" />
 
         <Button
             android:id="@+id/bong_longClickDelete_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mégse" />
+            android:text="Nem" />
 
     </LinearLayout>
 
