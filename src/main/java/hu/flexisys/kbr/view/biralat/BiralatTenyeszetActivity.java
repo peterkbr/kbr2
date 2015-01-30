@@ -12,12 +12,11 @@ import hu.flexisys.kbr.controller.emptytask.EmptyTask;
 import hu.flexisys.kbr.controller.emptytask.Executable;
 import hu.flexisys.kbr.controller.emptytask.ExecutableFinishedListener;
 import hu.flexisys.kbr.view.KbrActivity;
-import hu.flexisys.kbr.view.tenyeszet.LevalogatasTorlesAlertDialog;
-import hu.flexisys.kbr.view.tenyeszet.TenyeszetAdapter;
-import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
-import hu.flexisys.kbr.view.tenyeszet.TorlesAlertListener;
+import hu.flexisys.kbr.view.tenyeszet.*;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -107,17 +106,23 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
         tenyeszetList.clear();
         selectedList.clear();
 
-        List<TenyeszetListModel> emptyTenyeszetList = new ArrayList<TenyeszetListModel>();
-        for (TenyeszetListModel model : app.getTenyeszetListModels()) {
-            if (model.getERVENYES()) {
-                if (model.getSelectedEgyedCount() != null && model.getSelectedEgyedCount() > 0) {
-                    tenyeszetList.add(model);
-                } else {
-                    emptyTenyeszetList.add(model);
-                }
+        List<TenyeszetListModel> rawList = app.getTenyeszetListModels();
+        List<TenyeszetListModel> oldList = new ArrayList<TenyeszetListModel>();
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_YEAR, -14);
+        for (TenyeszetListModel model : rawList) {
+            if (model.getERVENYES() != null && !model.getERVENYES()) {
+                continue;
+            }
+            if (model.getLEDAT().before(cal.getTime())) {
+                oldList.add(model);
+            } else {
+                tenyeszetList.add(model);
             }
         }
-        tenyeszetList.addAll(emptyTenyeszetList);
+        Collections.sort(tenyeszetList, new TenyeszetListModelComparatorByLetda());
+        tenyeszetList.addAll(oldList);
     }
 
     // BÍRÁLAT
