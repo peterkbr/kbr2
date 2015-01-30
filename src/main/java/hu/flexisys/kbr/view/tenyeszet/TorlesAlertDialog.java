@@ -17,13 +17,13 @@ public class TorlesAlertDialog extends KbrDialog {
 
     public static TorlesAlertDialog newInstance(TorlesAlertListener listener) {
         TorlesAlertDialog f = new TorlesAlertDialog();
-        f.layoutResId = R.layout.dialog_torles_alert;
         f.listener = listener;
         return f;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_torles_alert;
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         Button ok = (Button) v.findViewById(R.id.dialog_torles_alert_ok);

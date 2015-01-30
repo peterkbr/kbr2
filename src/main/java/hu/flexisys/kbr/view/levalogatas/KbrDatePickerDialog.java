@@ -24,7 +24,6 @@ public class KbrDatePickerDialog extends KbrDialog implements DatePicker.OnDateC
 
     public static KbrDialog newInstance(String title, DatePickedListener listener, int mYear, int mMonth, int mDay) {
         KbrDatePickerDialog f = new KbrDatePickerDialog();
-        f.layoutResId = R.layout.dialog_date_picker;
         f.title = title;
         f.listener = listener;
         f.year = mYear;
@@ -35,6 +34,7 @@ public class KbrDatePickerDialog extends KbrDialog implements DatePicker.OnDateC
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_date_picker;
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         TextView titleView = (TextView) v.findViewById(R.id.datePickerTitle);

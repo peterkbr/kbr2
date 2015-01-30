@@ -17,13 +17,13 @@ public class LevalogatasTorlesAlertDialog extends KbrDialog {
 
     public static LevalogatasTorlesAlertDialog newInstance(TorlesAlertListener listener) {
         LevalogatasTorlesAlertDialog f = new LevalogatasTorlesAlertDialog();
-        f.layoutResId = R.layout.dialog_levalogatas_torles_alert;
         f.listener = listener;
         return f;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_levalogatas_torles_alert;
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         Button ok = (Button) v.findViewById(R.id.dialog_torles_alert_ok);

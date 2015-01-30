@@ -17,13 +17,13 @@ public class SelectionChangedAlertDialog extends KbrDialog {
 
     public static SelectionChangedAlertDialog newInstance(SelectionChangedAlertListener listener) {
         SelectionChangedAlertDialog f = new SelectionChangedAlertDialog();
-        f.layoutResId = R.layout.dialog_lev_selection_changed_alert;
         f.listener = listener;
         return f;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_lev_selection_changed_alert;
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         Button mentesEsKilepes = (Button) v.findViewById(R.id.lev_selection_changed_dialog_mentes_kilepes);

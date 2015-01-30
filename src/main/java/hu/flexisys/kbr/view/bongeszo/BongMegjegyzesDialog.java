@@ -17,13 +17,13 @@ public class BongMegjegyzesDialog extends KbrDialog {
 
     public static BongMegjegyzesDialog newInstance(String megjegyzes) {
         BongMegjegyzesDialog dialog = new BongMegjegyzesDialog();
-        dialog.layoutResId = R.layout.dialog_bong_megjegyzes;
         dialog.megjegyzes = megjegyzes;
         return dialog;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_bong_megjegyzes;
         View v = super.onCreateView(inflater, container, savedInstanceState);
         final EditText megjegyzesET = (EditText) v.findViewById(R.id.bong_megjegyzes);
         megjegyzesET.setText(megjegyzes);

@@ -19,7 +19,6 @@ public class BirKerNotSelectedDialog extends KbrDialog {
 
     public static BirKerNotSelectedDialog newInstance(BirKerNotselectedListener listener, Egyed selectedEgyed) {
         BirKerNotSelectedDialog f = new BirKerNotSelectedDialog();
-        f.layoutResId = R.layout.dialog_bir_ker_notselected;
         f.listener = listener;
         f.selectedEgyed = selectedEgyed;
         return f;
@@ -27,6 +26,7 @@ public class BirKerNotSelectedDialog extends KbrDialog {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_bir_ker_notselected;
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         Button ok = (Button) v.findViewById(R.id.bir_ker_dialog_notselected_ok);

@@ -17,7 +17,6 @@ public class ProgressDialog extends KbrDialog {
 
     public static ProgressDialog newInstance(String title) {
         ProgressDialog f = new ProgressDialog();
-        f.layoutResId = R.layout.dialog_progress;
         f.setCancelable(false);
         f.title = title;
         return f;
@@ -25,6 +24,7 @@ public class ProgressDialog extends KbrDialog {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_progress;
         View view = super.onCreateView(inflater, container, savedInstanceState);
         TextView titleView = (TextView) view.findViewById(R.id.dialog_progress_title);
         titleView.setText(title);

@@ -18,7 +18,6 @@ public class BirBirAkakoDialog extends KbrDialog {
 
     public static BirBirAkakoDialog newInstance(BirBirAkakoDialogListener listener) {
         BirBirAkakoDialog dialog = new BirBirAkakoDialog();
-        dialog.layoutResId = R.layout.dialog_bir_bir_akako;
         dialog.listener = listener;
         return dialog;
     }
@@ -26,6 +25,7 @@ public class BirBirAkakoDialog extends KbrDialog {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_bir_bir_akako;
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         Button cancel = (Button) v.findViewById(R.id.bir_bir_dialog_akako_nem);

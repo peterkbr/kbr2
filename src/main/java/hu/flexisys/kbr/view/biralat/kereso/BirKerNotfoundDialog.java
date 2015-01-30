@@ -30,7 +30,6 @@ public class BirKerNotfoundDialog extends KbrDialog {
 
     public static BirKerNotfoundDialog newInstance(BirKerNotfoundListener listener, String[] selectedTenazArray, String hasznalatiSzamValue) {
         BirKerNotfoundDialog f = new BirKerNotfoundDialog();
-        f.layoutResId = R.layout.dialog_bir_ker_notfound;
         f.listener = listener;
         f.selectedTenazArray = selectedTenazArray;
         f.hasznalatiSzamValue = hasznalatiSzamValue;
@@ -39,6 +38,7 @@ public class BirKerNotfoundDialog extends KbrDialog {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_bir_ker_notfound;
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         tenazSpinner = (Spinner) v.findViewById(R.id.bir_ker_dialog_notfound_tenaz_spinner);

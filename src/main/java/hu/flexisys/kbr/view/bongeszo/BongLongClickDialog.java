@@ -18,13 +18,13 @@ public class BongLongClickDialog extends KbrDialog {
 
     public static BongLongClickDialog newInstance(LongClickDialogListener longClickDialogListener) {
         BongLongClickDialog dialog = new BongLongClickDialog();
-        dialog.layoutResId = R.layout.dialog_bong_long_click;
         dialog.longClickDialogListener = longClickDialogListener;
         return dialog;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_bong_long_click;
         View v = super.onCreateView(inflater, container, savedInstanceState);
         Button button = (Button) v.findViewById(R.id.bong_longClick_view);
         button.setOnClickListener(new View.OnClickListener() {

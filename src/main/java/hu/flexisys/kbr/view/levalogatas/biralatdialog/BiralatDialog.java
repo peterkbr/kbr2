@@ -24,13 +24,13 @@ public class BiralatDialog extends KbrDialog {
 
     public static BiralatDialog newInstance(List<Biralat> biralatList) {
         BiralatDialog f = new BiralatDialog();
-        f.layoutResId = R.layout.dialog_biralat;
         f.biralatList = biralatList;
         return f;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_biralat;
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         ViewPager pager = (ViewPager) v.findViewById(R.id.dialog_biralat_pager);

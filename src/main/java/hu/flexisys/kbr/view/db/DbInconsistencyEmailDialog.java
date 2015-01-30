@@ -17,7 +17,6 @@ public class DbInconsistencyEmailDialog extends KbrDialog {
 
     public static KbrDialog newInstance(DbInconsistenyEmailListener listener) {
         DbInconsistencyEmailDialog f = new DbInconsistencyEmailDialog();
-        f.layoutResId = R.layout.dialog_db_inconsistency_email;
         f.listener = listener;
         f.setCancelable(false);
         return f;
@@ -25,6 +24,7 @@ public class DbInconsistencyEmailDialog extends KbrDialog {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_db_inconsistency_email;
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         Button ok = (Button) v.findViewById(R.id.dialog_db_inc_email_button_ok);

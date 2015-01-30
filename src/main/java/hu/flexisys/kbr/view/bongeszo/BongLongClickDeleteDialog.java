@@ -23,7 +23,6 @@ public class BongLongClickDeleteDialog extends KbrDialog {
 
     public static BongLongClickDeleteDialog newInstance(BongLongClickDeleteDialogListener longClickDialogListener, Egyed egyed) {
         BongLongClickDeleteDialog dialog = new BongLongClickDeleteDialog();
-        dialog.layoutResId = R.layout.dialog_bong_long_click_delete;
         dialog.longClickDialogListener = longClickDialogListener;
         dialog.egyed = egyed;
         return dialog;
@@ -31,6 +30,7 @@ public class BongLongClickDeleteDialog extends KbrDialog {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_bong_long_click_delete;
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         TextView enarTextView = (TextView) v.findViewById(R.id.bong_longClickDelete_title);

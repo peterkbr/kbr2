@@ -20,13 +20,13 @@ public class BiralatDialogEdit extends KbrDialog {
 
     public static BiralatDialogEdit newInstance(BiralFragment.BiralFragmentContainer container) {
         BiralatDialogEdit f = new BiralatDialogEdit();
-        f.layoutResId = R.layout.dialog_biralat_edit;
         f.biralFragmentContainer = container;
         return f;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_biralat_edit;
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         LinearLayout fragContainer = (LinearLayout) v.findViewById(R.id.fragmentContainer);

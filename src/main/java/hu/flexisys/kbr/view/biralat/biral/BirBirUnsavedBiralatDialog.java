@@ -17,13 +17,13 @@ public class BirBirUnsavedBiralatDialog extends KbrDialog {
 
     public static BirBirUnsavedBiralatDialog newInstance(BirBirUnsavedBiralatListener listener) {
         BirBirUnsavedBiralatDialog dialog = new BirBirUnsavedBiralatDialog();
-        dialog.layoutResId = R.layout.dialog_bir_bir_unsaved;
         dialog.listener = listener;
         return dialog;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_bir_bir_unsaved;
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         Button ok = (Button) v.findViewById(R.id.bir_ker_dialog_notselected_ok);

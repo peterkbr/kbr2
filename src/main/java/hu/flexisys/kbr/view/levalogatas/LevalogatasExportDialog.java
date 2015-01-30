@@ -17,7 +17,6 @@ public class LevalogatasExportDialog extends KbrDialog {
 
     public static KbrDialog newInstance(ExportListener listener) {
         LevalogatasExportDialog dialog = new LevalogatasExportDialog();
-        dialog.layoutResId = R.layout.dialog_levalogatas_export;
         dialog.listener = listener;
         return dialog;
     }
@@ -25,6 +24,7 @@ public class LevalogatasExportDialog extends KbrDialog {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_levalogatas_export;
         final View v = super.onCreateView(inflater, container, savedInstanceState);
 
         Button ok = (Button) v.findViewById(R.id.dialog_export_ok);

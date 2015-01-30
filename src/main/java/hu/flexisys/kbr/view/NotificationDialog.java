@@ -19,7 +19,6 @@ public class NotificationDialog extends KbrDialog {
 
     public static NotificationDialog newInstance(String title, String message, OkListener okListener) {
         NotificationDialog f = new NotificationDialog();
-        f.layoutResId = R.layout.dialog_notification;
         f.title = title;
         f.message = message;
         f.okListener = okListener;
@@ -32,6 +31,7 @@ public class NotificationDialog extends KbrDialog {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_notification;
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         if (title != null) {

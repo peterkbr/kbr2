@@ -19,13 +19,13 @@ public class BirBirUnfinishedBiralatDialog extends KbrDialog {
 
     public static BirBirUnfinishedBiralatDialog newInstance(BirBirUnfinishedBiralatListener listener) {
         BirBirUnfinishedBiralatDialog dialog = new BirBirUnfinishedBiralatDialog();
-        dialog.layoutResId = R.layout.dialog_bir_bir_unfinished;
         dialog.listener = listener;
         return dialog;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_bir_bir_unfinished;
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         Button ok = (Button) v.findViewById(R.id.bir_ker_dialog_notselected_ok);

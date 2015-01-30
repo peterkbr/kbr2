@@ -28,7 +28,6 @@ public class BirKerEgyedListDialog extends KbrDialog {
     public static BirKerEgyedListDialog newInstance(List<Egyed> selectedEgyedList, Boolean clickable, EgyedClickListener listener,
                                                     EgyedListDialogContainer container) {
         BirKerEgyedListDialog f = new BirKerEgyedListDialog();
-        f.layoutResId = R.layout.dialog_bir_ker_egyed_list;
         f.selectedEgyedList = selectedEgyedList;
         f.clickable = clickable;
         f.listener = listener;
@@ -42,6 +41,7 @@ public class BirKerEgyedListDialog extends KbrDialog {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_bir_ker_egyed_list;
         View v = super.onCreateView(inflater, container, savedInstanceState);
         ListView list = (ListView) v.findViewById(R.id.bir_ker_dialog_egyed_list);
         list.setAdapter(new BirKerEgyedListAdapter(getActivity(), R.layout.list_bir_ker_egyed_list));

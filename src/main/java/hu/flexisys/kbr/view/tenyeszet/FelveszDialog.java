@@ -21,13 +21,13 @@ public class FelveszDialog extends KbrDialog {
 
     public static FelveszDialog newInstance(FelveszListener listener) {
         FelveszDialog f = new FelveszDialog();
-        f.layoutResId = R.layout.dialog_felvesz;
         f.listener = listener;
         return f;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_felvesz;
         View v = super.onCreateView(inflater, container, savedInstanceState);
         azonEdit = (EditText) v.findViewById(R.id.teny_dialog_azon);
         toggleKeyboard();

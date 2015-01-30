@@ -19,7 +19,6 @@ public class BirBirMegjegyzesDialog extends KbrDialog {
 
     public static BirBirMegjegyzesDialog newInstance(BirBirMegjegyzesListener listener, String megjegyzes) {
         BirBirMegjegyzesDialog dialog = new BirBirMegjegyzesDialog();
-        dialog.layoutResId = R.layout.dialog_bir_bir_megjegyzes;
         dialog.listener = listener;
         dialog.megjegyzes = megjegyzes;
         return dialog;
@@ -27,6 +26,7 @@ public class BirBirMegjegyzesDialog extends KbrDialog {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_bir_bir_megjegyzes;
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         final EditText megjegyzesET = (EditText) v.findViewById(R.id.bir_bir_megjegyzes);

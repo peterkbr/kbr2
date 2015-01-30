@@ -29,7 +29,6 @@ public class BirKerMultiDialog extends KbrDialog {
 
     public static BirKerMultiDialog newInstance(BirKerMultiListener listener, List<Egyed> selectedEgyedList) {
         BirKerMultiDialog f = new BirKerMultiDialog();
-        f.layoutResId = R.layout.dialog_bir_ker_multi;
         f.listener = listener;
         f.selectedEgyedList = selectedEgyedList;
         return f;
@@ -37,6 +36,7 @@ public class BirKerMultiDialog extends KbrDialog {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_bir_ker_multi;
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         ListView list = (ListView) v.findViewById(R.id.bir_ker_dialog_multi_list);

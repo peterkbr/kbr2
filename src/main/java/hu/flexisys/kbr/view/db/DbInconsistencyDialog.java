@@ -22,7 +22,6 @@ public class DbInconsistencyDialog extends KbrDialog {
 
     public static KbrDialog newInstance(DbInconsistenyListener listener) {
         DbInconsistencyDialog f = new DbInconsistencyDialog();
-        f.layoutResId = R.layout.dialog_db_inconsistency;
         f.listener = listener;
         f.setCancelable(false);
         return f;
@@ -30,6 +29,7 @@ public class DbInconsistencyDialog extends KbrDialog {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_db_inconsistency;
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         inner = true;

@@ -17,13 +17,13 @@ public class BirBirExitBiralatDialog extends KbrDialog {
 
     public static BirBirExitBiralatDialog newInstance(BirBirExitBiralatDialogListener listener) {
         BirBirExitBiralatDialog dialog = new BirBirExitBiralatDialog();
-        dialog.layoutResId = R.layout.dialog_bir_bir_exit;
         dialog.listener = listener;
         return dialog;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        layoutResId = R.layout.dialog_bir_bir_exit;
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         Button ok = (Button) v.findViewById(R.id.bir_bir_dialog_exit_ok);
