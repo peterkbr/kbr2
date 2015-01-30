@@ -3,7 +3,6 @@ package hu.flexisys.kbr.controller;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -64,13 +63,13 @@ public class KbrApplication extends Application {
         KbrApplicationUtil.initKbrApplicationUtil(this);
         SoundUtil.initSoundUtil(this);
         EmailUtil.initEmailUtil(this);
-        FileUtil.initFileUtil(this);
 
         if (KbrApplicationUtil.initialized()) {
             initialized = true;
             try {
+                FileUtil.initFileUtil(this);
                 dbController = new DBController(this, KbrApplicationUtil.getBiraloUserName());
-            } catch (SQLiteCantOpenDatabaseException e) {
+            } catch (Exception e) {
                 Log.e(LogUtil.TAG, "init DBController", e);
                 errorOnInit = "Hiba történt az adatbázis inicializálásakor!;Kérem, ellenőrizze a készülék SD kártyáját!";
             }

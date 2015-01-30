@@ -29,14 +29,17 @@ public class DBController {
     private String innerDBPath;
     private String sdCardDBPath;
 
-    public DBController(Context context, String userid) {
+    public DBController(Context context, String userid) throws Exception {
         this.context = context;
         innerDBPath = FileUtil.getInnerAppPath() + File.separator + DB_NAME + "_innerDB_" + userid;
         innerConnector = new DBConnector(context, innerDBPath, DB_VERSION);
 
         String dirPath = FileUtil.getExternalAppPath() + File.separator + "DataBase";
         File dir = new File(dirPath);
-        dir.mkdirs();
+        boolean dirCreated = dir.mkdirs();
+        if (!dirCreated && !dir.exists()) {
+            throw new Exception("External directory creation error.");
+        }
         sdCardDBPath = dir.getPath() + File.separator + DB_NAME + "_sdcardDB_" + userid;
         sdCardConnector = new DBConnector(context, sdCardDBPath, DB_VERSION);
 

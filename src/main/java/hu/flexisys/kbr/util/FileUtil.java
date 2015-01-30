@@ -17,15 +17,22 @@ public class FileUtil {
     private static Context context;
     private static String extarnalAppPath;
 
-    public static void initFileUtil(Context context) {
+    public static void initFileUtil(Context context) throws Exception {
         FileUtil.context = context;
         String externalBaseDir = System.getenv("SECONDARY_STORAGE");
-        if (externalBaseDir == null || externalBaseDir.isEmpty() || externalBaseDir.equals("null")) {
-            externalBaseDir = Environment.getExternalStorageDirectory().getAbsolutePath();
-        }
         extarnalAppPath = externalBaseDir + File.separator + "KBR2";
+
         File dir = new File(extarnalAppPath);
-        dir.mkdirs();
+        boolean dirCreated = dir.mkdirs();
+        if (!dirCreated && !dir.exists()) {
+            externalBaseDir = Environment.getExternalStorageDirectory().getAbsolutePath();
+            extarnalAppPath = externalBaseDir + File.separator + "KBR2";
+            dir = new File(extarnalAppPath);
+            dirCreated = dir.mkdirs();
+            if (!dirCreated && !dir.exists()) {
+                throw new Exception("External directory creation error.");
+            }
+        }
     }
 
     public static String getExternalAppPath() {
