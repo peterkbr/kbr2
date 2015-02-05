@@ -157,17 +157,11 @@ public class KbrApplication extends Application {
         for (Tenyeszet tenyeszet : tenyeszetList) {
             TenyeszetListModel model = new TenyeszetListModel(tenyeszet);
 
-            List<Egyed> egyedList = dbController.getEgyedTehenByTenyeszet(tenyeszet);
-            model.setEgyedCount(egyedList.size());
-            egyedList = dbController.getEgyedByTENAZAndKIVALASZTOTT(tenyeszet.getTENAZ(), true);
-            model.setSelectedEgyedCount(egyedList.size());
-
-            List<Biralat> biralatList = dbController.getBiralatByTenyeszetAndFeltoltetlen(tenyeszet.getTENAZ(), true);
-            model.setBiralatWaitingForUpload(biralatList.size());
-            biralatList = dbController.getBiralatByTENAZ(tenyeszet.getTENAZ());
-            model.setBiralatCount(biralatList.size());
-            biralatList = dbController.getBiralatByTenyeszetAndExported(tenyeszet.getTENAZ(), false);
-            model.setBiralatUnexportedCount(biralatList.size());
+            model.setEgyedCount(dbController.getEgyedTehenCountByTenyeszet(tenyeszet));
+            model.setSelectedEgyedCount(dbController.getEgyedCountByTENAZAndKIVALASZTOTT(tenyeszet.getTENAZ(), true));
+            model.setBiralatWaitingForUpload(dbController.getBiralatCountByTenyeszetAndFeltoltetlen(tenyeszet.getTENAZ(), true));
+            model.setBiralatCount(dbController.getBiralatCountByTENAZ(tenyeszet.getTENAZ()));
+            model.setBiralatUnexportedCount(dbController.getBiralatCountByTenyeszetAndExported(tenyeszet.getTENAZ(), false));
 
             String cim = tenyeszet.getTECIM();
             if (cim != null && !cim.isEmpty()) {

@@ -63,7 +63,9 @@ public class DBConnector {
         Cursor cursor = database.query(DBScripts.TABLE_TENYESZET, DBScripts.COLUMNS_TENYESZET, query, null, null, null, null);
         if (cursor.getCount() == 1) {
             cursor.moveToFirst();
-            return getTenyeszetFromCursor(cursor);
+            Tenyeszet list = getTenyeszetFromCursor(cursor);
+            cursor.close();
+            return list;
         }
         return null;
     }
@@ -73,8 +75,8 @@ public class DBConnector {
         Cursor cursor = database.query(DBScripts.TABLE_TENYESZET, DBScripts.COLUMNS_TENYESZET, null, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Tenyeszet comment = getTenyeszetFromCursor(cursor);
-            tenyeszetList.add(comment);
+            Tenyeszet tenyeszet = getTenyeszetFromCursor(cursor);
+            tenyeszetList.add(tenyeszet);
             cursor.moveToNext();
         }
         cursor.close();
@@ -118,20 +120,36 @@ public class DBConnector {
 
     public List<Egyed> getEgyedAll() {
         Cursor cursor = database.query(DBScripts.TABLE_EGYED, DBScripts.COLUMNS_EGYED, null, null, null, null, null);
-        return getEgyedListFromCursor(cursor);
+        List<Egyed> list = getEgyedListFromCursor(cursor);
+        cursor.close();
+        return list;
     }
 
     public List<Egyed> getEgyedByTENAZ(String TENAZ) {
         Cursor cursor =
                 database.query(DBScripts.TABLE_EGYED, DBScripts.COLUMNS_EGYED, DBScripts.COLUMN_EGYED_TENAZ + " = ?", new String[]{String.valueOf(TENAZ)}, null,
                         null, null);
-        return getEgyedListFromCursor(cursor);
+        List<Egyed> list = getEgyedListFromCursor(cursor);
+        cursor.close();
+        return list;
     }
 
     public List<Egyed> getEgyedTehenByTENAZ(String TENAZ) {
         Cursor cursor = database.query(DBScripts.TABLE_EGYED, DBScripts.COLUMNS_EGYED,
                 DBScripts.COLUMN_EGYED_TENAZ + "=? AND " + DBScripts.COLUMN_EGYED_ELLSO + " <> 0", new String[]{String.valueOf(TENAZ)}, null, null, null);
-        return getEgyedListFromCursor(cursor);
+        List<Egyed> list = getEgyedListFromCursor(cursor);
+        cursor.close();
+        return list;
+    }
+
+    public int getEgyedTehenCountByTENAZ(String TENAZ) {
+        String select =
+                "SELECT count(*) FROM " + DBScripts.TABLE_EGYED + " WHERE " + DBScripts.COLUMN_EGYED_TENAZ + "=? AND " + DBScripts.COLUMN_EGYED_ELLSO + " <> 0";
+        Cursor cursor = database.rawQuery(select, new String[]{String.valueOf(TENAZ)});
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        return count;
     }
 
     public List<Egyed> getEgyedByTENAZAndKIVALASZTOTT(String TENAZ, Boolean KIVALASZTOTT) {
@@ -140,7 +158,21 @@ public class DBConnector {
         selectBuilder.append(" AND ");
         selectBuilder.append(DBScripts.COLUMN_EGYED_KIVALASZTOTT).append(KIVALASZTOTT ? "=1" : "=0");
         Cursor cursor = database.query(DBScripts.TABLE_EGYED, DBScripts.COLUMNS_EGYED, selectBuilder.toString(), null, null, null, null);
-        return getEgyedListFromCursor(cursor);
+        List<Egyed> list = getEgyedListFromCursor(cursor);
+        cursor.close();
+        return list;
+    }
+
+    public int getEgyedCountByTENAZAndKIVALASZTOTT(String TENAZ, Boolean KIVALASZTOTT) {
+        StringBuilder selectBuilder = new StringBuilder("SELECT count(*) FROM ").append(DBScripts.TABLE_EGYED).append(" WHERE ");
+        selectBuilder.append(DBScripts.COLUMN_EGYED_TENAZ).append(" = ").append(TENAZ);
+        selectBuilder.append(" AND ");
+        selectBuilder.append(DBScripts.COLUMN_EGYED_KIVALASZTOTT).append(KIVALASZTOTT ? "=1" : "=0");
+        Cursor cursor = database.rawQuery(selectBuilder.toString(), null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        return count;
     }
 
     private List<Egyed> getEgyedListFromCursor(Cursor cursor) {
@@ -151,7 +183,6 @@ public class DBConnector {
             egyedList.add(egyed);
             cursor.moveToNext();
         }
-        cursor.close();
         return egyedList;
     }
 
@@ -214,29 +245,46 @@ public class DBConnector {
 
     public List<Biralat> getBiralatAll() {
         Cursor cursor = database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, null, null, null, null, null);
-        return getBiralatListFromCursor(cursor);
+        List<Biralat> list = getBiralatListFromCursor(cursor);
+        cursor.close();
+        return list;
     }
 
     public List<Biralat> getBiralatByTENAZ(String TENAZ) {
         Cursor cursor =
                 database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, DBScripts.COLUMN_BIRALAT_TENAZ + " = ?", new String[]{String.valueOf(TENAZ)},
                         null, null, null);
-        return getBiralatListFromCursor(cursor);
+        List<Biralat> list = getBiralatListFromCursor(cursor);
+        cursor.close();
+        return list;
     }
 
+    public int getBiralatCountByTENAZ(String TENAZ) {
+        StringBuilder selectBuilder = new StringBuilder("SELECT count(*) FROM ").append(DBScripts.TABLE_BIRALAT).append(" WHERE ");
+        selectBuilder.append(DBScripts.COLUMN_BIRALAT_TENAZ).append(" = ?");
+        Cursor cursor = database.rawQuery(selectBuilder.toString(), new String[]{String.valueOf(TENAZ)});
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        return count;
+    }
 
     public List<Biralat> getBiralatByAZONO(String azono) {
         Cursor cursor =
                 database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, DBScripts.COLUMN_BIRALAT_AZONO + " = ?", new String[]{String.valueOf(azono)},
                         null, null, null);
-        return getBiralatListFromCursor(cursor);
+        List<Biralat> list = getBiralatListFromCursor(cursor);
+        cursor.close();
+        return list;
     }
 
     public List<Biralat> getBiralatByFELTOLTETLEN(boolean FELTOLTETLEN) {
         StringBuilder selectBuilder = new StringBuilder();
         selectBuilder.append(DBScripts.COLUMN_BIRALAT_FELTOLTETLEN).append(FELTOLTETLEN ? "=1" : "=0");
         Cursor cursor = database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, selectBuilder.toString(), null, null, null, null);
-        return getBiralatListFromCursor(cursor);
+        List<Biralat> list = getBiralatListFromCursor(cursor);
+        cursor.close();
+        return list;
     }
 
     public List<Biralat> getBiralatByTENAZAndFELTOLTETLEN(String TENAZ, boolean FELTOLTETLEN) {
@@ -245,9 +293,22 @@ public class DBConnector {
         selectBuilder.append(" AND ");
         selectBuilder.append(DBScripts.COLUMN_BIRALAT_FELTOLTETLEN).append(FELTOLTETLEN ? "=1" : "=0");
         Cursor cursor = database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, selectBuilder.toString(), null, null, null, null);
-        return getBiralatListFromCursor(cursor);
+        List<Biralat> list = getBiralatListFromCursor(cursor);
+        cursor.close();
+        return list;
     }
 
+    public int getBiralatCountByTENAZAndFELTOLTETLEN(String TENAZ, boolean FELTOLTETLEN) {
+        StringBuilder selectBuilder = new StringBuilder("SELECT count(*) FROM ").append(DBScripts.TABLE_BIRALAT).append(" WHERE ");
+        selectBuilder.append(DBScripts.COLUMN_BIRALAT_TENAZ).append("=").append(TENAZ);
+        selectBuilder.append(" AND ");
+        selectBuilder.append(DBScripts.COLUMN_BIRALAT_FELTOLTETLEN).append(FELTOLTETLEN ? "=1" : "=0");
+        Cursor cursor = database.rawQuery(selectBuilder.toString(), null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        return count;
+    }
 
     public List<Biralat> getBiralatByTenyeszetAndExported(String TENAZ, boolean EXPORTED) {
         StringBuilder selectBuilder = new StringBuilder();
@@ -255,7 +316,21 @@ public class DBConnector {
         selectBuilder.append(" AND ");
         selectBuilder.append(DBScripts.COLUMN_BIRALAT_EXPORTALT).append(EXPORTED ? "=1" : "=0");
         Cursor cursor = database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, selectBuilder.toString(), null, null, null, null);
-        return getBiralatListFromCursor(cursor);
+        List<Biralat> list = getBiralatListFromCursor(cursor);
+        cursor.close();
+        return list;
+    }
+
+    public int getBiralatCountByTenyeszetAndExported(String TENAZ, boolean EXPORTED) {
+        StringBuilder selectBuilder = new StringBuilder("SELECT count(*) FROM ").append(DBScripts.TABLE_BIRALAT).append(" WHERE ");
+        selectBuilder.append(DBScripts.COLUMN_BIRALAT_TENAZ).append("=").append(TENAZ);
+        selectBuilder.append(" AND ");
+        selectBuilder.append(DBScripts.COLUMN_BIRALAT_EXPORTALT).append(EXPORTED ? "=1" : "=0");
+        Cursor cursor = database.rawQuery(selectBuilder.toString(), null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        return count;
     }
 
     private List<Biralat> getBiralatListFromCursor(Cursor cursor) {
@@ -266,7 +341,6 @@ public class DBConnector {
             list.add(b);
             cursor.moveToNext();
         }
-        cursor.close();
         return list;
     }
 

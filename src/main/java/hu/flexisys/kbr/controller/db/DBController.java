@@ -140,6 +140,10 @@ public class DBController {
         return getEgyedTehenByTENAZ(tenyeszet.getTENAZ());
     }
 
+    public int getEgyedTehenCountByTenyeszet(Tenyeszet tenyeszet) {
+        return getEgyedTehenCountByTENAZ(tenyeszet.getTENAZ());
+    }
+
     public List<Egyed> getEgyedByTENAZ(String tenaz) {
         return innerConnector.getEgyedByTENAZ(tenaz);
     }
@@ -148,8 +152,16 @@ public class DBController {
         return innerConnector.getEgyedTehenByTENAZ(tenaz);
     }
 
+    public int getEgyedTehenCountByTENAZ(String tenaz) {
+        return innerConnector.getEgyedTehenCountByTENAZ(tenaz);
+    }
+
     public List<Egyed> getEgyedByTENAZAndKIVALASZTOTT(String TENAZ, boolean KIVALASZTOTT) {
         return innerConnector.getEgyedByTENAZAndKIVALASZTOTT(TENAZ, KIVALASZTOTT);
+    }
+
+    public int getEgyedCountByTENAZAndKIVALASZTOTT(String TENAZ, boolean KIVALASZTOTT) {
+        return innerConnector.getEgyedCountByTENAZAndKIVALASZTOTT(TENAZ, KIVALASZTOTT);
     }
 
     public List<Biralat> getBiralatAll() {
@@ -160,6 +172,10 @@ public class DBController {
         return innerConnector.getBiralatByTENAZ(tenaz);
     }
 
+    public int getBiralatCountByTENAZ(String tenaz) {
+        return innerConnector.getBiralatCountByTENAZ(tenaz);
+    }
+
     public List<Biralat> getBiralatByAZONO(String azono) {
         return innerConnector.getBiralatByAZONO(azono);
     }
@@ -168,12 +184,20 @@ public class DBController {
         return innerConnector.getBiralatByTENAZAndFELTOLTETLEN(TENAZ, FELTOLTETLEN);
     }
 
+    public int getBiralatCountByTenyeszetAndFeltoltetlen(String TENAZ, Boolean FELTOLTETLEN) {
+        return innerConnector.getBiralatCountByTENAZAndFELTOLTETLEN(TENAZ, FELTOLTETLEN);
+    }
+
     public List<Biralat> getBiralatByFeltoltetlen(Boolean FELTOLTETLEN) {
         return innerConnector.getBiralatByFELTOLTETLEN(FELTOLTETLEN);
     }
 
     public List<Biralat> getBiralatByTenyeszetAndExported(String TENAZ, boolean unexported) {
         return innerConnector.getBiralatByTenyeszetAndExported(TENAZ, unexported);
+    }
+
+    public int getBiralatCountByTenyeszetAndExported(String TENAZ, boolean unexported) {
+        return innerConnector.getBiralatCountByTenyeszetAndExported(TENAZ, unexported);
     }
 
     // DB CONSISTENCY
