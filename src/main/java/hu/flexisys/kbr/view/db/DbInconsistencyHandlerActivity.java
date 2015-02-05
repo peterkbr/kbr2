@@ -21,6 +21,11 @@ public class DbInconsistencyHandlerActivity extends SendDbActivity {
         dialog = DbInconsistencyDialog.newInstance(new DbInconsistencyDialog.DbInconsistenyListener() {
             @Override
             public void handleDbIconsistency(boolean inner) {
+                try {
+                    copyDbFiles();
+                } catch (IOException e) {
+                    Log.e(LogUtil.TAG, e.getMessage(), e);
+                }
                 app.synchronizeDb(inner);
                 dismissDialog();
                 openSecondDialog();
@@ -34,12 +39,7 @@ public class DbInconsistencyHandlerActivity extends SendDbActivity {
         dialog = DbInconsistencyEmailDialog.newInstance(new DbInconsistencyEmailDialog.DbInconsistenyEmailListener() {
             @Override
             public void handleDbIconsistency() {
-                try {
-                    copyDbFiles();
-                    sendDbEmail("[KBR2][ERROR][DB inkonzisztencia] ");
-                } catch (IOException e) {
-                    Log.e(LogUtil.TAG, e.getMessage(), e);
-                }
+                sendDbEmail("[KBR2][ERROR][DB inkonzisztencia] ");
                 dismissDialog();
                 finish();
             }
