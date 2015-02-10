@@ -1,7 +1,12 @@
 package hu.flexisys.kbr.view.tenyeszet;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,7 +15,7 @@ import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.emptytask.EmptyTask;
 import hu.flexisys.kbr.controller.emptytask.Executable;
 import hu.flexisys.kbr.controller.emptytask.ExecutableFinishedListener;
-import hu.flexisys.kbr.controller.network.tenyeszet.DownloadTenyeszetArrayTask;
+import hu.flexisys.kbr.controller.network.tenyeszet.DownloadTenyeszetArrayService;
 import hu.flexisys.kbr.controller.network.tenyeszet.DownloadTenyeszetHandler;
 import hu.flexisys.kbr.model.Tenyeszet;
 import hu.flexisys.kbr.view.KbrActivity;
@@ -21,17 +26,21 @@ import java.util.*;
 /**
  * Created by Peter on 2014.07.04..
  */
-public class TenyeszetActivity extends KbrActivity {
+public class TenyeszetActivity extends KbrActivity implements DownloadTenyeszetHandler {
 
     private final List<TenyeszetListModel> tenyeszetList = new ArrayList<TenyeszetListModel>();
     private final List<String> selectedList = new ArrayList<String>();
     private TenyeszetAdapter adapter;
     private List<String> origOrder;
 
+    private boolean paused = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tenyeszet);
+
+        paused = false;
 
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
@@ -44,8 +53,19 @@ public class TenyeszetActivity extends KbrActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        paused = false;
         reloadData();
         adapter.notifyDataSetChanged();
+        if (app.isDownloading()) {
+            startProgressDialog(getString(R.string.teny_progress_letoltes));
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        paused = true;
+        dismissDialog();
     }
 
     private void reloadData() {
@@ -73,8 +93,6 @@ public class TenyeszetActivity extends KbrActivity {
             }
         }
     }
-
-    // MENU IN ACTIONBAR
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -106,8 +124,6 @@ public class TenyeszetActivity extends KbrActivity {
             origOrder.add(tenyeszet.getTENAZ());
         }
     }
-
-    // TENYÉSZETEK FELVÉTELE
 
     public void felvesz() {
         FragmentTransaction ft = getFragmentTransactionWithTag("felveszDialog");
@@ -144,8 +160,6 @@ public class TenyeszetActivity extends KbrActivity {
         return false;
     }
 
-    // TENYÉSZETEK LETÖLTÉSE
-
     public void letoltes() {
         if (selectedList.isEmpty()) {
             return;
@@ -161,47 +175,69 @@ public class TenyeszetActivity extends KbrActivity {
             }
         }
 
+        app.startDownloading();
         startProgressDialog(getString(R.string.teny_progress_letoltes));
         setOrigOrder();
-        DownloadTenyeszetArrayTask downloadTenyeszetArrayTask = new DownloadTenyeszetArrayTask(app, new DownloadTenyeszetHandler() {
-            @Override
-            public void onDownloadFinished(HashMap<String, String> resultMap) {
-                tenyeszetList.clear();
-                for (int j = 0; j < origOrder.size(); j++) {
-                    tenyeszetList.add(null);
-                }
-
-                List<TenyeszetListModel> newList = app.getTenyeszetListModels();
-                for (TenyeszetListModel newTenyeszet : newList) {
-                    int index = origOrder.indexOf(newTenyeszet.getTENAZ());
-                    tenyeszetList.set(index, newTenyeszet);
-                }
-                adapter.notifyDataSetChanged();
-                dismissDialog();
-
-                StringBuilder messageBuilder = new StringBuilder();
-                for (String TENAZ : origOrder) {
-                    String messageRow = resultMap.get(TENAZ);
-                    if (messageRow != null && !messageRow.isEmpty()) {
-                        if (messageBuilder.length() != 0) {
-                            messageBuilder.append("\n");
-                        }
-                        messageBuilder.append("\n").append(TENAZ).append("\n").append(messageRow);
-                    }
-                }
-                messageBuilder.append("\n");
-                String title = getString(R.string.teny_notification_download_title);
-                String message = messageBuilder.toString();
-
-                FragmentTransaction ft = getFragmentTransactionWithTag("notificationDialog");
-                dialog = NotificationDialog.newInstance(title, message);
-                dialog.show(ft, "notificationDialog");
+        Intent mServiceIntent = new Intent(this, DownloadTenyeszetArrayService.class);
+        StringBuilder tenazBuilder = null;
+        for (String tenaz : selectedList) {
+            if (tenazBuilder == null) {
+                tenazBuilder = new StringBuilder();
+            } else {
+                tenazBuilder.append(",");
             }
-        });
-        startMyTask(downloadTenyeszetArrayTask, selectedList.toArray());
+            tenazBuilder.append(tenaz);
+        }
+
+        BroadcastReceiver receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                HashMap<String, String> resultMap = (HashMap<String, String>) intent.getExtras().getSerializable(DownloadTenyeszetArrayService.RESULT_MAP_KEY);
+                onDownloadFinished(resultMap);
+            }
+        };
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(DownloadTenyeszetArrayService.BROADCAST_ACTION));
+        mServiceIntent.putExtra(DownloadTenyeszetArrayService.TENAZ_LIST_KEY, tenazBuilder.toString());
+        startService(mServiceIntent);
     }
 
-    // TENYÉSZETEK TÖRLÉSE
+    @Override
+    public void onDownloadFinished(HashMap<String, String> resultMap) {
+        app.finishedDownloading();
+        if (paused) {
+            return;
+        }
+        tenyeszetList.clear();
+        for (int j = 0; j < origOrder.size(); j++) {
+            tenyeszetList.add(null);
+        }
+
+        List<TenyeszetListModel> newList = app.getTenyeszetListModels();
+        for (TenyeszetListModel newTenyeszet : newList) {
+            int index = origOrder.indexOf(newTenyeszet.getTENAZ());
+            tenyeszetList.set(index, newTenyeszet);
+        }
+        adapter.notifyDataSetChanged();
+        dismissDialog();
+
+        StringBuilder messageBuilder = new StringBuilder();
+        for (String TENAZ : origOrder) {
+            String messageRow = resultMap.get(TENAZ);
+            if (messageRow != null && !messageRow.isEmpty()) {
+                if (messageBuilder.length() != 0) {
+                    messageBuilder.append("\n");
+                }
+                messageBuilder.append("\n").append(TENAZ).append("\n").append(messageRow);
+            }
+        }
+        messageBuilder.append("\n");
+        String title = getString(R.string.teny_notification_download_title);
+        String message = messageBuilder.toString();
+
+        FragmentTransaction ft = getFragmentTransactionWithTag("notificationDialog");
+        dialog = NotificationDialog.newInstance(title, message);
+        dialog.show(ft, "notificationDialog");
+    }
 
     public void torles() {
         if (selectedList.isEmpty()) {

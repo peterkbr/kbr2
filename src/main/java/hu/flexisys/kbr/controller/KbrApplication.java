@@ -42,8 +42,8 @@ public class KbrApplication extends Application {
     private DBController dbController;
     private KbrActivity currentActivity;
 
-    // LOG
     private int activityCounter = 0;
+    private boolean downloading = false;
 
     @Override
     public void onCreate() {
@@ -53,8 +53,6 @@ public class KbrApplication extends Application {
         LogUtil.initLogUtil(this);
         LogUtil.startLog();
     }
-
-    // WRITE DB
 
     public void init() {
         BiralatSzempontUtil.initBiralatSzempontUtil(this);
@@ -139,8 +137,6 @@ public class KbrApplication extends Application {
         dbController.removeBiralat(biralat);
         checkDbConsistency();
     }
-
-    // READ DB
 
     public int updateEgyedWithSelection(String azono, Boolean selection) {
         int count = dbController.updateEgyedByAZONOWithKIVALASZTOTT(azono, selection);
@@ -269,8 +265,6 @@ public class KbrApplication extends Application {
         return extras;
     }
 
-    // GETTERS, SETTERS
-
     public void synchronizeDb(boolean inner) {
         dbController.synchronizeDb(inner);
     }
@@ -329,5 +323,17 @@ public class KbrApplication extends Application {
         } else {
             asyncTask.execute(new Void[]{});
         }
+    }
+
+    public boolean isDownloading() {
+        return downloading;
+    }
+
+    public void startDownloading() {
+        downloading = true;
+    }
+
+    public void finishedDownloading() {
+        downloading = false;
     }
 }
