@@ -19,8 +19,8 @@ import java.util.List;
  */
 public class DBController {
 
-    private static String DB_NAME = "KBR2_DB";
-    private static int DB_VERSION = 1;
+    private static final String DB_NAME = "KBR2_DB";
+    private static final int DB_VERSION = 1;
     private final Context context;
 
     private DBConnector sdCardConnector;
@@ -31,9 +31,12 @@ public class DBController {
 
     public DBController(Context context, String userid) throws Exception {
         this.context = context;
-        innerDBPath = FileUtil.getInnerAppPath() + File.separator + DB_NAME + "_innerDB_" + userid;
-        innerConnector = new DBConnector(context, innerDBPath, DB_VERSION);
+        getDBPath(userid);
+        createDBConnector();
+    }
 
+    private void getDBPath(String userid) throws Exception {
+        innerDBPath = FileUtil.getInnerAppPath() + File.separator + DB_NAME + "_innerDB_" + userid;
         String dirPath = FileUtil.getExternalAppPath() + File.separator + "DataBase";
         File dir = new File(dirPath);
         boolean dirCreated = dir.mkdirs();
@@ -41,16 +44,11 @@ public class DBController {
             throw new Exception("External directory creation error.");
         }
         sdCardDBPath = dir.getPath() + File.separator + DB_NAME + "_sdcardDB_" + userid;
-        sdCardConnector = new DBConnector(context, sdCardDBPath, DB_VERSION);
+    }
 
-//        File storageDir = new File("/mnt/");
-//        if (storageDir.isDirectory()) {
-//            String[] list = storageDir.list();
-// find KBR2 folder on any of these:
-//            for (String direct : list) {
-//                Log.i(LogUtil2.TAG, direct);
-//            }
-//        }
+    private void createDBConnector() {
+        innerConnector = new DBConnector(context, innerDBPath, DB_VERSION);
+        sdCardConnector = new DBConnector(context, sdCardDBPath, DB_VERSION);
     }
 
 
@@ -192,6 +190,10 @@ public class DBController {
         return innerConnector.getBiralatByFELTOLTETLEN(FELTOLTETLEN);
     }
 
+    public int getBiralatCountByFeltoltetlen(Boolean FELTOLTETLEN) {
+        return innerConnector.getBiralatCountByFELTOLTETLEN(FELTOLTETLEN);
+    }
+
     public List<Biralat> getBiralatByTenyeszetAndExported(String TENAZ, boolean unexported) {
         return innerConnector.getBiralatByTenyeszetAndExported(TENAZ, unexported);
     }
@@ -238,19 +240,28 @@ public class DBController {
     }
 
     public void synchronizeDb(boolean inner) {
-        File src;
-        File dst;
+        String srcPath;
+        String dstPath;
         if (inner) {
-            src = new File(innerDBPath);
-            dst = new File(sdCardDBPath);
+            srcPath = innerDBPath;
+            dstPath = sdCardDBPath;
         } else {
-            src = new File(sdCardDBPath);
-            dst = new File(innerDBPath);
+            srcPath = sdCardDBPath;
+            dstPath = innerDBPath;
         }
-        try {
-            FileUtil.copyFile(src, dst);
-        } catch (IOException e) {
-            Log.e(LogUtil.TAG, "synchronizeDb", e);
+        File src = new File(srcPath);
+        File dst = new File(dstPath);
+
+        if (srcPath.equals(innerDBPath) && innerConnector.isEmpty() || srcPath.equals(sdCardDBPath) && sdCardConnector.isEmpty()) {
+            src.delete();
+            dst.delete();
+            createDBConnector();
+        } else {
+            try {
+                FileUtil.copyFile(src, dst);
+            } catch (IOException e) {
+                Log.e(LogUtil.TAG, "synchronizeDb", e);
+            }
         }
     }
 

@@ -287,6 +287,16 @@ public class DBConnector {
         return list;
     }
 
+    public int getBiralatCountByFELTOLTETLEN(boolean FELTOLTETLEN) {
+        StringBuilder selectBuilder = new StringBuilder("SELECT count(*) FROM ").append(DBScripts.TABLE_BIRALAT).append(" WHERE ");
+        selectBuilder.append(DBScripts.COLUMN_BIRALAT_FELTOLTETLEN).append(FELTOLTETLEN ? "=1" : "=0");
+        Cursor cursor = database.rawQuery(selectBuilder.toString(), null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        return count;
+    }
+
     public List<Biralat> getBiralatByTENAZAndFELTOLTETLEN(String TENAZ, boolean FELTOLTETLEN) {
         StringBuilder selectBuilder = new StringBuilder();
         selectBuilder.append(DBScripts.COLUMN_BIRALAT_TENAZ).append("=").append(TENAZ);
@@ -425,5 +435,29 @@ public class DBConnector {
         biralat.setKOD30(cursor.getString(i++));
         biralat.setERT30(cursor.getString(i));
         return biralat;
+    }
+
+    public boolean isEmpty() {
+        int count = 0;
+
+        String select = "SELECT count(*) FROM " + DBScripts.TABLE_TENYESZET;
+        Cursor cursor = database.rawQuery(select, new String[]{});
+        cursor.moveToFirst();
+        count += cursor.getInt(0);
+        cursor.close();
+
+        select = "SELECT count(*) FROM " + DBScripts.TABLE_EGYED;
+        cursor = database.rawQuery(select, new String[]{});
+        cursor.moveToFirst();
+        count += cursor.getInt(0);
+        cursor.close();
+
+        select = "SELECT count(*) FROM " + DBScripts.TABLE_BIRALAT;
+        cursor = database.rawQuery(select, new String[]{});
+        cursor.moveToFirst();
+        count += cursor.getInt(0);
+        cursor.close();
+
+        return count == 0;
     }
 }

@@ -52,7 +52,7 @@ public class MenuActivity extends KbrActivity {
         app.checkDbConsistency();
 
         TextView counter = (TextView) findViewById(R.id.menu_biralat_counter);
-        int counterValue = app.getFeltoltetlenBiralatList().size();
+        int counterValue = app.getFeltoltetlenBiralatCount();
         counter.setText(getString(R.string.menu_biralat_counter, counterValue));
 
         TextView testName = (TextView) findViewById(R.id.menu_test_name);
