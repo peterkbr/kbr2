@@ -141,7 +141,7 @@ public class TenyeszetActivity extends KbrActivity implements DownloadTenyeszetH
                     tenyeszet.setLEDAT(new Date(1));
                     app.insertTenyeszetWithChildren(tenyeszet);
 
-                    TenyeszetListModel model = new TenyeszetListModel(tenyeszet);
+                    TenyeszetListModel model = new TenyeszetListModel(app, tenyeszet);
                     tenyeszetList.add(0, model);
                     selectedList.add(model.getTENAZ());
                     adapter.notifyDataSetChanged();

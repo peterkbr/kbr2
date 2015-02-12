@@ -23,10 +23,7 @@ import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Peter on 2014.07.01..
@@ -145,19 +142,20 @@ public class KbrApplication extends Application {
     }
 
     public List<TenyeszetListModel> getTenyeszetListModels() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_YEAR, -14);
+
         ArrayList<TenyeszetListModel> list = new ArrayList<TenyeszetListModel>();
         if (dbController == null) {
             init();
         }
         List<Tenyeszet> tenyeszetList = dbController.getTenyeszetAll();
         for (Tenyeszet tenyeszet : tenyeszetList) {
-            TenyeszetListModel model = new TenyeszetListModel(tenyeszet);
 
-            model.setEgyedCount(dbController.getEgyedTehenCountByTenyeszet(tenyeszet));
-            model.setSelectedEgyedCount(dbController.getEgyedCountByTENAZAndKIVALASZTOTT(tenyeszet.getTENAZ(), true));
-            model.setBiralatWaitingForUpload(dbController.getBiralatCountByTenyeszetAndFeltoltetlen(tenyeszet.getTENAZ(), true));
-            model.setBiralatCount(dbController.getBiralatCountByTENAZ(tenyeszet.getTENAZ()));
-            model.setBiralatUnexportedCount(dbController.getBiralatCountByTenyeszetAndExported(tenyeszet.getTENAZ(), false));
+            TenyeszetListModel model = new TenyeszetListModel(this, tenyeszet);
+            if (!model.getLEDAT().before(cal.getTime())) {
+                updateTenyeszetModel(model);
+            }
 
             String cim = tenyeszet.getTECIM();
             if (cim != null && !cim.isEmpty()) {
@@ -187,6 +185,15 @@ public class KbrApplication extends Application {
         });
 
         return list;
+    }
+
+    public void updateTenyeszetModel(TenyeszetListModel model) {
+        Tenyeszet tenyeszet = model.getTenyeszet();
+        model.setEgyedCount(dbController.getEgyedTehenCountByTenyeszet(tenyeszet));
+        model.setSelectedEgyedCount(dbController.getEgyedCountByTENAZAndKIVALASZTOTT(tenyeszet.getTENAZ(), true));
+        model.setBiralatWaitingForUpload(dbController.getBiralatCountByTenyeszetAndFeltoltetlen(tenyeszet.getTENAZ(), true));
+        model.setBiralatCount(dbController.getBiralatCountByTENAZ(tenyeszet.getTENAZ()));
+        model.setBiralatUnexportedCount(dbController.getBiralatCountByTenyeszetAndExported(tenyeszet.getTENAZ(), false));
     }
 
     public List<Tenyeszet> getTenyeszetListByTENAZArray(String[] tenazArray) {

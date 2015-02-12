@@ -1,5 +1,6 @@
 package hu.flexisys.kbr.view.tenyeszet;
 
+import hu.flexisys.kbr.controller.KbrApplication;
 import hu.flexisys.kbr.model.Tenyeszet;
 
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.Date;
  */
 public class TenyeszetListModel {
 
+    private KbrApplication kbrApplication;
     private Tenyeszet tenyeszet;
     private String telepules;
     private Integer egyedCount;
@@ -18,8 +20,9 @@ public class TenyeszetListModel {
     private Integer biralatUnexportedCount;
     private Integer biralatCount;
 
-    public TenyeszetListModel(Tenyeszet tenyeszet) {
+    public TenyeszetListModel(KbrApplication kbrApplication, Tenyeszet tenyeszet) {
         this.tenyeszet = tenyeszet;
+        this.kbrApplication = kbrApplication;
     }
 
     public TenyeszetListModel(String TENAZ) {
@@ -85,6 +88,9 @@ public class TenyeszetListModel {
     }
 
     public Integer getEgyedCount() {
+        if (egyedCount == null) {
+            kbrApplication.updateTenyeszetModel(this);
+        }
         return egyedCount;
     }
 
@@ -101,6 +107,9 @@ public class TenyeszetListModel {
     }
 
     public Integer getSelectedEgyedCount() {
+        if (selectedEgyedCount == null) {
+            kbrApplication.updateTenyeszetModel(this);
+        }
         return selectedEgyedCount;
     }
 
@@ -109,6 +118,9 @@ public class TenyeszetListModel {
     }
 
     public Integer getBiralatWaitingForUpload() {
+        if (biralatWaitingForUpload == null) {
+            kbrApplication.updateTenyeszetModel(this);
+        }
         return biralatWaitingForUpload;
     }
 
@@ -117,6 +129,9 @@ public class TenyeszetListModel {
     }
 
     public Integer getBiralatUnexportedCount() {
+        if (biralatUnexportedCount == null) {
+            kbrApplication.updateTenyeszetModel(this);
+        }
         return biralatUnexportedCount;
     }
 
@@ -125,6 +140,9 @@ public class TenyeszetListModel {
     }
 
     public Integer getBiralatCount() {
+        if (biralatCount == null) {
+            kbrApplication.updateTenyeszetModel(this);
+        }
         return biralatCount;
     }
 

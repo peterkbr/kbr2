@@ -38,7 +38,9 @@ public class TenyeszetAdapter extends ArrayAdapter<TenyeszetListModel> {
 
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_YEAR, -14);
-        if (model.getLEDAT() != null && model.getLEDAT().before(cal.getTime())) {
+        boolean old = model.getLEDAT() != null && model.getLEDAT().before(cal.getTime());
+
+        if (old) {
             rowView.setBackgroundColor(context.getResources().getColor(R.color.pink));
         }
 
@@ -80,11 +82,15 @@ public class TenyeszetAdapter extends ArrayAdapter<TenyeszetListModel> {
         }
         textView_1.setText(text);
 
-        text = "";
-        if (model.getERVENYES() != null && model.getERVENYES() && model.getEgyedCount() != null) {
-            text = model.getEgyedCount() + "/" + model.getSelectedEgyedCount() + "/" + model.getBiralatWaitingForUpload();
+        if (old) {
+            textView_2.setText("-/-/-");
+        } else {
+            text = "";
+            if (model.getERVENYES() != null && model.getERVENYES() && model.getEgyedCount() != null) {
+                text = model.getEgyedCount() + "/" + model.getSelectedEgyedCount() + "/" + model.getBiralatWaitingForUpload();
+            }
+            textView_2.setText(text);
         }
-        textView_2.setText(text);
 
         return rowView;
     }
