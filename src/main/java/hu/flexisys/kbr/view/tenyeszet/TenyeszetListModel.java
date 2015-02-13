@@ -98,14 +98,6 @@ public class TenyeszetListModel {
         this.egyedCount = egyedCount;
     }
 
-    public Integer getTehenCount() {
-        return tehenCount;
-    }
-
-    public void setTehenCount(Integer tehenCount) {
-        this.tehenCount = tehenCount;
-    }
-
     public Integer getSelectedEgyedCount() {
         if (selectedEgyedCount == null) {
             kbrApplication.updateTenyeszetModel(this);
@@ -148,5 +140,13 @@ public class TenyeszetListModel {
 
     public void setBiralatCount(Integer biralatCount) {
         this.biralatCount = biralatCount;
+    }
+
+    public Integer getTehenCount() {
+        return tehenCount;
+    }
+
+    public void setTehenCount(Integer tehenCount) {
+        this.tehenCount = tehenCount;
     }
 }

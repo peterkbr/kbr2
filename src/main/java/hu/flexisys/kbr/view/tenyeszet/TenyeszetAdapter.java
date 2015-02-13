@@ -82,15 +82,15 @@ public class TenyeszetAdapter extends ArrayAdapter<TenyeszetListModel> {
         }
         textView_1.setText(text);
 
-        if (old) {
-            textView_2.setText("-/-/-");
-        } else {
-            text = "";
-            if (model.getERVENYES() != null && model.getERVENYES() && model.getEgyedCount() != null) {
+        text = "";
+        if (model.getERVENYES() != null && model.getERVENYES() && model.getEgyedCount() != null) {
+            if (old) {
+                textView_2.setText("-/-/-");
+            } else {
                 text = model.getEgyedCount() + "/" + model.getSelectedEgyedCount() + "/" + model.getBiralatWaitingForUpload();
             }
-            textView_2.setText(text);
         }
+        textView_2.setText(text);
 
         return rowView;
     }

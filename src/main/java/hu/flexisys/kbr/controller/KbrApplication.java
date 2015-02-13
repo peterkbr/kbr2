@@ -142,6 +142,10 @@ public class KbrApplication extends Application {
     }
 
     public List<TenyeszetListModel> getTenyeszetListModels() {
+        return getTenyeszetListModels(false, false, false);
+    }
+
+    public List<TenyeszetListModel> getTenyeszetListModels(boolean withEgyedCount, boolean withBiralatWaitingForUpdate, boolean withBiralatCount) {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_YEAR, -14);
 
@@ -155,6 +159,16 @@ public class KbrApplication extends Application {
             TenyeszetListModel model = new TenyeszetListModel(this, tenyeszet);
             if (!model.getLEDAT().before(cal.getTime())) {
                 updateTenyeszetModel(model);
+            } else {
+                if (withEgyedCount) {
+                    updateTenyeszetModelWithEgyedCount(model);
+                }
+                if (withBiralatWaitingForUpdate) {
+                    updateTenyeszetModelWithBiralatWaitingForUpdate(model);
+                }
+                if (withBiralatCount) {
+                    updateTenyeszetModelWithBiralatCount(model);
+                }
             }
 
             String cim = tenyeszet.getTECIM();
@@ -194,6 +208,21 @@ public class KbrApplication extends Application {
         model.setBiralatWaitingForUpload(dbController.getBiralatCountByTenyeszetAndFeltoltetlen(tenyeszet.getTENAZ(), true));
         model.setBiralatCount(dbController.getBiralatCountByTENAZ(tenyeszet.getTENAZ()));
         model.setBiralatUnexportedCount(dbController.getBiralatCountByTenyeszetAndExported(tenyeszet.getTENAZ(), false));
+    }
+
+    public void updateTenyeszetModelWithEgyedCount(TenyeszetListModel model) {
+        Tenyeszet tenyeszet = model.getTenyeszet();
+        model.setEgyedCount(dbController.getEgyedTehenCountByTenyeszet(tenyeszet));
+    }
+
+    public void updateTenyeszetModelWithBiralatWaitingForUpdate(TenyeszetListModel model) {
+        Tenyeszet tenyeszet = model.getTenyeszet();
+        model.setBiralatWaitingForUpload(dbController.getBiralatCountByTenyeszetAndFeltoltetlen(tenyeszet.getTENAZ(), true));
+    }
+
+    public void updateTenyeszetModelWithBiralatCount(TenyeszetListModel model) {
+        Tenyeszet tenyeszet = model.getTenyeszet();
+        model.setBiralatCount(dbController.getBiralatCountByTENAZ(tenyeszet.getTENAZ()));
     }
 
     public List<Tenyeszet> getTenyeszetListByTENAZArray(String[] tenazArray) {

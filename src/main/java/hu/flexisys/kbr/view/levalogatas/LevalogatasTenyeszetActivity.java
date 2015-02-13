@@ -64,7 +64,7 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
         tenyeszetList.clear();
         selectedList.clear();
 
-        List<TenyeszetListModel> rawList = app.getTenyeszetListModels();
+        List<TenyeszetListModel> rawList = app.getTenyeszetListModels(true, false, false);
         List<TenyeszetListModel> oldList = new ArrayList<TenyeszetListModel>();
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_YEAR, -14);

@@ -67,7 +67,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
         tenyeszetList.clear();
         selectedList.clear();
 
-        List<TenyeszetListModel> rawList = app.getTenyeszetListModels();
+        List<TenyeszetListModel> rawList = app.getTenyeszetListModels(false, true, true);
         List<TenyeszetListModel> oldList = new ArrayList<TenyeszetListModel>();
 
         for (TenyeszetListModel model : rawList) {
@@ -90,7 +90,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
                 }
             }
         }
-        
+
         Collections.sort(tenyeszetList, new TenyeszetListModelComparatorByLetda());
         tenyeszetList.addAll(oldList);
     }
