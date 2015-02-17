@@ -67,7 +67,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
         tenyeszetList.clear();
         selectedList.clear();
 
-        List<TenyeszetListModel> rawList = app.getTenyeszetListModels(false, true, true);
+        List<TenyeszetListModel> rawList = app.getTenyeszetListModels(true, true, true);
         List<TenyeszetListModel> oldList = new ArrayList<TenyeszetListModel>();
 
         for (TenyeszetListModel model : rawList) {

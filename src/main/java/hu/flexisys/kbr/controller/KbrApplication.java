@@ -142,7 +142,7 @@ public class KbrApplication extends Application {
     }
 
     public List<TenyeszetListModel> getTenyeszetListModels() {
-        return getTenyeszetListModels(false, false, false);
+        return getTenyeszetListModels(true, false, false);
     }
 
     public List<TenyeszetListModel> getTenyeszetListModels(boolean withEgyedCount, boolean withBiralatWaitingForUpdate, boolean withBiralatCount) {

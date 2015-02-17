@@ -85,7 +85,7 @@ public class TenyeszetAdapter extends ArrayAdapter<TenyeszetListModel> {
         text = "";
         if (model.getERVENYES() != null && model.getERVENYES() && model.getEgyedCount() != null) {
             if (old) {
-                textView_2.setText("-/-/-");
+                text = "-/-/-";
             } else {
                 text = model.getEgyedCount() + "/" + model.getSelectedEgyedCount() + "/" + model.getBiralatWaitingForUpload();
             }
