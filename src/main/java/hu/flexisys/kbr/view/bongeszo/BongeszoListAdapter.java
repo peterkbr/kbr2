@@ -39,7 +39,13 @@ public class BongeszoListAdapter extends ArrayAdapter<Biralat> {
     public View getView(int position, final View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.list_bongeszo, parent, false);
-        final Biralat currentBiralat = biralatList.get(position);
+        final Biralat currentBiralat;
+        try {
+            currentBiralat = biralatList.get(position);
+        } catch (Exception e) {
+            return v;
+        }
+        
         final Egyed currentEgyed = egyedMap.get(currentBiralat.getAZONO());
 
         v.setOnLongClickListener(new View.OnLongClickListener() {

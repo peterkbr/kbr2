@@ -47,6 +47,7 @@ public class BongeszoActivity extends KbrActivity {
     public static final String ert4 = "21";
     public static final String ert5 = "15";
     public static final String ert6 = "25";
+
     private String[] selectedTenazArray;
     private List<Biralat> biralatList;
     private Map<String, Egyed> egyedMap;
