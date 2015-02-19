@@ -27,6 +27,8 @@ import hu.flexisys.kbr.view.tenyeszet.TorlesAlertListener;
 
 import java.text.ParseException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Peter on 2014.07.21..
@@ -372,7 +374,7 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
             String[] esArray = esFilter.split(",");
             Boolean pass = false;
             for (String es : esArray) {
-                if (Integer.valueOf(es).equals(egyed.getELLSO())) {
+                if (es != null && !es.isEmpty() && Integer.valueOf(es).equals(egyed.getELLSO())) {
                     pass = true;
                     break;
                 }
@@ -613,7 +615,18 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
         }
 
         String ellesSorszamai = getStringFromEditText(R.id.lev_szuk_elles_sorszamai);
-        filter.put(Filter.ELLES_SORSZAMAI, ellesSorszamai);
+        if (ellesSorszamai == null || ellesSorszamai.isEmpty()) {
+            filter.put(Filter.ELLES_SORSZAMAI, null);
+        } else {
+            Pattern patt = Pattern.compile("([0-9]{1,3},)*[0-9]{1,3},?");
+            Matcher matcher = patt.matcher(ellesSorszamai);
+            if (matcher.matches()) {
+                filter.put(Filter.ELLES_SORSZAMAI, ellesSorszamai);
+            } else {
+                Toast.makeText(this, "Az ellés sorszáma(i)ra vonatkozó feltétel hibás, így azt kihagytuk a szűrésből.", Toast.LENGTH_LONG).show();
+                filter.put(Filter.ELLES_SORSZAMAI, null);
+            }
+        }
 
         String enar = getStringFromEditText(R.id.lev_szuk_enar);
         filter.put(Filter.ENAR, enar);
