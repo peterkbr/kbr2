@@ -623,7 +623,7 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
             if (matcher.matches()) {
                 filter.put(Filter.ELLES_SORSZAMAI, ellesSorszamai);
             } else {
-                Toast.makeText(this, "Az ellés sorszáma(i)ra vonatkozó feltétel hibás, így azt kihagytuk a szűrésből.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Az ellés sorszáma(i)ra megadott feltétel hibás, így azt kihagytuk a szűrésből.", Toast.LENGTH_LONG).show();
                 filter.put(Filter.ELLES_SORSZAMAI, null);
             }
         }
@@ -632,10 +632,30 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
         filter.put(Filter.ENAR, enar);
 
         String konTol = getStringFromEditText(R.id.lev_szuk_konstrukcios_tol);
-        filter.put(Filter.KONSTRUKCIOS_TOL, konTol == null ? null : Integer.valueOf(konTol));
+        try {
+            if (konTol != null && !konTol.isEmpty()) {
+                Integer konTolInteger = Integer.valueOf(konTol);
+                filter.put(Filter.KONSTRUKCIOS_TOL, konTolInteger);
+            } else {
+                filter.put(Filter.KONSTRUKCIOS_TOL, null);
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "A konstrukciós kód kezdőértékére megadott feltétel túl nagy, így azt kihagytuk a szűrésből.", Toast.LENGTH_LONG).show();
+            filter.put(Filter.KONSTRUKCIOS_TOL, null);
+        }
 
         String konIg = getStringFromEditText(R.id.lev_szuk_konstrukcios_ig);
-        filter.put(Filter.KONSTRUKCIOS_IG, konIg == null ? null : Integer.valueOf(konIg));
+        try {
+            if (konIg != null && !konIg.isEmpty()) {
+                Integer konIgInteger = Integer.valueOf(konIg);
+                filter.put(Filter.KONSTRUKCIOS_IG, konIgInteger);
+            } else {
+                filter.put(Filter.KONSTRUKCIOS_IG, null);
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "A konstrukciós kód végértékére megadott feltétel túl nagy, így azt kihagytuk a szűrésből.", Toast.LENGTH_LONG).show();
+            filter.put(Filter.KONSTRUKCIOS_IG, null);
+        }
 
         Long ellesTol = getDateInLongFromTextView(R.id.lev_szuk_utolso_elles_tol);
         filter.put(Filter.UTOLSO_ELLES_TOL, ellesTol);
