@@ -31,9 +31,6 @@ import hu.flexisys.kbr.view.component.numpad.NumPadInputContainer;
 import java.io.IOException;
 import java.util.*;
 
-/**
- * Created by Peter on 2014.07.11..
- */
 public class BiralFragment extends Fragment implements NumPadInputContainer {
 
     private BiralFragmentContainer container;

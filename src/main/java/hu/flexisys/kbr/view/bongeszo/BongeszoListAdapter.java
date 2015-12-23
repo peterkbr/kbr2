@@ -45,7 +45,7 @@ public class BongeszoListAdapter extends ArrayAdapter<Biralat> {
         } catch (Exception e) {
             return v;
         }
-        
+
         final Egyed currentEgyed = egyedMap.get(currentBiralat.getAZONO());
 
         v.setOnLongClickListener(new View.OnLongClickListener() {

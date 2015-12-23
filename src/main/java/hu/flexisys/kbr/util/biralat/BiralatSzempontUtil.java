@@ -12,9 +12,6 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by peter on 28/07/14.
- */
 public class BiralatSzempontUtil {
 
     private static Map<String, BiralatSzempont> biralatSzempontMap;

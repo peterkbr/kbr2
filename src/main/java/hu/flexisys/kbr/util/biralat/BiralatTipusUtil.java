@@ -14,9 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by peter on 28/07/14.
- */
 public class BiralatTipusUtil {
 
     private static Map<String, BiralatTipus> biralatTipusMap;

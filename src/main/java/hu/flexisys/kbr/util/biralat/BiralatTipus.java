@@ -2,9 +2,6 @@ package hu.flexisys.kbr.util.biralat;
 
 import java.util.List;
 
-/**
- * Created by peter on 28/07/14.
- */
 public class BiralatTipus {
 
     public String id;
