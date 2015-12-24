@@ -25,13 +25,11 @@ import org.acra.annotation.ReportsCrashes;
 
 import java.util.*;
 
-/**
- * Created by Peter on 2014.07.01..
- */
-@ReportsCrashes(formKey = "",
-        mailTo = "kbr@flexisys.hu",
-        mode = ReportingInteractionMode.TOAST,
-        resToastText = R.string.crash_toast_text)
+// TODO reset
+//@ReportsCrashes(formKey = "",
+//        mailTo = "kbr@flexisys.hu",
+//        mode = ReportingInteractionMode.TOAST,
+//        resToastText = R.string.crash_toast_text)
 public class KbrApplication extends Application {
 
     public static String errorOnInit = null;
