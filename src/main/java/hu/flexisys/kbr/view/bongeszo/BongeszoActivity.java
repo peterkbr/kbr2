@@ -368,7 +368,7 @@ public class BongeszoActivity extends KbrActivity {
 
     private ArrayList<String> getDiagramValues() {
 
-        // TODO biralat tipus azonositas
+        // TODO biralat tipus azonositas : DIAGRAM
         BiralatTipus tipus = BiralatTipusUtil.getBiralatTipus("8");
 
         List<BiralatSzempont> szempontList = new ArrayList<BiralatSzempont>();
@@ -456,13 +456,13 @@ public class BongeszoActivity extends KbrActivity {
                             if (pdf) {
                                 BiralatPdfExporter.initPdfExporter(tenazBuilder.toString(), tartoBuilder.toString(), app.getBiraloNev());
 
-                                // TODO biralat tipus azonositas
+                                // TODO biralat tipus azonositas : EXPORT
                                 BiralatPdfExporter.export(dir.getPath(), "8", biralatList, egyedMap);
 
                             }
                             if (csv) {
 
-                                // TODO biralat tipus azonositas
+                                // TODO biralat tipus azonositas : EXPORT
                                 BiralatCvsExporter.export(dir.getPath(), "8", biralatList, egyedMap);
 
                             }

@@ -44,7 +44,6 @@ public class BiralatDialogFragment extends Fragment {
         TextView datumView = (TextView) view.findViewById(R.id.dialog_biralat_datum);
         datumView.setText(getString(R.string.lev_dialog_biralat_datum, DateUtil.formatDate(biralat.getBIRDA())));
 
-        // TODO biralat tipus azonositas
         String biralatTipusKod = BiralatTipusUtil.getBiralatTipusByBiralat(biralat);
         BiralatTipus biralatTipus = BiralatTipusUtil.getBiralatTipus(biralatTipusKod);
 

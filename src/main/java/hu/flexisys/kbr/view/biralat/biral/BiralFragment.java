@@ -76,10 +76,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         } catch (IOException e) {
             Log.e(LogUtil.TAG, "Error while loading colors", e);
         }
-
-        // TODO biralat tipus azonositas
         String tipus = BiralatTipusUtil.currentBiralatTipus;
-
         BiralatTipus biralatTipus = BiralatTipusUtil.getBiralatTipus(tipus);
         szempontKodInputMap = new HashMap<String, BiralatNumPadInput>();
         inputIdSzempontKodMap = new HashMap<Integer, String>();
@@ -532,10 +529,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     }
 
     public String invalidErtAtKod() {
-
-        // TODO biralat tipus azonositas
         String tipus = BiralatTipusUtil.currentBiralatTipus;
-
         BiralatTipus biralatTipus = BiralatTipusUtil.getBiralatTipus(tipus);
         for (int i = 0; i < biralatTipus.szempontList.size(); i++) {
             BiralatSzempont szempont = BiralatSzempontUtil.getBiralatSzempont(biralatTipus.szempontList.get(i));
