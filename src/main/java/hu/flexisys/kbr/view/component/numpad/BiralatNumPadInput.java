@@ -2,16 +2,17 @@ package hu.flexisys.kbr.view.component.numpad;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import hu.flexisys.kbr.R;
 
-/**
- * Created by peter on 29/07/14.
- */
+import java.util.List;
+
 public class BiralatNumPadInput extends NumPadInput {
 
     private NumPadInputContainer container;
     private String keszletStart;
     private String keszletEnd;
+    private List<String> keszletExtensions;
     private boolean newContent;
     private boolean oldContent;
 
@@ -26,7 +27,6 @@ public class BiralatNumPadInput extends NumPadInput {
     public BiralatNumPadInput(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
-
 
     @Override
     protected void setUp(AttributeSet attrs) {
@@ -83,12 +83,28 @@ public class BiralatNumPadInput extends NumPadInput {
         try {
             int intContent = Integer.parseInt(newContent);
             int length = newContent.length();
-            if (intContent >= Integer.valueOf(keszletStart.substring(0, length)) && intContent <= Integer.valueOf(keszletEnd.substring(0, length))) {
+            boolean validForStart = false;
+            if (keszletStart.length() >= length) {
+                validForStart = (intContent >= Integer.valueOf(keszletStart.substring(0, length)));
+            }
+            boolean validForEnd = false;
+            if (keszletEnd.length() >= length) {
+                validForEnd = (intContent <= Integer.valueOf(keszletEnd.substring(0, length)));
+            }
+            if (validForStart && validForEnd) {
+                maxLength = keszletEnd.length();
                 return true;
+            } else {
+                for (String ke : keszletExtensions) {
+                    if (ke.length() >= length && intContent == Integer.valueOf(ke.substring(0, length))) {
+                        maxLength = ke.length();
+                        return true;
+                    }
+                }
             }
         } catch (Exception e) {
+            Log.e("BiralatNumPadInput", "inputValidation", e);
         }
-//        container.onInvalidInput();
         return false;
     }
 
@@ -132,5 +148,9 @@ public class BiralatNumPadInput extends NumPadInput {
 
     public void setKeszletEnd(String keszletEnd) {
         this.keszletEnd = keszletEnd;
+    }
+
+    public void setKeszletExtensions(List<String> keszletExtensions) {
+        this.keszletExtensions = keszletExtensions;
     }
 }

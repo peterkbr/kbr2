@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import hu.flexisys.kbr.R;
-import hu.flexisys.kbr.controller.KbrApplication;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.util.DateUtil;
 import hu.flexisys.kbr.util.biralat.BiralatSzempont;
@@ -21,9 +20,6 @@ import hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by peter on 04/09/14.
- */
 public class BiralatDialogFragment extends Fragment {
 
     private Biralat biralat;
@@ -48,7 +44,9 @@ public class BiralatDialogFragment extends Fragment {
         TextView datumView = (TextView) view.findViewById(R.id.dialog_biralat_datum);
         datumView.setText(getString(R.string.lev_dialog_biralat_datum, DateUtil.formatDate(biralat.getBIRDA())));
 
-        String tipus = ((KbrApplication) getActivity().getApplication()).getBiralatTipus();
+        // TODO biralat tipus azonositas
+        String tipus = BiralatTipusUtil.currentBiralatTipus;
+
         BiralatTipus biralatTipus = BiralatTipusUtil.getBiralatTipus(tipus);
         List<Integer> breakPoints = new ArrayList<Integer>();
         breakPoints.add(20);

@@ -367,7 +367,10 @@ public class BongeszoActivity extends KbrActivity {
     }
 
     private ArrayList<String> getDiagramValues() {
-        BiralatTipus tipus = BiralatTipusUtil.getBiralatTipus(app.getBiralatTipus());
+
+        // TODO biralat tipus azonositas
+        BiralatTipus tipus = BiralatTipusUtil.getBiralatTipus("8");
+
         List<BiralatSzempont> szempontList = new ArrayList<BiralatSzempont>();
         Map<String, Integer[]> diagramValueMap = new HashMap<String, Integer[]>();
         for (String szempontId : tipus.szempontList) {
@@ -404,7 +407,6 @@ public class BongeszoActivity extends KbrActivity {
             Integer[] values = diagramValueMap.get(szempont.kod);
             StringBuilder builder = new StringBuilder(szempont.rovidNev);
 
-
             Integer sum = 0;
             for (Integer i : values) {
                 sum += i;
@@ -413,13 +415,6 @@ public class BongeszoActivity extends KbrActivity {
             for (int i = 0; i < values.length; i++) {
                 builder.append(",").append((int) Math.floor(values[i] * d));
             }
-
-//            Integer sum = values[0] + values[1] + values[2];
-//            Double i = 100d / sum;
-//            Integer value_0 = (int) Math.floor(values[0] * i);
-//            Integer value_1 = (int) Math.floor(values[1] * i);
-//            Integer value_2 = (int) Math.floor(values[2] * i);
-//            builder.append(szempont.rovidNev).append(",").append(value_0).append(",").append(value_1).append(",").append(value_2);
 
             diagramValuesList.add(builder.toString());
         }
@@ -460,10 +455,16 @@ public class BongeszoActivity extends KbrActivity {
 
                             if (pdf) {
                                 BiralatPdfExporter.initPdfExporter(tenazBuilder.toString(), tartoBuilder.toString(), app.getBiraloNev());
-                                BiralatPdfExporter.export(dir.getPath(), app.getBiralatTipus(), biralatList, egyedMap);
+
+                                // TODO biralat tipus azonositas
+                                BiralatPdfExporter.export(dir.getPath(), "8", biralatList, egyedMap);
+
                             }
                             if (csv) {
-                                BiralatCvsExporter.export(dir.getPath(), app.getBiralatTipus(), biralatList, egyedMap);
+
+                                // TODO biralat tipus azonositas
+                                BiralatCvsExporter.export(dir.getPath(), "8", biralatList, egyedMap);
+
                             }
                             for (Biralat biralat : biralatList) {
                                 if (!biralat.getEXPORTALT()) {

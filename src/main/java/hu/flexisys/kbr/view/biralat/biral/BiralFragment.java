@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import hu.flexisys.kbr.R;
-import hu.flexisys.kbr.controller.KbrApplication;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.DateUtil;
@@ -22,6 +21,8 @@ import hu.flexisys.kbr.util.biralat.BiralatSzempont;
 import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
 import hu.flexisys.kbr.util.biralat.BiralatTipus;
 import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
+import hu.flexisys.kbr.view.biralat.biral.vp.VPType;
+import hu.flexisys.kbr.view.biralat.biral.vp.VPTypeUtil;
 import hu.flexisys.kbr.view.component.biralpanel.BiralPanel;
 import hu.flexisys.kbr.view.component.biralpanel.BiralPanelElement;
 import hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput;
@@ -42,10 +43,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     private List<String> szempontKodList;
     private String currentSzempontKod;
     private List<BiralatNumPadInput> biralatNumPadInputs;
-    private BiralatNumPadInput vpBiralatNumPadInput;
     private BiralatNumPadInput akakoBiralatNumPadInput;
-    private List<String> vpFormulaSzempontKodList;
-    private Map<String, String> vpFormulaWeightMap;
     private Boolean editing;
     private Boolean biralatStarted;
 
@@ -64,11 +62,12 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         View v = inflater.inflate(R.layout.fragment_biralat_biral, container, false);
         numpad = (NumPad) v.findViewById(R.id.bir_bir_numpad);
         biralPanel = (BiralPanel) v.findViewById(R.id.bir_bir_panel);
-        setupBiralatTipus();
         return v;
     }
 
-    private void setupBiralatTipus() {
+    private List<String> vpKodList;
+
+    public void setupBiralatTipus() {
         int currentId = 123;
         biralatNumPadInputs = new ArrayList<BiralatNumPadInput>();
         Properties layoutProperties = null;
@@ -78,18 +77,14 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             Log.e(LogUtil.TAG, "Error while loading colors", e);
         }
 
-        String tipus = ((KbrApplication) getActivity().getApplication()).getBiralatTipus();
+        // TODO biralat tipus azonositas
+        String tipus = BiralatTipusUtil.currentBiralatTipus;
+
         BiralatTipus biralatTipus = BiralatTipusUtil.getBiralatTipus(tipus);
         szempontKodInputMap = new HashMap<String, BiralatNumPadInput>();
         inputIdSzempontKodMap = new HashMap<Integer, String>();
 
-        vpFormulaSzempontKodList = new ArrayList<String>();
-        vpFormulaWeightMap = new HashMap<String, String>();
-        for (String vpFormula : biralatTipus.vpFormulaList) {
-            String[] values = vpFormula.split("/");
-            vpFormulaSzempontKodList.add(values[0]);
-            vpFormulaWeightMap.put(values[0], values[1]);
-        }
+        vpKodList = biralatTipus.vpList;
 
         int maxHeight = 7;
         List<Integer> breakPoints = new ArrayList<Integer>();
@@ -114,15 +109,15 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             String labelValue = szempont.rovidNev;
             String colorCode = null;
             if (layoutProperties != null) {
-                colorCode = layoutProperties.getProperty(biralatTipus.id + "_" + szempont.kod);
+                colorCode = layoutProperties.getProperty(szempont.kod);
             }
             if (colorCode != null) {
                 layout.setBackgroundColor(Color.parseColor(colorCode));
             }
             label.setText(labelValue);
-            input.setMaxLength(szempont.keszletEnd.length());
             input.setKeszletStart(szempont.keszletStart);
             input.setKeszletEnd(szempont.keszletEnd);
+            input.setKeszletExtensions(szempont.keszletExtensions);
             input.setContainer(this);
             input.setId(currentId++);
             inputIdSzempontKodMap.put(input.getId(), szempont.kod);
@@ -143,8 +138,6 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
                 biralPanel.addBreakPoint();
             }
         }
-        vpBiralatNumPadInput = biralatNumPadInputs.get(biralatNumPadInputs.size() - 1);
-        vpBiralatNumPadInput.setClickable(false);
 
         // akako
         BiralPanelElement element = new BiralPanelElement(getActivity(), R.layout.component_biral_panel_element_double);
@@ -162,16 +155,6 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             public void onMaxLengthReached() {
                 container.onAkako(akakoBiralatNumPadInput.getText().toString());
             }
-
-//            @Override
-//            public void onInvalidInput() {
-//                BiralFragment.this.onInvalidInput();
-//            }
-//
-//            @Override
-//            public void onValidInput() {
-//                BiralFragment.this.onValidInput();
-//            }
 
             @Override
             public void onInput() {
@@ -216,22 +199,6 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             akakoBiralatNumPadInput.setText(text);
             akakoBiralatNumPadInput.unSelect();
         }
-    }
-
-    private Integer calcVp() {
-        Integer valueSum = 0;
-        Integer weightSum = 0;
-        for (String kod : vpFormulaSzempontKodList) {
-            BiralatNumPadInput input = szempontKodInputMap.get(kod);
-            String valueString = input.getText().toString();
-            Integer value = Integer.valueOf(valueString);
-            Integer weight = Integer.valueOf(vpFormulaWeightMap.get(kod));
-            valueSum += (value * weight);
-            weightSum += weight;
-        }
-        Double vpDoubleValue = Double.valueOf(valueSum) / Double.valueOf(weightSum);
-        int vp = (int) Math.round(vpDoubleValue);
-        return vp;
     }
 
     public Map<String, String> getKodErtMap() {
@@ -497,7 +464,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         } else if (currentSzempontKod.equals(szempontKodList.get(szempontKodList.size() - 2))) {
             currentSzempontKod = null;
         } else {
-            for (int i = 0; i < szempontKodList.size(); i++) {
+            for (int i = 0; i < szempontKodList.size() - 1; i++) {
                 String szempontKod = szempontKodList.get(i);
                 if (szempontKod.equals(currentSzempontKod)) {
                     currentSzempontKod = szempontKodList.get(++i);
@@ -509,42 +476,41 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         selectInputByKod(currentSzempontKod);
     }
 
-    private Boolean calcableVp() {
-        for (String kod : szempontKodInputMap.keySet()) {
-            if (kod.equals(inputIdSzempontKodMap.get(vpBiralatNumPadInput.getId()))) {
-                continue;
-            }
-            BiralatNumPadInput input = szempontKodInputMap.get(kod);
-            String ert = input.getText().toString();
-            if (ert == null || ert.isEmpty()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     @Override
     public void onMaxLengthReached() {
         String akakoString = getAkako();
-        if (calcableVp() && getBiralatStarted() && (akakoString == null || akakoString.isEmpty() || akakoString.equals("3"))) {
-            Integer vp = calcVp();
-            vpBiralatNumPadInput.removeSpecialContent();
-            vpBiralatNumPadInput.setText(String.valueOf(vp));
+        if (getBiralatStarted() && (akakoString == null || akakoString.isEmpty() || akakoString.equals("3"))) {
+            calcVp();
         }
         stepToNextInput();
     }
 
-//    @Override
-//    public void onInvalidInput() {
-////        container.beep();
-//        SoundUtil.errorBeep();
-//    }
-//
-//    @Override
-//    public void onValidInput() {
-////        container.beep();
-//        SoundUtil.buttonBeep();
-//    }
+    private void calcVp() {
+        for (String vpKod : vpKodList) {
+            VPType vp = VPType.parseVPType(Integer.valueOf(vpKod));
+            if (vp == null) {
+                continue;
+            }
+            List<String> list = VPTypeUtil.getSzempontSzarmaztatasList(vpKod);
+            List<Integer> szempontEretekList = new ArrayList<Integer>();
+
+            for (String kod : list) {
+                BiralatNumPadInput input = szempontKodInputMap.get(kod);
+                String valueString = input.getText().toString();
+                if (valueString.length() > 0) {
+                    Integer value = Integer.valueOf(valueString);
+                    szempontEretekList.add(value);
+                }
+            }
+
+            Integer vpErtek = vp.evaluateParams(szempontEretekList);
+            if (vpErtek != null) {
+                BiralatNumPadInput vpInput = szempontKodInputMap.get(vpKod);
+                vpInput.removeSpecialContent();
+                vpInput.setText(String.valueOf(vpErtek));
+            }
+        }
+    }
 
     @Override
     public void onInput() {
@@ -557,10 +523,6 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         return biralatStarted;
     }
 
-    public void setBiralatStarted(Boolean biralatStarted) {
-        this.biralatStarted = biralatStarted;
-    }
-
     public void setBiralatSaved() {
         biralatStarted = false;
     }
@@ -570,18 +532,36 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     }
 
     public String invalidErtAtKod() {
-        String tipus = ((KbrApplication) getActivity().getApplication()).getBiralatTipus();
+
+        // TODO biralat tipus azonositas
+        String tipus = BiralatTipusUtil.currentBiralatTipus;
+
         BiralatTipus biralatTipus = BiralatTipusUtil.getBiralatTipus(tipus);
         for (int i = 0; i < biralatTipus.szempontList.size(); i++) {
             BiralatSzempont szempont = BiralatSzempontUtil.getBiralatSzempont(biralatTipus.szempontList.get(i));
             BiralatNumPadInput input = szempontKodInputMap.get(szempont.kod);
             String stringValue = input.getText().toString();
-            if (stringValue == null && stringValue.isEmpty()) {
-                continue;
-            } else {
+            if (!stringValue.isEmpty()) {
                 Integer value = Integer.valueOf(stringValue);
-                if (value < Integer.valueOf(szempont.keszletStart) || value > Integer.valueOf(szempont.keszletEnd)) {
-                    return szempont.kod;
+                boolean validForStart = true;
+                if (value < Integer.valueOf(szempont.keszletStart)) {
+                    validForStart = false;
+                }
+                boolean validForEnd = true;
+                if (value > Integer.valueOf(szempont.keszletEnd)) {
+                    validForEnd = false;
+                }
+                if (!validForStart || !validForEnd) {
+                    boolean valid = false;
+                    for (String ke : szempont.keszletExtensions) {
+                        if (ke.equals(stringValue)) {
+                            valid = true;
+                            break;
+                        }
+                    }
+                    if (!valid) {
+                        return szempont.kod;
+                    }
                 }
             }
         }
@@ -598,12 +578,14 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     }
 
     public interface BiralFragmentContainer {
-        public void onAkako(String akako);
 
-        public void onBiralFragmentResume(BiralFragment biralFragment);
+        void onAkako(String akako);
 
-        public void selectBiralat(Biralat lastBiralat);
+        void onBiralFragmentResume(BiralFragment biralFragment);
 
-        public void openMegjegyzesDialog(String megjegyzes);
+        void selectBiralat(Biralat lastBiralat);
+
+        void openMegjegyzesDialog(String megjegyzes);
+
     }
 }

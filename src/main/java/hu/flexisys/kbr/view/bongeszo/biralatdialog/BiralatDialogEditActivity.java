@@ -17,9 +17,6 @@ import hu.flexisys.kbr.view.levalogatas.biralatdialog.BiralatDialog;
 
 import java.util.*;
 
-/**
- * Created by peter on 04/09/14.
- */
 public class BiralatDialogEditActivity extends KbrActivity {
 
     public static String KEY_EGYED = "KEY_EGYED";
@@ -43,7 +40,6 @@ public class BiralatDialogEditActivity extends KbrActivity {
         selectedEgyed.setBiralatList(egyedBiralatList);
 
         FragmentTransaction ft = getFragmentTransactionWithTag("longClick");
-
 
         if (isWithin30Days(selectedEgyed.getELLDA())) {
             openReadonlyDialog();

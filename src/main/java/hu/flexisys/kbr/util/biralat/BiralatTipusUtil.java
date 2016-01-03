@@ -18,6 +18,11 @@ public class BiralatTipusUtil {
 
     private static Map<String, BiralatTipus> biralatTipusMap;
 
+    public static final String HUS_BIRALAT_TIPUS = "8";
+    public static final String TEJ_BIRALAT_TIPUS = "9";
+
+    public static String currentBiralatTipus = HUS_BIRALAT_TIPUS;
+
     public static void initBiralatTipusUtil(Context context) {
         loadBiralatTipusMap(context);
     }
@@ -49,11 +54,11 @@ public class BiralatTipusUtil {
                         akakoList.add(string);
                     }
 
-                    List<String> vpFormulaList = new ArrayList<String>();
+                    List<String> vpList = new ArrayList<String>();
                     for (String string : values[2].split(",")) {
-                        vpFormulaList.add(string);
+                        vpList.add(string);
                     }
-                    BiralatTipus biralatTipus = new BiralatTipus(id, szempontList, akakoList, vpFormulaList);
+                    BiralatTipus biralatTipus = new BiralatTipus(id, szempontList, akakoList, vpList);
                     biralatTipusMap.put(id, biralatTipus);
 
                 }
@@ -61,5 +66,30 @@ public class BiralatTipusUtil {
                 Log.e(LogUtil.TAG, "loadBiralatSzempontMap", e);
             }
         }
+    }
+
+    public static String getBiralatTipusBySzempontList(List<String> szempontList) {
+        String tipusKod = null;
+
+        for (String key : biralatTipusMap.keySet()) {
+            BiralatTipus biralatTipus = biralatTipusMap.get(key);
+
+            if (biralatTipus.szempontList.size() == szempontList.size()) {
+                tipusKod = biralatTipus.id;
+
+                for (String kod : biralatTipus.szempontList) {
+                    if (!szempontList.contains(kod)) {
+                        tipusKod = null;
+                        break;
+                    }
+                }
+
+                if (tipusKod != null) {
+                    break;
+                }
+            }
+        }
+
+        return tipusKod;
     }
 }

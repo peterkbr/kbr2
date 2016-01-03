@@ -17,9 +17,6 @@ import hu.flexisys.kbr.view.biralat.BiralatActivity;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Peter on 2014.07.11..
- */
 public class KeresoFragment extends Fragment {
 
     private BiralatActivity activity;
@@ -181,5 +178,4 @@ public class KeresoFragment extends Fragment {
             }
         }
     }
-
 }

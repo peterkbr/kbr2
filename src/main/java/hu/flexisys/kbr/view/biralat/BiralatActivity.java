@@ -15,6 +15,7 @@ import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.LogUtil;
 import hu.flexisys.kbr.util.SoundUtil;
+import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.NotificationDialog;
 import hu.flexisys.kbr.view.biralat.biral.*;
@@ -24,9 +25,6 @@ import hu.flexisys.kbr.view.component.numpad.NumPadInput;
 
 import java.util.*;
 
-/**
- * Created by Peter on 2014.07.04..
- */
 public class BiralatActivity extends KbrActivity implements BirKerNotfoundListener, BirKerEgyedListDialog.EgyedListDialogContainer {
 
     private String[] selectedTenazArray;
@@ -314,6 +312,8 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
 
     @Override
     public void onAddNewEgyed(String tenaz, String orsko, String azono) {
+        dismissDialog();
+
         Egyed egyed = new Egyed();
         if (orsko.equals("HU") && tenaz.length() < 4) {
             while (tenaz.length() < 4) {
@@ -328,13 +328,29 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         app.insertEgyed(egyed);
         reloadData();
         selectedEgyed = findEgyedByAzono(azono);
+
         keresoFragment.updateKeresoButtons(egyedList);
         changeHUSelection(selectedEgyed);
         keresoFragment.updateDetails(selectedEgyed);
         updateHasznalatiSzamView(selectedEgyed.getAZONO(), hu);
-        biralFragment.updateFragmentWithEgyed(selectedEgyed);
-        dismissDialog();
 
+        openBiralatTipusDialog(new BirBirTipusListener() {
+            @Override
+            public void onHus() {
+                BiralatTipusUtil.currentBiralatTipus = BiralatTipusUtil.HUS_BIRALAT_TIPUS;
+                biralFragment.setupBiralatTipus();
+                biralFragment.updateFragmentWithEgyed(selectedEgyed);
+                dismissDialog();
+            }
+
+            @Override
+            public void onTej() {
+                BiralatTipusUtil.currentBiralatTipus = BiralatTipusUtil.TEJ_BIRALAT_TIPUS;
+                biralFragment.setupBiralatTipus();
+                biralFragment.updateFragmentWithEgyed(selectedEgyed);
+                dismissDialog();
+            }
+        });
     }
 
     private Egyed findEgyedByAzono(String azono) {
@@ -350,30 +366,25 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         String azono = String.valueOf(egyed.getAZONO());
         updateHasznalatiSzamView(azono, "HU".equals(egyed.getORSKO()));
         dismissDialog();
-
-//        if (!egyed.getKIVALASZTOTT()) {
-//            FragmentTransaction ft = getFragmentTransactionWithTag("BirKerNotSelectedDialog");
-//            dialog = BirKerNotSelectedDialog.newInstance(new BirKerNotselectedListener() {
-//                @Override
-//                public void onBiralSelected(Egyed egyed) {
-//                    dismissDialog();
-//                    selectedEgyed = egyed;
-//                    updateUIWithSelectedEgyed();
-//                }
-//
-//                @Override
-//                public void onCancelSelection() {
-//                    dismissDialog();
-//                    if (selectedEgyed != null) {
-//                        updateHasznalatiSzamView(selectedEgyed.getAZONO(), hu);
-//                    }
-//                }
-//            }, egyed);
-//            dialog.show(ft, "BirKerNotSelectedDialog");
-//        } else {
         selectedEgyed = egyed;
-        updateUIWithSelectedEgyed();
-//        }
+
+        openBiralatTipusDialog(new BirBirTipusListener() {
+            @Override
+            public void onHus() {
+                BiralatTipusUtil.currentBiralatTipus = BiralatTipusUtil.HUS_BIRALAT_TIPUS;
+                biralFragment.setupBiralatTipus();
+                updateUIWithSelectedEgyed();
+                dismissDialog();
+            }
+
+            @Override
+            public void onTej() {
+                BiralatTipusUtil.currentBiralatTipus = BiralatTipusUtil.TEJ_BIRALAT_TIPUS;
+                biralFragment.setupBiralatTipus();
+                updateUIWithSelectedEgyed();
+                dismissDialog();
+            }
+        });
     }
 
     private boolean isWithin30Days(Date date) {
@@ -528,6 +539,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         String azono = selectedEgyed.getAZONO();
         reloadData();
         selectedEgyed = findEgyedByAzono(azono);
+
         keresoFragment.updateKeresoButtons(egyedList);
         changeHUSelection(selectedEgyed);
         keresoFragment.updateDetails(selectedEgyed);
@@ -579,5 +591,11 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
             }
         }, megjegyzes);
         dialog.show(ft, "megjegyzes");
+    }
+
+    public void openBiralatTipusDialog(BirBirTipusListener listener) {
+        FragmentTransaction ft = getFragmentTransactionWithTag("biralat_tipus");
+        dialog = BirBirTipusDialog.newInstance(listener);
+        dialog.show(ft, "biralat_tipus");
     }
 }
