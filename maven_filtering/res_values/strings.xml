@@ -4,7 +4,6 @@
     <string name="app_name">${app.name}</string>
     <string name="app_test_name">${app.test.name}</string>
 
-    <string name="biralat_tipus">${init.tipus}</string>
     <string name="server_url">${init.url}</string>
     <string name="production_url">${production.url}</string>
     <string name="support_email">${init.email}</string>
@@ -129,6 +128,9 @@
 
     <string name="bir_bir_dialog_ellda_title">30 napon belül ellett egyed nem bírálható!</string>
     <string name="bir_bir_dialog_lastbir_title">30 napon belül feltöltött bírálat!</string>
+
+    <string name="bir_bir_dialog_tipus_hus">Húshasznú egyed</string>
+    <string name="bir_bir_dialog_tipus_tej">Tejhasznú egyed</string>
 
     <string-array name="bir_ker_dialog_notfound_orsko_list">
         <item>HU</item>
