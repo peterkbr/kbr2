@@ -25,7 +25,8 @@ public class BiralatDialogActivity extends KbrActivity {
         List<Biralat> rawBiralatList = app.getBiralatByAZONO(azono);
         List<Biralat> biralatList = new ArrayList<Biralat>();
         for (Biralat biralat : rawBiralatList) {
-            BiralatTipus biralatTipus = BiralatTipusUtil.getBiralatTipusByBiralat(biralat);
+            String biralatTipusKod = BiralatTipusUtil.getBiralatTipusByBiralat(biralat);
+            BiralatTipus biralatTipus = BiralatTipusUtil.getBiralatTipus(biralatTipusKod);
             if (biralatTipus != null) {
                 biralatList.add(biralat);
             }

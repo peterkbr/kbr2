@@ -21,7 +21,7 @@ public class BiralatTipusUtil {
 
     public static String currentBiralatTipus = HUS_BIRALAT_TIPUS;
 
-    public static BiralatTipus getBiralatTipusByBiralat(Biralat biralat) {
+    public static String getBiralatTipusByBiralat(Biralat biralat) {
 
         List<String> rawSzempontList =
                 Arrays.asList(biralat.getKOD01(), biralat.getKOD02(), biralat.getKOD03(), biralat.getKOD04(), biralat.getKOD05(), biralat.getKOD06(),
@@ -56,7 +56,7 @@ public class BiralatTipusUtil {
             }
         }
 
-        return getBiralatTipus(tipusKod);
+        return tipusKod;
     }
 
     public static BiralatTipus getBiralatTipus(String biralatTipusId) {

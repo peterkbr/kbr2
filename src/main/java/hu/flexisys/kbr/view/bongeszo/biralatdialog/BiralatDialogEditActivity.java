@@ -10,6 +10,7 @@ import android.widget.Toast;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.SoundUtil;
+import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.KbrDialog;
 import hu.flexisys.kbr.view.biralat.biral.*;
@@ -34,6 +35,7 @@ public class BiralatDialogEditActivity extends KbrActivity {
 
         selectedEgyed = (Egyed) getIntent().getExtras().getSerializable(KEY_EGYED);
         selectedBiralat = (Biralat) getIntent().getExtras().getSerializable(KEY_BIRALAT);
+        BiralatTipusUtil.currentBiralatTipus = BiralatTipusUtil.getBiralatTipusByBiralat(selectedBiralat);
 
         List<Biralat> egyedBiralatList = new ArrayList<Biralat>();
         egyedBiralatList.add(selectedBiralat);
@@ -85,6 +87,7 @@ public class BiralatDialogEditActivity extends KbrActivity {
                         @Override
                         public void onBiralFragmentResume(BiralFragment biralFragment) {
                             BiralatDialogEditActivity.this.biralFragment = biralFragment;
+                            biralFragment.setupBiralatTipus();
                             biralFragment.updateFragmentWithEgyed(selectedEgyed);
                         }
 
