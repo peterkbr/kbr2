@@ -15,9 +15,6 @@ import hu.flexisys.kbr.view.KbrDialog;
 
 import java.util.List;
 
-/**
- * Created by peter on 04/09/14.
- */
 public class BiralatDialog extends KbrDialog {
 
     private List<Biralat> biralatList;
