@@ -112,8 +112,8 @@ public enum VPType {
                 BA = params.get(i++);
                 BV = params.get(i++);
                 BH = params.get(i++);
-                value = (TM * 24) + (TF * 13) + (TH * 0.6) + (EI * 14) + (TC * 0.6) +
-                        (BE * 15) + (BA * 10) + (BV * 0.6) + (BH * 0.6);
+                value = (TM * 2.4) + (TF * 1.3) + (TH * 0.6) + (EI * 1.4) + (TC * 0.6) +
+                        (BE * 1.5) + (BA * 1) + (BV * 0.6) + (BH * 0.6);
                 break;
             default:
                 value = null;
