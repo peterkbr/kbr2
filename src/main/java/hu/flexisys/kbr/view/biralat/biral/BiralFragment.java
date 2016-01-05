@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
@@ -112,6 +113,8 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
                 layout.setBackgroundColor(Color.parseColor(colorCode));
             }
             label.setText(labelValue);
+
+            input.setKod(szempont.kod);
             input.setKeszletStart(szempont.keszletStart);
             input.setKeszletEnd(szempont.keszletEnd);
             input.setKeszletExtensions(szempont.keszletExtensions);
@@ -154,13 +157,17 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         akakoBiralatNumPadInput.setKeszletEnd("5");
         akakoBiralatNumPadInput.setContainer(new NumPadInputContainer() {
             @Override
-            public void onMaxLengthReached() {
+            public void onMaxLengthReached(String kod) {
                 container.onAkako(akakoBiralatNumPadInput.getText().toString());
             }
 
             @Override
             public void onInput() {
                 biralatStarted = true;
+            }
+
+            public void onMessage(String message) {
+                Toast.makeText(BiralFragment.this.getActivity(), message, Toast.LENGTH_LONG).show();
             }
         });
         akakoBiralatNumPadInput.setId(currentId);
@@ -484,21 +491,26 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     }
 
     @Override
-    public void onMaxLengthReached() {
+    public void onMaxLengthReached(String kod) {
         String akakoString = getAkako();
         if (getBiralatStarted() && (akakoString == null || akakoString.isEmpty() || akakoString.equals("3"))) {
-            calcVp();
+            calcAndUpdateVpFromKod(kod);
         }
         stepToNextInput();
     }
 
-    private void calcVp() {
+    private void calcAndUpdateVpFromKod(String editedKod) {
         for (String vpKod : vpKodList) {
             VPType vp = VPType.parseVPType(Integer.valueOf(vpKod));
             if (vp == null) {
                 continue;
             }
+
             List<String> list = VPTypeUtil.getSzempontSzarmaztatasList(vpKod);
+            if (!list.contains(editedKod)) {
+                continue;
+            }
+
             List<Integer> szempontEretekList = new ArrayList<Integer>();
 
             for (String kod : list) {
@@ -514,7 +526,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             if (vpErtek != null) {
                 BiralatNumPadInput vpInput = szempontKodInputMap.get(vpKod);
                 vpInput.removeSpecialContent();
-                vpInput.setText(String.valueOf(vpErtek));
+                vpInput.setText(String.valueOf(vpErtek), true);
             }
         }
     }
@@ -522,6 +534,10 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     @Override
     public void onInput() {
         biralatStarted = true;
+    }
+
+    public void onMessage(String message) {
+        Toast.makeText(BiralFragment.this.getActivity(), message, Toast.LENGTH_LONG).show();
     }
 
     // GETTERS, SETTERS

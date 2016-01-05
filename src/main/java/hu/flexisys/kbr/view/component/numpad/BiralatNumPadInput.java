@@ -16,6 +16,10 @@ public class BiralatNumPadInput extends NumPadInput {
     private boolean newContent;
     private boolean oldContent;
 
+    private String kod;
+    private Integer szarmaztatottContent;
+    private Integer maxDiff = 3;
+
     private boolean stepIn = true;
 
     public BiralatNumPadInput(Context context) {
@@ -76,9 +80,31 @@ public class BiralatNumPadInput extends NumPadInput {
         container.onInput();
         if (hasMaxLength()) {
             if (numValue.length() == maxLength && container != null) {
-                container.onMaxLengthReached();
+                if (szarmaztatottContent != null) {
+                    if (!validateSzarmaztatottErtek()) {
+                        setText(String.valueOf(szarmaztatottContent), true);
+                        // TODO mi az üzenet?
+                        container.onMessage("A felülírott származtatott érték intervallumon kívül esik!\nViszaállítottuk az eredeti értéket.");
+                    }
+                }
+                container.onMaxLengthReached(kod);
             }
         }
+    }
+
+    public Boolean validateSzarmaztatottErtek() {
+        if (szarmaztatottContent != null) {
+            String textValue = String.valueOf(getText());
+            if (textValue.length() > 0) {
+                int intContent = Integer.parseInt(textValue);
+                int minValue = szarmaztatottContent - maxDiff;
+                int maxValue = szarmaztatottContent + maxDiff;
+                if (intContent < minValue || intContent > maxValue) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     protected Boolean validateContent(String newContent) {
@@ -138,7 +164,18 @@ public class BiralatNumPadInput extends NumPadInput {
         return stepIn;
     }
 
+    public void setText(CharSequence text, Boolean szarmaztatott) {
+        super.setText(text);
+        if (szarmaztatott) {
+            szarmaztatottContent = Integer.valueOf(String.valueOf(text));
+        }
+    }
+
     // GETTERS, SETTERS
+
+    public void setKod(String kod) {
+        this.kod = kod;
+    }
 
     public void setMaxLength(Integer maxLength) {
         this.maxLength = maxLength;
