@@ -22,41 +22,12 @@ public class BiralatTipusUtil {
     public static String currentBiralatTipus = HUS_BIRALAT_TIPUS;
 
     public static String getBiralatTipusByBiralat(Biralat biralat) {
-
-        List<String> rawSzempontList =
-                Arrays.asList(biralat.getKOD01(), biralat.getKOD02(), biralat.getKOD03(), biralat.getKOD04(), biralat.getKOD05(), biralat.getKOD06(),
-                        biralat.getKOD07(), biralat.getKOD08(), biralat.getKOD09(), biralat.getKOD10(), biralat.getKOD11(), biralat.getKOD12(),
-                        biralat.getKOD13(), biralat.getKOD14(), biralat.getKOD15(), biralat.getKOD16(), biralat.getKOD17(), biralat.getKOD18(),
-                        biralat.getKOD19(), biralat.getKOD20(), biralat.getKOD21(), biralat.getKOD22(), biralat.getKOD23(), biralat.getKOD24(),
-                        biralat.getKOD25(), biralat.getKOD26(), biralat.getKOD27(), biralat.getKOD28(), biralat.getKOD29(), biralat.getKOD30());
-
-        List<String> szempontList = new ArrayList<String>();
-        for (String szempont : rawSzempontList) {
-            if (szempont != null) { szempontList.add(szempont); }
+        String birti = String.valueOf(biralat.getBIRTI());
+        if (Arrays.asList("6", "8").contains(birti)) {
+            return HUS_BIRALAT_TIPUS;
+        } else {
+            return TEJ_BIRALAT_TIPUS;
         }
-
-        String tipusKod = null;
-
-        for (String key : biralatTipusMap.keySet()) {
-            BiralatTipus biralatTipus = biralatTipusMap.get(key);
-
-            if (biralatTipus.szempontList.size() == szempontList.size()) {
-                tipusKod = biralatTipus.id;
-
-                for (String kod : biralatTipus.szempontList) {
-                    if (!szempontList.contains(kod)) {
-                        tipusKod = null;
-                        break;
-                    }
-                }
-
-                if (tipusKod != null) {
-                    break;
-                }
-            }
-        }
-
-        return tipusKod;
     }
 
     public static BiralatTipus getBiralatTipus(String biralatTipusId) {
