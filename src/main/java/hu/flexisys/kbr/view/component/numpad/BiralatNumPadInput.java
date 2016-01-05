@@ -17,7 +17,7 @@ public class BiralatNumPadInput extends NumPadInput {
     private boolean oldContent;
 
     private String kod;
-    private Integer szarmaztatottContent;
+    private String szarmaztatottContent;
     private Integer maxDiff = 3;
 
     private boolean stepIn = true;
@@ -97,9 +97,14 @@ public class BiralatNumPadInput extends NumPadInput {
             String textValue = String.valueOf(getText());
             if (textValue.length() > 0) {
                 int intContent = Integer.parseInt(textValue);
-                int minValue = szarmaztatottContent - maxDiff;
-                int maxValue = szarmaztatottContent + maxDiff;
-                if (intContent < minValue || intContent > maxValue) {
+                if (szarmaztatottContent.length() > 0) {
+                    int intSzarmaztatottContent = Integer.valueOf(szarmaztatottContent);
+                    int minValue = intSzarmaztatottContent - maxDiff;
+                    int maxValue = intSzarmaztatottContent + maxDiff;
+                    if (intContent < minValue || intContent > maxValue) {
+                        return false;
+                    }
+                } else {
                     return false;
                 }
             }
@@ -167,7 +172,7 @@ public class BiralatNumPadInput extends NumPadInput {
     public void setText(CharSequence text, Boolean szarmaztatott) {
         super.setText(text);
         if (szarmaztatott) {
-            szarmaztatottContent = Integer.valueOf(String.valueOf(text));
+            szarmaztatottContent = (String) text;
         }
     }
 

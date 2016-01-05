@@ -337,7 +337,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         openBiralatTipusDialog(new BirBirTipusListener() {
             @Override
             public void onHus() {
-                BiralatTipusUtil.currentBiralatTipus = BiralatTipusUtil.HUS_BIRALAT_TIPUS;
+                BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.HUS_BIRALAT_TIPUS);
                 biralFragment.setupBiralatTipus();
                 biralFragment.updateFragmentWithEgyed(selectedEgyed);
                 dismissDialog();
@@ -345,7 +345,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
 
             @Override
             public void onTej() {
-                BiralatTipusUtil.currentBiralatTipus = BiralatTipusUtil.TEJ_BIRALAT_TIPUS;
+                BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.TEJ_BIRALAT_TIPUS);
                 biralFragment.setupBiralatTipus();
                 biralFragment.updateFragmentWithEgyed(selectedEgyed);
                 dismissDialog();
@@ -371,7 +371,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         openBiralatTipusDialog(new BirBirTipusListener() {
             @Override
             public void onHus() {
-                BiralatTipusUtil.currentBiralatTipus = BiralatTipusUtil.HUS_BIRALAT_TIPUS;
+                BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.HUS_BIRALAT_TIPUS);
                 biralFragment.setupBiralatTipus();
                 updateUIWithSelectedEgyed();
                 dismissDialog();
@@ -379,7 +379,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
 
             @Override
             public void onTej() {
-                BiralatTipusUtil.currentBiralatTipus = BiralatTipusUtil.TEJ_BIRALAT_TIPUS;
+                BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.TEJ_BIRALAT_TIPUS);
                 biralFragment.setupBiralatTipus();
                 updateUIWithSelectedEgyed();
                 dismissDialog();
@@ -410,7 +410,9 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         } else {
             Date lastBiralatDate = null;
             for (Biralat biralat : selectedEgyed.getBiralatList()) {
-                if (biralat.getBIRDA() != null && biralat.getEXPORTALT() && (lastBiralatDate == null || lastBiralatDate.before(biralat.getBIRDA()))) {
+                String lastType = BiralatTipusUtil.getBiralatTipusByBiralat(biralat);
+                if (lastType.equals(BiralatTipusUtil.getCurrentBiralatTipus()) && biralat.getBIRDA() != null && biralat.getEXPORTALT() &&
+                        (lastBiralatDate == null || lastBiralatDate.before(biralat.getBIRDA()))) {
                     lastBiralatDate = biralat.getBIRDA();
                 }
             }
@@ -481,7 +483,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
             biralat.setORSKO(selectedEgyed.getORSKO());
             biralat.setKULAZ(app.getBiraloAzonosito());
             biralat.setBIRDA(new Date());
-            biralat.setBIRTI(Integer.valueOf(BiralatTipusUtil.currentBiralatTipus));
+            biralat.setBIRTI(Integer.valueOf(BiralatTipusUtil.getCurrentBiralatTipus()));
 
             String akakoString = biralFragment.getAkako();
             Map<String, String> map = biralFragment.getKodErtMap();

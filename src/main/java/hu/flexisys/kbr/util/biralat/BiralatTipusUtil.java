@@ -19,7 +19,15 @@ public class BiralatTipusUtil {
     public static final String HUS_BIRALAT_TIPUS = "8";
     public static final String TEJ_BIRALAT_TIPUS = "9";
 
-    public static String currentBiralatTipus = HUS_BIRALAT_TIPUS;
+    private static String currentBiralatTipus = HUS_BIRALAT_TIPUS;
+
+    public static void setCurrentBiralatTipus(String tipusKod) {
+        currentBiralatTipus = tipusKod;
+    }
+
+    public static String getCurrentBiralatTipus() {
+        return currentBiralatTipus;
+    }
 
     public static String getBiralatTipusByBiralat(Biralat biralat) {
         String birti = String.valueOf(biralat.getBIRTI());

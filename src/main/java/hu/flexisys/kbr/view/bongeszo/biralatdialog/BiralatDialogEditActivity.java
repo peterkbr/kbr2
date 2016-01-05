@@ -35,7 +35,7 @@ public class BiralatDialogEditActivity extends KbrActivity {
 
         selectedEgyed = (Egyed) getIntent().getExtras().getSerializable(KEY_EGYED);
         selectedBiralat = (Biralat) getIntent().getExtras().getSerializable(KEY_BIRALAT);
-        BiralatTipusUtil.currentBiralatTipus = BiralatTipusUtil.getBiralatTipusByBiralat(selectedBiralat);
+        BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.getBiralatTipusByBiralat(selectedBiralat));
 
         List<Biralat> egyedBiralatList = new ArrayList<Biralat>();
         egyedBiralatList.add(selectedBiralat);
@@ -48,7 +48,9 @@ public class BiralatDialogEditActivity extends KbrActivity {
         } else {
             Date lastBiralatDate = null;
             for (Biralat biralat : selectedEgyed.getBiralatList()) {
-                if (biralat.getBIRDA() != null && biralat.getEXPORTALT() && (lastBiralatDate == null || lastBiralatDate.before(biralat.getBIRDA()))) {
+                String lastType = BiralatTipusUtil.getBiralatTipusByBiralat(biralat);
+                if (lastType.equals(BiralatTipusUtil.getCurrentBiralatTipus()) && biralat.getBIRDA() != null && biralat.getEXPORTALT() &&
+                        (lastBiralatDate == null || lastBiralatDate.before(biralat.getBIRDA()))) {
                     lastBiralatDate = biralat.getBIRDA();
                 }
             }
@@ -167,7 +169,7 @@ public class BiralatDialogEditActivity extends KbrActivity {
             biralat.setORSKO(selectedEgyed.getORSKO());
             biralat.setKULAZ(app.getBiraloAzonosito());
             biralat.setBIRDA(new Date());
-            biralat.setBIRTI(Integer.valueOf(BiralatTipusUtil.currentBiralatTipus));
+            biralat.setBIRTI(Integer.valueOf(BiralatTipusUtil.getCurrentBiralatTipus()));
 
             String akakoString = biralFragment.getAkako();
             Map<String, String> map = biralFragment.getKodErtMap();
