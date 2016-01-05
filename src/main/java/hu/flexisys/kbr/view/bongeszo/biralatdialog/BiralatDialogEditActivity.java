@@ -167,7 +167,7 @@ public class BiralatDialogEditActivity extends KbrActivity {
             biralat.setORSKO(selectedEgyed.getORSKO());
             biralat.setKULAZ(app.getBiraloAzonosito());
             biralat.setBIRDA(new Date());
-            biralat.setBIRTI(7);
+            biralat.setBIRTI(Integer.valueOf(BiralatTipusUtil.currentBiralatTipus));
 
             String akakoString = biralFragment.getAkako();
             Map<String, String> map = biralFragment.getKodErtMap();
