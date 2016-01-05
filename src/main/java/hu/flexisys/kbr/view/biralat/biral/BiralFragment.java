@@ -126,7 +126,8 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
                 }
             });
             if (biralatTipus.vpList.contains(szempont.kod)) {
-                input.setClickable(false);
+                input.setStepIn(false);
+                input.setClickable(VPTypeUtil.isSzarmaztatottSzempontEditable(szempont.kod));
             }
 
             biralatNumPadInputs.add(input);
@@ -469,7 +470,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
                     currentSzempontKod = null;
                     for (int j = ++i; j < szempontKodList.size(); j++) {
                         szempontKod = szempontKodList.get(j);
-                        if (szempontKodInputMap.get(szempontKod).isClickable()) {
+                        if (szempontKodInputMap.get(szempontKod).shoudStepInto()) {
                             currentSzempontKod = szempontKod;
                             break;
                         }

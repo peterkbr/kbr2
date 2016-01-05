@@ -16,6 +16,8 @@ public class BiralatNumPadInput extends NumPadInput {
     private boolean newContent;
     private boolean oldContent;
 
+    private boolean stepIn = true;
+
     public BiralatNumPadInput(Context context) {
         super(context);
     }
@@ -132,6 +134,10 @@ public class BiralatNumPadInput extends NumPadInput {
         setBackgroundColor(getContext().getResources().getColor(colorResId));
     }
 
+    public boolean shoudStepInto() {
+        return stepIn;
+    }
+
     // GETTERS, SETTERS
 
     public void setMaxLength(Integer maxLength) {
@@ -152,5 +158,9 @@ public class BiralatNumPadInput extends NumPadInput {
 
     public void setKeszletExtensions(List<String> keszletExtensions) {
         this.keszletExtensions = keszletExtensions;
+    }
+
+    public void setStepIn(boolean stepIn) {
+        this.stepIn = stepIn;
     }
 }
