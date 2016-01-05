@@ -100,7 +100,7 @@ public enum VPType {
                 HO = params.get(i++);
                 CA = params.get(i++);
                 SM = params.get(i++);
-                value = (CU * 0.2) + (HO * 0.4) + (CA * 0.2) + (SM * 0.2);
+                value = (double) ((CU * 2) + (HO * 4) + (CA * 2) + (SM * 2));
                 break;
             case VP_64:
                 TM = params.get(i++);
@@ -112,8 +112,8 @@ public enum VPType {
                 BA = params.get(i++);
                 BV = params.get(i++);
                 BH = params.get(i++);
-                value = (TM * 0.24) + (TF * 0.13) + (TH * 0.06) + (EI * 0.14) + (TC * 0.06) +
-                        (BE * 0.15) + (BA * 0.10) + (BV * 0.06) + (BH * 0.06);
+                value = (TM * 24) + (TF * 13) + (TH * 0.6) + (EI * 14) + (TC * 0.6) +
+                        (BE * 15) + (BA * 10) + (BV * 0.6) + (BH * 0.6);
                 break;
             default:
                 value = null;
