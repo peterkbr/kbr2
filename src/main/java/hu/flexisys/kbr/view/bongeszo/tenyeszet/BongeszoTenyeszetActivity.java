@@ -176,7 +176,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
         EmptyTask task = new EmptyTask(new Executable() {
             @Override
             public void execute() {
-                List<Biralat> feltoltetlenBiralatList = app.getFeltoltetlenBiralatListByTenazList(selectedTenyeszetList);
+                List<Biralat> feltoltetlenBiralatList = app.getFeltoltetlenTejhasznuBiralatListByTenazList(selectedTenyeszetList);
                 String requestBody = NetworkUtil.getKullembirRequestBody(app.getBiraloUserId(), feltoltetlenBiralatList);
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost post = new HttpPost(KbrApplicationUtil.getServerUrl());

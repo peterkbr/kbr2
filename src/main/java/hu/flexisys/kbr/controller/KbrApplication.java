@@ -246,16 +246,19 @@ public class KbrApplication extends Application {
         return egyedList;
     }
 
-    public List<Biralat> getFeltoltetlenBiralatListByTenazList(List<String> tenazList) {
-        List<Biralat> biralatList = new ArrayList<Biralat>();
+    public List<Biralat> getFeltoltetlenTejhasznuBiralatListByTenazList(List<String> tenazList) {
+        List<Biralat> rawBiralatList = new ArrayList<Biralat>();
         for (String TENAZ : tenazList) {
-            biralatList.addAll(dbController.getBiralatByTenyeszetAndFeltoltetlen(TENAZ, true));
+            rawBiralatList.addAll(dbController.getBiralatByTenyeszetAndFeltoltetlen(TENAZ, true));
         }
-        return biralatList;
-    }
 
-    public List<Biralat> getFeltoltetlenBiralatList() {
-        List<Biralat> biralatList = dbController.getBiralatByFeltoltetlen(true);
+        List<Biralat> biralatList = new ArrayList<Biralat>();
+        for (Biralat biralat : rawBiralatList) {
+            String biralatTipusKod = String.valueOf(biralat.getBIRTI());
+            if (BiralatTipusUtil.TEJ_BIRALAT_TIPUS.equals(biralatTipusKod)) {
+                biralatList.add(biralat);
+            }
+        }
         return biralatList;
     }
 
