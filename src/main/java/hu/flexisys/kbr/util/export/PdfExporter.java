@@ -4,9 +4,6 @@ import android.util.Log;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 
-/**
- * Created by peter on 29/09/14.
- */
 public class PdfExporter {
 
     protected static String tenaz;
@@ -32,7 +29,7 @@ public class PdfExporter {
             BaseFont baseFont = BaseFont.createFont("assets/opensans.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             font = new Font(baseFont, size);
         } catch (Exception e) {
-            Log.e("PdfExporter : getBaseFont", e.getMessage(), e);
+            Log.e("PdfExporter:getBaseFont", e.getMessage(), e);
             font = new Font();
         }
         return font;
@@ -55,7 +52,6 @@ public class PdfExporter {
         public void onStartPage(PdfWriter writer, Document document) {
             ++pagenumber;
 
-//            PdfContentByte canvas = writer.getDirectContent();
             Rectangle content = writer.getBoxSize("art");
 
             int tableSize = 2;
@@ -88,13 +84,6 @@ public class PdfExporter {
             }
             ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(String.format("- %d -", pagenumber), getFont(12f)),
                     (content.getLeft() + content.getRight()) / 2, content.getBottom(), 0);
-
-
-//            Rectangle box = new Rectangle(content.getLeft(), content.getBottom() + boxMargin_bottom, content.getRight(),
-//                    content.getTop() - boxMargin_top - table.getTotalHeight());
-//            box.setBorder(Rectangle.BOX);
-//            box.setBorderWidth(1);
-//            canvas.rectangle(box);
         }
 
         public PdfPCell getHeaderCell(String value, boolean bold) {
