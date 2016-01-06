@@ -77,7 +77,7 @@ public class PdfExporter {
                 e.printStackTrace();
             }
 
-            Phrase p = new Phrase("Holstein-fríz Tenyésztők Egyesülete", getFont(20f));
+            Phrase p = new Phrase("Magyartarka Tenyésztők Egyesülete", getFont(20f));
             ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, p, content.getLeft() + 20, content.getTop() - 30, 0);
 
             p = new Phrase(title, getFont(25f));
