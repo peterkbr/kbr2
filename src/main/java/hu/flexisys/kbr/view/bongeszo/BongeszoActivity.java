@@ -6,10 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.util.Log;
 import android.view.*;
-import android.widget.CheckBox;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.emptytask.*;
 import hu.flexisys.kbr.model.Biralat;
@@ -36,9 +33,6 @@ import java.io.File;
 import java.text.ParseException;
 import java.util.*;
 
-/**
- * Created by Peter on 2014.07.21..
- */
 public class BongeszoActivity extends KbrActivity {
 
     public static final String ert1 = "16";
@@ -110,6 +104,23 @@ public class BongeszoActivity extends KbrActivity {
         elkuldetlenFilter = true;
         CheckBox elkuldetlenCheckBox = (CheckBox) findViewById(R.id.bong_szuk_elkuldetlen);
         elkuldetlenCheckBox.setChecked(elkuldetlenFilter);
+
+        final RadioButton husButton = (RadioButton) findViewById(R.id.bong_szuk_hus_radio);
+        final RadioButton tejButton = (RadioButton) findViewById(R.id.bong_szuk_tej_radio);
+        husButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                tejButton.setChecked(!isChecked);
+            }
+        });
+        tejButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                husButton.setChecked(!isChecked);
+            }
+        });
+
+        urit();
 
         ListView biralatListView = (ListView) findViewById(R.id.bongeszo_bir_list);
         biralatListView.setEmptyView(findViewById(R.id.empty_list_item));
@@ -225,7 +236,13 @@ public class BongeszoActivity extends KbrActivity {
     public void reloadData() {
         biralatList.clear();
         List<Biralat> rawList = app.getBiralatListByTENAZArray(selectedTenazArray);
+
+        BiralatTipus tipus = BiralatTipusUtil.getBiralatTipus(BiralatTipusUtil.getCurrentBiralatTipus());
         for (Biralat biralat : rawList) {
+            String biralatTipusKod = String.valueOf(biralat.getBIRTI());
+            if (!tipus.id.equals(biralatTipusKod)) {
+                continue;
+            }
             if (applyFilters(biralat)) {
                 biralatList.add(biralat);
             }
@@ -367,10 +384,7 @@ public class BongeszoActivity extends KbrActivity {
     }
 
     private ArrayList<String> getDiagramValues() {
-
-        // TODO biralat tipus azonositas : DIAGRAM
-        BiralatTipus tipus = BiralatTipusUtil.getBiralatTipus("8");
-
+        BiralatTipus tipus = BiralatTipusUtil.getBiralatTipus(BiralatTipusUtil.getCurrentBiralatTipus());
         List<BiralatSzempont> szempontList = new ArrayList<BiralatSzempont>();
         Map<String, Integer[]> diagramValueMap = new HashMap<String, Integer[]>();
         for (String szempontId : tipus.szempontList) {
@@ -384,6 +398,10 @@ public class BongeszoActivity extends KbrActivity {
         }
 
         for (Biralat biralat : biralatList) {
+            String biralatTipusKod = String.valueOf(biralat.getBIRTI());
+            if (!tipus.id.equals(biralatTipusKod)) {
+                continue;
+            }
             for (BiralatSzempont szempont : szempontList) {
                 String ertString = biralat.getErtByKod(szempont.kod);
                 if (ertString == null || ertString.isEmpty()) {
@@ -519,6 +537,13 @@ public class BongeszoActivity extends KbrActivity {
         CheckBox elkuldetlenCheckBox = (CheckBox) findViewById(R.id.bong_szuk_elkuldetlen);
         elkuldetlenFilter = elkuldetlenCheckBox.isChecked();
 
+        final RadioButton husButton = (RadioButton) findViewById(R.id.bong_szuk_hus_radio);
+        if (husButton.isChecked()) {
+            BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.HUS_BIRALAT_TIPUS);
+        } else {
+            BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.TEJ_BIRALAT_TIPUS);
+        }
+
         EmptyTask task = new EmptyTask(new Executable() {
             @Override
             public void execute() {
@@ -543,6 +568,12 @@ public class BongeszoActivity extends KbrActivity {
         datumIg.setText("");
         CheckBox elkuldetlenCheckBox = (CheckBox) findViewById(R.id.bong_szuk_elkuldetlen);
         elkuldetlenCheckBox.setChecked(false);
+
+        final RadioButton husButton = (RadioButton) findViewById(R.id.bong_szuk_hus_radio);
+        husButton.setChecked(true);
+        BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.HUS_BIRALAT_TIPUS);
+        final RadioButton tejButton = (RadioButton) findViewById(R.id.bong_szuk_tej_radio);
+        tejButton.setChecked(false);
     }
 
     // MENU IN ACTIONBAR

@@ -26,13 +26,14 @@ public class BiralatSzempont {
         this.keszletEnd = keszletArray[1];
         this.keszletExtensions = new ArrayList<String>();
 
-        if (keszletArray.length>2) {
+        if (keszletArray.length > 2) {
             keszletExtensions = Arrays.asList(keszletArray);
         }
 
-        kategoriaBounds = new Integer[values.length - 3];
-        for (int i = 3, j = 0; i < values.length; i++, j++) {
-            kategoriaBounds[j] = Integer.parseInt(values[i]);
+        String[] kategoriaBoundsStrings = values[3].split(":");
+        kategoriaBounds = new Integer[kategoriaBoundsStrings.length];
+        for (int i = 0; i < kategoriaBounds.length; i++) {
+            kategoriaBounds[i] = Integer.parseInt(kategoriaBoundsStrings[i]);
         }
     }
 }
