@@ -23,9 +23,6 @@ import hu.flexisys.kbr.view.NotificationDialog;
 
 import java.util.*;
 
-/**
- * Created by Peter on 2014.07.04..
- */
 public class TenyeszetActivity extends KbrActivity implements DownloadTenyeszetHandler {
 
     private final List<TenyeszetListModel> tenyeszetList = new ArrayList<TenyeszetListModel>();

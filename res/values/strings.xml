@@ -39,7 +39,7 @@
     <string name="teny_notification_delete_biralat_title">A tenyészet feltöltetlen bírálatot tartalmaz!</string>
     <string name="teny_notification_delete_biralat_message">A tenyészet nem törölhető!</string>
 
-    <string name="teny_notification_download_error_biralat_title">Addig nem lehet letölteni a tenyészetet, amíg a bírálatok feltöltése nem történt meg!</string>
+    <string name="teny_notification_download_error_biralat_title">Exportálatlan és/vagy feltöltetlen bírálatú tenyészetet nem lehet letölteni!</string>
 
     <string name="teny_notification_download_title">A letöltés eredménye</string>
     <string name="teny_notification_download_ok_title">Megérkeztek a letöltés adatai.</string>
