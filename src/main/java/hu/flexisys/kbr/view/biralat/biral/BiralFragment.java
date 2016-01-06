@@ -250,13 +250,16 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
             Biralat lastBiralat = null;
             Biralat oldBiralat = null;
             for (Biralat biralat : selectedEgyedForBiral.getBiralatList()) {
+                String lastType = BiralatTipusUtil.getBiralatTipusByBiralat(biralat);
                 if (editable && biralat.getLETOLTOTT()) {
-                    if (oldBiralat == null || oldBiralat.getBIRDA().getTime() < biralat.getBIRDA().getTime()) {
+                    if (lastType.equals(BiralatTipusUtil.getCurrentBiralatTipus()) &&
+                            (oldBiralat == null || oldBiralat.getBIRDA().getTime() < biralat.getBIRDA().getTime())) {
                         oldBiralat = biralat;
                     }
                     continue;
                 }
-                if (lastBiralat == null || lastBiralat.getBIRDA().getTime() < biralat.getBIRDA().getTime()) {
+                if (lastType.equals(BiralatTipusUtil.getCurrentBiralatTipus()) &&
+                        (lastBiralat == null || lastBiralat.getBIRDA().getTime() < biralat.getBIRDA().getTime())) {
                     lastBiralat = biralat;
                 }
             }
