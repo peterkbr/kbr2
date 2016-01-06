@@ -473,16 +473,10 @@ public class BongeszoActivity extends KbrActivity {
 
                             if (pdf) {
                                 BiralatPdfExporter.initPdfExporter(tenazBuilder.toString(), tartoBuilder.toString(), app.getBiraloNev());
-
-                                // TODO biralat tipus azonositas : EXPORT
-                                BiralatPdfExporter.export(dir.getPath(), "8", biralatList, egyedMap);
-
+                                BiralatPdfExporter.export(dir.getPath(), BiralatTipusUtil.getCurrentBiralatTipus(), biralatList, egyedMap);
                             }
                             if (csv) {
-
-                                // TODO biralat tipus azonositas : EXPORT
-                                BiralatCvsExporter.export(dir.getPath(), "8", biralatList, egyedMap);
-
+                                BiralatCvsExporter.export(dir.getPath(), BiralatTipusUtil.getCurrentBiralatTipus(), biralatList, egyedMap);
                             }
                             for (Biralat biralat : biralatList) {
                                 if (!biralat.getEXPORTALT()) {
