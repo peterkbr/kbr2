@@ -481,6 +481,10 @@ public class BongeszoActivity extends KbrActivity {
                             for (Biralat biralat : biralatList) {
                                 if (!biralat.getEXPORTALT()) {
                                     biralat.setEXPORTALT(true);
+                                    String biralatTipusKod = String.valueOf(biralat.getBIRTI());
+                                    if (BiralatTipusUtil.HUS_BIRALAT_TIPUS.equals(biralatTipusKod)) {
+                                        biralat.setFELTOLTETLEN(false);
+                                    }
                                     app.updateBiralat(biralat);
                                 }
                             }
