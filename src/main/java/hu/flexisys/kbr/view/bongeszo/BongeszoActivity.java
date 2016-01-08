@@ -565,7 +565,7 @@ public class BongeszoActivity extends KbrActivity {
         TextView datumIg = (TextView) findViewById(R.id.bong_szuk_datum_ig);
         datumIg.setText("");
         CheckBox elkuldetlenCheckBox = (CheckBox) findViewById(R.id.bong_szuk_elkuldetlen);
-        elkuldetlenCheckBox.setChecked(false);
+        elkuldetlenCheckBox.setChecked(true);
 
         final RadioButton husButton = (RadioButton) findViewById(R.id.bong_szuk_hus_radio);
         husButton.setChecked(true);
