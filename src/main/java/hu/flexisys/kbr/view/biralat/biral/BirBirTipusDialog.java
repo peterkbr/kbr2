@@ -1,5 +1,6 @@
 package hu.flexisys.kbr.view.biralat.biral;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,5 +41,13 @@ public class BirBirTipusDialog extends KbrDialog {
         });
 
         return v;
+    }
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        return dialog;
     }
 }
