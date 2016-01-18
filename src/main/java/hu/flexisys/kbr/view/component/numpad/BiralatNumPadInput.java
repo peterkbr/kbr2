@@ -83,7 +83,6 @@ public class BiralatNumPadInput extends NumPadInput {
                 if (szarmaztatottContent != null) {
                     if (!validateSzarmaztatottErtek()) {
                         setText(String.valueOf(szarmaztatottContent), true);
-                        // TODO mi az üzenet?
                         container.onMessage("A felülírott származtatott érték intervallumon kívül esik!\nViszaállítottuk az eredeti értéket.");
                     }
                 }

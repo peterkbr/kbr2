@@ -36,9 +36,6 @@
                 <init.url>http://appserver.mgszh.gov.hu:8888/EnarPdaServer/sendxml</init.url>
                 <init.email>kbr@flexisys.hu</init.email>
             </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
         </profile>
 
         <profile>

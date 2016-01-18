@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.db.DBController;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
@@ -20,14 +21,15 @@ import hu.flexisys.kbr.view.db.DbInconsistencyHandlerActivity;
 import hu.flexisys.kbr.view.db.SendDbActivity;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
 import org.acra.ACRA;
+import org.acra.ReportingInteractionMode;
+import org.acra.annotation.ReportsCrashes;
 
 import java.util.*;
 
-// TODO reset
-//@ReportsCrashes(formKey = "",
-//        mailTo = "kbr@flexisys.hu",
-//        mode = ReportingInteractionMode.TOAST,
-//        resToastText = R.string.crash_toast_text)
+@ReportsCrashes(formKey = "",
+        mailTo = "kbr@flexisys.hu",
+        mode = ReportingInteractionMode.TOAST,
+        resToastText = R.string.crash_toast_text)
 public class KbrApplication extends Application {
 
     public static String errorOnInit = null;
