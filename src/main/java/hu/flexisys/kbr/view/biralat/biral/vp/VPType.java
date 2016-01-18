@@ -1,5 +1,6 @@
 package hu.flexisys.kbr.view.biralat.biral.vp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public enum VPType {
@@ -53,14 +54,66 @@ public enum VPType {
         }
     }
 
-    public Integer evaluateParams(List<Integer> params) {
-        if (!validParams(params)) {
+    public Integer calcVp(List<Integer> rawParams) {
+        if (!validParams(rawParams)) {
             return null;
         }
 
+        List<Double> params = refineParams(rawParams);
+        Double rawValue = evaluateParams(params);
+        Integer value = classifyRawValue(rawValue);
+        return value;
+    }
+
+    private Boolean validParams(List<Integer> params) {
+        if (!paramsNum.equals(params.size())) {
+            return false;
+        }
+
+        for (Integer param : params) {
+            if (param == null) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private List<Double> refineParams(List<Integer> rawParams) {
+        List<Double> params = new ArrayList<Double>();
+        switch (this) {
+            case VP_40:
+            case VP_41:
+            case VP_42:
+            case VP_53:
+            case VP_61:
+                for (Integer rawParam : rawParams) {
+                    Double param = Double.valueOf(rawParam);
+                    params.add(param);
+                }
+                break;
+            case VP_63:
+            case VP_64:
+                String kod = String.valueOf(vpKod());
+                List<String> szempontSzarmaztatasList = VPTypeUtil.getSzempontSzarmaztatasList(kod);
+                for (int i = 0; i < szempontSzarmaztatasList.size(); i++) {
+                    String paramKod = szempontSzarmaztatasList.get(i);
+                    String paramName = VPTypeUtil.getParamNameByKod(paramKod);
+                    Integer rawParam = rawParams.get(i);
+
+                    Double convertedParam = VPTypeUtil.getConvertedParamByName(paramName, rawParam-1);
+                    Double statValue = VPTypeUtil.getStatValueByNameFromConvertedValue(paramName, convertedParam);
+                    params.add(statValue);
+                }
+                break;
+        }
+        return params;
+    }
+
+    private Double evaluateParams(List<Double> params) {
         Double value;
         int i = 0;
-        Integer IH, IE, FL, HO, CU, TM, BF, FM, FH, FS, TH, TR, TS, CA, SM, TF, EI, TC, BE, BA, BV, BH;
+        Double IH, IE, FL, HO, CU, TM, BF, FM, FH, FS, TH, TR, TS, CA, SM, TF, EI, TC, BE, BA, BV, BH;
         switch (this) {
             case VP_40:
                 IH = params.get(i++);
@@ -100,7 +153,7 @@ public enum VPType {
                 HO = params.get(i++);
                 CA = params.get(i++);
                 SM = params.get(i++);
-                value = (double) ((CU * 2) + (HO * 4) + (CA * 2) + (SM * 2));
+                value = ((CU * 0.2) + (HO * 0.4) + (CA * 0.2) + (SM * 0.2));
                 break;
             case VP_64:
                 TM = params.get(i++);
@@ -112,26 +165,33 @@ public enum VPType {
                 BA = params.get(i++);
                 BV = params.get(i++);
                 BH = params.get(i++);
-                value = (TM * 2.4) + (TF * 1.3) + (TH * 0.6) + (EI * 1.4) + (TC * 0.6) +
-                        (BE * 1.5) + (BA * 1) + (BV * 0.6) + (BH * 0.6);
+                value = (TM * 0.24) + (TF * 0.13) + (TH * 0.06) + (EI * 0.14) + (TC * 0.06) +
+                        (BE * 0.15) + (BA * 0.1) + (BV * 0.06) + (BH * 0.06);
                 break;
             default:
                 value = null;
         }
-        return (int) Math.round(value);
+        return value;
     }
 
-    private Boolean validParams(List<Integer> params) {
-        if (!paramsNum.equals(params.size())) {
-            return false;
+    private Integer classifyRawValue(Double rawValue) {
+        Integer value = null;
+        switch (this) {
+            case VP_40:
+            case VP_41:
+            case VP_42:
+            case VP_53:
+            case VP_61:
+                value = (int) Math.round(rawValue);
+                break;
+            case VP_63:
+                value = VPTypeUtil.getIntervalValueForFund(rawValue);
+                break;
+            case VP_64:
+                value = VPTypeUtil.getIntervalValueForEuter(rawValue);
+                break;
         }
 
-        for (Integer param : params) {
-            if (param == null) {
-                return false;
-            }
-        }
-
-        return true;
+        return value;
     }
 }

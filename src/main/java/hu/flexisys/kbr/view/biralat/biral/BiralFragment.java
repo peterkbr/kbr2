@@ -529,7 +529,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
                 }
             }
 
-            Integer vpErtek = vp.evaluateParams(szempontEretekList);
+            Integer vpErtek = vp.calcVp(szempontEretekList);
             if (vpErtek != null) {
                 BiralatNumPadInput vpInput = szempontKodInputMap.get(vpKod);
                 vpInput.removeSpecialContent();
