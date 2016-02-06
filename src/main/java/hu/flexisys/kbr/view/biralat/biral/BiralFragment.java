@@ -215,6 +215,9 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     }
 
     public Map<String, String> getKodErtMap() {
+        if (szempontKodInputMap == null) {
+            return null;
+        }
         Map<String, String> map = new HashMap<String, String>();
         for (String kod : szempontKodInputMap.keySet()) {
             BiralatNumPadInput input = szempontKodInputMap.get(kod);
@@ -228,6 +231,9 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     }
 
     public String getAkako() {
+        if (akakoBiralatNumPadInput == null) {
+            return null;
+        }
         return akakoBiralatNumPadInput.getText().toString();
     }
 
