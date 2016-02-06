@@ -374,18 +374,18 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         openBiralatTipusDialog(new BirBirTipusListener() {
             @Override
             public void onHus() {
+                dismissDialog();
                 BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.HUS_BIRALAT_TIPUS);
                 biralFragment.setupBiralatTipus();
                 updateUIWithSelectedEgyed();
-                dismissDialog();
             }
 
             @Override
             public void onTej() {
+                dismissDialog();
                 BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.TEJ_BIRALAT_TIPUS);
                 biralFragment.setupBiralatTipus();
                 updateUIWithSelectedEgyed();
-                dismissDialog();
             }
         });
     }
