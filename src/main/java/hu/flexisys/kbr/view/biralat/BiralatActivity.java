@@ -243,7 +243,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
 
     public void keres(View view) {
         String hasznalatiSzamValue = hasznalatiInput.getText().toString();
-        if (hasznalatiSzamValue == null || hasznalatiSzamValue.isEmpty()) {
+        if (hasznalatiSzamValue == null || hasznalatiSzamValue.isEmpty() || hasznalatiSzamValue.equals("----")) {
             return;
         }
 
