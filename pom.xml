@@ -30,8 +30,8 @@
             <id>peter</id>
             <properties>
                 <!--<adk.path>C:\Users\Peter\Desktop\eclipseAnd\android-sdk</adk.path>-->
-                <adk.path>/Users/peter/dev/tools/android-sdk-macosx</adk.path>
-                <android.sdk.path>/Users/peter/dev/tools/android-sdk-macosx</android.sdk.path>
+                <adk.path>/Users/peter/Library/Android/sdk</adk.path>
+                <android.sdk.path>/Users/peter/Library/Android/sdk</android.sdk.path>
 
                 <init.url>http://appserver-teszt.nebih.gov.hu/EnarPdaServer/sendxml</init.url>
                 <init.email>kbr@flexisys.hu</init.email>
@@ -154,7 +154,7 @@
                 <configuration>
                     <sdk>
                         <path>${android.sdk.path}</path>
-                        <platform>20</platform>
+                        <platform>23</platform>
                     </sdk>
                 </configuration>
             </plugin>

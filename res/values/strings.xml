@@ -4,7 +4,7 @@
     <string name="app_name">Küllemi bírálat</string>
     <string name="app_test_name">Figyelem, ez egy tesztverzió! 1.0</string>
 
-    <string name="server_url">https://appserver-teszt.nebih.gov.hu/EnarPdaServer/sendxml</string>
+    <string name="server_url">http://appserver-teszt.nebih.gov.hu/EnarPdaServer/sendxml</string>
     <string name="production_url">http://appserver.mgszh.gov.hu:8888/EnarPdaServer/sendxml</string>
     <string name="support_email">kbr@flexisys.hu</string>
     <string name="crash_toast_text">Az alkalmazás belső hiba miatt leállt!\nKérjük, hogy a generált riportot változtatás nélkül küldje el számunkra!</string>
