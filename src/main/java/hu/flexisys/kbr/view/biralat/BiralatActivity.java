@@ -81,10 +81,10 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
 
     public void onExit() {
 
-//        String akakoString = biralFragment.getAkako();
-//        Map<String, String> map = biralFragment.getKodErtMap();
-//        if ((biralFragment.getBiralatStarted() && (akakoString == null || akakoString.isEmpty() || akakoString.equals("3")) && map == null) ||
-//                biralFragment.getBiralatStarted()) {
+        //        String akakoString = biralFragment.getAkako();
+        //        Map<String, String> map = biralFragment.getKodErtMap();
+        //        if ((biralFragment.getBiralatStarted() && (akakoString == null || akakoString.isEmpty() || akakoString.equals("3")) && map == null) ||
+        //                biralFragment.getBiralatStarted()) {
         if (biralFragment.getBiralatStarted()) {
 
             FragmentTransaction ft = getFragmentTransactionWithTag("exit");
@@ -436,31 +436,87 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
 
     public void showBiraltList(View view) {
         if (!biraltEgyedList.isEmpty() && !showingEgyedListDialog) {
-            showingEgyedListDialog = true;
-            FragmentTransaction ft = getFragmentTransactionWithTag("biralt");
-            dialog = BirKerEgyedListDialog.newInstance(biraltEgyedList, true, new BirKerEgyedListDialog.EgyedClickListener() {
-                @Override
-                public void onEgyedClick(Egyed egyed) {
-                    updateHasznalatiSzamView(egyed.getAZONO(), "HU".equals(egyed.getORSKO()));
-                    onSingleSelect(egyed);
-                }
-            }, this);
-            dialog.show(ft, "biralt");
+            if (biralFragment.getBiralatStarted()) {
+                FragmentTransaction ft = getFragmentTransactionWithTag("unsaved");
+                dialog = BirBirUnsavedBiralatDialog.newInstance(new BirBirUnsavedBiralatListener() {
+
+                    @Override
+                    public void onBirBirUnsavedBiralatCancel() {
+                        dismissDialog();
+                    }
+
+                    @Override
+                    public void onBirBirUnsavedBiralatOk() {
+                        dismissDialog();
+                        showingEgyedListDialog = true;
+                        FragmentTransaction ft = getFragmentTransactionWithTag("biralt");
+                        dialog = BirKerEgyedListDialog.newInstance(biraltEgyedList, true, new BirKerEgyedListDialog.EgyedClickListener() {
+                            @Override
+                            public void onEgyedClick(Egyed egyed) {
+                                updateHasznalatiSzamView(egyed.getAZONO(), "HU".equals(egyed.getORSKO()));
+                                onSingleSelect(egyed);
+                            }
+                        }, BiralatActivity.this);
+                        dialog.show(ft, "biralt");
+                    }
+                });
+                dialog.show(ft, "unsaved");
+                return;
+            } else {
+                showingEgyedListDialog = true;
+                FragmentTransaction ft = getFragmentTransactionWithTag("biralt");
+                dialog = BirKerEgyedListDialog.newInstance(biraltEgyedList, true, new BirKerEgyedListDialog.EgyedClickListener() {
+                    @Override
+                    public void onEgyedClick(Egyed egyed) {
+                        updateHasznalatiSzamView(egyed.getAZONO(), "HU".equals(egyed.getORSKO()));
+                        onSingleSelect(egyed);
+                    }
+                }, this);
+                dialog.show(ft, "biralt");
+            }
         }
     }
 
     public void showBiralandoList(View view) {
         if (!biralandoEgyedList.isEmpty() && !showingEgyedListDialog) {
-            showingEgyedListDialog = true;
-            FragmentTransaction ft = getFragmentTransactionWithTag("biralando");
-            dialog = BirKerEgyedListDialog.newInstance(biralandoEgyedList, true, new BirKerEgyedListDialog.EgyedClickListener() {
-                @Override
-                public void onEgyedClick(Egyed egyed) {
-                    updateHasznalatiSzamView(egyed.getAZONO(), "HU".equals(egyed.getORSKO()));
-                    onSingleSelect(egyed);
-                }
-            }, this);
-            dialog.show(ft, "biralando");
+            if (biralFragment.getBiralatStarted()) {
+                FragmentTransaction ft = getFragmentTransactionWithTag("unsaved");
+                dialog = BirBirUnsavedBiralatDialog.newInstance(new BirBirUnsavedBiralatListener() {
+
+                    @Override
+                    public void onBirBirUnsavedBiralatCancel() {
+                        dismissDialog();
+                    }
+
+                    @Override
+                    public void onBirBirUnsavedBiralatOk() {
+                        dismissDialog();
+                        showingEgyedListDialog = true;
+                        FragmentTransaction ft = getFragmentTransactionWithTag("biralando");
+                        dialog = BirKerEgyedListDialog.newInstance(biralandoEgyedList, true, new BirKerEgyedListDialog.EgyedClickListener() {
+                            @Override
+                            public void onEgyedClick(Egyed egyed) {
+                                updateHasznalatiSzamView(egyed.getAZONO(), "HU".equals(egyed.getORSKO()));
+                                onSingleSelect(egyed);
+                            }
+                        }, BiralatActivity.this);
+                        dialog.show(ft, "biralando");
+                    }
+                });
+                dialog.show(ft, "unsaved");
+                return;
+            } else {
+                showingEgyedListDialog = true;
+                FragmentTransaction ft = getFragmentTransactionWithTag("biralando");
+                dialog = BirKerEgyedListDialog.newInstance(biralandoEgyedList, true, new BirKerEgyedListDialog.EgyedClickListener() {
+                    @Override
+                    public void onEgyedClick(Egyed egyed) {
+                        updateHasznalatiSzamView(egyed.getAZONO(), "HU".equals(egyed.getORSKO()));
+                        onSingleSelect(egyed);
+                    }
+                }, this);
+                dialog.show(ft, "biralando");
+            }
         }
     }
 
