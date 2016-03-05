@@ -36,6 +36,9 @@
                 <init.url>http://appserver-teszt.nebih.gov.hu/EnarPdaServer/sendxml</init.url>
                 <init.email>kbr@flexisys.hu</init.email>
             </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
         </profile>
 
         <profile>
