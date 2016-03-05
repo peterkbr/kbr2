@@ -15,6 +15,7 @@ public class BirBirAkakoDialog extends KbrDialog {
     public static BirBirAkakoDialog newInstance(BirBirAkakoDialogListener listener) {
         BirBirAkakoDialog dialog = new BirBirAkakoDialog();
         dialog.listener = listener;
+        dialog.setCancelable(false);
         return dialog;
     }
 
