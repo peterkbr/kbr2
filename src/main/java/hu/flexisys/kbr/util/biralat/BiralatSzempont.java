@@ -12,6 +12,7 @@ public class BiralatSzempont {
     public String keszletStart;
     public String keszletEnd;
     public List<String> keszletExtensions;
+    public int maxLength;
     public Integer[] kategoriaBounds;
 
     public BiralatSzempont(String kod, String valuesString) {
@@ -24,10 +25,16 @@ public class BiralatSzempont {
 
         this.keszletStart = keszletArray[0];
         this.keszletEnd = keszletArray[1];
+        this.maxLength = keszletEnd.length();
         this.keszletExtensions = new ArrayList<String>();
 
         if (keszletArray.length > 2) {
             keszletExtensions = Arrays.asList(keszletArray);
+            for (String ext : keszletExtensions) {
+                if (ext.length() > maxLength) {
+                    maxLength = ext.length();
+                }
+            }
         }
 
         String[] kategoriaBoundsStrings = values[3].split(":");
