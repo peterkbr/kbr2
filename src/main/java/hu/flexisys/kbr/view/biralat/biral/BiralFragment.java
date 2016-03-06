@@ -401,7 +401,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     private void updateGrid(Biralat biralat, boolean old) {
         clearGrid();
         if (biralat != null) {
-            for (String kod : szempontKodInputMap.keySet()) {
+            for (String kod : szempontKodList) {
                 BiralatNumPadInput input = szempontKodInputMap.get(kod);
                 String value = biralat.getErtByKod(kod);
                 if (old) {
@@ -410,6 +410,7 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
                     input.setText(value);
                 }
                 input.unSelect();
+                calcAndUpdateVpFromKod(kod);
             }
         }
     }
