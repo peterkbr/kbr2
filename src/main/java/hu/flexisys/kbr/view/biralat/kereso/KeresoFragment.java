@@ -45,10 +45,16 @@ public class KeresoFragment extends Fragment {
 
     public void updateHURadio(Boolean hu) {
         View view = getView();
-        RadioButton radio = (RadioButton) view.findViewById(R.id.bir_ker_check_hu);
-        radio.setChecked(hu);
-        radio = (RadioButton) view.findViewById(R.id.bir_ker_check_ku);
-        radio.setChecked(!hu);
+        RadioButton radioHu = (RadioButton) view.findViewById(R.id.bir_ker_check_hu);
+        RadioButton radioKu = (RadioButton) view.findViewById(R.id.bir_ker_check_ku);
+
+        if (hu == null) {
+            radioHu.setChecked(false);
+            radioKu.setChecked(false);
+        } else {
+            radioHu.setChecked(hu);
+            radioKu.setChecked(!hu);
+        }
     }
 
     public void updateKeresoButtons(List<Egyed> egyedList) {
@@ -119,7 +125,6 @@ public class KeresoFragment extends Fragment {
             } else {
                 textView.setBackgroundColor(getResources().getColor(R.color.transparent));
             }
-
 
             if (!selectedEgyedForKereso.getUJ()) {
                 itvLayout.setVisibility(View.VISIBLE);

@@ -178,7 +178,8 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         }
     }
 
-    private void updateHasznalatiSzamView(String azono, Boolean _hu) {
+    private void updateHasznalatiSzamView(String azono, Boolean hu) {
+        boolean _hu = (hu == null || hu);
         if (azono.length() <= 4) {
             hasznalatiInput.setText(azono);
         } else if (!_hu || azono.length() != 10) {
@@ -203,29 +204,28 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     }
 
     public List<Egyed> filterByHasznalati(Boolean hu, String hasznalatiSzamString) {
+        boolean _hu = (hu == null || hu);
         List<Egyed> foundList = new ArrayList<Egyed>();
         for (Egyed egyed : egyedList) {
             String ENAR = String.valueOf(egyed.getAZONO());
-            if (hu && egyed.getORSKO().equals("HU") && ENAR.length() < 10 && ENAR.contains(hasznalatiSzamString)) {
+            if (_hu && egyed.getORSKO().equals("HU") && ENAR.length() < 10 && ENAR.contains(hasznalatiSzamString)) {
                 foundList.add(egyed);
-            } else if (hu && egyed.getORSKO().equals("HU") && ENAR.length() == 10 && ENAR.substring(5, 9).equals(hasznalatiSzamString)) {
+            } else if (_hu && egyed.getORSKO().equals("HU") && ENAR.length() == 10 && ENAR.substring(5, 9).equals(hasznalatiSzamString)) {
                 foundList.add(egyed);
-            } else if (!hu && !egyed.getORSKO().equals("HU") && ENAR.contains(hasznalatiSzamString)) {
+            } else if (!_hu && !egyed.getORSKO().equals("HU") && ENAR.contains(hasznalatiSzamString)) {
                 foundList.add(egyed);
             }
         }
         return foundList;
     }
 
-    private void changeHUSelection(boolean isHU) {
-        if (!hu.equals(isHU)) {
-            hu = isHU;
-            keresoFragment.updateHURadio(hu);
-        }
+    private void changeHUSelection(Boolean isHU) {
+        hu = isHU;
+        keresoFragment.updateHURadio(hu);
     }
 
     private void changeHUSelection(Egyed egyed) {
-        boolean isHu = true;
+        Boolean isHu = null;
         if (egyed != null) {
             isHu = "HU".equals(egyed.getORSKO());
         }
@@ -242,7 +242,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     }
 
     public void keres(View view) {
-        String hasznalatiSzamValue = hasznalatiInput.getText().toString();
+        final String hasznalatiSzamValue = hasznalatiInput.getText().toString();
         if (hasznalatiSzamValue == null || hasznalatiSzamValue.isEmpty() || hasznalatiSzamValue.equals("----")) {
             return;
         }
@@ -263,14 +263,17 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
                 public void onBirBirUnsavedBiralatOk() {
                     dismissDialog();
                     biralFragment.clearCurrentBiralat();
-                    keres(null);
+                    onKeres(hasznalatiSzamValue);
                 }
             });
             dialog.show(ft, "unsaved");
-            return;
+        } else {
+            onKeres(hasznalatiSzamValue);
         }
+    }
 
-        if (hu && hasznalatiSzamValue.length() < 4) {
+    private void onKeres(String hasznalatiSzamValue) {
+        if ((hu == null || hu) && hasznalatiSzamValue.length() < 4) {
             while (hasznalatiSzamValue.length() < 4) {
                 hasznalatiSzamValue = "0" + hasznalatiSzamValue;
             }
