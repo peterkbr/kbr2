@@ -339,23 +339,8 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         keresoFragment.updateDetails(selectedEgyed);
         updateHasznalatiSzamView(selectedEgyed.getAZONO(), hu);
 
-        openBiralatTipusDialog(new BirBirTipusListener() {
-            @Override
-            public void onHus() {
-                BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.HUS_BIRALAT_TIPUS);
-                biralFragment.setupBiralatTipus();
-                biralFragment.updateFragmentWithEgyed(selectedEgyed);
-                dismissDialog();
-            }
-
-            @Override
-            public void onTej() {
-                BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.TEJ_BIRALAT_TIPUS);
-                biralFragment.setupBiralatTipus();
-                biralFragment.updateFragmentWithEgyed(selectedEgyed);
-                dismissDialog();
-            }
-        });
+        biralFragment.setupBiralatTipus();
+        biralFragment.updateFragmentWithEgyed(selectedEgyed);
     }
 
     private Egyed findEgyedByAzono(String azono) {
@@ -373,23 +358,8 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         dismissDialog();
         selectedEgyed = egyed;
 
-        openBiralatTipusDialog(new BirBirTipusListener() {
-            @Override
-            public void onHus() {
-                dismissDialog();
-                BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.HUS_BIRALAT_TIPUS);
-                biralFragment.setupBiralatTipus();
-                updateUIWithSelectedEgyed();
-            }
-
-            @Override
-            public void onTej() {
-                dismissDialog();
-                BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.TEJ_BIRALAT_TIPUS);
-                biralFragment.setupBiralatTipus();
-                updateUIWithSelectedEgyed();
-            }
-        });
+        biralFragment.setupBiralatTipus();
+        updateUIWithSelectedEgyed();
     }
 
     private boolean isWithin30Days(Date date) {
@@ -654,11 +624,5 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
             }
         }, megjegyzes);
         dialog.show(ft, "megjegyzes");
-    }
-
-    public void openBiralatTipusDialog(BirBirTipusListener listener) {
-        FragmentTransaction ft = getFragmentTransactionWithTag("biralat_tipus");
-        dialog = BirBirTipusDialog.newInstance(listener);
-        dialog.show(ft, "biralat_tipus");
     }
 }
