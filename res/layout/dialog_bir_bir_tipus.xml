@@ -11,16 +11,16 @@
 
     <Button
         android:id="@+id/bir_bir_dialog_tipus_hus"
-        android:layout_width="200dp"
-        android:layout_height="@dimen/dialog_menu_height"
+        android:layout_width="220dp"
+        android:layout_height="@dimen/dialog_menu_big_height"
         android:text="@string/bir_bir_dialog_tipus_hus"
-        android:textSize="@dimen/dialog_menu_textsize" />
+        android:textSize="@dimen/dialog_menu_big_textsize" />
 
     <Button
         android:id="@+id/bir_bir_dialog_tipus_tej"
-        android:layout_width="200dp"
-        android:layout_height="@dimen/dialog_menu_height"
+        android:layout_width="220dp"
+        android:layout_height="@dimen/dialog_menu_big_height"
         android:text="@string/bir_bir_dialog_tipus_tej"
-        android:textSize="@dimen/dialog_menu_textsize" />
+        android:textSize="@dimen/dialog_menu_big_textsize" />
 
 </LinearLayout>
