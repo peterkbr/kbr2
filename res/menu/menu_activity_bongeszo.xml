@@ -16,11 +16,6 @@
                 android:id="@+id/bongeszo_export"
                 android:title="@string/bong_menu_export"
                 kbr:showAsAction="always" />
-
-            <item
-                android:id="@+id/bongeszo_linearis"
-                android:title="@string/bong_menu_linearis"
-                kbr:showAsAction="always" />
         </menu>
     </item>
 </menu>

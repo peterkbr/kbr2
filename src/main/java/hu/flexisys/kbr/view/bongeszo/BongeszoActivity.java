@@ -596,9 +596,6 @@ public class BongeszoActivity extends KbrActivity {
             case R.id.bongeszo_export:
                 export();
                 return true;
-            case R.id.bongeszo_linearis:
-                startDiagramActivity();
-                return true;
             case R.id.bongeszo_szukit:
                 szukit();
                 return true;
