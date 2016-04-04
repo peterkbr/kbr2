@@ -564,10 +564,10 @@ public class BongeszoActivity extends KbrActivity {
         elkuldetlenCheckBox.setChecked(true);
 
         final RadioButton husButton = (RadioButton) findViewById(R.id.bong_szuk_hus_radio);
-        husButton.setChecked(true);
+        husButton.setChecked(false);
         BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.HUS_BIRALAT_TIPUS);
         final RadioButton tejButton = (RadioButton) findViewById(R.id.bong_szuk_tej_radio);
-        tejButton.setChecked(false);
+        tejButton.setChecked(true);
     }
 
     // MENU IN ACTIONBAR
