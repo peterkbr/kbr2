@@ -35,12 +35,20 @@ import java.util.*;
 
 public class BongeszoActivity extends KbrActivity {
 
-    public static final String ert1 = "16";
-    public static final String ert2 = "47";
-    public static final String ert3 = "17";
-    public static final String ert4 = "21";
-    public static final String ert5 = "15";
-    public static final String ert6 = "25";
+    public static final String ert1_hus = "53";
+    public static final String ert2_hus = "40";
+    public static final String ert3_hus = "41";
+    public static final String ert4_hus = "42";
+
+    public static final String ert1_tej = "61";
+    public static final String ert2_tej = "62";
+    public static final String ert3_tej = "63";
+    public static final String ert4_tej = "64";
+
+    public static String ert1 = ert1_tej;
+    public static String ert2 = ert2_tej;
+    public static String ert3 = ert3_tej;
+    public static String ert4 = ert4_tej;
 
     private String[] selectedTenazArray;
     private List<Biralat> biralatList;
@@ -121,6 +129,8 @@ public class BongeszoActivity extends KbrActivity {
         });
 
         urit();
+
+        findViewById(R.id.list_bong_header_hus_layout).setVisibility(View.GONE);
 
         ListView biralatListView = (ListView) findViewById(R.id.bongeszo_bir_list);
         biralatListView.setEmptyView(findViewById(R.id.empty_list_item));
@@ -311,32 +321,39 @@ public class BongeszoActivity extends KbrActivity {
                     value = left.getBIRDA().compareTo(right.getBIRDA());
                 } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_es))) {
                     value = leftEgyed.getELLSO().compareTo(rightEgyed.getELLSO());
-                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert1))) {
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert1_hus))) {
                     String leftValue = left.getErtByKod(ert1) == null ? "" : left.getErtByKod(ert1);
                     String rightValue = right.getErtByKod(ert1) == null ? "" : right.getErtByKod(ert1);
                     value = leftValue.compareTo(rightValue);
-
-                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert2))) {
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert2_hus))) {
                     String leftValue = left.getErtByKod(ert2) == null ? "" : left.getErtByKod(ert2);
                     String rightValue = right.getErtByKod(ert2) == null ? "" : right.getErtByKod(ert2);
                     value = leftValue.compareTo(rightValue);
-                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert3))) {
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert3_hus))) {
                     String leftValue = left.getErtByKod(ert3) == null ? "" : left.getErtByKod(ert3);
                     String rightValue = right.getErtByKod(ert3) == null ? "" : right.getErtByKod(ert3);
                     value = leftValue.compareTo(rightValue);
-                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert4))) {
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert4_hus))) {
                     String leftValue = left.getErtByKod(ert4) == null ? "" : left.getErtByKod(ert4);
                     String rightValue = right.getErtByKod(ert4) == null ? "" : right.getErtByKod(ert4);
                     value = leftValue.compareTo(rightValue);
-                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert5))) {
-                    String leftValue = left.getErtByKod(ert5) == null ? "" : left.getErtByKod(ert5);
-                    String rightValue = right.getErtByKod(ert5) == null ? "" : right.getErtByKod(ert5);
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert1_tej))) {
+                    String leftValue = left.getErtByKod(ert1) == null ? "" : left.getErtByKod(ert1);
+                    String rightValue = right.getErtByKod(ert1) == null ? "" : right.getErtByKod(ert1);
                     value = leftValue.compareTo(rightValue);
-                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert6))) {
-                    String leftValue = left.getErtByKod(ert6) == null ? "" : left.getErtByKod(ert6);
-                    String rightValue = right.getErtByKod(ert6) == null ? "" : right.getErtByKod(ert6);
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert2_tej))) {
+                    String leftValue = left.getErtByKod(ert2) == null ? "" : left.getErtByKod(ert2);
+                    String rightValue = right.getErtByKod(ert2) == null ? "" : right.getErtByKod(ert2);
                     value = leftValue.compareTo(rightValue);
-                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_a))) {
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert3_tej))) {
+                    String leftValue = left.getErtByKod(ert3) == null ? "" : left.getErtByKod(ert3);
+                    String rightValue = right.getErtByKod(ert3) == null ? "" : right.getErtByKod(ert3);
+                    value = leftValue.compareTo(rightValue);
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert4_tej))) {
+                    String leftValue = left.getErtByKod(ert4) == null ? "" : left.getErtByKod(ert4);
+                    String rightValue = right.getErtByKod(ert4) == null ? "" : right.getErtByKod(ert4);
+                    value = leftValue.compareTo(rightValue);
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ak))) {
                     value = left.getAKAKO().compareTo(right.getAKAKO());
                 } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_itv))) {
                     value = leftEgyed.getITVJE().compareTo(rightEgyed.getITVJE());
@@ -534,8 +551,20 @@ public class BongeszoActivity extends KbrActivity {
         final RadioButton husButton = (RadioButton) findViewById(R.id.bong_szuk_hus_radio);
         if (husButton.isChecked()) {
             BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.HUS_BIRALAT_TIPUS);
+            findViewById(R.id.list_bong_header_hus_layout).setVisibility(View.VISIBLE);
+            findViewById(R.id.list_bong_header_tej_layout).setVisibility(View.GONE);
+            ert1 = ert1_hus;
+            ert2 = ert2_hus;
+            ert3 = ert3_hus;
+            ert4 = ert4_hus;
         } else {
             BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.TEJ_BIRALAT_TIPUS);
+            findViewById(R.id.list_bong_header_hus_layout).setVisibility(View.GONE);
+            findViewById(R.id.list_bong_header_tej_layout).setVisibility(View.VISIBLE);
+            ert1 = ert1_tej;
+            ert2 = ert2_tej;
+            ert3 = ert3_tej;
+            ert4 = ert4_tej;
         }
 
         EmptyTask task = new EmptyTask(new Executable() {

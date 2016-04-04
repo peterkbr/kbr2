@@ -114,48 +114,30 @@ public class BongeszoListAdapter extends ArrayAdapter<Biralat> {
         }
 
         textView = (TextView) v.findViewById(R.id.bong_list_ert1);
-        // 16 : TP : Testpont
-        textView.setText(currentBiralat.getErtByKod("16"));
+        textView.setText(currentBiralat.getErtByKod(BongeszoActivity.ert1));
         if (color != null) {
             colorParent(textView, color);
         }
 
         textView = (TextView) v.findViewById(R.id.bong_list_ert2);
-        // 47 : TE : Tejelő erősség
-        textView.setText(currentBiralat.getErtByKod("47"));
+        textView.setText(currentBiralat.getErtByKod(BongeszoActivity.ert2));
         if (color != null) {
             colorParent(textView, color);
         }
 
         textView = (TextView) v.findViewById(R.id.bong_list_ert3);
-        // 17 : LP : Lábpont
-        textView.setText(currentBiralat.getErtByKod("17"));
+        textView.setText(currentBiralat.getErtByKod(BongeszoActivity.ert3));
         if (color != null) {
             colorParent(textView, color);
         }
 
         textView = (TextView) v.findViewById(R.id.bong_list_ert4);
-        // 21 : TO : Tőgypont
-        textView.setText(currentBiralat.getErtByKod("21"));
+        textView.setText(currentBiralat.getErtByKod(BongeszoActivity.ert4));
         if (color != null) {
             colorParent(textView, color);
         }
 
-//        textView = (TextView) v.findViewById(R.id.bong_list_ert5);
-//        // 15 : BH : Elülső bimbó hossza
-//        textView.setText(currentBiralat.getErtByKod("15"));
-//        if (color != null) {
-//            colorParent(textView, color);
-//        }
-
-        textView = (TextView) v.findViewById(R.id.bong_list_ert6);
-        // 25 : VP : végpont
-        textView.setText(currentBiralat.getErtByKod("25"));
-        if (color != null) {
-            colorParent(textView, color);
-        }
-
-        textView = (TextView) v.findViewById(R.id.bong_list_a);
+        textView = (TextView) v.findViewById(R.id.bong_list_ak);
         textView.setText(String.valueOf(currentBiralat.getAKAKO()));
         if (color != null) {
             colorParent(textView, color);

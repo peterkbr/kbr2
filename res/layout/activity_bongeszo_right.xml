@@ -11,7 +11,8 @@
         android:orientation="vertical"
         android:padding="1dp">
 
-        <include layout="@layout/list_bongeszo_header" />
+        <include layout="@layout/list_bongeszo_header_tej" />
+        <include layout="@layout/list_bongeszo_header_hus" />
 
         <ListView
             android:id="@+id/bongeszo_bir_list"
