@@ -377,7 +377,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     private void updateUIWithSelectedEgyed() {
         changeHUSelection(selectedEgyed);
         keresoFragment.updateDetails(selectedEgyed);
-        if (isWithin30Days(selectedEgyed.getELLDA())) {
+        if (BiralatTipusUtil.TEJ_BIRALAT_TIPUS.equals(BiralatTipusUtil.getCurrentBiralatTipus()) && isWithin30Days(selectedEgyed.getELLDA())) {
             FragmentTransaction ft = getFragmentTransactionWithTag("ellda");
             dialog = NotificationDialog.newInstance(getString(R.string.bir_bir_dialog_ellda_title), null);
             dialog.show(ft, "ellda");
