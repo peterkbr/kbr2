@@ -597,6 +597,7 @@ public class BongeszoActivity extends KbrActivity {
         BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.HUS_BIRALAT_TIPUS);
         final RadioButton tejButton = (RadioButton) findViewById(R.id.bong_szuk_tej_radio);
         tejButton.setChecked(true);
+        BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.TEJ_BIRALAT_TIPUS);
     }
 
     // MENU IN ACTIONBAR
