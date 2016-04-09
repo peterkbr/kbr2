@@ -73,7 +73,10 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         biralatNumPadInputs = new ArrayList<BiralatNumPadInput>();
         Properties layoutProperties = null;
         try {
-            layoutProperties = PropertiesUtil.loadProperties(getActivity(), R.raw.biralat_tipus_layout);
+            layoutProperties = PropertiesUtil.loadProperties(getActivity(), R.raw.biralat_tipus_layout_hus);
+            if (BiralatTipusUtil.TEJ_BIRALAT_TIPUS.equals(BiralatTipusUtil.getCurrentBiralatTipus())) {
+                layoutProperties = PropertiesUtil.loadProperties(getActivity(), R.raw.biralat_tipus_layout_tej);
+            }
         } catch (IOException e) {
             Log.e(LogUtil.TAG, "Error while loading colors", e);
         }
