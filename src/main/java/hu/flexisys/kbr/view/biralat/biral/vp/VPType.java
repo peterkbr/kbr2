@@ -62,7 +62,7 @@ public enum VPType {
         List<Double> params = refineParams(rawParams);
         Double rawValue = evaluateParams(params);
         Integer value = classifyRawValue(rawValue);
-        Integer strictValue = applyStrictParamCheck(value);
+        Integer strictValue = applyStrictParamCheck(value, rawParams);
         return strictValue;
     }
 
@@ -111,11 +111,10 @@ public enum VPType {
         return params;
     }
 
-    private Double IH, IE, FL, HO, CU, TM, BF, FM, FH, FS, TH, TR, TS, CA, SM, TF, EI, TC, BE, BA, BV, BH;
-
     private Double evaluateParams(List<Double> params) {
         Double value;
         int i = 0;
+        Double IH, IE, FL, HO, CU, TM, BF, FM, FH, FS, TH, TR, TS, CA, SM, TF, EI, TC, BE, BA, BV, BH;
         switch (this) {
             case VP_40:
                 IH = params.get(i++);
@@ -192,34 +191,92 @@ public enum VPType {
         return value;
     }
 
-    private Integer applyStrictParamCheck(Integer value) {
+    private Integer applyStrictParamCheck(Integer value, List<Integer> params) {
         Integer strictValue = value;
+        int i = 0;
         switch (this) {
             case VP_63:
-                if (CU == 9 && strictValue > 83) { strictValue = 83; }
-                if (HO == 7 && strictValue > 81) { strictValue = 81; }
-                if (CU == 3 && strictValue > 78) { strictValue = 78; }
-                if (CU == 2 && strictValue > 73) { strictValue = 73; }
-                if (HO == 2 && strictValue > 73) { strictValue = 73; }
-                if (HO == 8 && strictValue > 73) { strictValue = 73; }
-                if (CU == 1 && strictValue > 68) { strictValue = 68; }
-                if (HO == 9 && strictValue > 68) { strictValue = 68; }
-                if (HO == 1 && strictValue > 68) { strictValue = 68; }
+                Integer CU = params.get(i++);
+                Integer HO = params.get(i++);
+                Integer CA = params.get(i++);
+                Integer SM = params.get(i++);
+                if (CU == 9 && strictValue > 83) {
+                    strictValue = 83;
+                }
+                if (HO == 7 && strictValue > 81) {
+                    strictValue = 81;
+                }
+                if (CU == 3 && strictValue > 78) {
+                    strictValue = 78;
+                }
+                if (CU == 2 && strictValue > 73) {
+                    strictValue = 73;
+                }
+                if (HO == 2 && strictValue > 73) {
+                    strictValue = 73;
+                }
+                if (HO == 8 && strictValue > 73) {
+                    strictValue = 73;
+                }
+                if (CU == 1 && strictValue > 68) {
+                    strictValue = 68;
+                }
+                if (HO == 9 && strictValue > 68) {
+                    strictValue = 68;
+                }
+                if (HO == 1 && strictValue > 68) {
+                    strictValue = 68;
+                }
                 break;
             case VP_64:
-                if (BE == 9 && strictValue > 83) { strictValue = 83; }
-                if (BA == 9 && strictValue > 83) { strictValue = 83; }
-                if (TM == 3 && strictValue > 78) { strictValue = 78; }
-                if (BE == 2 && strictValue > 78) { strictValue = 78; }
-                if (BA == 2 && strictValue > 78) { strictValue = 78; }
-                if (TM == 2 && strictValue > 73) { strictValue = 73; }
-                if (BH == 1 && strictValue > 74) { strictValue = 74; }
-                if (BH == 2 && strictValue > 77) { strictValue = 77; }
-                if (BV == 1 && strictValue > 74) { strictValue = 74; }
-                if (BV == 2 && strictValue > 77) { strictValue = 77; }
-                if (BA == 1 && strictValue > 71) { strictValue = 71; }
-                if (BE == 1 && strictValue > 71) { strictValue = 71; }
-                if (TM == 1 && strictValue > 68) { strictValue = 68; }
+                Integer TM = params.get(i++);
+                Integer TF = params.get(i++);
+                Integer TH = params.get(i++);
+                Integer EI = params.get(i++);
+                Integer TC = params.get(i++);
+                Integer BE = params.get(i++);
+                Integer BA = params.get(i++);
+                Integer BV = params.get(i++);
+                Integer BH = params.get(i++);
+                if (BE == 9 && strictValue > 83) {
+                    strictValue = 83;
+                }
+                if (BA == 9 && strictValue > 83) {
+                    strictValue = 83;
+                }
+                if (TM == 3 && strictValue > 78) {
+                    strictValue = 78;
+                }
+                if (BE == 2 && strictValue > 78) {
+                    strictValue = 78;
+                }
+                if (BA == 2 && strictValue > 78) {
+                    strictValue = 78;
+                }
+                if (TM == 2 && strictValue > 73) {
+                    strictValue = 73;
+                }
+                if (BH == 1 && strictValue > 74) {
+                    strictValue = 74;
+                }
+                if (BH == 2 && strictValue > 77) {
+                    strictValue = 77;
+                }
+                if (BV == 1 && strictValue > 74) {
+                    strictValue = 74;
+                }
+                if (BV == 2 && strictValue > 77) {
+                    strictValue = 77;
+                }
+                if (BA == 1 && strictValue > 71) {
+                    strictValue = 71;
+                }
+                if (BE == 1 && strictValue > 71) {
+                    strictValue = 71;
+                }
+                if (TM == 1 && strictValue > 68) {
+                    strictValue = 68;
+                }
                 break;
             default:
                 break;
