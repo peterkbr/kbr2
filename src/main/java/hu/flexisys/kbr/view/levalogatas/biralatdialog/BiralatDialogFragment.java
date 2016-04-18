@@ -54,7 +54,13 @@ public class BiralatDialogFragment extends Fragment {
         biralPanel.setUp(7);
         for (int i = 0; i < biralatTipus.szempontList.size(); i++) {
             BiralatSzempont szempont = BiralatSzempontUtil.getBiralatSzempont(biralatTipus.szempontList.get(i));
-            BiralPanelElement element = new BiralPanelElement(getActivity(), R.layout.component_dialog_biral_panel_element);
+            int resId = R.layout.component_dialog_biral_panel_element;
+            if (szempont.maxLength > 2) {
+                resId = R.layout.component_dialog_biral_panel_element_triple;
+            } else if (szempont.maxLength > 1) {
+                resId = R.layout.component_dialog_biral_panel_element_double;
+            }
+            BiralPanelElement element = new BiralPanelElement(getActivity(), resId);
             TextView label = element.getLabel();
             String labelValue = szempont.rovidNev + ":";
             label.setText(labelValue);
