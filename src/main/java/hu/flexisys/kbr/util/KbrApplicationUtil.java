@@ -59,8 +59,7 @@ public class KbrApplicationUtil {
                 testName = null;
             } else {
                 testName = context.getString(R.string.app_test_name);
-                // TODO kell ez élesben is? szerintem nem :)
-                 biraloUserName = "tst.teszt";
+                biraloUserName = "tst.teszt";
             }
             setData();
         } catch (IOException e) {
