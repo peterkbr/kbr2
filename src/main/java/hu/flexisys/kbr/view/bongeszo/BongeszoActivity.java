@@ -130,6 +130,14 @@ public class BongeszoActivity extends KbrActivity {
 
         urit();
 
+        BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.TEJ_BIRALAT_TIPUS);
+        findViewById(R.id.list_bong_header_hus_layout).setVisibility(View.GONE);
+        findViewById(R.id.list_bong_header_tej_layout).setVisibility(View.VISIBLE);
+        ert1 = ert1_tej;
+        ert2 = ert2_tej;
+        ert3 = ert3_tej;
+        ert4 = ert4_tej;
+
         findViewById(R.id.list_bong_header_hus_layout).setVisibility(View.GONE);
 
         ListView biralatListView = (ListView) findViewById(R.id.bongeszo_bir_list);
