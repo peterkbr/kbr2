@@ -59,8 +59,8 @@ public class DBConnector {
     }
 
     public Tenyeszet getTenyeszetByTENAZ(String TENAZ) {
-        String query = DBScripts.COLUMN_TENYESZET_TENAZ + "=" + TENAZ;
-        Cursor cursor = database.query(DBScripts.TABLE_TENYESZET, DBScripts.COLUMNS_TENYESZET, query, null, null, null, null);
+        String query = DBScripts.COLUMN_TENYESZET_TENAZ + " = ?";
+        Cursor cursor = database.query(DBScripts.TABLE_TENYESZET, DBScripts.COLUMNS_TENYESZET, query, new String[]{TENAZ}, null, null, null);
         if (cursor.getCount() == 1) {
             cursor.moveToFirst();
             Tenyeszet list = getTenyeszetFromCursor(cursor);
