@@ -3,15 +3,15 @@ package hu.flexisys.kbr.view.levalogatas.biralatdialog;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import hu.flexisys.kbr.model.Biralat;
+import hu.flexisys.kbr.util.biralat.BiralatTipus;
+import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.view.KbrActivity;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * Created by peter on 04/09/14.
- */
 public class BiralatDialogActivity extends KbrActivity {
 
     public static String KEY_AZONO = "KEY_AZONO";
@@ -21,7 +21,17 @@ public class BiralatDialogActivity extends KbrActivity {
         super.onCreate(savedInstanceState);
         actionBar.hide();
         String azono = getIntent().getExtras().getString(KEY_AZONO);
-        List<Biralat> biralatList = app.getBiralatByAZONO(azono);
+
+        List<Biralat> rawBiralatList = app.getBiralatByAZONO(azono);
+        List<Biralat> biralatList = new ArrayList<Biralat>();
+        for (Biralat biralat : rawBiralatList) {
+            String biralatTipusKod = BiralatTipusUtil.getBiralatTipusByBiralat(biralat);
+            BiralatTipus biralatTipus = BiralatTipusUtil.getBiralatTipus(biralatTipusKod);
+            if (biralatTipus != null) {
+                biralatList.add(biralat);
+            }
+        }
+
         Collections.sort(biralatList, new Comparator<Biralat>() {
             @Override
             public int compare(Biralat lhs, Biralat rhs) {

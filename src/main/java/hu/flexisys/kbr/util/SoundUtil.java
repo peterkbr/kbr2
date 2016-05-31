@@ -5,9 +5,6 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import hu.flexisys.kbr.R;
 
-/**
- * Created by peter on 05/09/14.
- */
 public class SoundUtil {
 
     private static Context context;

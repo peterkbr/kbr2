@@ -16,6 +16,7 @@ import hu.flexisys.kbr.util.*;
 import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
 import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.view.KbrActivity;
+import hu.flexisys.kbr.view.biralat.biral.vp.VPTypeUtil;
 import hu.flexisys.kbr.view.db.DbInconsistencyHandlerActivity;
 import hu.flexisys.kbr.view.db.SendDbActivity;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
@@ -25,9 +26,6 @@ import org.acra.annotation.ReportsCrashes;
 
 import java.util.*;
 
-/**
- * Created by Peter on 2014.07.01..
- */
 @ReportsCrashes(formKey = "",
         mailTo = "kbr@flexisys.hu",
         mode = ReportingInteractionMode.TOAST,
@@ -58,6 +56,7 @@ public class KbrApplication extends Application {
         KbrApplicationUtil.initKbrApplicationUtil(this);
         SoundUtil.initSoundUtil(this);
         EmailUtil.initEmailUtil(this);
+        VPTypeUtil.initVPTypeUtil(this);
 
         if (KbrApplicationUtil.initialized()) {
             initialized = true;
@@ -255,7 +254,7 @@ public class KbrApplication extends Application {
             biralatList.addAll(dbController.getBiralatByTenyeszetAndFeltoltetlen(TENAZ, true));
         }
         return biralatList;
-    }
+        }
 
     public List<Biralat> getFeltoltetlenBiralatList() {
         List<Biralat> biralatList = dbController.getBiralatByFeltoltetlen(true);
@@ -321,20 +320,8 @@ public class KbrApplication extends Application {
         return KbrApplicationUtil.getBiraloNev();
     }
 
-    public String getBiralatTipus() {
-        return KbrApplicationUtil.getBiralatTipus();
-    }
-
     public void setCurrentActivity(KbrActivity kbrActivity) {
         activityCounter++;
-//        if (currentActivity == null) {
-//            currentActivity = kbrActivity;
-//            if (errorOnInit == null && initialized) {
-//                checkDbConsistency();
-//            }
-//        } else {
-//            currentActivity = kbrActivity;
-//        }
         currentActivity = kbrActivity;
     }
 

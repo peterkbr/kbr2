@@ -9,13 +9,9 @@ import hu.flexisys.kbr.controller.KbrApplication;
 import java.io.IOException;
 import java.util.Properties;
 
-/**
- * Created by peter on 31/08/14.
- */
 public class KbrApplicationUtil {
 
     private static KbrApplication context;
-    private static String biralatTipus;
     private static String serverUrl;
     private static String supportEmail;
     private static String biraloAzonosito;
@@ -24,14 +20,12 @@ public class KbrApplicationUtil {
     private static String testName;
 
     private static String SHARED_PREF_KEY = "KBR2_SHARED_PREF_KEY";
-    private static String KEY_BIRALAT_TIPUS = "KEY_BIRALAT_TIPUS";
     private static String KEY_USER_ID = "KEY_USER_ID";
     private static String KEY_URL = "KEY_URL";
     private static String KEY_EMAIL = "KEY_EMAIL";
 
     private static void getData() {
         SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREF_KEY, Context.MODE_PRIVATE);
-        biralatTipus = sharedPref.getString(KEY_BIRALAT_TIPUS, context.getString(R.string.biralat_tipus));
         biraloAzonosito = sharedPref.getString(KEY_USER_ID, null);
         serverUrl = sharedPref.getString(KEY_URL, context.getString(R.string.server_url));
         supportEmail = sharedPref.getString(KEY_EMAIL, context.getString(R.string.support_email));
@@ -40,7 +34,6 @@ public class KbrApplicationUtil {
     private static void setData() {
         SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREF_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(KEY_BIRALAT_TIPUS, biralatTipus);
         editor.putString(KEY_USER_ID, biraloAzonosito);
         editor.putString(KEY_URL, serverUrl);
         editor.putString(KEY_EMAIL, supportEmail);
@@ -67,14 +60,13 @@ public class KbrApplicationUtil {
             } else {
                 testName = context.getString(R.string.app_test_name);
                 // TODO kell ez élesben is? szerintem nem :)
-                biraloUserName="tst.teszt";
+                 biraloUserName = "tst.teszt";
             }
             setData();
         } catch (IOException e) {
             Log.e(LogUtil.TAG, "loadBiralatSzempontMap", e);
         }
     }
-
 
     public static void saveData(String _biraloAzonosito, String _serverUrl, String _supportEmail) {
         biraloAzonosito = _biraloAzonosito;
@@ -118,13 +110,6 @@ public class KbrApplicationUtil {
             init();
         }
         return biraloAzonosito;
-    }
-
-    public static String getBiralatTipus() {
-        if (biralatTipus == null) {
-            init();
-        }
-        return biralatTipus;
     }
 
     public static String getBiraloUserName() {

@@ -10,9 +10,6 @@ import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.view.KbrDialog;
 import hu.flexisys.kbr.view.biralat.biral.BiralFragment;
 
-/**
- * Created by peter on 04/09/14.
- */
 public class BiralatDialogEdit extends KbrDialog {
 
     private BiralFragment biralFragment;
@@ -46,5 +43,4 @@ public class BiralatDialogEdit extends KbrDialog {
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
     }
-
 }

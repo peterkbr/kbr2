@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bir_pan_el_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:weightSum="2">
+
+    <TextView
+        android:id="@+id/bir_pan_el_label"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="2dp"
+        android:layout_weight="1.25"
+        android:gravity="right|bottom"
+        android:textSize="17sp" />
+
+    <hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput
+        android:id="@+id/bir_pan_el_input"
+        android:layout_marginLeft="2dp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.75"
+        android:gravity="center"
+        android:textSize="17sp" />
+</LinearLayout>

@@ -8,9 +8,6 @@ import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.util.LogUtil;
 import hu.flexisys.kbr.util.SoundUtil;
 
-/**
- * Created by Peter on 2014.07.15..
- */
 public class NumPadInput extends TextView {
 
     protected String numValue;
@@ -112,5 +109,4 @@ public class NumPadInput extends TextView {
         active = false;
         updateColor();
     }
-
 }

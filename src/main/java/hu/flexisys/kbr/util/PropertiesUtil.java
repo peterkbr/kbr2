@@ -7,9 +7,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
-/**
- * Created by peter on 02/09/14.
- */
 public class PropertiesUtil {
 
     public static Properties loadProperties(Context context, int rawResId) throws IOException {

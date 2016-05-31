@@ -20,9 +20,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 0Created by peter on 31/08/14.
- */
 public class BiralatPdfExporter extends PdfExporter {
 
     public static void export(String basePath, String biralatTipus, List<Biralat> biralatList, Map<String, Egyed> egyedMap)
@@ -50,11 +47,6 @@ public class BiralatPdfExporter extends PdfExporter {
         int tableSize = 7 + szempontList.size();
         PdfPTable table = new PdfPTable(tableSize);
         table.setWidthPercentage(100f);
-
-        // t.setBorderColor(BaseColor.GRAY);
-        // t.setPadding(4);
-        // t.setSpacing(4);
-        // t.setBorderWidth(1);
 
         // header
         table.addCell(getCell("#", true, false));
@@ -85,19 +77,10 @@ public class BiralatPdfExporter extends PdfExporter {
                 enarFont.setColor(BaseColor.RED);
                 enarFont.setStyle(Font.BOLD);
 
-//                Phrase p1 = new Phrase(azono.substring(0, 5), font);
-//                Phrase p2 = new Phrase(azono.substring(5, 9), enarFont);
-//                Phrase p3 = new Phrase(azono.substring(9), font);
-
                 Phrase phrase = new Phrase();
                 phrase.add(new Chunk(azono.substring(0, 5), font));
                 phrase.add(new Chunk(" " + azono.substring(5, 9) + " ", enarFont));
                 phrase.add(new Chunk(azono.substring(9), font));
-
-//                PdfPRow row = new PdfPRow(new PdfPCell[]{new PdfPCell(p1), new PdfPCell(p2), new PdfPCell(p3)});
-//                cell.addElement(p1);
-//                cell.addElement(p2);
-//                cell.addElement(p3);
 
                 PdfPCell cell = new PdfPCell(phrase);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);

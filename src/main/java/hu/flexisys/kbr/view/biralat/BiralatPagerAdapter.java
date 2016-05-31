@@ -7,9 +7,6 @@ import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.view.biralat.biral.BiralFragment;
 import hu.flexisys.kbr.view.biralat.kereso.KeresoFragment;
 
-/**
- * Created by Peter on 2014.07.11..
- */
 public class BiralatPagerAdapter extends FragmentPagerAdapter {
 
     private KeresoFragment keresoFragment;

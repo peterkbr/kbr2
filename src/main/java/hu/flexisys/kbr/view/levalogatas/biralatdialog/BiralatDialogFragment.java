@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import hu.flexisys.kbr.R;
-import hu.flexisys.kbr.controller.KbrApplication;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.util.DateUtil;
 import hu.flexisys.kbr.util.biralat.BiralatSzempont;
@@ -21,9 +20,6 @@ import hu.flexisys.kbr.view.component.numpad.BiralatNumPadInput;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by peter on 04/09/14.
- */
 public class BiralatDialogFragment extends Fragment {
 
     private Biralat biralat;
@@ -48,8 +44,9 @@ public class BiralatDialogFragment extends Fragment {
         TextView datumView = (TextView) view.findViewById(R.id.dialog_biralat_datum);
         datumView.setText(getString(R.string.lev_dialog_biralat_datum, DateUtil.formatDate(biralat.getBIRDA())));
 
-        String tipus = ((KbrApplication) getActivity().getApplication()).getBiralatTipus();
-        BiralatTipus biralatTipus = BiralatTipusUtil.getBiralatTipus(tipus);
+        String biralatTipusKod = BiralatTipusUtil.getBiralatTipusByBiralat(biralat);
+        BiralatTipus biralatTipus = BiralatTipusUtil.getBiralatTipus(biralatTipusKod);
+
         List<Integer> breakPoints = new ArrayList<Integer>();
         breakPoints.add(20);
 
@@ -57,7 +54,13 @@ public class BiralatDialogFragment extends Fragment {
         biralPanel.setUp(7);
         for (int i = 0; i < biralatTipus.szempontList.size(); i++) {
             BiralatSzempont szempont = BiralatSzempontUtil.getBiralatSzempont(biralatTipus.szempontList.get(i));
-            BiralPanelElement element = new BiralPanelElement(getActivity(), R.layout.component_dialog_biral_panel_element);
+            int resId = R.layout.component_dialog_biral_panel_element;
+            if (szempont.maxLength > 2) {
+                resId = R.layout.component_dialog_biral_panel_element_triple;
+            } else if (szempont.maxLength > 1) {
+                resId = R.layout.component_dialog_biral_panel_element_double;
+            }
+            BiralPanelElement element = new BiralPanelElement(getActivity(), resId);
             TextView label = element.getLabel();
             String labelValue = szempont.rovidNev + ":";
             label.setText(labelValue);

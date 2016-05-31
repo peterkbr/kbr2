@@ -15,6 +15,7 @@ import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.LogUtil;
 import hu.flexisys.kbr.util.SoundUtil;
+import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.NotificationDialog;
 import hu.flexisys.kbr.view.biralat.biral.*;
@@ -24,9 +25,6 @@ import hu.flexisys.kbr.view.component.numpad.NumPadInput;
 
 import java.util.*;
 
-/**
- * Created by Peter on 2014.07.04..
- */
 public class BiralatActivity extends KbrActivity implements BirKerNotfoundListener, BirKerEgyedListDialog.EgyedListDialogContainer {
 
     private String[] selectedTenazArray;
@@ -82,10 +80,13 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     }
 
     public void onExit() {
-        String akakoString = biralFragment.getAkako();
-        Map<String, String> map = biralFragment.getKodErtMap();
-        if ((biralFragment.getBiralatStarted() && (akakoString == null || akakoString.isEmpty() || akakoString.equals("3")) && map == null) ||
-                biralFragment.getBiralatStarted()) {
+
+        //        String akakoString = biralFragment.getAkako();
+        //        Map<String, String> map = biralFragment.getKodErtMap();
+        //        if ((biralFragment.getBiralatStarted() && (akakoString == null || akakoString.isEmpty() || akakoString.equals("3")) && map == null) ||
+        //                biralFragment.getBiralatStarted()) {
+        if (biralFragment.getBiralatStarted()) {
+
             FragmentTransaction ft = getFragmentTransactionWithTag("exit");
             dialog = BirBirExitBiralatDialog.newInstance(new BirBirExitBiralatDialog.BirBirExitBiralatDialogListener() {
                 @Override
@@ -177,7 +178,8 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         }
     }
 
-    private void updateHasznalatiSzamView(String azono, Boolean _hu) {
+    private void updateHasznalatiSzamView(String azono, Boolean hu) {
+        boolean _hu = (hu == null || hu);
         if (azono.length() <= 4) {
             hasznalatiInput.setText(azono);
         } else if (!_hu || azono.length() != 10) {
@@ -202,29 +204,28 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     }
 
     public List<Egyed> filterByHasznalati(Boolean hu, String hasznalatiSzamString) {
+        boolean _hu = (hu == null || hu);
         List<Egyed> foundList = new ArrayList<Egyed>();
         for (Egyed egyed : egyedList) {
             String ENAR = String.valueOf(egyed.getAZONO());
-            if (hu && egyed.getORSKO().equals("HU") && ENAR.length() < 10 && ENAR.contains(hasznalatiSzamString)) {
+            if (_hu && egyed.getORSKO().equals("HU") && ENAR.length() < 10 && ENAR.contains(hasznalatiSzamString)) {
                 foundList.add(egyed);
-            } else if (hu && egyed.getORSKO().equals("HU") && ENAR.length() == 10 && ENAR.substring(5, 9).equals(hasznalatiSzamString)) {
+            } else if (_hu && egyed.getORSKO().equals("HU") && ENAR.length() == 10 && ENAR.substring(5, 9).equals(hasznalatiSzamString)) {
                 foundList.add(egyed);
-            } else if (!hu && !egyed.getORSKO().equals("HU") && ENAR.contains(hasznalatiSzamString)) {
+            } else if (!_hu && !egyed.getORSKO().equals("HU") && ENAR.contains(hasznalatiSzamString)) {
                 foundList.add(egyed);
             }
         }
         return foundList;
     }
 
-    private void changeHUSelection(boolean isHU) {
-        if (!hu.equals(isHU)) {
-            hu = isHU;
-            keresoFragment.updateHURadio(hu);
-        }
+    private void changeHUSelection(Boolean isHU) {
+        hu = isHU;
+        keresoFragment.updateHURadio(hu);
     }
 
     private void changeHUSelection(Egyed egyed) {
-        boolean isHu = true;
+        Boolean isHu = null;
         if (egyed != null) {
             isHu = "HU".equals(egyed.getORSKO());
         }
@@ -241,12 +242,11 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     }
 
     public void keres(View view) {
-        String hasznalatiSzamValue = hasznalatiInput.getText().toString();
-        if (hasznalatiSzamValue == null || hasznalatiSzamValue.isEmpty()) {
+        final String hasznalatiSzamValue = hasznalatiInput.getText().toString();
+        if (hasznalatiSzamValue == null || hasznalatiSzamValue.isEmpty() || hasznalatiSzamValue.equals("----")) {
             return;
         }
 
-        hasznalatiInput.select();
         if (biralFragment.getBiralatStarted()) {
             FragmentTransaction ft = getFragmentTransactionWithTag("unsaved");
             dialog = BirBirUnsavedBiralatDialog.newInstance(new BirBirUnsavedBiralatListener() {
@@ -263,14 +263,17 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
                 public void onBirBirUnsavedBiralatOk() {
                     dismissDialog();
                     biralFragment.clearCurrentBiralat();
-                    keres(null);
+                    onKeres(hasznalatiSzamValue);
                 }
             });
             dialog.show(ft, "unsaved");
-            return;
+        } else {
+            onKeres(hasznalatiSzamValue);
         }
+    }
 
-        if (hu && hasznalatiSzamValue.length() < 4) {
+    private void onKeres(String hasznalatiSzamValue) {
+        if ((hu == null || hu) && hasznalatiSzamValue.length() < 4) {
             while (hasznalatiSzamValue.length() < 4) {
                 hasznalatiSzamValue = "0" + hasznalatiSzamValue;
             }
@@ -314,6 +317,8 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
 
     @Override
     public void onAddNewEgyed(String tenaz, String orsko, String azono) {
+        dismissDialog();
+
         Egyed egyed = new Egyed();
         if (orsko.equals("HU") && tenaz.length() < 4) {
             while (tenaz.length() < 4) {
@@ -328,13 +333,14 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         app.insertEgyed(egyed);
         reloadData();
         selectedEgyed = findEgyedByAzono(azono);
+
         keresoFragment.updateKeresoButtons(egyedList);
         changeHUSelection(selectedEgyed);
         keresoFragment.updateDetails(selectedEgyed);
         updateHasznalatiSzamView(selectedEgyed.getAZONO(), hu);
-        biralFragment.updateFragmentWithEgyed(selectedEgyed);
-        dismissDialog();
 
+        biralFragment.setupBiralatTipus();
+        biralFragment.updateFragmentWithEgyed(selectedEgyed);
     }
 
     private Egyed findEgyedByAzono(String azono) {
@@ -350,30 +356,10 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         String azono = String.valueOf(egyed.getAZONO());
         updateHasznalatiSzamView(azono, "HU".equals(egyed.getORSKO()));
         dismissDialog();
-
-//        if (!egyed.getKIVALASZTOTT()) {
-//            FragmentTransaction ft = getFragmentTransactionWithTag("BirKerNotSelectedDialog");
-//            dialog = BirKerNotSelectedDialog.newInstance(new BirKerNotselectedListener() {
-//                @Override
-//                public void onBiralSelected(Egyed egyed) {
-//                    dismissDialog();
-//                    selectedEgyed = egyed;
-//                    updateUIWithSelectedEgyed();
-//                }
-//
-//                @Override
-//                public void onCancelSelection() {
-//                    dismissDialog();
-//                    if (selectedEgyed != null) {
-//                        updateHasznalatiSzamView(selectedEgyed.getAZONO(), hu);
-//                    }
-//                }
-//            }, egyed);
-//            dialog.show(ft, "BirKerNotSelectedDialog");
-//        } else {
         selectedEgyed = egyed;
+
+        biralFragment.setupBiralatTipus();
         updateUIWithSelectedEgyed();
-//        }
     }
 
     private boolean isWithin30Days(Date date) {
@@ -391,7 +377,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     private void updateUIWithSelectedEgyed() {
         changeHUSelection(selectedEgyed);
         keresoFragment.updateDetails(selectedEgyed);
-        if (isWithin30Days(selectedEgyed.getELLDA())) {
+        if (BiralatTipusUtil.TEJ_BIRALAT_TIPUS.equals(BiralatTipusUtil.getCurrentBiralatTipus()) && isWithin30Days(selectedEgyed.getELLDA())) {
             FragmentTransaction ft = getFragmentTransactionWithTag("ellda");
             dialog = NotificationDialog.newInstance(getString(R.string.bir_bir_dialog_ellda_title), null);
             dialog.show(ft, "ellda");
@@ -399,7 +385,9 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         } else {
             Date lastBiralatDate = null;
             for (Biralat biralat : selectedEgyed.getBiralatList()) {
-                if (biralat.getBIRDA() != null && biralat.getEXPORTALT() && (lastBiralatDate == null || lastBiralatDate.before(biralat.getBIRDA()))) {
+                String lastType = BiralatTipusUtil.getBiralatTipusByBiralat(biralat);
+                if (lastType.equals(BiralatTipusUtil.getCurrentBiralatTipus()) && biralat.getBIRDA() != null && biralat.getEXPORTALT() &&
+                        (lastBiralatDate == null || lastBiralatDate.before(biralat.getBIRDA()))) {
                     lastBiralatDate = biralat.getBIRDA();
                 }
             }
@@ -420,31 +408,87 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
 
     public void showBiraltList(View view) {
         if (!biraltEgyedList.isEmpty() && !showingEgyedListDialog) {
-            showingEgyedListDialog = true;
-            FragmentTransaction ft = getFragmentTransactionWithTag("biralt");
-            dialog = BirKerEgyedListDialog.newInstance(biraltEgyedList, true, new BirKerEgyedListDialog.EgyedClickListener() {
-                @Override
-                public void onEgyedClick(Egyed egyed) {
-                    updateHasznalatiSzamView(egyed.getAZONO(), "HU".equals(egyed.getORSKO()));
-                    onSingleSelect(egyed);
-                }
-            }, this);
-            dialog.show(ft, "biralt");
+            if (biralFragment.getBiralatStarted()) {
+                FragmentTransaction ft = getFragmentTransactionWithTag("unsaved");
+                dialog = BirBirUnsavedBiralatDialog.newInstance(new BirBirUnsavedBiralatListener() {
+
+                    @Override
+                    public void onBirBirUnsavedBiralatCancel() {
+                        dismissDialog();
+                    }
+
+                    @Override
+                    public void onBirBirUnsavedBiralatOk() {
+                        dismissDialog();
+                        showingEgyedListDialog = true;
+                        FragmentTransaction ft = getFragmentTransactionWithTag("biralt");
+                        dialog = BirKerEgyedListDialog.newInstance(biraltEgyedList, true, new BirKerEgyedListDialog.EgyedClickListener() {
+                            @Override
+                            public void onEgyedClick(Egyed egyed) {
+                                updateHasznalatiSzamView(egyed.getAZONO(), "HU".equals(egyed.getORSKO()));
+                                onSingleSelect(egyed);
+                            }
+                        }, BiralatActivity.this);
+                        dialog.show(ft, "biralt");
+                    }
+                });
+                dialog.show(ft, "unsaved");
+                return;
+            } else {
+                showingEgyedListDialog = true;
+                FragmentTransaction ft = getFragmentTransactionWithTag("biralt");
+                dialog = BirKerEgyedListDialog.newInstance(biraltEgyedList, true, new BirKerEgyedListDialog.EgyedClickListener() {
+                    @Override
+                    public void onEgyedClick(Egyed egyed) {
+                        updateHasznalatiSzamView(egyed.getAZONO(), "HU".equals(egyed.getORSKO()));
+                        onSingleSelect(egyed);
+                    }
+                }, this);
+                dialog.show(ft, "biralt");
+            }
         }
     }
 
     public void showBiralandoList(View view) {
         if (!biralandoEgyedList.isEmpty() && !showingEgyedListDialog) {
-            showingEgyedListDialog = true;
-            FragmentTransaction ft = getFragmentTransactionWithTag("biralando");
-            dialog = BirKerEgyedListDialog.newInstance(biralandoEgyedList, true, new BirKerEgyedListDialog.EgyedClickListener() {
-                @Override
-                public void onEgyedClick(Egyed egyed) {
-                    updateHasznalatiSzamView(egyed.getAZONO(), "HU".equals(egyed.getORSKO()));
-                    onSingleSelect(egyed);
-                }
-            }, this);
-            dialog.show(ft, "biralando");
+            if (biralFragment.getBiralatStarted()) {
+                FragmentTransaction ft = getFragmentTransactionWithTag("unsaved");
+                dialog = BirBirUnsavedBiralatDialog.newInstance(new BirBirUnsavedBiralatListener() {
+
+                    @Override
+                    public void onBirBirUnsavedBiralatCancel() {
+                        dismissDialog();
+                    }
+
+                    @Override
+                    public void onBirBirUnsavedBiralatOk() {
+                        dismissDialog();
+                        showingEgyedListDialog = true;
+                        FragmentTransaction ft = getFragmentTransactionWithTag("biralando");
+                        dialog = BirKerEgyedListDialog.newInstance(biralandoEgyedList, true, new BirKerEgyedListDialog.EgyedClickListener() {
+                            @Override
+                            public void onEgyedClick(Egyed egyed) {
+                                updateHasznalatiSzamView(egyed.getAZONO(), "HU".equals(egyed.getORSKO()));
+                                onSingleSelect(egyed);
+                            }
+                        }, BiralatActivity.this);
+                        dialog.show(ft, "biralando");
+                    }
+                });
+                dialog.show(ft, "unsaved");
+                return;
+            } else {
+                showingEgyedListDialog = true;
+                FragmentTransaction ft = getFragmentTransactionWithTag("biralando");
+                dialog = BirKerEgyedListDialog.newInstance(biralandoEgyedList, true, new BirKerEgyedListDialog.EgyedClickListener() {
+                    @Override
+                    public void onEgyedClick(Egyed egyed) {
+                        updateHasznalatiSzamView(egyed.getAZONO(), "HU".equals(egyed.getORSKO()));
+                        onSingleSelect(egyed);
+                    }
+                }, this);
+                dialog.show(ft, "biralando");
+            }
         }
     }
 
@@ -470,7 +514,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
             biralat.setORSKO(selectedEgyed.getORSKO());
             biralat.setKULAZ(app.getBiraloAzonosito());
             biralat.setBIRDA(new Date());
-            biralat.setBIRTI(7);
+            biralat.setBIRTI(Integer.valueOf(BiralatTipusUtil.getCurrentBiralatTipus()));
 
             String akakoString = biralFragment.getAkako();
             Map<String, String> map = biralFragment.getKodErtMap();
@@ -528,6 +572,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         String azono = selectedEgyed.getAZONO();
         reloadData();
         selectedEgyed = findEgyedByAzono(azono);
+
         keresoFragment.updateKeresoButtons(egyedList);
         changeHUSelection(selectedEgyed);
         keresoFragment.updateDetails(selectedEgyed);

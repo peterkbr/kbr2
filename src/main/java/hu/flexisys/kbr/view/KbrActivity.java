@@ -19,9 +19,6 @@ import hu.flexisys.kbr.view.levalogatas.KbrDatePickerDialog;
 
 import java.util.Calendar;
 
-/**
- * Created by Peter on 2014.07.04..
- */
 public class KbrActivity extends ActionBarActivity implements ProgressHandler {
 
     protected KbrApplication app;
@@ -157,7 +154,6 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
         return title;
     }
 
-
     // PROGRESS
 
     public void startProgressDialog(String title) {
@@ -167,9 +163,6 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
     }
 
     public void dismissDialog() {
-//        if (dialog != null && dialog.isVisible()) {
-//            dialog.dismiss();
-//        }
         if (dialog != null) {
             dialog.dismiss();
         }
@@ -179,7 +172,6 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
     public void onProgressEnded() {
         dismissDialog();
     }
-
 
     // TASKS
 
