@@ -33,7 +33,7 @@
                 <adk.path>/Users/peter/Library/Android/sdk</adk.path>
                 <android.sdk.path>/Users/peter/Library/Android/sdk</android.sdk.path>
 
-                <init.url>http://appserver-teszt.nebih.gov.hu/EnarPdaServer/sendxml</init.url>
+                <init.url>http://appserver.mgszh.gov.hu:8888/EnarPdaServer/sendxml</init.url>
                 <init.email>kbr@flexisys.hu</init.email>
             </properties>
             <activation>
