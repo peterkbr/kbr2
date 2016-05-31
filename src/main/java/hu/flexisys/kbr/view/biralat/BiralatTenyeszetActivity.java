@@ -11,7 +11,10 @@ import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.emptytask.EmptyTask;
 import hu.flexisys.kbr.controller.emptytask.Executable;
 import hu.flexisys.kbr.controller.emptytask.ExecutableFinishedListener;
+import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.view.KbrActivity;
+import hu.flexisys.kbr.view.biralat.biral.BirBirTipusDialog;
+import hu.flexisys.kbr.view.biralat.biral.BirBirTipusListener;
 import hu.flexisys.kbr.view.tenyeszet.*;
 
 import java.util.ArrayList;
@@ -131,7 +134,8 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
         if (selectedList.isEmpty()) {
             return;
         }
-        Intent intent = new Intent(this, BiralatActivity.class);
+
+        final Intent intent = new Intent(this, BiralatActivity.class);
         Bundle extras = new Bundle();
 
         String[] selectedTenazArray = new String[selectedList.size()];
@@ -140,7 +144,28 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
         }
         extras.putStringArray(EXTRAKEY_SELECTEDTENAZLIST, selectedTenazArray);
         intent.putExtras(extras);
-        startActivity(intent);
+
+        openBiralatTipusDialog(new BirBirTipusListener() {
+            @Override
+            public void onHus() {
+                BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.HUS_BIRALAT_TIPUS);
+                dismissDialog();
+                startActivity(intent);
+            }
+
+            @Override
+            public void onTej() {
+                BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.TEJ_BIRALAT_TIPUS);
+                dismissDialog();
+                startActivity(intent);
+            }
+        });
+
     }
 
+    private void openBiralatTipusDialog(BirBirTipusListener listener) {
+        FragmentTransaction ft = getFragmentTransactionWithTag("biralat_tipus");
+        dialog = BirBirTipusDialog.newInstance(listener);
+        dialog.show(ft, "biralat_tipus");
+    }
 }

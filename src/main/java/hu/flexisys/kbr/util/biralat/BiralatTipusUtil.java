@@ -3,30 +3,47 @@ package hu.flexisys.kbr.util.biralat;
 import android.content.Context;
 import android.util.Log;
 import hu.flexisys.kbr.R;
+import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.util.LogUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-/**
- * Created by peter on 28/07/14.
- */
 public class BiralatTipusUtil {
 
     private static Map<String, BiralatTipus> biralatTipusMap;
 
-    public static void initBiralatTipusUtil(Context context) {
-        loadBiralatTipusMap(context);
+    public static final String HUS_BIRALAT_TIPUS = "8";
+    public static final String TEJ_BIRALAT_TIPUS = "9";
+
+    private static String currentBiralatTipus = HUS_BIRALAT_TIPUS;
+
+    public static void setCurrentBiralatTipus(String tipusKod) {
+        currentBiralatTipus = tipusKod;
+    }
+
+    public static String getCurrentBiralatTipus() {
+        return currentBiralatTipus;
+    }
+
+    public static String getBiralatTipusByBiralat(Biralat biralat) {
+        String birti = String.valueOf(biralat.getBIRTI());
+        if (Arrays.asList("6", "8").contains(birti)) {
+            return HUS_BIRALAT_TIPUS;
+        } else {
+            return TEJ_BIRALAT_TIPUS;
+        }
     }
 
     public static BiralatTipus getBiralatTipus(String biralatTipusId) {
         return biralatTipusMap.get(biralatTipusId);
+    }
+
+    public static void initBiralatTipusUtil(Context context) {
+        loadBiralatTipusMap(context);
     }
 
     private static void loadBiralatTipusMap(Context context) {
@@ -52,11 +69,11 @@ public class BiralatTipusUtil {
                         akakoList.add(string);
                     }
 
-                    List<String> vpFormulaList = new ArrayList<String>();
+                    List<String> vpList = new ArrayList<String>();
                     for (String string : values[2].split(",")) {
-                        vpFormulaList.add(string);
+                        vpList.add(string);
                     }
-                    BiralatTipus biralatTipus = new BiralatTipus(id, szempontList, akakoList, vpFormulaList);
+                    BiralatTipus biralatTipus = new BiralatTipus(id, szempontList, akakoList, vpList);
                     biralatTipusMap.put(id, biralatTipus);
 
                 }

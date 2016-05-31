@@ -4,7 +4,6 @@
     <string name="app_name">${app.name}</string>
     <string name="app_test_name">${app.test.name}</string>
 
-    <string name="biralat_tipus">${init.tipus}</string>
     <string name="server_url">${init.url}</string>
     <string name="production_url">${production.url}</string>
     <string name="support_email">${init.email}</string>
@@ -37,7 +36,7 @@
     <string name="teny_torles_title">Törli a kiválasztott telepeket?</string>
     <string name="teny_levalogatas_torles_title">Törli a tenyészet(ek)hez tartozó leválogatás(oka)t?</string>
 
-    <string name="teny_notification_delete_biralat_title">A tenyészet feltöltetlen bírálatot tartalmaz!</string>
+    <string name="teny_notification_delete_biralat_title">A tenyészet exportálatlan és/vagy feltöltetlen bírálatot tartalmaz!</string>
     <string name="teny_notification_delete_biralat_message">A tenyészet nem törölhető!</string>
 
     <string name="teny_notification_download_error_biralat_title">Addig nem lehet letölteni a tenyészetet, amíg a bírálatok feltöltése nem történt meg!</string>
@@ -130,6 +129,9 @@
     <string name="bir_bir_dialog_ellda_title">30 napon belül ellett egyed nem bírálható!</string>
     <string name="bir_bir_dialog_lastbir_title">30 napon belül feltöltött bírálat!</string>
 
+    <string name="bir_bir_dialog_tipus_hus">Húshasznú egyed</string>
+    <string name="bir_bir_dialog_tipus_tej">Tejhasznú egyed</string>
+
     <string-array name="bir_ker_dialog_notfound_orsko_list">
         <item>HU</item>
         <item>AT</item>
@@ -171,14 +173,17 @@
     <string name="bong_grid_header_datum">Dátum</string>
     <string name="bong_grid_header_es">ES</string>
 
-    <string name="bong_grid_header_ert1">TP</string>
-    <string name="bong_grid_header_ert2">TE</string>
-    <string name="bong_grid_header_ert3">LP</string>
-    <string name="bong_grid_header_ert4">TO</string>
-    <string name="bong_grid_header_ert5">BH</string>
-    <string name="bong_grid_header_ert6">VP</string>
+    <string name="bong_grid_header_ert1_hus">TI</string>
+    <string name="bong_grid_header_ert2_hus">IZ</string>
+    <string name="bong_grid_header_ert3_hus">LA</string>
+    <string name="bong_grid_header_ert4_hus">TO</string>
 
-    <string name="bong_grid_header_a">A</string>
+    <string name="bong_grid_header_ert1_tej">RA</string>
+    <string name="bong_grid_header_ert2_tej">IZ</string>
+    <string name="bong_grid_header_ert3_tej">LA</string>
+    <string name="bong_grid_header_ert4_tej">TO</string>
+
+    <string name="bong_grid_header_ak">AK</string>
     <string name="bong_grid_header_itv">ITV</string>
 
     <string name="bong_teny_progress_kuldes">Küldés folyamatban…</string>

@@ -33,7 +33,6 @@
                 <adk.path>/Users/peter/Library/Android/sdk</adk.path>
                 <android.sdk.path>/Users/peter/Library/Android/sdk</android.sdk.path>
 
-                <init.tipus>7</init.tipus>
                 <init.url>http://appserver-teszt.nebih.gov.hu/EnarPdaServer/sendxml</init.url>
                 <init.email>kbr@flexisys.hu</init.email>
             </properties>
@@ -48,7 +47,6 @@
                 <adk.path>/opt/android/android-sdk-linux/</adk.path>
                 <android.sdk.path>/opt/android/android-sdk-linux/</android.sdk.path>
 
-                <init.tipus>7</init.tipus>
                 <init.url>${server_url}</init.url>
                 <init.email>${support_email}</init.email>
 

@@ -15,9 +15,6 @@ import hu.flexisys.kbr.view.component.numpad.NumPadInput;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Peter on 2014.07.08..
- */
 public class BirKerNotfoundDialog extends KbrDialog {
 
     private BirKerNotfoundListener listener;
@@ -77,5 +74,4 @@ public class BirKerNotfoundDialog extends KbrDialog {
         });
         return v;
     }
-
 }

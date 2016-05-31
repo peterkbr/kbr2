@@ -1,15 +1,10 @@
 package hu.flexisys.kbr.view.component.numpad;
 
-/**
- * Created by peter on 29/07/14.
- */
 public interface NumPadInputContainer {
 
-    public void onMaxLengthReached();
+    void onMaxLengthReached(String kod);
 
-//    public void onInvalidInput();
-//
-//    public void onValidInput();
+    void onInput();
 
-    public void onInput();
+    void onMessage(String message);
 }

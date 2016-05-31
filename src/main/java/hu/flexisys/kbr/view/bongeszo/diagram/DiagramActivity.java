@@ -10,9 +10,6 @@ import hu.flexisys.kbr.view.component.diagram.DiagramLinear;
 
 import java.util.ArrayList;
 
-/**
- * Created by peter on 21/08/14.
- */
 public class DiagramActivity extends KbrActivity {
 
     public static String VALUES_KEY = "VALUES_KEY";
@@ -30,11 +27,6 @@ public class DiagramActivity extends KbrActivity {
             BaseDiagramModel model = ModelFactory.getDiagramModel(valueString);
             diagramModelList.add(model);
         }
-
-//        ListView diagramListView = (ListView) findViewById(R.id.bongeszo_diagram_list);
-//        diagramListView.setEmptyView(findViewById(R.id.empty_list_item));
-//        DiagramListAdapter adapter = new DiagramListAdapter(this, 0, diagramModelList);
-//        diagramListView.setAdapter(adapter);
 
         LinearLayout foListLayout = (LinearLayout) findViewById(R.id.bongeszo_diagram_list_fo_layout);
         LinearLayout linear1ListLayout = (LinearLayout) findViewById(R.id.bongeszo_diagram_list_linear1_layout);

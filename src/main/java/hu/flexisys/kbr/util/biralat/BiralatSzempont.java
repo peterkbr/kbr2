@@ -1,8 +1,9 @@
 package hu.flexisys.kbr.util.biralat;
 
-/**
- * Created by peter on 28/07/14.
- */
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class BiralatSzempont {
 
     public String kod;
@@ -10,9 +11,8 @@ public class BiralatSzempont {
     public String nev;
     public String keszletStart;
     public String keszletEnd;
-    //    public String kategoriaStart;
-//    public String kategoriaMiddle;
-//    public String kategoriaEnd;
+    public List<String> keszletExtensions;
+    public int maxLength;
     public Integer[] kategoriaBounds;
 
     public BiralatSzempont(String kod, String valuesString) {
@@ -20,14 +20,27 @@ public class BiralatSzempont {
         this.kod = kod;
         this.rovidNev = values[0];
         this.nev = values[1];
-        this.keszletStart = values[2];
-        this.keszletEnd = values[3];
-        kategoriaBounds = new Integer[values.length - 4];
-        for (int i = 4, j = 0; i < values.length; i++, j++) {
-            kategoriaBounds[j] = Integer.parseInt(values[i]);
+
+        String[] keszletArray = values[2].split(":");
+
+        this.keszletStart = keszletArray[0];
+        this.keszletEnd = keszletArray[1];
+        this.maxLength = keszletEnd.length();
+        this.keszletExtensions = new ArrayList<String>();
+
+        if (keszletArray.length > 2) {
+            keszletExtensions = Arrays.asList(keszletArray);
+            for (String ext : keszletExtensions) {
+                if (ext.length() > maxLength) {
+                    maxLength = ext.length();
+                }
+            }
         }
-//        this.kategoriaStart = values[4];
-//        this.kategoriaMiddle = values[5];
-//        this.kategoriaEnd = values[6];
+
+        String[] kategoriaBoundsStrings = values[3].split(":");
+        kategoriaBounds = new Integer[kategoriaBoundsStrings.length];
+        for (int i = 0; i < kategoriaBounds.length; i++) {
+            kategoriaBounds[i] = Integer.parseInt(kategoriaBoundsStrings[i]);
+        }
     }
 }

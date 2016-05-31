@@ -30,9 +30,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by Peter on 2014.07.21..
- */
 public class LevalogatasActivity extends KbrActivity implements SelectionChangedAlertListener, TorlesAlertListener {
 
     private String[] selectedTenazArray;

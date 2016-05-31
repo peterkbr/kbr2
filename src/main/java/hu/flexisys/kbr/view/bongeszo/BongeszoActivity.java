@@ -6,10 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.util.Log;
 import android.view.*;
-import android.widget.CheckBox;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.emptytask.*;
 import hu.flexisys.kbr.model.Biralat;
@@ -36,17 +33,22 @@ import java.io.File;
 import java.text.ParseException;
 import java.util.*;
 
-/**
- * Created by Peter on 2014.07.21..
- */
 public class BongeszoActivity extends KbrActivity {
 
-    public static final String ert1 = "16";
-    public static final String ert2 = "47";
-    public static final String ert3 = "17";
-    public static final String ert4 = "21";
-    public static final String ert5 = "15";
-    public static final String ert6 = "25";
+    public static final String ert1_hus = "53";
+    public static final String ert2_hus = "40";
+    public static final String ert3_hus = "41";
+    public static final String ert4_hus = "42";
+
+    public static final String ert1_tej = "61";
+    public static final String ert2_tej = "62";
+    public static final String ert3_tej = "63";
+    public static final String ert4_tej = "64";
+
+    public static String ert1 = ert1_tej;
+    public static String ert2 = ert2_tej;
+    public static String ert3 = ert3_tej;
+    public static String ert4 = ert4_tej;
 
     private String[] selectedTenazArray;
     private List<Biralat> biralatList;
@@ -110,6 +112,33 @@ public class BongeszoActivity extends KbrActivity {
         elkuldetlenFilter = true;
         CheckBox elkuldetlenCheckBox = (CheckBox) findViewById(R.id.bong_szuk_elkuldetlen);
         elkuldetlenCheckBox.setChecked(elkuldetlenFilter);
+
+        final RadioButton husButton = (RadioButton) findViewById(R.id.bong_szuk_hus_radio);
+        final RadioButton tejButton = (RadioButton) findViewById(R.id.bong_szuk_tej_radio);
+        husButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                tejButton.setChecked(!isChecked);
+            }
+        });
+        tejButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                husButton.setChecked(!isChecked);
+            }
+        });
+
+        urit();
+
+        BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.TEJ_BIRALAT_TIPUS);
+        findViewById(R.id.list_bong_header_hus_layout).setVisibility(View.GONE);
+        findViewById(R.id.list_bong_header_tej_layout).setVisibility(View.VISIBLE);
+        ert1 = ert1_tej;
+        ert2 = ert2_tej;
+        ert3 = ert3_tej;
+        ert4 = ert4_tej;
+
+        findViewById(R.id.list_bong_header_hus_layout).setVisibility(View.GONE);
 
         ListView biralatListView = (ListView) findViewById(R.id.bongeszo_bir_list);
         biralatListView.setEmptyView(findViewById(R.id.empty_list_item));
@@ -225,7 +254,13 @@ public class BongeszoActivity extends KbrActivity {
     public void reloadData() {
         biralatList.clear();
         List<Biralat> rawList = app.getBiralatListByTENAZArray(selectedTenazArray);
+
+        BiralatTipus tipus = BiralatTipusUtil.getBiralatTipus(BiralatTipusUtil.getCurrentBiralatTipus());
         for (Biralat biralat : rawList) {
+            String biralatTipusKod = String.valueOf(biralat.getBIRTI());
+            if (!tipus.id.equals(biralatTipusKod)) {
+                continue;
+            }
             if (applyFilters(biralat)) {
                 biralatList.add(biralat);
             }
@@ -294,32 +329,39 @@ public class BongeszoActivity extends KbrActivity {
                     value = left.getBIRDA().compareTo(right.getBIRDA());
                 } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_es))) {
                     value = leftEgyed.getELLSO().compareTo(rightEgyed.getELLSO());
-                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert1))) {
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert1_hus))) {
                     String leftValue = left.getErtByKod(ert1) == null ? "" : left.getErtByKod(ert1);
                     String rightValue = right.getErtByKod(ert1) == null ? "" : right.getErtByKod(ert1);
                     value = leftValue.compareTo(rightValue);
-
-                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert2))) {
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert2_hus))) {
                     String leftValue = left.getErtByKod(ert2) == null ? "" : left.getErtByKod(ert2);
                     String rightValue = right.getErtByKod(ert2) == null ? "" : right.getErtByKod(ert2);
                     value = leftValue.compareTo(rightValue);
-                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert3))) {
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert3_hus))) {
                     String leftValue = left.getErtByKod(ert3) == null ? "" : left.getErtByKod(ert3);
                     String rightValue = right.getErtByKod(ert3) == null ? "" : right.getErtByKod(ert3);
                     value = leftValue.compareTo(rightValue);
-                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert4))) {
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert4_hus))) {
                     String leftValue = left.getErtByKod(ert4) == null ? "" : left.getErtByKod(ert4);
                     String rightValue = right.getErtByKod(ert4) == null ? "" : right.getErtByKod(ert4);
                     value = leftValue.compareTo(rightValue);
-                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert5))) {
-                    String leftValue = left.getErtByKod(ert5) == null ? "" : left.getErtByKod(ert5);
-                    String rightValue = right.getErtByKod(ert5) == null ? "" : right.getErtByKod(ert5);
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert1_tej))) {
+                    String leftValue = left.getErtByKod(ert1) == null ? "" : left.getErtByKod(ert1);
+                    String rightValue = right.getErtByKod(ert1) == null ? "" : right.getErtByKod(ert1);
                     value = leftValue.compareTo(rightValue);
-                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert6))) {
-                    String leftValue = left.getErtByKod(ert6) == null ? "" : left.getErtByKod(ert6);
-                    String rightValue = right.getErtByKod(ert6) == null ? "" : right.getErtByKod(ert6);
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert2_tej))) {
+                    String leftValue = left.getErtByKod(ert2) == null ? "" : left.getErtByKod(ert2);
+                    String rightValue = right.getErtByKod(ert2) == null ? "" : right.getErtByKod(ert2);
                     value = leftValue.compareTo(rightValue);
-                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_a))) {
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert3_tej))) {
+                    String leftValue = left.getErtByKod(ert3) == null ? "" : left.getErtByKod(ert3);
+                    String rightValue = right.getErtByKod(ert3) == null ? "" : right.getErtByKod(ert3);
+                    value = leftValue.compareTo(rightValue);
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ert4_tej))) {
+                    String leftValue = left.getErtByKod(ert4) == null ? "" : left.getErtByKod(ert4);
+                    String rightValue = right.getErtByKod(ert4) == null ? "" : right.getErtByKod(ert4);
+                    value = leftValue.compareTo(rightValue);
+                } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_ak))) {
                     value = left.getAKAKO().compareTo(right.getAKAKO());
                 } else if (currentOrderBy.equals(getString(R.string.bong_grid_header_itv))) {
                     value = leftEgyed.getITVJE().compareTo(rightEgyed.getITVJE());
@@ -367,7 +409,7 @@ public class BongeszoActivity extends KbrActivity {
     }
 
     private ArrayList<String> getDiagramValues() {
-        BiralatTipus tipus = BiralatTipusUtil.getBiralatTipus(app.getBiralatTipus());
+        BiralatTipus tipus = BiralatTipusUtil.getBiralatTipus(BiralatTipusUtil.getCurrentBiralatTipus());
         List<BiralatSzempont> szempontList = new ArrayList<BiralatSzempont>();
         Map<String, Integer[]> diagramValueMap = new HashMap<String, Integer[]>();
         for (String szempontId : tipus.szempontList) {
@@ -381,6 +423,10 @@ public class BongeszoActivity extends KbrActivity {
         }
 
         for (Biralat biralat : biralatList) {
+            String biralatTipusKod = String.valueOf(biralat.getBIRTI());
+            if (!tipus.id.equals(biralatTipusKod)) {
+                continue;
+            }
             for (BiralatSzempont szempont : szempontList) {
                 String ertString = biralat.getErtByKod(szempont.kod);
                 if (ertString == null || ertString.isEmpty()) {
@@ -404,7 +450,6 @@ public class BongeszoActivity extends KbrActivity {
             Integer[] values = diagramValueMap.get(szempont.kod);
             StringBuilder builder = new StringBuilder(szempont.rovidNev);
 
-
             Integer sum = 0;
             for (Integer i : values) {
                 sum += i;
@@ -413,13 +458,6 @@ public class BongeszoActivity extends KbrActivity {
             for (int i = 0; i < values.length; i++) {
                 builder.append(",").append((int) Math.floor(values[i] * d));
             }
-
-//            Integer sum = values[0] + values[1] + values[2];
-//            Double i = 100d / sum;
-//            Integer value_0 = (int) Math.floor(values[0] * i);
-//            Integer value_1 = (int) Math.floor(values[1] * i);
-//            Integer value_2 = (int) Math.floor(values[2] * i);
-//            builder.append(szempont.rovidNev).append(",").append(value_0).append(",").append(value_1).append(",").append(value_2);
 
             diagramValuesList.add(builder.toString());
         }
@@ -460,10 +498,10 @@ public class BongeszoActivity extends KbrActivity {
 
                             if (pdf) {
                                 BiralatPdfExporter.initPdfExporter(tenazBuilder.toString(), tartoBuilder.toString(), app.getBiraloNev());
-                                BiralatPdfExporter.export(dir.getPath(), app.getBiralatTipus(), biralatList, egyedMap);
+                                BiralatPdfExporter.export(dir.getPath(), BiralatTipusUtil.getCurrentBiralatTipus(), biralatList, egyedMap);
                             }
                             if (csv) {
-                                BiralatCvsExporter.export(dir.getPath(), app.getBiralatTipus(), biralatList, egyedMap);
+                                BiralatCvsExporter.export(dir.getPath(), BiralatTipusUtil.getCurrentBiralatTipus(), biralatList, egyedMap);
                             }
                             for (Biralat biralat : biralatList) {
                                 if (!biralat.getEXPORTALT()) {
@@ -518,6 +556,25 @@ public class BongeszoActivity extends KbrActivity {
         CheckBox elkuldetlenCheckBox = (CheckBox) findViewById(R.id.bong_szuk_elkuldetlen);
         elkuldetlenFilter = elkuldetlenCheckBox.isChecked();
 
+        final RadioButton husButton = (RadioButton) findViewById(R.id.bong_szuk_hus_radio);
+        if (husButton.isChecked()) {
+            BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.HUS_BIRALAT_TIPUS);
+            findViewById(R.id.list_bong_header_hus_layout).setVisibility(View.VISIBLE);
+            findViewById(R.id.list_bong_header_tej_layout).setVisibility(View.GONE);
+            ert1 = ert1_hus;
+            ert2 = ert2_hus;
+            ert3 = ert3_hus;
+            ert4 = ert4_hus;
+        } else {
+            BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.TEJ_BIRALAT_TIPUS);
+            findViewById(R.id.list_bong_header_hus_layout).setVisibility(View.GONE);
+            findViewById(R.id.list_bong_header_tej_layout).setVisibility(View.VISIBLE);
+            ert1 = ert1_tej;
+            ert2 = ert2_tej;
+            ert3 = ert3_tej;
+            ert4 = ert4_tej;
+        }
+
         EmptyTask task = new EmptyTask(new Executable() {
             @Override
             public void execute() {
@@ -541,7 +598,14 @@ public class BongeszoActivity extends KbrActivity {
         TextView datumIg = (TextView) findViewById(R.id.bong_szuk_datum_ig);
         datumIg.setText("");
         CheckBox elkuldetlenCheckBox = (CheckBox) findViewById(R.id.bong_szuk_elkuldetlen);
-        elkuldetlenCheckBox.setChecked(false);
+        elkuldetlenCheckBox.setChecked(true);
+
+        final RadioButton husButton = (RadioButton) findViewById(R.id.bong_szuk_hus_radio);
+        husButton.setChecked(false);
+        BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.HUS_BIRALAT_TIPUS);
+        final RadioButton tejButton = (RadioButton) findViewById(R.id.bong_szuk_tej_radio);
+        tejButton.setChecked(true);
+        BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.TEJ_BIRALAT_TIPUS);
     }
 
     // MENU IN ACTIONBAR
@@ -565,9 +629,6 @@ public class BongeszoActivity extends KbrActivity {
                 return true;
             case R.id.bongeszo_export:
                 export();
-                return true;
-            case R.id.bongeszo_linearis:
-                startDiagramActivity();
                 return true;
             case R.id.bongeszo_szukit:
                 szukit();

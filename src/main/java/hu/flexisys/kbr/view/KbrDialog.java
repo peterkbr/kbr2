@@ -8,11 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
-/**
- * Created by Peter on 2014.07.09..
- */
 public class KbrDialog extends DialogFragment {
-
 
     protected int layoutResId;
 

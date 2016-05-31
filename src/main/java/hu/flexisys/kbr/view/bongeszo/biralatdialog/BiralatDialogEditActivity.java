@@ -10,6 +10,7 @@ import android.widget.Toast;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.SoundUtil;
+import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.KbrDialog;
 import hu.flexisys.kbr.view.biralat.biral.*;
@@ -17,9 +18,6 @@ import hu.flexisys.kbr.view.levalogatas.biralatdialog.BiralatDialog;
 
 import java.util.*;
 
-/**
- * Created by peter on 04/09/14.
- */
 public class BiralatDialogEditActivity extends KbrActivity {
 
     public static String KEY_EGYED = "KEY_EGYED";
@@ -37,6 +35,7 @@ public class BiralatDialogEditActivity extends KbrActivity {
 
         selectedEgyed = (Egyed) getIntent().getExtras().getSerializable(KEY_EGYED);
         selectedBiralat = (Biralat) getIntent().getExtras().getSerializable(KEY_BIRALAT);
+        BiralatTipusUtil.setCurrentBiralatTipus(BiralatTipusUtil.getBiralatTipusByBiralat(selectedBiralat));
 
         List<Biralat> egyedBiralatList = new ArrayList<Biralat>();
         egyedBiralatList.add(selectedBiralat);
@@ -44,13 +43,14 @@ public class BiralatDialogEditActivity extends KbrActivity {
 
         FragmentTransaction ft = getFragmentTransactionWithTag("longClick");
 
-
         if (isWithin30Days(selectedEgyed.getELLDA())) {
             openReadonlyDialog();
         } else {
             Date lastBiralatDate = null;
             for (Biralat biralat : selectedEgyed.getBiralatList()) {
-                if (biralat.getBIRDA() != null && biralat.getEXPORTALT() && (lastBiralatDate == null || lastBiralatDate.before(biralat.getBIRDA()))) {
+                String lastType = BiralatTipusUtil.getBiralatTipusByBiralat(biralat);
+                if (lastType.equals(BiralatTipusUtil.getCurrentBiralatTipus()) && biralat.getBIRDA() != null && biralat.getEXPORTALT() &&
+                        (lastBiralatDate == null || lastBiralatDate.before(biralat.getBIRDA()))) {
                     lastBiralatDate = biralat.getBIRDA();
                 }
             }
@@ -89,6 +89,7 @@ public class BiralatDialogEditActivity extends KbrActivity {
                         @Override
                         public void onBiralFragmentResume(BiralFragment biralFragment) {
                             BiralatDialogEditActivity.this.biralFragment = biralFragment;
+                            biralFragment.setupBiralatTipus();
                             biralFragment.updateFragmentWithEgyed(selectedEgyed);
                         }
 
@@ -168,7 +169,7 @@ public class BiralatDialogEditActivity extends KbrActivity {
             biralat.setORSKO(selectedEgyed.getORSKO());
             biralat.setKULAZ(app.getBiraloAzonosito());
             biralat.setBIRDA(new Date());
-            biralat.setBIRTI(7);
+            biralat.setBIRTI(Integer.valueOf(BiralatTipusUtil.getCurrentBiralatTipus()));
 
             String akakoString = biralFragment.getAkako();
             Map<String, String> map = biralFragment.getKodErtMap();

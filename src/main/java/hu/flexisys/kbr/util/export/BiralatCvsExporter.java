@@ -13,9 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by peter on 31/08/14.
- */
 public class BiralatCvsExporter extends CsvExporter {
 
     public static void export(String basePath, String biralatTipus, List<Biralat> biralatList, Map<String, Egyed> egyedMap) throws IOException {
@@ -60,14 +57,6 @@ public class BiralatCvsExporter extends CsvExporter {
             builder.append(csvSeparator).append(String.valueOf(biralat.getAKAKO()));
             builder.append("\n");
         }
-
-//        String path = basePath + File.separator + "csvExport_" + DateUtil.formatTimestampFileName(new Date()) + ".csv";
-//        FileOutputStream fOut = new FileOutputStream(new File(path));
-//        OutputStreamWriter osw = new OutputStreamWriter(fOut);
-//
-//        osw.write(builder.toString());
-//        osw.flush();
-//        osw.close();
 
         writeToFile(basePath, builder.toString());
     }

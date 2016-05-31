@@ -8,20 +8,16 @@ import android.widget.Button;
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.view.KbrDialog;
 
-/**
- * Created by peter on 01/08/14.
- */
 public class BirBirAkakoDialog extends KbrDialog {
 
     private BirBirAkakoDialogListener listener;
 
-
     public static BirBirAkakoDialog newInstance(BirBirAkakoDialogListener listener) {
         BirBirAkakoDialog dialog = new BirBirAkakoDialog();
         dialog.listener = listener;
+        dialog.setCancelable(false);
         return dialog;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,8 +43,9 @@ public class BirBirAkakoDialog extends KbrDialog {
     }
 
     public interface BirBirAkakoDialogListener {
-        public void onNoClicked();
 
-        public void onYesClicked();
+        void onNoClicked();
+
+        void onYesClicked();
     }
 }

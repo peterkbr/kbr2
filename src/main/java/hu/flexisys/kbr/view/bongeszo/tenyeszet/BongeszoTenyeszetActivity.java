@@ -33,9 +33,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by Peter on 2014.07.04..
- */
 public class BongeszoTenyeszetActivity extends KbrActivity {
 
     public static String EXTRAKEY_SELECTEDTENAZLIST = "selectedTenazArray";
