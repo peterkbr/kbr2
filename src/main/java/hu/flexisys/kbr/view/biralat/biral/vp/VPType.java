@@ -227,6 +227,12 @@ public enum VPType {
                 if (HO == 1 && strictValue > 68) {
                     strictValue = 68;
                 }
+                if (strictValue > 0 && strictValue < 68) {
+                    strictValue = 68;
+                }
+                if (strictValue > 93) {
+                    strictValue = 93;
+                }
                 break;
             case VP_64:
                 Integer TM = params.get(i++);
@@ -276,6 +282,12 @@ public enum VPType {
                 }
                 if (TM == 1 && strictValue > 68) {
                     strictValue = 68;
+                }
+                if (strictValue > 0 && strictValue < 68) {
+                    strictValue = 68;
+                }
+                if (strictValue > 93) {
+                    strictValue = 93;
                 }
                 break;
             default:
