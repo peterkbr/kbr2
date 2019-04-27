@@ -30,8 +30,8 @@
             <id>peter</id>
             <properties>
                 <!--<adk.path>C:\Users\Peter\Desktop\eclipseAnd\android-sdk</adk.path>-->
-                <adk.path>/Users/peter/Library/Android/sdk</adk.path>
-                <android.sdk.path>/Users/peter/Library/Android/sdk</android.sdk.path>
+                <adk.path>/Users/franyo/Library/Android/sdk</adk.path>
+                <android.sdk.path>/Users/franyo/Library/Android/sdk</android.sdk.path>
 
                 <init.url>http://appserver.mgszh.gov.hu:8888/EnarPdaServer/sendxml</init.url>
                 <init.email>kbr@flexisys.hu</init.email>
