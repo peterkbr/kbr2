@@ -29,9 +29,8 @@
         <profile>
             <id>peter</id>
             <properties>
-                <!--<adk.path>C:\Users\Peter\Desktop\eclipseAnd\android-sdk</adk.path>-->
-                <adk.path>/Users/peter/Library/Android/sdk</adk.path>
-                <android.sdk.path>/Users/peter/Library/Android/sdk</android.sdk.path>
+                <adk.path>/Users/franyo/Library/Android/sdk</adk.path>
+                <android.sdk.path>/Users/franyo/Library/Android/sdk</android.sdk.path>
 
                 <init.tipus>7</init.tipus>
                 <init.url>http://appserver.mgszh.gov.hu:8888/EnarPdaServer/sendxml</init.url>
@@ -112,8 +111,11 @@
                             <zipalign>
                                 <skip>false</skip>
                                 <verbose>true</verbose>
-                                <inputApk>${project.build.directory}/${project.artifactId}.apk</inputApk>
-                                <outputApk>${project.build.directory}/${project.artifactId}-signed-aligned.apk</outputApk>
+                                <inputApk>${project.build.directory}/${project.artifactId}.apk
+                                </inputApk>
+                                <outputApk>
+                                    ${project.build.directory}/${project.artifactId}-signed-aligned.apk
+                                </outputApk>
                             </zipalign>
                         </configuration>
                         <executions>
@@ -167,37 +169,6 @@
     </build>
 
     <dependencies>
-        <!--<dependency>-->
-        <!--<groupId>android</groupId>-->
-        <!--<artifactId>android</artifactId>-->
-        <!--<version>${version.android}</version>-->
-        <!--<scope>provided</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>android.support</groupId>-->
-        <!--<artifactId>compatibility-v4</artifactId>-->
-        <!--<version>20.0.0</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>android.support</groupId>-->
-        <!--<artifactId>compatibility-v7-appcompat</artifactId>-->
-        <!--<version>20.0.0</version>-->
-        <!--<type>apklib</type>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>android.support</groupId>-->
-        <!--<artifactId>compatibility-v7-appcompat</artifactId>-->
-        <!--<version>20.0.0</version>-->
-        <!--<type>jar</type>-->
-        <!--</dependency>-->
-
-
-        <dependency>
-            <groupId>com.android.support</groupId>
-            <artifactId>support-v4</artifactId>
-            <version>${version.android.support}</version>
-        </dependency>
-
         <dependency>
             <groupId>com.android.support</groupId>
             <artifactId>appcompat-v7</artifactId>
