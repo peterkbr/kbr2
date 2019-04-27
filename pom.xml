@@ -171,6 +171,12 @@
     <dependencies>
         <dependency>
             <groupId>com.android.support</groupId>
+            <artifactId>support-v4</artifactId>
+            <version>${version.android.support}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.android.support</groupId>
             <artifactId>appcompat-v7</artifactId>
             <version>${version.android.support}</version>
             <type>aar</type>
