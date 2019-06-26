@@ -74,6 +74,7 @@ public class LogUtil {
 
                     File logFile = new File(logFilePath);
                     if (!logFile.exists()) {
+                        logFile.getParentFile().mkdirs();
                         logFile.createNewFile();
                     }
                     FileOutputStream outStream = new FileOutputStream(logFile, true);
