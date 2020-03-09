@@ -2,7 +2,7 @@ package hu.flexisys.kbr.view.admin;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.internal.widget.ListPopupWindow;
+import android.support.v7.widget.ListPopupWindow;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,7 +82,7 @@ public class AdminActivity extends KbrActivity {
 
     public void openList(View view) {
         listPopupWindow = new ListPopupWindow(this);
-        listPopupWindow.setWidth(ListPopupWindow.FILL_PARENT);
+        listPopupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         listPopupWindow.setAnchorView(view);
         listPopupWindow.setAdapter(new UserAdapter(this));
         listPopupWindow.setModal(true);
