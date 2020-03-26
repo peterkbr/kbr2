@@ -4,30 +4,37 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+
+import org.acra.ACRA;
+import org.acra.ReportingInteractionMode;
+import org.acra.annotation.ReportsCrashes;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.db.DBController;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
-import hu.flexisys.kbr.util.*;
+import hu.flexisys.kbr.util.EmailUtil;
+import hu.flexisys.kbr.util.FileUtil;
+import hu.flexisys.kbr.util.KbrApplicationUtil;
+import hu.flexisys.kbr.util.LogUtil;
+import hu.flexisys.kbr.util.NetworkUtil;
+import hu.flexisys.kbr.util.SoundUtil;
 import hu.flexisys.kbr.util.biralat.BiralatSzempontUtil;
 import hu.flexisys.kbr.util.biralat.BiralatTipusUtil;
 import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.db.DbInconsistencyHandlerActivity;
 import hu.flexisys.kbr.view.db.SendDbActivity;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
-import org.acra.ACRA;
-import org.acra.ReportingInteractionMode;
-import org.acra.annotation.ReportsCrashes;
 
-import java.util.*;
-
-/**
- * Created by Peter on 2014.07.01..
- */
 @ReportsCrashes(formKey = "",
         mailTo = "kbr@flexisys.hu",
         mode = ReportingInteractionMode.TOAST,
@@ -59,14 +66,15 @@ public class KbrApplication extends Application {
         SoundUtil.initSoundUtil(this);
         EmailUtil.initEmailUtil(this);
 
-        if (KbrApplicationUtil.initialized()) {
+        if (KbrApplicationUtil.initialized() && currentActivity != null) {
             initialized = true;
             try {
                 FileUtil.initFileUtil(this);
                 dbController = new DBController(this, KbrApplicationUtil.getBiraloUserName());
             } catch (Exception e) {
                 Log.e(LogUtil.TAG, "init DBController", e);
-                errorOnInit = "Hiba történt az adatbázis inicializálásakor!;Kérem, ellenőrizze a készülék SD kártyáját!";
+                errorOnInit = "Hiba történt az adatbázis inicializálásakor!;Kérem, " +
+                        "ellenőrizze a készülék SD kártyáját!";
             }
         } else {
             initialized = false;
@@ -145,11 +153,13 @@ public class KbrApplication extends Application {
         return getTenyeszetListModels(true, false, false);
     }
 
-    public List<TenyeszetListModel> getTenyeszetListModels(boolean withEgyedCount, boolean withBiralatWaitingForUpdate, boolean withBiralatCount) {
+    public List<TenyeszetListModel> getTenyeszetListModels(boolean withEgyedCount,
+                                                           boolean withBiralatWaitingForUpdate,
+                                                           boolean withBiralatCount) {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_YEAR, -14);
 
-        ArrayList<TenyeszetListModel> list = new ArrayList<TenyeszetListModel>();
+        ArrayList<TenyeszetListModel> list = new ArrayList<>();
         if (dbController == null) {
             init();
         }
@@ -204,10 +214,13 @@ public class KbrApplication extends Application {
     public void updateTenyeszetModel(TenyeszetListModel model) {
         Tenyeszet tenyeszet = model.getTenyeszet();
         model.setEgyedCount(dbController.getEgyedTehenCountByTenyeszet(tenyeszet));
-        model.setSelectedEgyedCount(dbController.getEgyedCountByTENAZAndKIVALASZTOTT(tenyeszet.getTENAZ(), true));
-        model.setBiralatWaitingForUpload(dbController.getBiralatCountByTenyeszetAndFeltoltetlen(tenyeszet.getTENAZ(), true));
+        model.setSelectedEgyedCount(dbController.getEgyedCountByTENAZAndKIVALASZTOTT(
+                tenyeszet.getTENAZ(), true));
+        model.setBiralatWaitingForUpload(dbController.getBiralatCountByTenyeszetAndFeltoltetlen(
+                tenyeszet.getTENAZ(), true));
         model.setBiralatCount(dbController.getBiralatCountByTENAZ(tenyeszet.getTENAZ()));
-        model.setBiralatUnexportedCount(dbController.getBiralatCountByTenyeszetAndExported(tenyeszet.getTENAZ(), false));
+        model.setBiralatUnexportedCount(dbController.getBiralatCountByTenyeszetAndExported(
+                tenyeszet.getTENAZ(), false));
     }
 
     public void updateTenyeszetModelWithEgyedCount(TenyeszetListModel model) {
@@ -217,7 +230,8 @@ public class KbrApplication extends Application {
 
     public void updateTenyeszetModelWithBiralatWaitingForUpdate(TenyeszetListModel model) {
         Tenyeszet tenyeszet = model.getTenyeszet();
-        model.setBiralatWaitingForUpload(dbController.getBiralatCountByTenyeszetAndFeltoltetlen(tenyeszet.getTENAZ(), true));
+        model.setBiralatWaitingForUpload(dbController
+                .getBiralatCountByTenyeszetAndFeltoltetlen(tenyeszet.getTENAZ(), true));
     }
 
     public void updateTenyeszetModelWithBiralatCount(TenyeszetListModel model) {
@@ -226,7 +240,7 @@ public class KbrApplication extends Application {
     }
 
     public List<Tenyeszet> getTenyeszetListByTENAZArray(String[] tenazArray) {
-        List<Tenyeszet> tenyeszetList = new ArrayList<Tenyeszet>();
+        List<Tenyeszet> tenyeszetList = new ArrayList<>();
         for (String tenaz : tenazArray) {
             tenyeszetList.add(dbController.getTenyeszetByTENAZ(tenaz));
         }
@@ -234,15 +248,16 @@ public class KbrApplication extends Application {
     }
 
     public List<Egyed> getEgyedListByTENAZArray(String[] tenazArray) {
-        List<Egyed> egyedList = new ArrayList<Egyed>();
+        List<Egyed> egyedList = new ArrayList<>();
         for (String tenaz : tenazArray) {
             egyedList.addAll(dbController.getEgyedByTENAZ(tenaz));
         }
         return egyedList;
     }
 
-    public List<Egyed> getEgyedListByTENAZListAndKivalasztott(List<String> tenazList, boolean kivalasztott) {
-        List<Egyed> egyedList = new ArrayList<Egyed>();
+    public List<Egyed> getEgyedListByTENAZListAndKivalasztott(List<String> tenazList,
+                                                              boolean kivalasztott) {
+        List<Egyed> egyedList = new ArrayList<>();
         for (String tenaz : tenazList) {
             egyedList.addAll(dbController.getEgyedByTENAZAndKIVALASZTOTT(tenaz, kivalasztott));
         }
@@ -250,7 +265,7 @@ public class KbrApplication extends Application {
     }
 
     public List<Biralat> getFeltoltetlenBiralatListByTenazList(List<String> tenazList) {
-        List<Biralat> biralatList = new ArrayList<Biralat>();
+        List<Biralat> biralatList = new ArrayList<>();
         for (String TENAZ : tenazList) {
             biralatList.addAll(dbController.getBiralatByTenyeszetAndFeltoltetlen(TENAZ, true));
         }
@@ -267,7 +282,7 @@ public class KbrApplication extends Application {
     }
 
     public List<Biralat> getBiralatListByTENAZArray(String[] tenazArray) {
-        List<Biralat> biralatList = new ArrayList<Biralat>();
+        List<Biralat> biralatList = new ArrayList<>();
         for (String tenaz : tenazArray) {
             biralatList.addAll(dbController.getBiralatByTENAZ(tenaz));
         }
@@ -327,14 +342,6 @@ public class KbrApplication extends Application {
 
     public void setCurrentActivity(KbrActivity kbrActivity) {
         activityCounter++;
-//        if (currentActivity == null) {
-//            currentActivity = kbrActivity;
-//            if (errorOnInit == null && initialized) {
-//                checkDbConsistency();
-//            }
-//        } else {
-//            currentActivity = kbrActivity;
-//        }
         currentActivity = kbrActivity;
     }
 
@@ -350,19 +357,11 @@ public class KbrApplication extends Application {
     }
 
     public void startMyTask(AsyncTask asyncTask, Object[] params) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
-        } else {
-            asyncTask.execute(params);
-        }
+        asyncTask.execute(params);
     }
 
     public void startMyTask(AsyncTask asyncTask) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new Void[]{});
-        } else {
-            asyncTask.execute(new Void[]{});
-        }
+        asyncTask.execute(new Void[]{});
     }
 
     public boolean isDownloading() {

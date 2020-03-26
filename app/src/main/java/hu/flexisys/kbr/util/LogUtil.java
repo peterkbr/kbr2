@@ -1,6 +1,7 @@
 package hu.flexisys.kbr.util;
 
 import android.util.Log;
+
 import hu.flexisys.kbr.controller.KbrApplication;
 import hu.flexisys.kbr.controller.emptytask.EmptyTask;
 import hu.flexisys.kbr.controller.emptytask.Executable;
@@ -11,9 +12,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by peter on 01/10/14.
- */
 public class LogUtil {
 
     public static final String TAG = "KBR2";
@@ -30,7 +28,8 @@ public class LogUtil {
     public static void initLogUtil(KbrApplication app) {
         LogUtil.app = app;
         try {
-            process = Runtime.getRuntime().exec(new String[]{"logcat", "-v", "long", "AndroidRuntime:E " + TAG + ":V *:S"});
+            process = Runtime.getRuntime().exec(new String[]{"logcat", "-v", "long",
+                    "AndroidRuntime:E " + TAG + ":V *:S"});
         } catch (IOException e) {
             Log.e(TAG, "init log process", e);
         }
@@ -47,7 +46,7 @@ public class LogUtil {
 
                     StringBuilder log = new StringBuilder();
                     if (logFilePath == null) {
-                        String dirPath = FileUtil.getExternalAppPath() + File.separator + "LOG";
+                        String dirPath = FileUtil.externalAppPath + File.separator + "LOG";
                         File dir = new File(dirPath);
                         dir.mkdirs();
                         logFilePath = dirPath + File.separator + "KBRLog_" + DateUtil.getRequestId() + ".txt";
@@ -69,13 +68,14 @@ public class LogUtil {
                     }
 
                     if (exportLog && sendEmail) {
-                        log.append(separator).append("KBR2 log exported : ").append(DateUtil.formatTimestampFileName(new Date()));
+                        log.append(separator).append("KBR2 log exported : ").append(DateUtil.
+                                formatTimestampFileName(new Date()));
                     }
 
                     File logFile = new File(logFilePath);
                     if (!logFile.exists()) {
                         logFile.getParentFile().mkdirs();
-                        logFile.createNewFile();
+                         logFile.createNewFile();
                     }
                     FileOutputStream outStream = new FileOutputStream(logFile, true);
                     byte[] buffer = log.toString().getBytes();
@@ -92,10 +92,11 @@ public class LogUtil {
                 if (stop) {
                     return;
                 }
-                List<String> pathList = new ArrayList<String>();
+                List<String> pathList = new ArrayList<>();
                 pathList.add(logFilePath);
                 if (sendEmail) {
-                    EmailUtil.sendMailWithAttachments(new String[]{KbrApplicationUtil.getSupportEmail()}, "[KBR2][LOG] " + app.getBiraloNev(), null, pathList);
+                    EmailUtil.sendMailWithAttachments(new String[]{KbrApplicationUtil.getSupportEmail()},
+                            "[KBR2][LOG] " + app.getBiraloNev(), null, pathList);
                     logFilePath = null;
                 }
                 startLog();

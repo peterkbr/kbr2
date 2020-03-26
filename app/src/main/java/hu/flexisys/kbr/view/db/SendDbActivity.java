@@ -1,7 +1,6 @@
 package hu.flexisys.kbr.view.db;
 
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import hu.flexisys.kbr.controller.emptytask.EmptyTask;
 import hu.flexisys.kbr.controller.emptytask.Executable;
@@ -60,7 +59,7 @@ public class SendDbActivity extends KbrActivity {
     }
 
     protected void copyDbFiles() throws IOException {
-        String dirPath = Environment.getExternalStorageDirectory() + File.separator + "KBR2" + File.separator + "DataBase" + File.separator + "ErrorFiles";
+        String dirPath = FileUtil.externalAppPath + File.separator + "DataBase" + File.separator + "ErrorFiles";
         File dir = new File(dirPath);
         dir.mkdirs();
 

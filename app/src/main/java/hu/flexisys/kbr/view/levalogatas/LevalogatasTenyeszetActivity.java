@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.emptytask.EmptyTask;
 import hu.flexisys.kbr.controller.emptytask.Executable;
@@ -30,14 +31,11 @@ import hu.flexisys.kbr.view.tenyeszet.TorlesAlertListener;
 import java.io.File;
 import java.util.*;
 
-/**
- * Created by Peter on 2014.07.04..
- */
 public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesAlertListener {
 
     public static String EXTRAKEY_SELECTEDTENAZLIST = "selectedTenazArray";
-    private final List<TenyeszetListModel> tenyeszetList = new ArrayList<TenyeszetListModel>();
-    private final List<String> selectedList = new ArrayList<String>();
+    private final List<TenyeszetListModel> tenyeszetList = new ArrayList<>();
+    private final List<String> selectedList = new ArrayList<>();
     private LevalogatasTenyeszetAdapter adapter;
 
     @Override
@@ -48,7 +46,7 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
 
-        ListView listView = (ListView) findViewById(R.id.teny_list);
+        ListView listView = findViewById(R.id.teny_list);
         adapter = new LevalogatasTenyeszetAdapter(this, R.layout.list_tenyeszet, tenyeszetList, selectedList);
         listView.setAdapter(adapter);
     }
@@ -65,11 +63,12 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
         selectedList.clear();
 
         List<TenyeszetListModel> rawList = app.getTenyeszetListModels();
-        List<TenyeszetListModel> oldList = new ArrayList<TenyeszetListModel>();
+        List<TenyeszetListModel> oldList = new ArrayList<>();
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_YEAR, -14);
         for (TenyeszetListModel model : rawList) {
-            if (model.getEgyedCount() > 0 && model.getLEDAT() != null && model.getLEDAT().getTime() > 1 && model.getERVENYES()) {
+            if (model.getEgyedCount() > 0 && model.getLEDAT() != null &&
+                    model.getLEDAT().getTime() > 1 && model.getERVENYES()) {
                 if (model.getLEDAT().before(cal.getTime())) {
                     oldList.add(model);
                 } else {
@@ -107,8 +106,6 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
         }
     }
 
-    // LEVÁLOGATÁS
-
     private String[] getSelectedTenazArray() {
         String[] selectedTenazArray = new String[selectedList.size()];
         for (int i = 0; i < selectedList.size(); i++) {
@@ -129,15 +126,14 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
         startActivity(intent);
     }
 
-    // KÜLDÉS
-
     public void kuld() {
         if (selectedList.size() > 0) {
             FragmentTransaction ft = getFragmentTransactionWithTag("exportDialog");
             dialog = LevalogatasExportDialog.newInstance(new LevalogatasExportDialog.ExportListener() {
                 @Override
                 public void onExport(final boolean pdf, final boolean csv, final String orderBy) {
-                    String dirPath = FileUtil.getExternalAppPath() + File.separator + "Export" + File.separator + "Leválogatás";
+                    String dirPath = FileUtil.externalAppPath + File.separator + "Export"
+                            + File.separator + "Leválogatás";
                     final File dir = new File(dirPath);
                     dir.mkdirs();
                     dismissDialog();
@@ -146,7 +142,8 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
                     EmptyTask task = new EmptyTask(new Executable() {
                         @Override
                         public void execute() throws Exception {
-                            List<Egyed> selectedEgyedList = app.getEgyedListByTENAZListAndKivalasztott(selectedList, true);
+                            List<Egyed> selectedEgyedList = app.getEgyedListByTENAZListAndKivalasztott(
+                                    selectedList, true);
 
                             if (orderBy != null) {
                                 Collections.sort(selectedEgyedList, new Comparator<Egyed>() {
@@ -182,7 +179,8 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
                             StringBuilder tenazBuilder = new StringBuilder();
                             StringBuilder tartoBuilder = new StringBuilder();
                             String[] selectedTenazArray = getSelectedTenazArray();
-                            List<Tenyeszet> selectedTenyeszetList = app.getTenyeszetListByTENAZArray(selectedTenazArray);
+                            List<Tenyeszet> selectedTenyeszetList = app.getTenyeszetListByTENAZArray(
+                                    selectedTenazArray);
                             for (Tenyeszet tenyeszet : selectedTenyeszetList) {
                                 if (tenazBuilder.length() > 0) {
                                     tenazBuilder.append(", ");
@@ -195,14 +193,17 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
                                 tartoBuilder.append(tenyeszet.getTARTO());
                             }
 
-                            List<String> pathList = new ArrayList<String>();
+                            List<String> pathList = new ArrayList<>();
                             if (pdf) {
-                                LevalogatasPdfExporter.initPdfExporter(tenazBuilder.toString(), tartoBuilder.toString(), app.getBiraloNev());
-                                String pdfFilePath = LevalogatasPdfExporter.export(dir.getPath(), selectedEgyedList);
+                                LevalogatasPdfExporter.initPdfExporter(tenazBuilder.toString(),
+                                        tartoBuilder.toString(), app.getBiraloNev());
+                                String pdfFilePath = LevalogatasPdfExporter.export(dir.getPath(),
+                                        selectedEgyedList);
                                 pathList.add(pdfFilePath);
                             }
                             if (csv) {
-                                String csvFilePath = LevalogatasCvsExporter.export(dir.getPath(), selectedEgyedList);
+                                String csvFilePath = LevalogatasCvsExporter.export(dir.getPath(),
+                                        selectedEgyedList);
                                 pathList.add(csvFilePath);
                             }
 
@@ -217,7 +218,8 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
                             }
                             subjectBuider.append(" leválogatott egyedei");
 
-                            EmailUtil.sendMailWithAttachments(null, subjectBuider.toString(), null, pathList);
+                            EmailUtil.sendMailWithAttachments(null, subjectBuider.toString(),
+                                    null, pathList);
 
                         }
                     }, new ExecutableFinishedListener() {
@@ -231,7 +233,8 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
                             dismissDialog();
                             Log.e(LogUtil.TAG, e.getMessage(), e);
                             // TODO i18n
-                            Toast.makeText(LevalogatasTenyeszetActivity.this, "Hiba történt az exportálás során! Az SD kártya nem írható.", Toast.LENGTH_LONG)
+                            Toast.makeText(LevalogatasTenyeszetActivity.this, "Hiba történt " +
+                                    "az exportálás során! Az SD kártya nem írható.", Toast.LENGTH_LONG)
                                     .show();
                         }
                     });
@@ -242,12 +245,6 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
         }
     }
 
-    private void addFileAttachement(Intent intent, String filePath) {
-
-    }
-
-    // LEVÁLOGATÁS TÖRLÉSE
-
     public void levalogatasTorlese() {
         if (selectedList.isEmpty()) {
             return;
@@ -257,7 +254,6 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
         dialog.show(ft, "levalogatasTorlesDialog");
     }
 
-    // levalogatasTorlese
     @Override
     public void onTorles() {
         dismissDialog();
@@ -277,6 +273,4 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
         });
         startMyTask(task);
     }
-
-
 }

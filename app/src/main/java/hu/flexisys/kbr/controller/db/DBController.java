@@ -2,6 +2,7 @@ package hu.flexisys.kbr.controller.db;
 
 import android.content.Context;
 import android.util.Log;
+
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.model.Tenyeszet;
@@ -14,9 +15,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-/**
- * Created by Peter on 2014.07.01..
- */
 public class DBController {
 
     private static final String DB_NAME = "KBR2_DB";
@@ -36,8 +34,8 @@ public class DBController {
     }
 
     private void getDBPath(String userid) throws Exception {
-        innerDBPath = FileUtil.getInnerAppPath() + File.separator + DB_NAME + "_innerDB_" + userid;
-        String dirPath = FileUtil.getExternalAppPath() + File.separator + "DataBase";
+        innerDBPath = FileUtil.innerAppPath + File.separator + DB_NAME + "_innerDB_" + userid;
+        String dirPath = FileUtil.externalAppPath + File.separator + "DataBase";
         File dir = new File(dirPath);
         boolean dirCreated = dir.mkdirs();
         if (!dirCreated && !dir.exists()) {
@@ -50,9 +48,6 @@ public class DBController {
         innerConnector = new DBConnector(context, innerDBPath, DB_VERSION);
         sdCardConnector = new DBConnector(context, sdCardDBPath, DB_VERSION);
     }
-
-
-    // DB MODIFICATION
 
     public void addTenyeszet(Tenyeszet tenyeszet) {
         innerConnector.addTenyeszet(tenyeszet);
@@ -115,8 +110,6 @@ public class DBController {
         innerConnector.removeBiralat(biralat);
         sdCardConnector.removeBiralat(biralat);
     }
-
-    // READ FROM DB
 
     public Tenyeszet getTenyeszetByTENAZ(String tenaz) {
         return innerConnector.getTenyeszetByTENAZ(tenaz);
@@ -202,8 +195,6 @@ public class DBController {
         return innerConnector.getBiralatCountByTenyeszetAndExported(TENAZ, unexported);
     }
 
-    // DB CONSISTENCY
-
     public void checkDbConsistency() throws Exception {
         String innerMD5 = getMD5EncryptedString(innerDBPath);
         String sdCardMD5 = getMD5EncryptedString(sdCardDBPath);
@@ -220,8 +211,6 @@ public class DBController {
             BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
             buf.read(bytes, 0, bytes.length);
             buf.close();
-        } catch (FileNotFoundException e) {
-            Log.e(LogUtil.TAG, "getMD5EncryptedString", e);
         } catch (IOException e) {
             Log.e(LogUtil.TAG, "getMD5EncryptedString", e);
         }
@@ -232,11 +221,11 @@ public class DBController {
             Log.e(LogUtil.TAG, "getMD5EncryptedString", e);
         }
         mdEnc.update(bytes, 0, bytes.length);
-        String md5 = new BigInteger(1, mdEnc.digest()).toString(16);
+        StringBuilder md5 = new StringBuilder(new BigInteger(1, mdEnc.digest()).toString(16));
         while (md5.length() < 32) {
-            md5 = "0" + md5;
+            md5.insert(0, "0");
         }
-        return md5;
+        return md5.toString();
     }
 
     public void synchronizeDb(boolean inner) {
@@ -252,7 +241,8 @@ public class DBController {
         File src = new File(srcPath);
         File dst = new File(dstPath);
 
-        if (srcPath.equals(innerDBPath) && innerConnector.isEmpty() || srcPath.equals(sdCardDBPath) && sdCardConnector.isEmpty()) {
+        if (srcPath.equals(innerDBPath) && innerConnector.isEmpty() ||
+                srcPath.equals(sdCardDBPath) && sdCardConnector.isEmpty()) {
             src.delete();
             dst.delete();
             createDBConnector();

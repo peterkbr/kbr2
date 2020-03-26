@@ -6,11 +6,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.KbrApplication;
 import hu.flexisys.kbr.util.SoundUtil;
@@ -19,10 +20,7 @@ import hu.flexisys.kbr.view.levalogatas.KbrDatePickerDialog;
 
 import java.util.Calendar;
 
-/**
- * Created by Peter on 2014.07.04..
- */
-public class KbrActivity extends ActionBarActivity implements ProgressHandler {
+public class KbrActivity extends AppCompatActivity implements ProgressHandler {
 
     protected KbrApplication app;
     protected ActionBar actionBar;
@@ -88,16 +86,16 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
     public void pickDate(final View view) {
         final TextView dateEditText = (TextView) view;
 
-        Integer mYear;
-        Integer mMonth;
-        Integer mDay;
+        int mYear;
+        int mMonth;
+        int mDay;
 
         String dateString = dateEditText.getText().toString();
         String[] dateStringArray = dateString.split("\\.");
         if (dateStringArray.length == 3) {
-            mYear = Integer.valueOf(dateStringArray[0]);
-            mMonth = Integer.valueOf(dateStringArray[1]) - 1;
-            mDay = Integer.valueOf(dateStringArray[2]);
+            mYear = Integer.parseInt(dateStringArray[0]);
+            mMonth = Integer.parseInt(dateStringArray[1]) - 1;
+            mDay = Integer.parseInt(dateStringArray[2]);
         } else {
             final Calendar c = Calendar.getInstance();
             mYear = c.get(Calendar.YEAR);
@@ -106,19 +104,21 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
         }
 
         FragmentTransaction ft = getFragmentTransactionWithTag("datePickerDialog");
-        dialog = KbrDatePickerDialog.newInstance(getTitleForDatePickerDialog(view.getId()), new DatePickedListener() {
-            @Override
-            public void onClear() {
-                dateEditText.setText("");
-                dismissDialog();
-            }
+        dialog = KbrDatePickerDialog.newInstance(getTitleForDatePickerDialog(view.getId()),
+                new DatePickedListener() {
+                    @Override
+                    public void onClear() {
+                        dateEditText.setText("");
+                        dismissDialog();
+                    }
 
-            @Override
-            public void onDatePicked(int year, int monthOfYear, int dayOfMonth) {
-                dateEditText.setText(year + "." + getNulledString(monthOfYear + 1) + "." + getNulledString(dayOfMonth));
-                dismissDialog();
-            }
-        }, mYear, mMonth, mDay);
+                    @Override
+                    public void onDatePicked(int year, int monthOfYear, int dayOfMonth) {
+                        dateEditText.setText(year + "." + getNulledString(monthOfYear + 1) + "." +
+                                getNulledString(dayOfMonth));
+                        dismissDialog();
+                    }
+                }, mYear, mMonth, mDay);
         dialog.show(ft, "datePickerDialog");
     }
 
@@ -157,9 +157,6 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
         return title;
     }
 
-
-    // PROGRESS
-
     public void startProgressDialog(String title) {
         FragmentTransaction ft = getFragmentTransactionWithTag("progress");
         dialog = ProgressDialog.newInstance(title);
@@ -167,9 +164,6 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
     }
 
     public void dismissDialog() {
-//        if (dialog != null && dialog.isVisible()) {
-//            dialog.dismiss();
-//        }
         if (dialog != null) {
             dialog.dismiss();
         }
@@ -180,9 +174,6 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
         dismissDialog();
     }
 
-
-    // TASKS
-
     protected void startMyTask(AsyncTask asyncTask, Object[] params) {
         app.startMyTask(asyncTask, params);
     }
@@ -190,8 +181,6 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
     protected void startMyTask(AsyncTask asyncTask) {
         app.startMyTask(asyncTask);
     }
-
-    // MESSAGING
 
     public void toast(int msgId) {
         Toast.makeText(this, getString(msgId), Toast.LENGTH_SHORT).show();
@@ -204,5 +193,4 @@ public class KbrActivity extends ActionBarActivity implements ProgressHandler {
     public void errorBeep() {
         SoundUtil.errorBeep();
     }
-
 }

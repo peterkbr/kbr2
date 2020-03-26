@@ -10,6 +10,9 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.jetbrains.annotations.NotNull;
+
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.emptytask.*;
 import hu.flexisys.kbr.model.Biralat;
@@ -36,9 +39,6 @@ import java.io.File;
 import java.text.ParseException;
 import java.util.*;
 
-/**
- * Created by Peter on 2014.07.21..
- */
 public class BongeszoActivity extends KbrActivity {
 
     public static final String ert1 = "16";
@@ -66,33 +66,35 @@ public class BongeszoActivity extends KbrActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bongeszo);
 
-        View customView = LayoutInflater.from(this).inflate(R.layout.activity_bongeszo_actionbar, null);
+        View customView = LayoutInflater.from(this).inflate(
+                R.layout.activity_bongeszo_actionbar, null);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(customView);
 
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
 
-        pane = (SlidingPaneLayout) findViewById(R.id.sp);
+        pane = findViewById(R.id.sp);
         pane.setPanelSlideListener(new SlidingPaneLayout.PanelSlideListener() {
             @Override
-            public void onPanelSlide(View panel, float slideOffset) {
+            public void onPanelSlide(@NotNull View panel, float slideOffset) {
                 invalidateOptionsMenu();
             }
 
             @Override
-            public void onPanelOpened(View panel) {
+            public void onPanelOpened(@NotNull View panel) {
                 invalidateOptionsMenu();
             }
 
             @Override
-            public void onPanelClosed(View panel) {
+            public void onPanelClosed(@NotNull View panel) {
                 invalidateOptionsMenu();
             }
         });
 
-        selectedTenazArray = getIntent().getExtras().getStringArray(BiralatTenyeszetActivity.EXTRAKEY_SELECTEDTENAZLIST);
-        TextView telep = (TextView) findViewById(R.id.bong_szuk_telep_name);
+        selectedTenazArray = getIntent().getExtras().getStringArray(
+                BiralatTenyeszetActivity.EXTRAKEY_SELECTEDTENAZLIST);
+        TextView telep = findViewById(R.id.bong_szuk_telep_name);
         List<Tenyeszet> tenyeszetList = app.getTenyeszetListByTENAZArray(selectedTenazArray);
         String text = tenyeszetList.size() + " db telep";
         if (tenyeszetList.size() == 1) {
@@ -100,27 +102,29 @@ public class BongeszoActivity extends KbrActivity {
         }
         telep.setText(text);
 
-        biralatList = new ArrayList<Biralat>();
+        biralatList = new ArrayList<>();
         List<Egyed> egyedList = app.getEgyedListByTENAZArray(selectedTenazArray);
-        egyedMap = new HashMap<String, Egyed>();
+        egyedMap = new HashMap<>();
         for (Egyed egyed : egyedList) {
             egyedMap.put(egyed.getAZONO(), egyed);
         }
 
         elkuldetlenFilter = true;
-        CheckBox elkuldetlenCheckBox = (CheckBox) findViewById(R.id.bong_szuk_elkuldetlen);
+        CheckBox elkuldetlenCheckBox = findViewById(R.id.bong_szuk_elkuldetlen);
         elkuldetlenCheckBox.setChecked(elkuldetlenFilter);
 
-        ListView biralatListView = (ListView) findViewById(R.id.bongeszo_bir_list);
+        ListView biralatListView = findViewById(R.id.bongeszo_bir_list);
         biralatListView.setEmptyView(findViewById(R.id.empty_list_item));
-        adapter = new BongeszoListAdapter(this, 0, biralatList, egyedMap, new BongeszoListAdapter.BongeszoListContainer() {
+        adapter = new BongeszoListAdapter(this, 0, biralatList, egyedMap, new BongeszoListAdapter
+                .BongeszoListContainer() {
             @Override
             public void onLongClick(final Egyed currentEgyed, final Biralat currentBiralat) {
                 if (currentBiralat.getEXPORTALT()) {
                     showBiralatViewEdit(currentEgyed, currentBiralat);
                 } else {
                     FragmentTransaction ft = getFragmentTransactionWithTag("longClick");
-                    dialog = BongLongClickDialog.newInstance(new BongLongClickDialog.LongClickDialogListener() {
+                    dialog = BongLongClickDialog.newInstance(new BongLongClickDialog
+                            .LongClickDialogListener() {
 
                         @Override
                         public void onView() {
@@ -133,34 +137,35 @@ public class BongeszoActivity extends KbrActivity {
                             dismissDialog();
                             FragmentTransaction ft = getFragmentTransactionWithTag("delete");
                             dialog2 = null;
-                            dialog2 = BongLongClickDeleteDialog.newInstance(new BongLongClickDeleteDialog.BongLongClickDeleteDialogListener() {
-                                @Override
-                                public void onDelete() {
-                                    dialog2.dismiss();
-                                    startProgressDialog(getString(R.string.bong_progress_delete));
-                                    app.removeBiralat(currentBiralat);
-                                    EmptyTask task = new EmptyTask(new Executable() {
+                            dialog2 = BongLongClickDeleteDialog.newInstance(
+                                    new BongLongClickDeleteDialog.BongLongClickDeleteDialogListener() {
                                         @Override
-                                        public void execute() {
-                                            reloadData();
-                                            reorderData();
+                                        public void onDelete() {
+                                            dialog2.dismiss();
+                                            startProgressDialog(getString(R.string.bong_progress_delete));
+                                            app.removeBiralat(currentBiralat);
+                                            EmptyTask task = new EmptyTask(new Executable() {
+                                                @Override
+                                                public void execute() {
+                                                    reloadData();
+                                                    reorderData();
+                                                }
+                                            }, new ExecutableFinishedListener() {
+                                                @Override
+                                                public void onFinished() {
+                                                    updateCounter();
+                                                    adapter.notifyDataSetChanged();
+                                                    dismissDialog();
+                                                }
+                                            });
+                                            startMyTask(task);
                                         }
-                                    }, new ExecutableFinishedListener() {
-                                        @Override
-                                        public void onFinished() {
-                                            updateCounter();
-                                            adapter.notifyDataSetChanged();
-                                            dismissDialog();
-                                        }
-                                    });
-                                    startMyTask(task);
-                                }
 
-                                @Override
-                                public void onDismiss() {
-                                    dialog2.dismiss();
-                                }
-                            }, currentEgyed);
+                                        @Override
+                                        public void onDismiss() {
+                                            dialog2.dismiss();
+                                        }
+                                    }, currentEgyed);
                             dialog2.show(ft, "delete");
                         }
 
@@ -219,8 +224,6 @@ public class BongeszoActivity extends KbrActivity {
         });
         startMyTask(task);
     }
-
-    // LIST
 
     public void reloadData() {
         biralatList.clear();
@@ -340,22 +343,17 @@ public class BongeszoActivity extends KbrActivity {
         if (datumIgFilter != null && biralat.getBIRDA().getTime() > datumIgFilter) {
             return false;
         }
-        if (elkuldetlenFilter != null && elkuldetlenFilter && !biralat.getFELTOLTETLEN()) {
-            return false;
-        }
-        return true;
+        return elkuldetlenFilter == null || !elkuldetlenFilter || biralat.getFELTOLTETLEN();
     }
 
     public void updateCounter() {
-        TextView counter = (TextView) findViewById(R.id.bongeszo_egyed_counter);
+        TextView counter = findViewById(R.id.bongeszo_egyed_counter);
         if (biralatList != null) {
             counter.setText(String.valueOf(biralatList.size()));
         } else {
             counter.setText("0");
         }
     }
-
-    // DIAGRAM
 
     private void startDiagramActivity() {
         ArrayList<String> values = getDiagramValues();
@@ -368,15 +366,13 @@ public class BongeszoActivity extends KbrActivity {
 
     private ArrayList<String> getDiagramValues() {
         BiralatTipus tipus = BiralatTipusUtil.getBiralatTipus(app.getBiralatTipus());
-        List<BiralatSzempont> szempontList = new ArrayList<BiralatSzempont>();
-        Map<String, Integer[]> diagramValueMap = new HashMap<String, Integer[]>();
+        List<BiralatSzempont> szempontList = new ArrayList<>();
+        Map<String, Integer[]> diagramValueMap = new HashMap<>();
         for (String szempontId : tipus.szempontList) {
             BiralatSzempont szempont = BiralatSzempontUtil.getBiralatSzempont(szempontId);
             szempontList.add(szempont);
             Integer[] arr = new Integer[szempont.kategoriaBounds.length];
-            for (int i = 0; i < arr.length; i++) {
-                arr[i] = 0;
-            }
+            Arrays.fill(arr, 0);
             diagramValueMap.put(szempont.kod, arr);
         }
 
@@ -399,7 +395,7 @@ public class BongeszoActivity extends KbrActivity {
             }
         }
 
-        ArrayList<String> diagramValuesList = new ArrayList<String>();
+        ArrayList<String> diagramValuesList = new ArrayList<>();
         for (BiralatSzempont szempont : szempontList) {
             Integer[] values = diagramValueMap.get(szempont.kod);
             StringBuilder builder = new StringBuilder(szempont.rovidNev);
@@ -414,19 +410,10 @@ public class BongeszoActivity extends KbrActivity {
                 builder.append(",").append((int) Math.floor(values[i] * d));
             }
 
-//            Integer sum = values[0] + values[1] + values[2];
-//            Double i = 100d / sum;
-//            Integer value_0 = (int) Math.floor(values[0] * i);
-//            Integer value_1 = (int) Math.floor(values[1] * i);
-//            Integer value_2 = (int) Math.floor(values[2] * i);
-//            builder.append(szempont.rovidNev).append(",").append(value_0).append(",").append(value_1).append(",").append(value_2);
-
             diagramValuesList.add(builder.toString());
         }
         return diagramValuesList;
     }
-
-    // EXPORT
 
     private void export() {
         if (biralatList.size() > 0) {
@@ -434,7 +421,8 @@ public class BongeszoActivity extends KbrActivity {
             dialog = ExportDialog.newInstance(new ExportDialog.ExportListener() {
                 @Override
                 public void onExport(final boolean pdf, final boolean csv) {
-                    String dirPath = FileUtil.getExternalAppPath() + File.separator + "Export" + File.separator + "Bírálatok";
+                    String dirPath = FileUtil.externalAppPath + File.separator + "Export" +
+                            File.separator + "Bírálatok";
                     final File dir = new File(dirPath);
                     dir.mkdirs();
                     dismissDialog();
@@ -445,7 +433,8 @@ public class BongeszoActivity extends KbrActivity {
                         public void execute() throws Exception {
                             StringBuilder tenazBuilder = new StringBuilder();
                             StringBuilder tartoBuilder = new StringBuilder();
-                            List<Tenyeszet> selectedTenyeszetList = app.getTenyeszetListByTENAZArray(selectedTenazArray);
+                            List<Tenyeszet> selectedTenyeszetList = app
+                                    .getTenyeszetListByTENAZArray(selectedTenazArray);
                             for (Tenyeszet tenyeszet : selectedTenyeszetList) {
                                 if (tenazBuilder.length() > 0) {
                                     tenazBuilder.append(", ");
@@ -459,11 +448,14 @@ public class BongeszoActivity extends KbrActivity {
                             }
 
                             if (pdf) {
-                                BiralatPdfExporter.initPdfExporter(tenazBuilder.toString(), tartoBuilder.toString(), app.getBiraloNev());
-                                BiralatPdfExporter.export(dir.getPath(), app.getBiralatTipus(), biralatList, egyedMap);
+                                BiralatPdfExporter.initPdfExporter(tenazBuilder.toString(),
+                                        tartoBuilder.toString(), app.getBiraloNev());
+                                BiralatPdfExporter.export(dir.getPath(), app.getBiralatTipus(),
+                                        biralatList, egyedMap);
                             }
                             if (csv) {
-                                BiralatCvsExporter.export(dir.getPath(), app.getBiralatTipus(), biralatList, egyedMap);
+                                BiralatCvsExporter.export(dir.getPath(), app.getBiralatTipus(),
+                                        biralatList, egyedMap);
                             }
                             for (Biralat biralat : biralatList) {
                                 if (!biralat.getEXPORTALT()) {
@@ -487,7 +479,8 @@ public class BongeszoActivity extends KbrActivity {
                             dismissDialog();
                             Log.e(LogUtil.TAG, e.getMessage(), e);
                             // TODO i18n
-                            Toast.makeText(BongeszoActivity.this, "Hiba történt az exportálás során! Az SD kártya nem írható.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(BongeszoActivity.this, "Hiba történt az exportálás során! " +
+                                    "Az SD kártya nem írható.", Toast.LENGTH_LONG).show();
                         }
                     });
                     startMyTask(emptyTask);
@@ -497,25 +490,23 @@ public class BongeszoActivity extends KbrActivity {
         }
     }
 
-    // SZŰKÍTÉS
-
     private void szukit() {
         startProgressDialog(getString(R.string.bong_progress_szukites));
         try {
-            TextView datumTol = (TextView) findViewById(R.id.bong_szuk_datum_tol);
+            TextView datumTol = findViewById(R.id.bong_szuk_datum_tol);
             datumTolFilter = DateUtil.getDateFromDateString(datumTol.getText().toString()).getTime();
         } catch (ParseException e) {
             Log.e(LogUtil.TAG, "Date parse error", e);
             datumTolFilter = null;
         }
         try {
-            TextView datumIg = (TextView) findViewById(R.id.bong_szuk_datum_ig);
+            TextView datumIg = findViewById(R.id.bong_szuk_datum_ig);
             datumIgFilter = DateUtil.getDateFromDateString(datumIg.getText().toString()).getTime();
         } catch (ParseException e) {
             Log.e(LogUtil.TAG, "Date parse error", e);
             datumIgFilter = null;
         }
-        CheckBox elkuldetlenCheckBox = (CheckBox) findViewById(R.id.bong_szuk_elkuldetlen);
+        CheckBox elkuldetlenCheckBox = findViewById(R.id.bong_szuk_elkuldetlen);
         elkuldetlenFilter = elkuldetlenCheckBox.isChecked();
 
         EmptyTask task = new EmptyTask(new Executable() {
@@ -536,15 +527,13 @@ public class BongeszoActivity extends KbrActivity {
     }
 
     private void urit() {
-        TextView datumTol = (TextView) findViewById(R.id.bong_szuk_datum_tol);
+        TextView datumTol = findViewById(R.id.bong_szuk_datum_tol);
         datumTol.setText("");
-        TextView datumIg = (TextView) findViewById(R.id.bong_szuk_datum_ig);
+        TextView datumIg = findViewById(R.id.bong_szuk_datum_ig);
         datumIg.setText("");
-        CheckBox elkuldetlenCheckBox = (CheckBox) findViewById(R.id.bong_szuk_elkuldetlen);
+        CheckBox elkuldetlenCheckBox = findViewById(R.id.bong_szuk_elkuldetlen);
         elkuldetlenCheckBox.setChecked(false);
     }
-
-    // MENU IN ACTIONBAR
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
