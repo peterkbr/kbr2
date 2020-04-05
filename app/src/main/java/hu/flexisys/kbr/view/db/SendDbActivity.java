@@ -28,7 +28,6 @@ public class SendDbActivity extends KbrActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        actionBar.hide();
         resume();
     }
 

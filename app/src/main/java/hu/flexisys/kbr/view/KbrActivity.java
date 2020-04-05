@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
@@ -29,9 +30,7 @@ public class KbrActivity extends AppCompatActivity implements ProgressHandler {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         app = (KbrApplication) getApplication();
-        actionBar = getSupportActionBar();
         app.setCurrentActivity(this);
 
         if (KbrApplication.errorOnInit != null) {
@@ -45,6 +44,16 @@ public class KbrActivity extends AppCompatActivity implements ProgressHandler {
             });
             dialog.show(ft, "error");
         }
+    }
+
+    protected void setUpTabBar() {
+        Toolbar myToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
+        actionBar = getSupportActionBar();
+
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setIcon(R.drawable.ic_launcher);
+        actionBar.setDisplayShowTitleEnabled(false);
     }
 
     @Override

@@ -33,7 +33,6 @@ public class BiralatDialogEditActivity extends KbrActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        actionBar.hide();
 
         selectedEgyed = (Egyed) getIntent().getExtras().getSerializable(KEY_EGYED);
         selectedBiralat = (Biralat) getIntent().getExtras().getSerializable(KEY_BIRALAT);

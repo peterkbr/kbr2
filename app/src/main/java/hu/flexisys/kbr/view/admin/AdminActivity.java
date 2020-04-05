@@ -37,7 +37,6 @@ public class AdminActivity extends KbrActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
-        actionBar.hide();
 
         nameTV = (TextView) findViewById(R.id.admin_name);
         nameTV.setText(KbrApplicationUtil.getBiraloNev());

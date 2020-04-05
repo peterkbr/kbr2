@@ -19,7 +19,6 @@ public class BiralatDialogActivity extends KbrActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        actionBar.hide();
         String azono = getIntent().getExtras().getString(KEY_AZONO);
         List<Biralat> biralatList = app.getBiralatByAZONO(azono);
         Collections.sort(biralatList, new Comparator<Biralat>() {

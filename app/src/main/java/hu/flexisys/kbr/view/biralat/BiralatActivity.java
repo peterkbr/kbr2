@@ -45,13 +45,14 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         setContentView(R.layout.activity_biralat);
-
+        // TODO
+        setUpTabBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayUseLogoEnabled(false);
+
         ViewPager pager = (ViewPager) findViewById(R.id.biralat_pager);
         adapter = new BiralatPagerAdapter(getSupportFragmentManager(), this);
         pager.setAdapter(adapter);

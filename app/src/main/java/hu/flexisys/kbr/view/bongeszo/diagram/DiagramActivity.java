@@ -20,7 +20,6 @@ public class DiagramActivity extends KbrActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        actionBar.hide();
         setContentView(R.layout.activity_diagram);
 
         Bundle extras = getIntent().getExtras();

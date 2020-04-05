@@ -11,7 +11,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.Light">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
         <service
             android:name=".controller.network.tenyeszet.DownloadTenyeszetArrayService"
@@ -33,86 +33,56 @@
         <activity
             android:name=".view.tenyeszet.TenyeszetActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.MenuActivity" />
-        </activity>
+            android:parentActivityName=".view.MenuActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.biralat.BiralatTenyeszetActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.MenuActivity" />
-        </activity>
+            android:parentActivityName=".view.MenuActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.biralat.BiralatActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:parentActivityName=".view.biralat.BiralatTenyeszetActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.biralat.BiralatTenyeszetActivity" />
-        </activity>
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name=".view.levalogatas.LevalogatasTenyeszetActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="landscape">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.MenuActivity" />
-        </activity>
+            android:parentActivityName=".view.MenuActivity"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".view.levalogatas.LevalogatasActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="landscape">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.levalogatas.LevalogatasTenyeszetActivity" />
-        </activity>
+            android:parentActivityName=".view.levalogatas.LevalogatasTenyeszetActivity"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".view.levalogatas.biralatdialog.BiralatDialogActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.levalogatas.LevalogatasActivity" />
-        </activity>
+            android:parentActivityName=".view.levalogatas.LevalogatasActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.bongeszo.tenyeszet.BongeszoTenyeszetActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="landscape">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.MenuActivity" />
-        </activity>
+            android:parentActivityName=".view.MenuActivity"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".view.bongeszo.BongeszoActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="landscape">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.bongeszo.tenyeszet.BongeszoTenyeszetActivity" />
-        </activity>
+            android:parentActivityName=".view.bongeszo.tenyeszet.BongeszoTenyeszetActivity"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".view.bongeszo.diagram.DiagramActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="landscape">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.bongeszo.BongeszoActivity" />
-        </activity>
+            android:parentActivityName=".view.bongeszo.BongeszoActivity"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".view.bongeszo.biralatdialog.BiralatDialogEditActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.bongeszo.BongeszoActivity" />
-        </activity>
+            android:parentActivityName=".view.bongeszo.BongeszoActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.db.SendDbActivity"

@@ -65,14 +65,12 @@ public class BongeszoActivity extends KbrActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bongeszo);
-
+        // TODO
+        setUpTabBar();
         View customView = LayoutInflater.from(this).inflate(
                 R.layout.activity_bongeszo_actionbar, null);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(customView);
-
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
 
         pane = findViewById(R.id.sp);
         pane.setPanelSlideListener(new SlidingPaneLayout.PanelSlideListener() {
