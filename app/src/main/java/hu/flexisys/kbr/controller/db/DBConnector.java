@@ -25,14 +25,12 @@ public class DBConnector {
         database = openHelper.getWritableDatabase();
     }
 
-    // TODO log
     public long addTenyeszet(Tenyeszet tenyeszet) {
         ContentValues values = DBUtil.mapTenyeszetToContentValues(tenyeszet);
         long insertId = database.insert(DBScripts.TABLE_TENYESZET, null, values);
         return insertId;
     }
 
-    // TODO log
     public int removeTenyeszet(String TENAZ) {
         int removedCount = database.delete(DBScripts.TABLE_TENYESZET, DBScripts.COLUMN_TENYESZET_TENAZ + " = ?", new String[]{TENAZ});
         return removedCount;
@@ -93,14 +91,12 @@ public class DBConnector {
         return tenyeszet;
     }
 
-    // TODO log
     public long addEgyed(Egyed egyed) {
         ContentValues values = DBUtil.mapEgyedToContentValues(egyed);
         long id = database.insert(DBScripts.TABLE_EGYED, null, values);
         return id;
     }
 
-    // TODO log
     public int removeEgyed(Egyed egyed) {
         int removedCount = database.delete(DBScripts.TABLE_EGYED, DBScripts.COLUMN_EGYED_AZONO + " = ?", new String[]{egyed.getAZONO()});
         return removedCount;

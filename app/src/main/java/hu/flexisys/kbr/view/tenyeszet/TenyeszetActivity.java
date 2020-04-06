@@ -29,8 +29,8 @@ import java.util.*;
  */
 public class TenyeszetActivity extends KbrActivity implements DownloadTenyeszetHandler {
 
-    private final List<TenyeszetListModel> tenyeszetList = new ArrayList<TenyeszetListModel>();
-    private final List<String> selectedList = new ArrayList<String>();
+    private final List<TenyeszetListModel> tenyeszetList = new ArrayList<>();
+    private final List<String> selectedList = new ArrayList<>();
     private TenyeszetAdapter adapter;
     private List<String> origOrder;
 
@@ -44,7 +44,7 @@ public class TenyeszetActivity extends KbrActivity implements DownloadTenyeszetH
 
         paused = false;
 
-        ListView listView = (ListView) findViewById(R.id.teny_list);
+        ListView listView = findViewById(R.id.teny_list);
         adapter = new TenyeszetAdapter(this, R.layout.list_tenyeszet, tenyeszetList, selectedList);
         listView.setAdapter(adapter);
     }
@@ -72,7 +72,7 @@ public class TenyeszetActivity extends KbrActivity implements DownloadTenyeszetH
         selectedList.clear();
 
         List<TenyeszetListModel> rawList = app.getTenyeszetListModels();
-        List<TenyeszetListModel> oldList = new ArrayList<TenyeszetListModel>();
+        List<TenyeszetListModel> oldList = new ArrayList<>();
 
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_YEAR, -14);
@@ -118,7 +118,7 @@ public class TenyeszetActivity extends KbrActivity implements DownloadTenyeszetH
     }
 
     private void setOrigOrder() {
-        origOrder = new ArrayList<String>();
+        origOrder = new ArrayList<>();
         for (TenyeszetListModel tenyeszet : tenyeszetList) {
             origOrder.add(tenyeszet.getTENAZ());
         }
@@ -272,7 +272,7 @@ public class TenyeszetActivity extends KbrActivity implements DownloadTenyeszetH
                     public void onFinished() {
                         dismissDialog();
 
-                        List<String> oldList = new ArrayList<String>(selectedList);
+                        List<String> oldList = new ArrayList<>(selectedList);
                         reloadData();
                         adapter.notifyDataSetChanged();
 

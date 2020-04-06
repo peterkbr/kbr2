@@ -1,13 +1,12 @@
-<android.support.v4.widget.SlidingPaneLayout
+<android.support.v4.widget.SlidingPaneLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/sp"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <!--SZŰKÍTÉS-->
-    <include layout="@layout/activity_levalogatas_left"/>
+    <include layout="@layout/activity_levalogatas_left" />
 
     <!--LEVÁLOGATÁS-->
-    <include layout="@layout/activity_levalogatas_right"/>
+    <include layout="@layout/activity_levalogatas_right" />
 
 </android.support.v4.widget.SlidingPaneLayout>

@@ -49,6 +49,9 @@ public class LogUtil {
                         String dirPath = FileUtil.externalAppPath + File.separator + "LOG";
                         File dir = new File(dirPath);
                         dir.mkdirs();
+                        if (!dir.exists()) {
+                            return;
+                        }
                         logFilePath = dirPath + File.separator + "KBRLog_" + DateUtil.getRequestId() + ".txt";
                         log.append("KBR2 log started : ").append(DateUtil.formatTimestampFileName(new Date()));
                     }
@@ -75,7 +78,7 @@ public class LogUtil {
                     File logFile = new File(logFilePath);
                     if (!logFile.exists()) {
                         logFile.getParentFile().mkdirs();
-                         logFile.createNewFile();
+                        logFile.createNewFile();
                     }
                     FileOutputStream outStream = new FileOutputStream(logFile, true);
                     byte[] buffer = log.toString().getBytes();

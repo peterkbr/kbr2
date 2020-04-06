@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
+
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.emptytask.EmptyTask;
 import hu.flexisys.kbr.controller.emptytask.Executable;
@@ -19,24 +20,20 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by Peter on 2014.07.04..
- */
 public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlertListener {
 
     public static String EXTRAKEY_SELECTEDTENAZLIST = "selectedTenazArray";
-    private final List<TenyeszetListModel> tenyeszetList = new ArrayList<TenyeszetListModel>();
-    private final List<String> selectedList = new ArrayList<String>();
+    private final List<TenyeszetListModel> tenyeszetList = new ArrayList<>();
+    private final List<String> selectedList = new ArrayList<>();
     private TenyeszetAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_biralat_tenyeszet);
-        // TODO
         setUpTabBar();
 
-        ListView listView = (ListView) findViewById(R.id.teny_list);
+        ListView listView = findViewById(R.id.teny_list);
         adapter = new TenyeszetAdapter(this, R.layout.list_tenyeszet, tenyeszetList, selectedList);
         listView.setAdapter(adapter);
     }
@@ -69,8 +66,6 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
         }
     }
 
-    // LEVÁLOGATÁSOK TÖRLÉSE
-
     public void levalogatasTorlese() {
         if (selectedList.isEmpty()) {
             return;
@@ -80,7 +75,6 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
         dialog.show(ft, "torlesDialog");
     }
 
-    // levalogatasTorlese
     @Override
     public void onTorles() {
         dismissDialog();
@@ -106,7 +100,7 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
         selectedList.clear();
 
         List<TenyeszetListModel> rawList = app.getTenyeszetListModels();
-        List<TenyeszetListModel> oldList = new ArrayList<TenyeszetListModel>();
+        List<TenyeszetListModel> oldList = new ArrayList<>();
 
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_YEAR, -14);
@@ -124,8 +118,6 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
         tenyeszetList.addAll(oldList);
     }
 
-    // BÍRÁLAT
-
     public void biral() {
         if (selectedList.isEmpty()) {
             return;
@@ -141,5 +133,4 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
         intent.putExtras(extras);
         startActivity(intent);
     }
-
 }

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
+
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.emptytask.EmptyTask;
 import hu.flexisys.kbr.controller.emptytask.Executable;
@@ -49,13 +50,10 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
     private CheckBox selectAll;
     private boolean ignoreSelectAll = false;
 
-    // MENU IN ACTIONBAR
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_levalogatas);
-        // TODO
         setUpTabBar();
         View customView = LayoutInflater.from(this).inflate(R.layout.activity_levalogatas_actionbar, null);
         actionBar.setDisplayShowCustomEnabled(true);

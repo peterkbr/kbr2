@@ -1,13 +1,19 @@
-<android.support.v4.widget.SlidingPaneLayout
+<android.support.v4.widget.SlidingPaneLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/sp"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+
     <!--SZŰKÍTÉS-->
-    <include layout="@layout/activity_bongeszo_left"/>
+    <include layout="@layout/activity_bongeszo_left" />
 
     <!--LEVÁLOGATÁS-->
-    <include layout="@layout/activity_bongeszo_right"/>
+    <include layout="@layout/activity_bongeszo_right" />
 
 </android.support.v4.widget.SlidingPaneLayout>
