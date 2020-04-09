@@ -7,6 +7,7 @@
     <string name="biralat_tipus">7</string>
     <string name="server_url">http://appserver.mgszh.gov.hu:8888/EnarPdaServer/sendxml</string>
     <string name="production_url">http://appserver.mgszh.gov.hu:8888/EnarPdaServer/sendxml</string>
+    <string name="test_url">http://appserver-teszt.nebih.gov.hu:8888/EnarPdaServer/sendxml</string>
     <string name="support_email">kbr@flexisys.hu</string>
     <string name="crash_toast_text">Az alkalmazás belső hiba miatt leállt!\nKérjük, hogy a generált riportot változtatás nélkül küldje el számunkra!</string>
 

@@ -56,13 +56,8 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
 
         tabLayout = findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
-
-        tabLayout.addOnTabSelectedListener(new BiralatTabListener(this, viewPager));
-
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.back));
-        tabLayout.addTab(tabLayout.newTab().setText("Kereső"));
-        tabLayout.addTab(tabLayout.newTab().setText("Bírál"));
         tabLayout.getTabAt(1).select();
+        tabLayout.addOnTabSelectedListener(new BiralatTabListener(this));
 
         selectedTenazArray = getIntent().getExtras().getStringArray(BiralatTenyeszetActivity.EXTRAKEY_SELECTEDTENAZLIST);
         reloadData();
@@ -391,7 +386,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     }
 
     public void biral(View view) {
-        actionBar.selectTab(actionBar.getTabAt(2));
+        tabLayout.getTabAt(2).select();
     }
 
     public void showBiraltList(View view) {
@@ -477,7 +472,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
                         @Override
                         public void onBirBirUnfinishedBiralatOk() {
                             biralFragment.clearCurrentBiralat();
-                            actionBar.selectTab(actionBar.getTabAt(1));
+                            tabLayout.getTabAt(1).select();
                             dismissDialog();
                         }
                     });
@@ -507,7 +502,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         keresoFragment.updateKeresoButtons(egyedList);
         changeHUSelection(selectedEgyed);
         keresoFragment.updateDetails(selectedEgyed);
-        actionBar.selectTab(actionBar.getTabAt(1));
+        tabLayout.getTabAt(1).select();
     }
 
     public void onAkako(final String text) {

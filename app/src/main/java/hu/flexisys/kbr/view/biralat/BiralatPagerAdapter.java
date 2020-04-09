@@ -47,9 +47,12 @@ public class BiralatPagerAdapter extends FragmentStatePagerAdapter {
         Fragment fragment = null;
         switch (position) {
             case 0:
-                fragment = keresoFragment;
+                fragment = new Fragment();
                 break;
             case 1:
+                fragment = keresoFragment;
+                break;
+            case 2:
                 fragment = biralFragment;
                 break;
             default:
@@ -59,15 +62,19 @@ public class BiralatPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if (position == 0) {
-            return "Kereső";
+        switch (position) {
+            case 1:
+                return "Kereső";
+            case 2:
+                return "Bírál";
+            default:
+                return "<";
         }
-        return "Bírál";
     }
 
     public KeresoFragment getKeresoFragment() {
