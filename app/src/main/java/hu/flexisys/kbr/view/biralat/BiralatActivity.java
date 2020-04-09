@@ -2,14 +2,15 @@ package hu.flexisys.kbr.view.biralat;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
@@ -42,30 +43,26 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     private BiralFragment biralFragment;
     private Boolean showingEgyedListDialog = false;
 
+    private TabLayout tabLayout;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_biralat);
-        // TODO
-        setUpTabBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayUseLogoEnabled(false);
 
-        ViewPager pager = (ViewPager) findViewById(R.id.biralat_pager);
+        ViewPager viewPager = findViewById(R.id.biralat_pager);
         adapter = new BiralatPagerAdapter(getSupportFragmentManager(), this);
-        pager.setAdapter(adapter);
+        viewPager.setAdapter(adapter);
 
-        BiralatPageChangeListener biralatPageChangeListener = new BiralatPageChangeListener(actionBar);
-        pager.setOnPageChangeListener(biralatPageChangeListener);
+        tabLayout = findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(viewPager);
 
-        BiralatTabListener biralatTabListener = new BiralatTabListener(this, pager);
+        tabLayout.addOnTabSelectedListener(new BiralatTabListener(this, viewPager));
 
-        actionBar.addTab(actionBar.newTab().setIcon(R.drawable.back).setTabListener(biralatTabListener));
-        actionBar.addTab(actionBar.newTab().setText("Kereső").setTabListener(biralatTabListener));
-        actionBar.addTab(actionBar.newTab().setText("Bírál").setTabListener(biralatTabListener));
-        actionBar.selectTab(actionBar.getTabAt(1));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.back));
+        tabLayout.addTab(tabLayout.newTab().setText("Kereső"));
+        tabLayout.addTab(tabLayout.newTab().setText("Bírál"));
+        tabLayout.getTabAt(1).select();
 
         selectedTenazArray = getIntent().getExtras().getStringArray(BiralatTenyeszetActivity.EXTRAKEY_SELECTEDTENAZLIST);
         reloadData();
@@ -75,8 +72,8 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
 
     @Override
     public void onBackPressed() {
-        if (actionBar.getSelectedTab().getPosition() == 2) {
-            actionBar.selectTab(actionBar.getTabAt(1));
+        if (tabLayout.getSelectedTabPosition() == 2) {
+            tabLayout.getTabAt(1).select();
         } else {
             onExit();
         }
@@ -98,7 +95,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
                 @Override
                 public void onBirBirExitBiralatCancel() {
                     dismissDialog();
-                    actionBar.selectTab(actionBar.getTabAt(2));
+                    tabLayout.getTabAt(2).select();
                 }
             });
             dialog.show(ft, "exit");
@@ -351,30 +348,8 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         String azono = String.valueOf(egyed.getAZONO());
         updateHasznalatiSzamView(azono, "HU".equals(egyed.getORSKO()));
         dismissDialog();
-
-//        if (!egyed.getKIVALASZTOTT()) {
-//            FragmentTransaction ft = getFragmentTransactionWithTag("BirKerNotSelectedDialog");
-//            dialog = BirKerNotSelectedDialog.newInstance(new BirKerNotselectedListener() {
-//                @Override
-//                public void onBiralSelected(Egyed egyed) {
-//                    dismissDialog();
-//                    selectedEgyed = egyed;
-//                    updateUIWithSelectedEgyed();
-//                }
-//
-//                @Override
-//                public void onCancelSelection() {
-//                    dismissDialog();
-//                    if (selectedEgyed != null) {
-//                        updateHasznalatiSzamView(selectedEgyed.getAZONO(), hu);
-//                    }
-//                }
-//            }, egyed);
-//            dialog.show(ft, "BirKerNotSelectedDialog");
-//        } else {
         selectedEgyed = egyed;
         updateUIWithSelectedEgyed();
-//        }
     }
 
     private boolean isWithin30Days(Date date) {

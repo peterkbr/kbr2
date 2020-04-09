@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.KbrApplication;
 import hu.flexisys.kbr.model.Biralat;
@@ -166,16 +167,6 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
                 container.onAkako(akakoBiralatNumPadInput.getText().toString());
             }
 
-//            @Override
-//            public void onInvalidInput() {
-//                BiralFragment.this.onInvalidInput();
-//            }
-//
-//            @Override
-//            public void onValidInput() {
-//                BiralFragment.this.onValidInput();
-//            }
-
             @Override
             public void onInput() {
                 biralatStarted = true;
@@ -254,7 +245,6 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         return akakoBiralatNumPadInput.getText().toString();
     }
 
-    // UPDATE THE VIEWS
     public void updateFragmentWithEgyed(Egyed selectedEgyedForBiral) {
         updateFragmentWithEgyed(selectedEgyedForBiral, true);
     }
@@ -537,24 +527,10 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
         stepToNextInput();
     }
 
-//    @Override
-//    public void onInvalidInput() {
-////        container.beep();
-//        SoundUtil.errorBeep();
-//    }
-//
-//    @Override
-//    public void onValidInput() {
-////        container.beep();
-//        SoundUtil.buttonBeep();
-//    }
-
     @Override
     public void onInput() {
         biralatStarted = true;
     }
-
-    // GETTERS, SETTERS
 
     public Boolean getBiralatStarted() {
         return biralatStarted;
@@ -601,12 +577,12 @@ public class BiralFragment extends Fragment implements NumPadInputContainer {
     }
 
     public interface BiralFragmentContainer {
-        public void onAkako(String akako);
+        void onAkako(String akako);
 
-        public void onBiralFragmentResume(BiralFragment biralFragment);
+        void onBiralFragmentResume(BiralFragment biralFragment);
 
-        public void selectBiralat(Biralat lastBiralat);
+        void selectBiralat(Biralat lastBiralat);
 
-        public void openMegjegyzesDialog(String megjegyzes);
+        void openMegjegyzesDialog(String megjegyzes);
     }
 }

@@ -65,7 +65,7 @@ public class BongeszoActivity extends KbrActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bongeszo);
-        setUpTabBar();
+        setUpToolBar();
         View customView = LayoutInflater.from(this).inflate(
                 R.layout.activity_bongeszo_actionbar, null);
         actionBar.setDisplayShowCustomEnabled(true);

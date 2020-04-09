@@ -47,7 +47,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bongeszo_tenyeszet);
-        setUpTabBar();
+        setUpToolBar();
 
         ListView listView = (ListView) findViewById(R.id.teny_list);
         adapter = new BongeszoTenyeszetListAdapter(this, R.layout.list_tenyeszet, tenyeszetList, selectedList);

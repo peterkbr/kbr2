@@ -2,7 +2,8 @@ package hu.flexisys.kbr.view.biralat;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.view.biralat.biral.BiralFragment;
 import hu.flexisys.kbr.view.biralat.kereso.KeresoFragment;
@@ -10,7 +11,7 @@ import hu.flexisys.kbr.view.biralat.kereso.KeresoFragment;
 /**
  * Created by Peter on 2014.07.11..
  */
-public class BiralatPagerAdapter extends FragmentPagerAdapter {
+public class BiralatPagerAdapter extends FragmentStatePagerAdapter {
 
     private KeresoFragment keresoFragment;
     private BiralFragment biralFragment;
@@ -59,6 +60,14 @@ public class BiralatPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return 2;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        if (position == 0) {
+            return "Kereső";
+        }
+        return "Bírál";
     }
 
     public KeresoFragment getKeresoFragment() {

@@ -32,8 +32,7 @@ public class KeresoFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_biralat_kereso, container, false);
-        return v;
+        return inflater.inflate(R.layout.fragment_biralat_kereso, container, false);
     }
 
     @Override
@@ -43,8 +42,6 @@ public class KeresoFragment extends Fragment {
             activity.onKeresoFragmentResume();
         }
     }
-
-    // UPDATE THE VIEWS
 
     public void updateHURadio(Boolean hu) {
         View view = getView();
@@ -181,5 +178,4 @@ public class KeresoFragment extends Fragment {
             }
         }
     }
-
 }

@@ -46,7 +46,7 @@ public class KbrActivity extends AppCompatActivity implements ProgressHandler {
         }
     }
 
-    protected void setUpTabBar() {
+    protected void setUpToolBar() {
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         actionBar = getSupportActionBar();

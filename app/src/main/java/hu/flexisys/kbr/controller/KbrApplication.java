@@ -54,8 +54,8 @@ public class KbrApplication extends Application {
         super.onCreate();
         ACRA.init(this);
         init();
-        LogUtil.initLogUtil(this);
-        LogUtil.startLog();
+        // LogUtil.initLogUtil(this);
+        // LogUtil.startLog();
     }
 
     public void init() {

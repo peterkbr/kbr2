@@ -1,14 +1,12 @@
 package hu.flexisys.kbr.view.biralat;
 
-import android.app.Activity;
-import android.support.v4.app.FragmentTransaction;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 
 /**
  * Created by Peter on 2014.07.11..
  */
-public class BiralatTabListener implements ActionBar.TabListener {
+public class BiralatTabListener implements TabLayout.OnTabSelectedListener {
 
     private ViewPager pager;
     private BiralatActivity activity;
@@ -20,7 +18,7 @@ public class BiralatTabListener implements ActionBar.TabListener {
     }
 
     @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    public void onTabSelected(TabLayout.Tab tab) {
         int index = tab.getPosition();
         if (!started) {
             pager.setCurrentItem(0);
@@ -35,12 +33,10 @@ public class BiralatTabListener implements ActionBar.TabListener {
     }
 
     @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        // nothing to do
+    public void onTabUnselected(TabLayout.Tab tab) {
     }
 
     @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        // nothing to do
+    public void onTabReselected(TabLayout.Tab tab) {
     }
 }

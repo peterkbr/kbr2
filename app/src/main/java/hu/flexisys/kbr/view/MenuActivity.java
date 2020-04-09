@@ -2,7 +2,6 @@ package hu.flexisys.kbr.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.*;
 import android.widget.TextView;
 
@@ -24,7 +23,7 @@ public class MenuActivity extends KbrActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        setUpTabBar();
+        setUpToolBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
         View customView = LayoutInflater.from(this).inflate(R.layout.activity_menu_actionbar, null);
         actionBar.setDisplayShowCustomEnabled(true);
