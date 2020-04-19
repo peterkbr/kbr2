@@ -140,7 +140,7 @@
                             android:width="80dp"
                             android:onClick="keres"
                             android:text="@string/bir_ker_keres"
-                            android:textSize="22sp" />
+                            android:textSize="20sp" />
 
                         <Button
                             android:layout_width="wrap_content"
@@ -148,7 +148,7 @@
                             android:width="80dp"
                             android:onClick="biral"
                             android:text="@string/bir_ker_biral"
-                            android:textSize="22sp" />
+                            android:textSize="20sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -200,8 +200,8 @@
                 android:layout_weight="1" />
 
             <LinearLayout
-                android:gravity="center"
                 android:id="@+id/bir_ker_details"
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"
@@ -249,8 +249,8 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:text="555"
                             android:id="@+id/bir_ker_laktNapok"
+                            android:text="555"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/egyed_info_textSize"
@@ -264,9 +264,9 @@
                             android:textSize="@dimen/egyed_info_textSize" />
 
                         <TextView
+                            android:id="@+id/bir_ker_laktSzam"
                             android:layout_marginLeft="8dp"
                             android:text="10"
-                            android:id="@+id/bir_ker_laktSzam"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/egyed_info_textSize"
@@ -274,16 +274,16 @@
                     </LinearLayout>
 
                     <TextView
-                        android:text="2014.07.06"
                         android:id="@+id/bir_ker_ellesDatuma"
+                        android:text="2014.07.06"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/egyed_info_textSize"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:text="2011.12.03"
                         android:id="@+id/bir_ker_szuletes"
+                        android:text="2011.12.03"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/egyed_info_textSize"
@@ -295,8 +295,8 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:text="555"
                             android:id="@+id/bir_ker_konstrKod"
+                            android:text="555"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/egyed_info_textSize"
@@ -311,8 +311,8 @@
 
 
                         <TextView
-                            android:layout_marginLeft="8dp"
                             android:id="@+id/bir_ker_szinkod"
+                            android:layout_marginLeft="8dp"
                             android:text="55"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
