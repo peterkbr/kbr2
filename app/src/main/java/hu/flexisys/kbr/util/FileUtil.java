@@ -14,37 +14,19 @@ public class FileUtil {
     public static String externalAppPath;
     public static String innerAppPath;
 
-    public static void initFileUtil(Context context) throws Exception {
-        FileUtil.innerAppPath = context.getFilesDir().getAbsolutePath();
-        String externalAppPath = createExternalAppDir(context);
-        if (externalAppPath == null) {
-            throw new Exception("External directory creation error.");
-        }
-        FileUtil.externalAppPath = externalAppPath;
+    public static void initFileUtil(Context context) {
+        FileUtil.innerAppPath = Environment.getExternalStorageDirectory().getAbsolutePath()
+                + File.separator + "KBR2";
+        FileUtil.externalAppPath = createExternalAppDir(context);
     }
 
-    private static String createExternalAppDir(Context context) throws Exception {
+    private static String createExternalAppDir(Context context) {
         externalAppPath = findExternalBaseDir(context);
         File dir = new File(externalAppPath);
         if (dir.mkdirs() || dir.exists()) {
             return externalAppPath;
         }
-
-        String externalBaseDir = System.getenv("SECONDARY_STORAGE");
-        externalAppPath = externalBaseDir + File.separator + "KBR2";
-        dir = new File(externalAppPath);
-        if (dir.mkdirs() || dir.exists()) {
-            return externalAppPath;
-        }
-
-        externalBaseDir = Environment.getExternalStorageDirectory().getAbsolutePath();
-        externalAppPath = externalBaseDir + File.separator + "KBR2";
-        dir = new File(externalAppPath);
-        if (!dir.mkdirs() && !dir.exists()) {
-            throw new Exception("External directory creation error.");
-        }
-
-        return externalAppPath;
+        return null;
     }
 
     private static String findExternalBaseDir(Context context) {
