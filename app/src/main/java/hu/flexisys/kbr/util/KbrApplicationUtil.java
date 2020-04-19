@@ -3,15 +3,13 @@ package hu.flexisys.kbr.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.KbrApplication;
 
 import java.io.IOException;
 import java.util.Properties;
 
-/**
- * Created by peter on 31/08/14.
- */
 public class KbrApplicationUtil {
 
     private static KbrApplication context;
@@ -44,19 +42,19 @@ public class KbrApplicationUtil {
         editor.putString(KEY_USER_ID, biraloAzonosito);
         editor.putString(KEY_URL, serverUrl);
         editor.putString(KEY_EMAIL, supportEmail);
-        editor.commit();
+        editor.apply();
     }
 
     public static void initKbrApplicationUtil(KbrApplication context) {
         KbrApplicationUtil.context = context;
     }
 
-    public static void init() {
+    private static void init() {
         try {
             getData();
             if (biraloAzonosito != null) {
-                Properties biraloProperties = PropertiesUtil.loadProperties(context, R.raw.biralok);
-                String biraloString = biraloProperties.getProperty(biraloAzonosito);
+                Properties biralokProperties = PropertiesUtil.loadProperties(context, R.raw.biralok);
+                String biraloString = biralokProperties.getProperty(biraloAzonosito);
                 String[] biraloValues = biraloString.split(",");
                 biraloNev = biraloValues[0];
                 biraloUserName = biraloValues[1];
@@ -66,8 +64,7 @@ public class KbrApplicationUtil {
                 testName = null;
             } else {
                 testName = context.getString(R.string.app_test_name);
-                // TODO kell ez élesben is? szerintem nem :)
-                biraloUserName="tst.teszt";
+                biraloUserName = "tst.teszt";
             }
             setData();
         } catch (IOException e) {
@@ -138,10 +135,10 @@ public class KbrApplicationUtil {
         if (biraloAzonosito == null || supportEmail == null || serverUrl == null) {
             init();
         }
-        if (biraloAzonosito != null && !biraloAzonosito.isEmpty() && serverUrl != null && !serverUrl.isEmpty() && supportEmail != null &&
-                !supportEmail.isEmpty()) {
-            return true;
-        }
-        return false;
+        return notEmpty(biraloAzonosito) && notEmpty(supportEmail) && notEmpty(serverUrl);
+    }
+
+    private static boolean notEmpty(String value) {
+        return value != null && !value.isEmpty();
     }
 }

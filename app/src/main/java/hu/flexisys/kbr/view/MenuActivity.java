@@ -37,7 +37,7 @@ public class MenuActivity extends KbrActivity {
             return;
         }
 
-        if (!KbrApplication.initialized) {
+        if (!app.isInitialized()) {
             if (startedAdminSettings) {
                 finish();
                 return;

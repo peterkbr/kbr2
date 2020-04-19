@@ -42,7 +42,6 @@ import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
 public class KbrApplication extends Application {
 
     public static String errorOnInit = null;
-    public static Boolean initialized = false;
     private DBController dbController;
     private KbrActivity currentActivity;
 
@@ -66,8 +65,7 @@ public class KbrApplication extends Application {
         SoundUtil.initSoundUtil(this);
         EmailUtil.initEmailUtil(this);
 
-        if (KbrApplicationUtil.initialized() && currentActivity != null) {
-            initialized = true;
+        if (KbrApplicationUtil.initialized()) {
             try {
                 FileUtil.initFileUtil(this);
                 dbController = new DBController(this, KbrApplicationUtil.getBiraloUserName());
@@ -76,9 +74,11 @@ public class KbrApplication extends Application {
                 errorOnInit = "Hiba történt az adatbázis inicializálásakor!;Kérem, " +
                         "ellenőrizze a készülék SD kártyáját!";
             }
-        } else {
-            initialized = false;
         }
+    }
+
+    public boolean isInitialized() {
+        return KbrApplicationUtil.initialized() && currentActivity != null;
     }
 
     public void insertEgyed(Egyed egyed) {
