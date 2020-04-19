@@ -12,6 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginRight="2dp"
+        android:textColor="@color/black"
         android:layout_weight="1.25"
         android:gravity="right|bottom"
         android:textSize="17sp" />
@@ -20,6 +21,7 @@
         android:id="@+id/bir_pan_el_input"
         android:layout_marginLeft="2dp"
         android:layout_width="0dp"
+        android:textColor="@color/black"
         android:layout_height="match_parent"
         android:layout_weight="0.75"
         android:gravity="center"

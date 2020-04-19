@@ -29,6 +29,7 @@
                     android:layout_width="240dp"
                     android:layout_height="55dp"
                     android:background="@color/green"
+                    android:textColor="@color/black"
                     android:gravity="center"
                     android:textSize="30sp" />
 
@@ -59,6 +60,7 @@
                     android:id="@+id/bir_bir_lastbir"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:text="2003-05-26"
                     android:textSize="15sp" />
 
@@ -70,6 +72,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:text="Lakt.: "
                     android:textSize="15sp" />
 
@@ -77,6 +80,7 @@
                     android:id="@+id/bir_bir_lakt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:text="313"
                     android:textSize="15sp" />
 
@@ -88,6 +92,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:text="ES: "
                     android:textSize="15sp" />
 
@@ -95,6 +100,7 @@
                     android:id="@+id/bir_bir_es"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:text="7"
                     android:textSize="15sp" />
             </LinearLayout>
