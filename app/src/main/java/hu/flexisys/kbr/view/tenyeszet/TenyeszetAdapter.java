@@ -13,9 +13,6 @@ import hu.flexisys.kbr.R;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Created by Peter on 2014.07.04..
- */
 public class TenyeszetAdapter extends ArrayAdapter<TenyeszetListModel> {
 
     protected final Context context;
@@ -41,10 +38,10 @@ public class TenyeszetAdapter extends ArrayAdapter<TenyeszetListModel> {
         boolean old = model.getLEDAT() != null && model.getLEDAT().before(cal.getTime());
 
         if (old) {
-            rowView.setBackgroundColor(context.getResources().getColor(R.color.pink));
+            rowView.setBackgroundColor(context.getResources().getColor(R.color.light_blue_2));
         }
 
-        final CheckBox checkBox = (CheckBox) rowView.findViewById(R.id.tenyeszetList_checkBox);
+        final CheckBox checkBox = rowView.findViewById(R.id.tenyeszetList_checkBox);
         checkBox.setChecked(selectedList.contains(model.getTENAZ()));
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -66,9 +63,9 @@ public class TenyeszetAdapter extends ArrayAdapter<TenyeszetListModel> {
             }
         });
 
-        TextView textView_0 = (TextView) rowView.findViewById(R.id.tenyeszetList_0);
-        TextView textView_1 = (TextView) rowView.findViewById(R.id.tenyeszetList_1);
-        TextView textView_2 = (TextView) rowView.findViewById(R.id.tenyeszetList_2);
+        TextView textView_0 = rowView.findViewById(R.id.tenyeszetList_0);
+        TextView textView_1 = rowView.findViewById(R.id.tenyeszetList_1);
+        TextView textView_2 = rowView.findViewById(R.id.tenyeszetList_2);
 
         String text = "";
         if (model.getERVENYES() != null && model.getERVENYES() && model.getTARTO() != null) {
@@ -102,6 +99,6 @@ public class TenyeszetAdapter extends ArrayAdapter<TenyeszetListModel> {
 
     @Override
     public long getItemId(int i) {
-        return Long.valueOf(tenyeszetList.get(i).getTENAZ());
+        return Long.parseLong(tenyeszetList.get(i).getTENAZ());
     }
 }
