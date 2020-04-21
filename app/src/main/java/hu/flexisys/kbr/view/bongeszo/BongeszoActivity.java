@@ -418,7 +418,7 @@ public class BongeszoActivity extends KbrActivity {
             dialog = ExportDialog.newInstance(new ExportDialog.ExportListener() {
                 @Override
                 public void onExport(final boolean pdf, final boolean csv) {
-                    String dirPath = FileUtil.externalAppPath + File.separator + "Export" +
+                    String dirPath = FileUtil.innerAppPath + File.separator + "Export" +
                             File.separator + "Bírálatok";
                     final File dir = new File(dirPath);
                     dir.mkdirs();

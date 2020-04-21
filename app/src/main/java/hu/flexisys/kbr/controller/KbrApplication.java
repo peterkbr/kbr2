@@ -53,8 +53,8 @@ public class KbrApplication extends Application {
         super.onCreate();
         ACRA.init(this);
         init();
-        // LogUtil.initLogUtil(this);
-        // LogUtil.startLog();
+//         LogUtil.initLogUtil(this);
+//         LogUtil.startLog();
     }
 
     public void init() {
@@ -347,9 +347,9 @@ public class KbrApplication extends Application {
 
     public void activityDestroyed() {
         activityCounter--;
-        if (activityCounter < 1) {
-            LogUtil.stopLog();
-        }
+//        if (activityCounter < 1) {
+//            LogUtil.stopLog();
+//        }
     }
 
     public Context geActivityContext() {

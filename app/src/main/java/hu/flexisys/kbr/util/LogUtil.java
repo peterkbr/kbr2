@@ -46,7 +46,7 @@ public class LogUtil {
 
                     StringBuilder log = new StringBuilder();
                     if (logFilePath == null) {
-                        String dirPath = FileUtil.externalAppPath + File.separator + "LOG";
+                        String dirPath = FileUtil.innerAppPath + File.separator + "LOG";
                         File dir = new File(dirPath);
                         dir.mkdirs();
                         if (!dir.exists()) {

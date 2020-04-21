@@ -2,6 +2,7 @@ package hu.flexisys.kbr.view.db;
 
 import android.os.Bundle;
 import android.util.Log;
+
 import hu.flexisys.kbr.controller.emptytask.EmptyTask;
 import hu.flexisys.kbr.controller.emptytask.Executable;
 import hu.flexisys.kbr.controller.emptytask.ExecutableFinishedListener;
@@ -58,7 +59,7 @@ public class SendDbActivity extends KbrActivity {
     }
 
     protected void copyDbFiles() throws IOException {
-        String dirPath = FileUtil.externalAppPath + File.separator + "DataBase" + File.separator + "ErrorFiles";
+        String dirPath = FileUtil.innerAppPath + File.separator + "DataBase" + File.separator + "ErrorFiles";
         File dir = new File(dirPath);
         dir.mkdirs();
 

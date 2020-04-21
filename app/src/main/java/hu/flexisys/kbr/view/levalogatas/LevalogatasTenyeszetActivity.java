@@ -130,7 +130,7 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
             dialog = LevalogatasExportDialog.newInstance(new LevalogatasExportDialog.ExportListener() {
                 @Override
                 public void onExport(final boolean pdf, final boolean csv, final String orderBy) {
-                    String dirPath = FileUtil.externalAppPath + File.separator + "Export"
+                    String dirPath = FileUtil.innerAppPath + File.separator + "Export"
                             + File.separator + "Leválogatás";
                     final File dir = new File(dirPath);
                     dir.mkdirs();
