@@ -418,10 +418,14 @@ public class BongeszoActivity extends KbrActivity {
             dialog = ExportDialog.newInstance(new ExportDialog.ExportListener() {
                 @Override
                 public void onExport(final boolean pdf, final boolean csv) {
-                    String dirPath = FileUtil.innerAppPath + File.separator + "Export" +
-                            File.separator + "Bírálatok";
-                    final File dir = new File(dirPath);
-                    dir.mkdirs();
+                    final String innerDirPath = exportDirPath(FileUtil.innerAppPath);
+                    final File innerDir = new File(innerDirPath);
+                    innerDir.mkdirs();
+
+                    final String externalDirPath = exportDirPath(FileUtil.externalAppPath);
+                    final File externalDir = new File(externalDirPath);
+                    externalDir.mkdirs();
+
                     dismissDialog();
 
                     startProgressDialog(getString(R.string.bong_progress_export));
@@ -448,12 +452,16 @@ public class BongeszoActivity extends KbrActivity {
                                 BiralatPdfExporter.initPdfExporter(tenazBuilder.toString(),
                                         tartoBuilder.toString(), app.getBiraloNev(),
                                         BongeszoActivity.this);
-                                BiralatPdfExporter.export(dir.getPath(), app.getBiralatTipus(),
-                                        biralatList, egyedMap);
+                                String path = BiralatPdfExporter.export(innerDir.getPath(),
+                                        app.getBiralatTipus(), biralatList, egyedMap);
+                                FileUtil.copyFile(new File(path), new File(externalDir,
+                                        path.substring(innerDirPath.length() + 1)));
                             }
                             if (csv) {
-                                BiralatCvsExporter.export(dir.getPath(), app.getBiralatTipus(),
-                                        biralatList, egyedMap);
+                                String path = BiralatCvsExporter.export(innerDir.getPath(),
+                                        app.getBiralatTipus(), biralatList, egyedMap);
+                                FileUtil.copyFile(new File(path), new File(externalDir,
+                                        path.substring(innerDirPath.length() + 1)));
                             }
                             for (Biralat biralat : biralatList) {
                                 if (!biralat.getEXPORTALT()) {
@@ -486,6 +494,10 @@ public class BongeszoActivity extends KbrActivity {
             });
             dialog.show(ft, "exportDialog");
         }
+    }
+
+    private String exportDirPath(String basePath) {
+        return basePath + File.separator + "Export" + File.separator + "Bírálatok";
     }
 
     private void szukit() {

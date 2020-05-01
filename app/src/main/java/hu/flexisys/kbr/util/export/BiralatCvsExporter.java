@@ -13,14 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by peter on 31/08/14.
- */
 public class BiralatCvsExporter extends CsvExporter {
 
-    public static void export(String basePath, String biralatTipus, List<Biralat> biralatList, Map<String, Egyed> egyedMap) throws IOException {
+    public static String export(String basePath, String biralatTipus, List<Biralat> biralatList,
+                                Map<String, Egyed> egyedMap) throws IOException {
+
         BiralatTipus tipus = BiralatTipusUtil.getBiralatTipus(biralatTipus);
-        List<BiralatSzempont> szempontList = new ArrayList<BiralatSzempont>();
+        List<BiralatSzempont> szempontList = new ArrayList<>();
         for (String szempontId : tipus.szempontList) {
             BiralatSzempont szempont = BiralatSzempontUtil.getBiralatSzempont(szempontId);
             szempontList.add(szempont);
@@ -28,7 +27,6 @@ public class BiralatCvsExporter extends CsvExporter {
 
         StringBuilder builder = new StringBuilder();
 
-        // header
         builder.append("#");
         builder.append(csvSeparator).append("OK");
         builder.append(csvSeparator).append("ENAR");
@@ -42,33 +40,23 @@ public class BiralatCvsExporter extends CsvExporter {
         builder.append(csvSeparator).append("A");
         builder.append("\n");
 
-        // values
         int i = 1;
         for (Biralat biralat : biralatList) {
-            builder.append(String.valueOf(i++));
+            builder.append(i++);
             builder.append(csvSeparator).append(biralat.getORSKO());
             builder.append(csvSeparator).append(biralat.getAZONO());
             builder.append(csvSeparator).append(biralat.getTENAZ());
             builder.append(csvSeparator).append(DateUtil.formatDate(biralat.getBIRDA()));
 
             Egyed egyed = egyedMap.get(biralat.getAZONO());
-            builder.append(csvSeparator).append(String.valueOf(egyed.getELLSO()));
-            builder.append(csvSeparator).append(String.valueOf(egyed.getSZINE()));
+            builder.append(csvSeparator).append(egyed.getELLSO());
+            builder.append(csvSeparator).append(egyed.getSZINE());
             for (BiralatSzempont szempont : szempontList) {
                 builder.append(csvSeparator).append(biralat.getErtByKod(szempont.kod));
             }
-            builder.append(csvSeparator).append(String.valueOf(biralat.getAKAKO()));
+            builder.append(csvSeparator).append(biralat.getAKAKO());
             builder.append("\n");
         }
-
-//        String path = basePath + File.separator + "csvExport_" + DateUtil.formatTimestampFileName(new Date()) + ".csv";
-//        FileOutputStream fOut = new FileOutputStream(new File(path));
-//        OutputStreamWriter osw = new OutputStreamWriter(fOut);
-//
-//        osw.write(builder.toString());
-//        osw.flush();
-//        osw.close();
-
-        writeToFile(basePath, builder.toString());
+        return writeToFile(basePath, builder.toString());
     }
 }

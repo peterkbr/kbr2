@@ -13,52 +13,53 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Created by peter on 29/09/14.
- */
 public class PdfExporter {
 
-    private static File fontFile;
+    private static BaseFont baseFont;
 
-    protected static String tenaz;
-    protected static String tarto;
-    protected static String biralo;
+    private static String tenaz;
+    private static String tarto;
+    private static String biralo;
 
-    protected static Integer margin = 10;
-    protected static Integer contentMargin_top = 20;
-    protected static Integer contentMargin_bottom = 70;
-    protected static Integer contentMarging_horizontal = 20;
-    protected static Integer boxMargin_top = 35;
-    protected static Integer boxMargin_bottom = 55;
+    static Integer margin = 10;
+    static Integer contentMargin_top = 20;
+    static Integer contentMargin_bottom = 70;
+    static Integer contentMarging_horizontal = 20;
+    static Integer boxMargin_bottom = 55;
 
     public static void initPdfExporter(String TENAZ, String TARTO, String BIRALO, Context context) {
         tenaz = TENAZ;
         tarto = TARTO;
         biralo = BIRALO;
 
+        baseFont = buildBaseFont(context);
+    }
+
+    private static BaseFont buildBaseFont(Context context) {
         try (InputStream inputStream = context.getResources().openRawResource(R.raw.opensans)) {
-            fontFile = File.createTempFile("font_", ".ttf");
+            File fontFile = File.createTempFile("font_", ".ttf");
             FileOutputStream outputStream = new FileOutputStream(fontFile);
             byte[] buffer = new byte[inputStream.available()];
             inputStream.read(buffer);
             outputStream.write(buffer);
             outputStream.close();
+            return BaseFont.createFont(fontFile.getAbsolutePath(),
+                    BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("PdfExporter", "loading font file failed", e);
+        } catch (DocumentException e) {
+            Log.e("PdfExporter", "building baseFont failed", e);
         }
+        return null;
     }
 
-    public static Font getFont(float size) {
-        Font font;
-        try {
-            BaseFont baseFont = BaseFont.createFont(fontFile.getAbsolutePath(), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-            font = new Font(baseFont, size);
-        } catch (Exception e) {
-            Log.e("PdfExporter : getBaseFont", e.getMessage(), e);
-            font = new Font();
+    static Font getFont(float size) {
+        if (baseFont == null) {
+            Font font = new Font();
             font.setSize(size);
+            return font;
         }
-        return font;
+        return new Font(baseFont, size);
     }
 
     protected static class HeaderFooter extends PdfPageEventHelper {
@@ -67,7 +68,7 @@ public class PdfExporter {
         private Phrase footer;
         private int pagenumber;
 
-        public HeaderFooter(String title, String footerValue) {
+        HeaderFooter(String title, String footerValue) {
             this.title = title;
             if (footerValue != null) {
                 footer = new Phrase(footerValue, getFont(10f));
@@ -78,7 +79,6 @@ public class PdfExporter {
         public void onStartPage(PdfWriter writer, Document document) {
             ++pagenumber;
 
-//            PdfContentByte canvas = writer.getDirectContent();
             Rectangle content = writer.getBoxSize("art");
 
             int tableSize = 2;
@@ -101,26 +101,23 @@ public class PdfExporter {
             }
 
             Phrase p = new Phrase("Holstein-fríz Tenyésztők Egyesülete", getFont(20f));
-            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, p, content.getLeft() + 20, content.getTop() - 30, 0);
+            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, p,
+                    content.getLeft() + 20, content.getTop() - 30, 0);
 
             p = new Phrase(title, getFont(25f));
-            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, p, content.getLeft() + 20, content.getTop() - 65, 0);
+            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, p,
+                    content.getLeft() + 20, content.getTop() - 65, 0);
 
             if (footer != null) {
-                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, footer, content.getLeft(), content.getBottom() + 25, 0);
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, footer,
+                        content.getLeft(), content.getBottom() + 25, 0);
             }
-            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(String.format("- %d -", pagenumber), getFont(12f)),
+            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER,
+                    new Phrase(String.format("- %d -", pagenumber), getFont(12f)),
                     (content.getLeft() + content.getRight()) / 2, content.getBottom(), 0);
-
-
-//            Rectangle box = new Rectangle(content.getLeft(), content.getBottom() + boxMargin_bottom, content.getRight(),
-//                    content.getTop() - boxMargin_top - table.getTotalHeight());
-//            box.setBorder(Rectangle.BOX);
-//            box.setBorderWidth(1);
-//            canvas.rectangle(box);
         }
 
-        public PdfPCell getHeaderCell(String value, boolean bold) {
+        PdfPCell getHeaderCell(String value, boolean bold) {
             Font font;
             if (bold) {
                 font = getFont(14f);
@@ -135,7 +132,7 @@ public class PdfExporter {
             return cell;
         }
 
-        public PdfPCell getHeaderCell(String value) {
+        PdfPCell getHeaderCell(String value) {
             return getHeaderCell(value, false);
         }
     }

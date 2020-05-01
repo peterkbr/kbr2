@@ -4,6 +4,7 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+
 import hu.flexisys.kbr.model.Biralat;
 import hu.flexisys.kbr.model.Egyed;
 import hu.flexisys.kbr.util.DateUtil;
@@ -20,43 +21,39 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 0Created by peter on 31/08/14.
- */
 public class BiralatPdfExporter extends PdfExporter {
 
-    public static void export(String basePath, String biralatTipus, List<Biralat> biralatList, Map<String, Egyed> egyedMap)
-            throws DocumentException, FileNotFoundException {
-        String path = basePath + File.separator + "pdfExport_" + DateUtil.formatTimestampFileName(new Date()) + ".pdf";
+    public static String export(String basePath, String biralatTipus, List<Biralat> biralatList,
+                                Map<String, Egyed> egyedMap) throws DocumentException, FileNotFoundException {
+
+        String path = basePath + File.separator + "pdfExport_" +
+                DateUtil.formatTimestampFileName(new Date()) + ".pdf";
         BiralatTipus tipus = BiralatTipusUtil.getBiralatTipus(biralatTipus);
-        List<BiralatSzempont> szempontList = new ArrayList<BiralatSzempont>();
+        List<BiralatSzempont> szempontList = new ArrayList<>();
         for (String szempontId : tipus.szempontList) {
             BiralatSzempont szempont = BiralatSzempontUtil.getBiralatSzempont(szempontId);
             szempontList.add(szempont);
         }
 
         Rectangle page = PageSize.A4.rotate();
-        Document document = new Document(page, contentMarging_horizontal, contentMarging_horizontal, contentMargin_top, contentMargin_bottom);
+        Document document = new Document(page, contentMarging_horizontal, contentMarging_horizontal,
+                contentMargin_top, contentMargin_bottom);
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path));
-        writer.setBoxSize("art", new Rectangle(page.getLeft() + margin, page.getBottom() + margin, page.getRight() - margin, page.getTop() - margin));
+        writer.setBoxSize("art", new Rectangle(page.getLeft() + margin, page.getBottom() + margin,
+                page.getRight() - margin, page.getTop() - margin));
         writer.setPageEvent(new HeaderFooter("Szarvasmarha bírálati lap", null));
         document.open();
         document.add(createPdfTable(szempontList, biralatList, egyedMap));
         document.close();
+        return path;
     }
 
-    private static PdfPTable createPdfTable(List<BiralatSzempont> szempontList, List<Biralat> biralatList, Map<String, Egyed> egyedMap)
-            throws DocumentException {
+    private static PdfPTable createPdfTable(List<BiralatSzempont> szempontList, List<Biralat> biralatList,
+                                            Map<String, Egyed> egyedMap) throws DocumentException {
         int tableSize = 7 + szempontList.size();
         PdfPTable table = new PdfPTable(tableSize);
         table.setWidthPercentage(100f);
 
-        // t.setBorderColor(BaseColor.GRAY);
-        // t.setPadding(4);
-        // t.setSpacing(4);
-        // t.setBorderWidth(1);
-
-        // header
         table.addCell(getCell("#", true, false));
         table.addCell(getCell("OK"));
         table.addCell(getCell("ENAR"));
@@ -70,7 +67,6 @@ public class BiralatPdfExporter extends PdfExporter {
 
         table.setHeaderRows(1);
 
-        // values
         int i = 1;
         for (Biralat biralat : biralatList) {
             table.addCell(getCell(String.valueOf(i++), true, false));
@@ -85,19 +81,10 @@ public class BiralatPdfExporter extends PdfExporter {
                 enarFont.setColor(BaseColor.RED);
                 enarFont.setStyle(Font.BOLD);
 
-//                Phrase p1 = new Phrase(azono.substring(0, 5), font);
-//                Phrase p2 = new Phrase(azono.substring(5, 9), enarFont);
-//                Phrase p3 = new Phrase(azono.substring(9), font);
-
                 Phrase phrase = new Phrase();
                 phrase.add(new Chunk(azono.substring(0, 5), font));
                 phrase.add(new Chunk(" " + azono.substring(5, 9) + " ", enarFont));
                 phrase.add(new Chunk(azono.substring(9), font));
-
-//                PdfPRow row = new PdfPRow(new PdfPCell[]{new PdfPCell(p1), new PdfPCell(p2), new PdfPCell(p3)});
-//                cell.addElement(p1);
-//                cell.addElement(p2);
-//                cell.addElement(p3);
 
                 PdfPCell cell = new PdfPCell(phrase);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -132,7 +119,7 @@ public class BiralatPdfExporter extends PdfExporter {
         for (int k = 0; k < szempontList.size(); k++) {
             columnWidths[j++] = 29f;
         }
-        columnWidths[j++] = 20f;
+        columnWidths[j] = 20f;
         table.setWidths(columnWidths);
 
         return table;
@@ -155,5 +142,4 @@ public class BiralatPdfExporter extends PdfExporter {
     private static PdfPCell getCell(String value) {
         return getCell(value, false, false);
     }
-
 }
