@@ -1,13 +1,24 @@
 package hu.flexisys.kbr.util.export;
 
+import android.content.Context;
 import android.util.Log;
+
+import hu.flexisys.kbr.R;
+
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by peter on 29/09/14.
  */
 public class PdfExporter {
+
+    private static File fontFile;
 
     protected static String tenaz;
     protected static String tarto;
@@ -20,20 +31,32 @@ public class PdfExporter {
     protected static Integer boxMargin_top = 35;
     protected static Integer boxMargin_bottom = 55;
 
-    public static void initPdfExporter(String TENAZ, String TARTO, String BIRALO) {
+    public static void initPdfExporter(String TENAZ, String TARTO, String BIRALO, Context context) {
         tenaz = TENAZ;
         tarto = TARTO;
         biralo = BIRALO;
+
+        try (InputStream inputStream = context.getResources().openRawResource(R.raw.opensans)) {
+            fontFile = File.createTempFile("font_", ".ttf");
+            FileOutputStream outputStream = new FileOutputStream(fontFile);
+            byte[] buffer = new byte[inputStream.available()];
+            inputStream.read(buffer);
+            outputStream.write(buffer);
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static Font getFont(float size) {
         Font font;
         try {
-            BaseFont baseFont = BaseFont.createFont("assets/opensans.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            BaseFont baseFont = BaseFont.createFont(fontFile.getAbsolutePath(), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             font = new Font(baseFont, size);
         } catch (Exception e) {
             Log.e("PdfExporter : getBaseFont", e.getMessage(), e);
             font = new Font();
+            font.setSize(size);
         }
         return font;
     }

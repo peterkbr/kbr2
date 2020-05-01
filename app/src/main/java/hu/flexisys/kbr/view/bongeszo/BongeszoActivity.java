@@ -446,7 +446,8 @@ public class BongeszoActivity extends KbrActivity {
 
                             if (pdf) {
                                 BiralatPdfExporter.initPdfExporter(tenazBuilder.toString(),
-                                        tartoBuilder.toString(), app.getBiraloNev());
+                                        tartoBuilder.toString(), app.getBiraloNev(),
+                                        BongeszoActivity.this);
                                 BiralatPdfExporter.export(dir.getPath(), app.getBiralatTipus(),
                                         biralatList, egyedMap);
                             }

@@ -194,7 +194,8 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
                             List<String> pathList = new ArrayList<>();
                             if (pdf) {
                                 LevalogatasPdfExporter.initPdfExporter(tenazBuilder.toString(),
-                                        tartoBuilder.toString(), app.getBiraloNev());
+                                        tartoBuilder.toString(), app.getBiraloNev(),
+                                        LevalogatasTenyeszetActivity.this);
                                 String pdfFilePath = LevalogatasPdfExporter.export(dir.getPath(),
                                         selectedEgyedList);
                                 pathList.add(pdfFilePath);
