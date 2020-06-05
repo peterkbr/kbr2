@@ -74,7 +74,8 @@ public class DBConnector {
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Tenyeszet tenyeszet = getTenyeszetFromCursor(cursor);
-            tenyeszetList.add(tenyeszet);
+            if (tenyeszet.getTENAZ() != null)
+                tenyeszetList.add(tenyeszet);
             cursor.moveToNext();
         }
         cursor.close();
