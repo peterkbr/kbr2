@@ -29,7 +29,7 @@ public class PdfExporter {
     public static Font getFont(float size) {
         Font font;
         try {
-            BaseFont baseFont = BaseFont.createFont("assets/opensans.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            BaseFont baseFont = BaseFont.createFont("app/src/main/res/raw/opensans.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             font = new Font(baseFont, size);
         } catch (Exception e) {
             Log.e("PdfExporter : getBaseFont", e.getMessage(), e);
