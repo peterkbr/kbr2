@@ -68,13 +68,22 @@ public class SendDbActivity extends KbrActivity {
         String sdCardPath = extras.getString(KEY_SDCARD_PATH);
 
         String time = DateUtil.formatTimestampFileName(new Date());
+
         File innerOrig = new File(innerPath);
+        File sdcardOrig = new File(sdCardPath);
+
         innerErrorFile = new File(dirPath + File.separator + time + "_" + app.getBiraloUserId() + "_inner");
         FileUtil.copyFile(innerOrig, innerErrorFile);
 
-        File sdcardOrig = new File(sdCardPath);
+
         sdcardErrorFile = new File(dirPath + File.separator + time + "_" + app.getBiraloUserId() + "_sdCard");
         FileUtil.copyFile(sdcardOrig, sdcardErrorFile);
+
+        dirPath = FileUtil.externalAppPath + File.separator + "DataBase" + File.separator + "ErrorFiles";
+        dir = new File(dirPath);
+        dir.mkdirs();
+        FileUtil.copyFile(innerOrig, new File(dirPath + File.separator + time + "_" + app.getBiraloUserId() + "_inner"));
+        FileUtil.copyFile(sdcardOrig, new File(dirPath + File.separator + time + "_" + app.getBiraloUserId() + "_sdCard"));
     }
 
     protected void sendDbEmail(String subject) {
