@@ -228,21 +228,11 @@ public class DBController {
         return md5.toString();
     }
 
-    public void synchronizeDb(boolean inner) {
-        String srcPath;
-        String dstPath;
-        if (inner) {
-            srcPath = innerDBPath;
-            dstPath = sdCardDBPath;
-        } else {
-            srcPath = sdCardDBPath;
-            dstPath = innerDBPath;
-        }
-        File src = new File(srcPath);
-        File dst = new File(dstPath);
+    public void synchronizeDb() {
+        File src = new File(innerDBPath);
+        File dst = new File(sdCardDBPath);
 
-        if (srcPath.equals(innerDBPath) && innerConnector.isEmpty() ||
-                srcPath.equals(sdCardDBPath) && sdCardConnector.isEmpty()) {
+        if (innerConnector.isEmpty()) {
             src.delete();
             dst.delete();
             createDBConnector();

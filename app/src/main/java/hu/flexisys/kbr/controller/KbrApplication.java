@@ -320,8 +320,8 @@ public class KbrApplication extends Application {
         return extras;
     }
 
-    public void synchronizeDb(boolean inner) {
-        dbController.synchronizeDb(inner);
+    public void synchronizeDb() {
+        dbController.synchronizeDb();
     }
 
     public String getBiraloUserId() {

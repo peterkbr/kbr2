@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
+
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.view.KbrDialog;
 
@@ -16,9 +17,6 @@ import hu.flexisys.kbr.view.KbrDialog;
 public class DbInconsistencyDialog extends KbrDialog {
 
     private DbInconsistenyListener listener;
-    private RadioButton innerRadioButton;
-    private RadioButton sdcardRadioButton;
-    private boolean inner;
 
     public static KbrDialog newInstance(DbInconsistenyListener listener) {
         DbInconsistencyDialog f = new DbInconsistencyDialog();
@@ -32,47 +30,18 @@ public class DbInconsistencyDialog extends KbrDialog {
         layoutResId = R.layout.dialog_db_inconsistency;
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
-        inner = true;
-        innerRadioButton = (RadioButton) v.findViewById(R.id.dialog_db_inc_chb_inner);
-        sdcardRadioButton = (RadioButton) v.findViewById(R.id.dialog_db_inc_chb_sdcard);
-        update();
-
-        innerRadioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    inner = true;
-                    update();
-                }
-            }
-        });
-        sdcardRadioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    inner = false;
-                    update();
-                }
-            }
-        });
-
         Button ok = (Button) v.findViewById(R.id.dialog_db_inc_button_ok);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.handleDbIconsistency(inner);
+                listener.handleDbIconsistency();
                 dismiss();
             }
         });
         return v;
     }
 
-    private void update() {
-        innerRadioButton.setChecked(inner);
-        sdcardRadioButton.setChecked(!inner);
-    }
-
     public interface DbInconsistenyListener {
-        public void handleDbIconsistency(boolean inner);
+        void handleDbIconsistency();
     }
 }

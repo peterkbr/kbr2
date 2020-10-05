@@ -20,13 +20,13 @@ public class DbInconsistencyHandlerActivity extends SendDbActivity {
         FragmentTransaction ft = getFragmentTransactionWithTag("db1");
         dialog = DbInconsistencyDialog.newInstance(new DbInconsistencyDialog.DbInconsistenyListener() {
             @Override
-            public void handleDbIconsistency(boolean inner) {
+            public void handleDbIconsistency() {
                 try {
                     copyDbFiles();
                 } catch (IOException e) {
                     Log.e(LogUtil.TAG, e.getMessage(), e);
                 }
-                app.synchronizeDb(inner);
+                app.synchronizeDb();
                 dismissDialog();
                 openSecondDialog();
             }
