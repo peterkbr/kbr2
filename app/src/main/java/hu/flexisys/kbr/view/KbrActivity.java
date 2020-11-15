@@ -1,5 +1,6 @@
 package hu.flexisys.kbr.view;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,13 +10,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.KbrApplication;
-import hu.flexisys.kbr.util.SoundUtil;
 import hu.flexisys.kbr.view.levalogatas.DatePickedListener;
 import hu.flexisys.kbr.view.levalogatas.KbrDatePickerDialog;
 
@@ -50,7 +49,9 @@ public class KbrActivity extends AppCompatActivity implements ProgressHandler {
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         actionBar = getSupportActionBar();
-
+        if (actionBar == null) {
+            return;
+        }
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setIcon(R.drawable.ic_launcher);
         actionBar.setDisplayShowTitleEnabled(false);
@@ -69,12 +70,6 @@ public class KbrActivity extends AppCompatActivity implements ProgressHandler {
     @Override
     protected void onStop() {
         super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        app.activityDestroyed();
     }
 
     @Override
@@ -121,10 +116,10 @@ public class KbrActivity extends AppCompatActivity implements ProgressHandler {
                         dismissDialog();
                     }
 
+                    @SuppressLint("DefaultLocale")
                     @Override
                     public void onDatePicked(int year, int monthOfYear, int dayOfMonth) {
-                        dateEditText.setText(year + "." + getNulledString(monthOfYear + 1) + "." +
-                                getNulledString(dayOfMonth));
+                        dateEditText.setText(String.format("%d.%s.%s", year, getNulledString(monthOfYear + 1), getNulledString(dayOfMonth)));
                         dismissDialog();
                     }
                 }, mYear, mMonth, mDay);
@@ -183,10 +178,6 @@ public class KbrActivity extends AppCompatActivity implements ProgressHandler {
         dismissDialog();
     }
 
-    protected void startMyTask(AsyncTask asyncTask, Object[] params) {
-        app.startMyTask(asyncTask, params);
-    }
-
     protected void startMyTask(AsyncTask asyncTask) {
         app.startMyTask(asyncTask);
     }
@@ -197,9 +188,5 @@ public class KbrActivity extends AppCompatActivity implements ProgressHandler {
 
     public void toast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-    }
-
-    public void errorBeep() {
-        SoundUtil.errorBeep();
     }
 }

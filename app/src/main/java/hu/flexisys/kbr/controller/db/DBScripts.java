@@ -3,9 +3,6 @@ package hu.flexisys.kbr.controller.db;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Peter on 2014.07.01..
- */
 public class DBScripts {
 
     public static final String TABLE_TENYESZET = "tenyeszet";
@@ -123,7 +120,7 @@ public class DBScripts {
                     COLUMN_BIRALAT_ERT30};
 
     public static List<String> createDBStrings() {
-        List<String> strings = new ArrayList<String>();
+        List<String> strings = new ArrayList<>();
 
         StringBuilder builder = new StringBuilder();
         builder.append("CREATE TABLE IF NOT EXISTS ").append(TABLE_TENYESZET).append(" ( ");

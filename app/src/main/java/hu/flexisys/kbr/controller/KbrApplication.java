@@ -44,8 +44,6 @@ public class KbrApplication extends Application {
     public static String errorOnInit = null;
     private DBController dbController;
     private KbrActivity currentActivity;
-
-    private int activityCounter = 0;
     private boolean downloading = false;
 
     @Override
@@ -53,8 +51,6 @@ public class KbrApplication extends Application {
         super.onCreate();
         ACRA.init(this);
         init();
-//         LogUtil.initLogUtil(this);
-//         LogUtil.startLog();
     }
 
     public void init() {
@@ -102,16 +98,9 @@ public class KbrApplication extends Application {
         checkDbConsistency();
     }
 
-    public int updateTenyeszetByTENAZWithERVENYES(String TENAZ, Boolean ERVENYES) {
-        int count = dbController.updateTenyeszetByTENAZWithERVENYES(TENAZ, ERVENYES);
+    public void updateTenyeszetByTENAZWithERVENYES(String TENAZ, Boolean ERVENYES) {
+        dbController.updateTenyeszetByTENAZWithERVENYES(TENAZ, ERVENYES);
         checkDbConsistency();
-        return count;
-    }
-
-    public int updateTenyeszet(Tenyeszet tenyeszet) {
-        int count = dbController.updateTenyeszet(tenyeszet);
-        checkDbConsistency();
-        return count;
     }
 
     public void deleteTenyeszet(String tenaz) {
@@ -143,10 +132,9 @@ public class KbrApplication extends Application {
         checkDbConsistency();
     }
 
-    public int updateEgyedWithSelection(String azono, Boolean selection) {
-        int count = dbController.updateEgyedByAZONOWithKIVALASZTOTT(azono, selection);
+    public void updateEgyedWithSelection(String azono, Boolean selection) {
+        dbController.updateEgyedByAZONOWithKIVALASZTOTT(azono, selection);
         checkDbConsistency();
-        return count;
     }
 
     public List<TenyeszetListModel> getTenyeszetListModels() {
@@ -272,11 +260,6 @@ public class KbrApplication extends Application {
         return biralatList;
     }
 
-    public List<Biralat> getFeltoltetlenBiralatList() {
-        List<Biralat> biralatList = dbController.getBiralatByFeltoltetlen(true);
-        return biralatList;
-    }
-
     public int getFeltoltetlenBiralatCount() {
         return dbController.getBiralatCountByFeltoltetlen(true);
     }
@@ -290,8 +273,7 @@ public class KbrApplication extends Application {
     }
 
     public List<Biralat> getBiralatByAZONO(String AZONO) {
-        List<Biralat> biralatList = dbController.getBiralatByAZONO(AZONO);
-        return biralatList;
+        return dbController.getBiralatByAZONO(AZONO);
     }
 
     public void checkDbConsistency() {
@@ -341,23 +323,11 @@ public class KbrApplication extends Application {
     }
 
     public void setCurrentActivity(KbrActivity kbrActivity) {
-        activityCounter++;
         currentActivity = kbrActivity;
-    }
-
-    public void activityDestroyed() {
-        activityCounter--;
-//        if (activityCounter < 1) {
-//            LogUtil.stopLog();
-//        }
     }
 
     public Context geActivityContext() {
         return currentActivity;
-    }
-
-    public void startMyTask(AsyncTask asyncTask, Object[] params) {
-        asyncTask.execute(params);
     }
 
     public void startMyTask(AsyncTask asyncTask) {

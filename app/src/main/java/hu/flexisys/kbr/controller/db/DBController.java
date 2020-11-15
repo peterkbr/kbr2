@@ -72,22 +72,14 @@ public class DBController {
         }
     }
 
-    public int updateTenyeszet(Tenyeszet tenyeszet) {
-        int innerCount = innerConnector.updateTenyeszet(tenyeszet);
-        sdCardConnector.updateTenyeszet(tenyeszet);
-        return innerCount;
-    }
-
-    public int updateTenyeszetByTENAZWithERVENYES(String TENAZ, Boolean ERVENYES) {
-        int innerCount = innerConnector.updateTenyeszetByTENAZWithERVENYES(TENAZ, ERVENYES);
+    public void updateTenyeszetByTENAZWithERVENYES(String TENAZ, Boolean ERVENYES) {
+        innerConnector.updateTenyeszetByTENAZWithERVENYES(TENAZ, ERVENYES);
         sdCardConnector.updateTenyeszetByTENAZWithERVENYES(TENAZ, ERVENYES);
-        return innerCount;
     }
 
-    public int removeSelectionFromTenyeszet(String TENAZ) {
-        int innerCount = innerConnector.removeSelectionFromTenyeszet(TENAZ);
+    public void removeSelectionFromTenyeszet(String TENAZ) {
+        innerConnector.removeSelectionFromTenyeszet(TENAZ);
         sdCardConnector.removeSelectionFromTenyeszet(TENAZ);
-        return innerCount;
     }
 
     public void addEgyed(Egyed egyed) {
@@ -95,10 +87,9 @@ public class DBController {
         sdCardConnector.addEgyed(egyed);
     }
 
-    public int updateEgyedByAZONOWithKIVALASZTOTT(String AZONO, Boolean KIVALASZTOTT) {
-        int count = innerConnector.updateEgyedByAZONOWithKIVALASZTOTT(AZONO, KIVALASZTOTT);
+    public void updateEgyedByAZONOWithKIVALASZTOTT(String AZONO, Boolean KIVALASZTOTT) {
+        innerConnector.updateEgyedByAZONOWithKIVALASZTOTT(AZONO, KIVALASZTOTT);
         sdCardConnector.updateEgyedByAZONOWithKIVALASZTOTT(AZONO, KIVALASZTOTT);
-        return count;
     }
 
     public void updateBiralat(Biralat biralat) {
@@ -119,28 +110,12 @@ public class DBController {
         return innerConnector.getTenyeszetAll();
     }
 
-    public List<Egyed> getEgyedAll() {
-        return innerConnector.getEgyedAll();
-    }
-
-    public List<Egyed> getEgyedByTenyeszet(Tenyeszet tenyeszet) {
-        return getEgyedByTENAZ(tenyeszet.getTENAZ());
-    }
-
-    public List<Egyed> getEgyedTehenByTenyeszet(Tenyeszet tenyeszet) {
-        return getEgyedTehenByTENAZ(tenyeszet.getTENAZ());
-    }
-
     public int getEgyedTehenCountByTenyeszet(Tenyeszet tenyeszet) {
         return getEgyedTehenCountByTENAZ(tenyeszet.getTENAZ());
     }
 
     public List<Egyed> getEgyedByTENAZ(String tenaz) {
         return innerConnector.getEgyedByTENAZ(tenaz);
-    }
-
-    public List<Egyed> getEgyedTehenByTENAZ(String tenaz) {
-        return innerConnector.getEgyedTehenByTENAZ(tenaz);
     }
 
     public int getEgyedTehenCountByTENAZ(String tenaz) {
@@ -153,10 +128,6 @@ public class DBController {
 
     public int getEgyedCountByTENAZAndKIVALASZTOTT(String TENAZ, boolean KIVALASZTOTT) {
         return innerConnector.getEgyedCountByTENAZAndKIVALASZTOTT(TENAZ, KIVALASZTOTT);
-    }
-
-    public List<Biralat> getBiralatAll() {
-        return innerConnector.getBiralatAll();
     }
 
     public List<Biralat> getBiralatByTENAZ(String tenaz) {
@@ -179,16 +150,8 @@ public class DBController {
         return innerConnector.getBiralatCountByTENAZAndFELTOLTETLEN(TENAZ, FELTOLTETLEN);
     }
 
-    public List<Biralat> getBiralatByFeltoltetlen(Boolean FELTOLTETLEN) {
-        return innerConnector.getBiralatByFELTOLTETLEN(FELTOLTETLEN);
-    }
-
     public int getBiralatCountByFeltoltetlen(Boolean FELTOLTETLEN) {
         return innerConnector.getBiralatCountByFELTOLTETLEN(FELTOLTETLEN);
-    }
-
-    public List<Biralat> getBiralatByTenyeszetAndExported(String TENAZ, boolean unexported) {
-        return innerConnector.getBiralatByTenyeszetAndExported(TENAZ, unexported);
     }
 
     public int getBiralatCountByTenyeszetAndExported(String TENAZ, boolean unexported) {
