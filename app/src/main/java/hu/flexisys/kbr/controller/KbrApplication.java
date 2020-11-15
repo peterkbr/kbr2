@@ -98,8 +98,8 @@ public class KbrApplication extends Application {
         checkDbConsistency();
     }
 
-    public void updateTenyeszetByTENAZWithERVENYES(String TENAZ, Boolean ERVENYES) {
-        dbController.updateTenyeszetByTENAZWithERVENYES(TENAZ, ERVENYES);
+    public void invalidateTenyeszetByTENAZ(String TENAZ) {
+        dbController.invalidateTenyeszetByTENAZ(TENAZ);
         checkDbConsistency();
     }
 

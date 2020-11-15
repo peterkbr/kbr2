@@ -37,9 +37,9 @@ public class DBConnector {
         database.update(DBScripts.TABLE_EGYED, values, DBScripts.COLUMN_EGYED_TENAZ + " = ?", new String[]{TENAZ});
     }
 
-    public void updateTenyeszetByTENAZWithERVENYES(String TENAZ, Boolean ERVENYES) {
+    public void invalidateTenyeszetByTENAZ(String TENAZ) {
         ContentValues values = new ContentValues();
-        values.put(DBScripts.COLUMN_TENYESZET_ERVENYES, ERVENYES);
+        values.put(DBScripts.COLUMN_TENYESZET_ERVENYES, false);
         database.update(DBScripts.TABLE_TENYESZET, values, DBScripts.COLUMN_TENYESZET_TENAZ + " = ?", new String[]{TENAZ});
     }
 

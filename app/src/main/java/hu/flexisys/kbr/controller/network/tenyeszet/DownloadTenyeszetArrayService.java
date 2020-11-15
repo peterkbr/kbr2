@@ -72,11 +72,11 @@ public class DownloadTenyeszetArrayService extends IntentService {
                 Log.e(LogUtil.TAG, "accessing network", e);
                 resultMap.put(TENAZ, "Sikertelen letöltés : \n" + "Hiba az internet hozzáférés során!");
             } catch (XmlUtilException xmlE) {
-                app.updateTenyeszetByTENAZWithERVENYES(TENAZ, false);
+                app.invalidateTenyeszetByTENAZ(TENAZ);
                 resultMap.put(TENAZ, "Sikertelen letöltés : \n" + xmlE.getMessage());
                 Log.e(LogUtil.TAG, "parsing xml", xmlE);
             } catch (Exception e) {
-                app.updateTenyeszetByTENAZWithERVENYES(TENAZ, false);
+                app.invalidateTenyeszetByTENAZ(TENAZ);
                 resultMap.put(TENAZ, "Sikertelen letöltés");
                 Log.e(LogUtil.TAG, "parsing xml", e);
             }

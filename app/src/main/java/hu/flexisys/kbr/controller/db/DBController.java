@@ -72,9 +72,9 @@ public class DBController {
         }
     }
 
-    public void updateTenyeszetByTENAZWithERVENYES(String TENAZ, Boolean ERVENYES) {
-        innerConnector.updateTenyeszetByTENAZWithERVENYES(TENAZ, ERVENYES);
-        sdCardConnector.updateTenyeszetByTENAZWithERVENYES(TENAZ, ERVENYES);
+    public void invalidateTenyeszetByTENAZ(String TENAZ) {
+        innerConnector.invalidateTenyeszetByTENAZ(TENAZ);
+        sdCardConnector.invalidateTenyeszetByTENAZ(TENAZ);
     }
 
     public void removeSelectionFromTenyeszet(String TENAZ) {
