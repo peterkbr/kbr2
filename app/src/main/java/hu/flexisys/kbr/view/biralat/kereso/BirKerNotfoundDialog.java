@@ -7,12 +7,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.view.KbrDialog;
 import hu.flexisys.kbr.view.component.numpad.NumPad;
 import hu.flexisys.kbr.view.component.numpad.NumPadInput;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -40,35 +42,36 @@ public class BirKerNotfoundDialog extends KbrDialog {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         layoutResId = R.layout.dialog_bir_ker_notfound;
         View v = super.onCreateView(inflater, container, savedInstanceState);
-
-        tenazSpinner = (Spinner) v.findViewById(R.id.bir_ker_dialog_notfound_tenaz_spinner);
-        List<String> list = new ArrayList<String>();
-        for (String tenaz : selectedTenazArray) {
-            list.add(tenaz);
+        if (v == null) {
+            return null;
         }
-        tenazSpinner.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, list));
 
-        orskoSpinner = (Spinner) v.findViewById(R.id.bir_ker_dialog_notfound_orsko_spinner);
+        tenazSpinner = v.findViewById(R.id.bir_ker_dialog_notfound_tenaz_spinner);
+        List<String> list = new ArrayList<>();
+        Collections.addAll(list, selectedTenazArray);
+        tenazSpinner.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, list));
 
-        azonNumPadInput = (NumPadInput) v.findViewById(R.id.bir_ker_dialog_notfound_azon);
-        NumPad numpad = (NumPad) v.findViewById(R.id.bir_ker_dialog_notfound_numpad);
+        orskoSpinner = v.findViewById(R.id.bir_ker_dialog_notfound_orsko_spinner);
+
+        azonNumPadInput = v.findViewById(R.id.bir_ker_dialog_notfound_azon);
+        NumPad numpad = v.findViewById(R.id.bir_ker_dialog_notfound_numpad);
         numpad.setNumPadInput(azonNumPadInput);
         azonNumPadInput.setText(hasznalatiSzamValue);
 
-        Button ok = (Button) v.findViewById(R.id.bir_ker_dialog_notfound_ok);
+        Button ok = v.findViewById(R.id.bir_ker_dialog_notfound_ok);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String tenaz = String.valueOf(tenazSpinner.getSelectedItem());
                 String orsko = String.valueOf(orskoSpinner.getSelectedItem());
                 String azon = azonNumPadInput.getText().toString();
-                if (azon != null && !azon.isEmpty() && tenaz != null && !tenaz.isEmpty() && orsko != null && !orsko.isEmpty()) {
+                if (!azon.isEmpty() && !tenaz.isEmpty() && !orsko.isEmpty()) {
                     listener.onAddNewEgyed(tenaz, orsko, azon);
                 }
             }
         });
 
-        Button cancel = (Button) v.findViewById(R.id.bir_ker_dialog_notfound_cancel);
+        Button cancel = v.findViewById(R.id.bir_ker_dialog_notfound_cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,5 +80,4 @@ public class BirKerNotfoundDialog extends KbrDialog {
         });
         return v;
     }
-
 }
