@@ -75,10 +75,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     }
 
     public void onExit() {
-        String akakoString = biralFragment.getAkako();
-        Map<String, String> map = biralFragment.getKodErtMap();
-        if ((biralFragment.getBiralatStarted() && (akakoString == null || akakoString.isEmpty() || akakoString.equals("3")) && map == null) ||
-                biralFragment.getBiralatStarted()) {
+        if (biralFragment.getBiralatStarted()) {
             FragmentTransaction ft = getFragmentTransactionWithTag("exit");
             dialog = BirBirExitBiralatDialog.newInstance(new BirBirExitBiralatDialog.BirBirExitBiralatDialogListener() {
                 @Override
@@ -101,14 +98,14 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
 
     private void reloadData() {
         egyedList = app.getEgyedListByTENAZArray(selectedTenazArray);
-        biraltEgyedList = new ArrayList<Egyed>();
-        biralandoEgyedList = new ArrayList<Egyed>();
+        biraltEgyedList = new ArrayList<>();
+        biralandoEgyedList = new ArrayList<>();
 
         if (egyedList.isEmpty()) {
             Log.i(LogUtil.TAG, "Üres az egyedlista!");
         } else {
             List<Biralat> biralatList = app.getBiralatListByTENAZArray(selectedTenazArray);
-            HashMap<String, ArrayList<Biralat>> biralatMap = new HashMap<String, ArrayList<Biralat>>();
+            HashMap<String, ArrayList<Biralat>> biralatMap = new HashMap<>();
             for (Biralat biralat : biralatList) {
                 String azono = biralat.getAZONO();
                 if (biralatMap.get(azono) == null) {
@@ -117,19 +114,19 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
                 biralatMap.get(azono).add(biralat);
             }
 
-            ArrayList<Egyed> biralandoEgyedList_KU = new ArrayList<Egyed>();
-            Map<String, Egyed> biraltEgyedMap = new HashMap<String, Egyed>();
-            List<Biralat> biraltEgyedBiralatList = new ArrayList<Biralat>();
+            ArrayList<Egyed> biralandoEgyedList_KU = new ArrayList<>();
+            Map<String, Egyed> biraltEgyedMap = new HashMap<>();
+            List<Biralat> biraltEgyedBiralatList = new ArrayList<>();
 
             for (int i = 0; i < egyedList.size(); i++) {
                 Egyed egyed = egyedList.get(i);
                 List<Biralat> currentBiralatList = biralatMap.get(egyed.getAZONO());
                 if (currentBiralatList == null) {
-                    currentBiralatList = new ArrayList<Biralat>();
+                    currentBiralatList = new ArrayList<>();
                 }
                 egyed.setBiralatList(currentBiralatList);
 
-                Boolean biralt = false;
+                boolean biralt = false;
                 for (Biralat biralat : egyed.getBiralatList()) {
                     if (biralat.getFELTOLTETLEN()) {
                         biraltEgyedMap.put(egyed.getAZONO(), egyed);
@@ -182,8 +179,8 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
 
     public void onKeresoFragmentResume() {
         keresoFragment = adapter.getKeresoFragment();
-        hasznalatiInput = (NumPadInput) adapter.getKeresoFragment().getView().findViewById(R.id.bir_hasznalatiInput);
-        NumPad numpad = (NumPad) adapter.getKeresoFragment().getView().findViewById(R.id.bir_ker_numpad);
+        hasznalatiInput = adapter.getKeresoFragment().getView().findViewById(R.id.bir_hasznalatiInput);
+        NumPad numpad = adapter.getKeresoFragment().getView().findViewById(R.id.bir_ker_numpad);
         numpad.setNumPadInput(hasznalatiInput);
         keresoFragment.updateKeresoButtons(egyedList);
         changeHUSelection(selectedEgyed);
@@ -195,7 +192,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     }
 
     public List<Egyed> filterByHasznalati(Boolean hu, String hasznalatiSzamString) {
-        List<Egyed> foundList = new ArrayList<Egyed>();
+        List<Egyed> foundList = new ArrayList<>();
         for (Egyed egyed : egyedList) {
             String ENAR = String.valueOf(egyed.getAZONO());
             if (hu && egyed.getORSKO().equals("HU") && ENAR.length() < 10 && ENAR.contains(hasznalatiSzamString)) {
@@ -309,9 +306,11 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
     public void onAddNewEgyed(String tenaz, String orsko, String azono) {
         Egyed egyed = new Egyed();
         if (orsko.equals("HU") && tenaz.length() < 4) {
-            while (tenaz.length() < 4) {
-                tenaz = "0" + tenaz;
+            StringBuilder tenazBuilder = new StringBuilder(tenaz);
+            while (tenazBuilder.length() < 4) {
+                tenazBuilder.insert(0, "0");
             }
+            tenaz = tenazBuilder.toString();
         }
         egyed.setTENAZ(tenaz);
         egyed.setORSKO(orsko);
@@ -327,7 +326,6 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         updateHasznalatiSzamView(selectedEgyed.getAZONO(), hu);
         biralFragment.updateFragmentWithEgyed(selectedEgyed);
         dismissDialog();
-
     }
 
     private Egyed findEgyedByAzono(String azono) {
@@ -352,9 +350,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
             Calendar cal = Calendar.getInstance();
             cal.roll(Calendar.DAY_OF_YEAR, -30);
             Date maxDate = cal.getTime();
-            if (maxDate.before(date)) {
-                return true;
-            }
+            return maxDate.before(date);
         }
         return false;
     }
@@ -479,7 +475,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
                     dialog.show(ft, "unfinished");
                 }
             } else {
-                Integer akakoInt = Integer.valueOf(akakoString);
+                int akakoInt = Integer.parseInt(akakoString);
                 if (akakoInt > 0 && akakoInt < 6) {
                     biralat.setAKAKO(akakoInt);
                     saveBiralat(biralat);

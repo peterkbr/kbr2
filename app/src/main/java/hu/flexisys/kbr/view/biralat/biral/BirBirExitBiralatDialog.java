@@ -5,12 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.view.KbrDialog;
 
-/**
- * Created by peter on 01/08/14.
- */
 public class BirBirExitBiralatDialog extends KbrDialog {
 
     private BirBirExitBiralatDialogListener listener;
@@ -25,8 +23,11 @@ public class BirBirExitBiralatDialog extends KbrDialog {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         layoutResId = R.layout.dialog_bir_bir_exit;
         View v = super.onCreateView(inflater, container, savedInstanceState);
+        if (v == null) {
+            return null;
+        }
 
-        Button ok = (Button) v.findViewById(R.id.bir_bir_dialog_exit_ok);
+        Button ok = v.findViewById(R.id.bir_bir_dialog_exit_ok);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,7 +35,7 @@ public class BirBirExitBiralatDialog extends KbrDialog {
             }
         });
 
-        Button cancel = (Button) v.findViewById(R.id.bir_bir_dialog_exit_cancel);
+        Button cancel = v.findViewById(R.id.bir_bir_dialog_exit_cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,8 +47,8 @@ public class BirBirExitBiralatDialog extends KbrDialog {
 
     public interface BirBirExitBiralatDialogListener {
 
-        public void onBirBirExitBiralatOk();
+        void onBirBirExitBiralatOk();
 
-        public void onBirBirExitBiralatCancel();
+        void onBirBirExitBiralatCancel();
     }
 }
