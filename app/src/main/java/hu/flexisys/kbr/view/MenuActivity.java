@@ -48,7 +48,8 @@ public class MenuActivity extends KbrActivity {
             return;
         }
 
-        app.checkDbConsistency();
+        // TODO migrate from SD card
+        // app.checkDbConsistency();
 
         TextView counter = findViewById(R.id.menu_biralat_counter);
         int counterValue = app.getFeltoltetlenBiralatCount();

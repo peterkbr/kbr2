@@ -13,7 +13,10 @@ import java.io.*;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DBController {
 
@@ -21,8 +24,11 @@ public class DBController {
     private static final int DB_VERSION = 1;
     private final Context context;
 
-    private DBConnector sdCardConnector;
     private DBConnector innerConnector;
+    private DBConnector sdCardConnector;
+
+    private Map<String, DBConnector> innerSubConnectors = new HashMap<>();
+    private Map<String, DBConnector> sdCardSubConnectors = new HashMap<>();
 
     private String innerDBPath;
     private String sdCardDBPath;
@@ -30,7 +36,7 @@ public class DBController {
     public DBController(Context context, String userid) throws Exception {
         this.context = context;
         getDBPath(userid);
-        createDBConnector();
+        createDBConnectors();
     }
 
     private void getDBPath(String userid) throws Exception {
@@ -44,62 +50,120 @@ public class DBController {
         sdCardDBPath = dir.getPath() + File.separator + DB_NAME + "_sdcardDB_" + userid;
     }
 
-    private void createDBConnector() {
+    private String getSubDBPath(String tenaz, boolean inner) {
+        String dbPath = inner ? innerDBPath : sdCardDBPath;
+        return dbPath + "_" + tenaz;
+    }
+
+    private String getInnerSubDBPath(String tenaz) {
+        return getSubDBPath(tenaz, true);
+    }
+
+    private String getSdCardSubDBPath(String tenaz) {
+        return getSubDBPath(tenaz, false);
+    }
+
+    private void createDBConnectors() {
         innerConnector = new DBConnector(context, innerDBPath, DB_VERSION);
         sdCardConnector = new DBConnector(context, sdCardDBPath, DB_VERSION);
+
+        innerSubConnectors.clear();
+        sdCardSubConnectors.clear();
+
+        for (Tenyeszet tenyeszet : innerConnector.getTenyeszetAll()) {
+            String tenaz = tenyeszet.getTENAZ();
+            DBConnector connector = new DBConnector(context, getInnerSubDBPath(tenaz), DB_VERSION);
+            innerSubConnectors.put(tenaz, connector);
+            connector = new DBConnector(context, getSdCardSubDBPath(tenaz), DB_VERSION);
+            sdCardSubConnectors.put(tenaz, connector);
+        }
     }
 
     public void addTenyeszet(Tenyeszet tenyeszet) {
-        innerConnector.addTenyeszet(tenyeszet);
-        sdCardConnector.addTenyeszet(tenyeszet);
+        innerConnector.insertTenyeszet(tenyeszet);
+        sdCardConnector.insertTenyeszet(tenyeszet);
+
+        String tenaz = tenyeszet.getTENAZ();
+        if (innerSubConnectors.get(tenaz) == null) {
+            DBConnector connector = new DBConnector(context, getInnerSubDBPath(tenaz), DB_VERSION);
+            connector.insertTenyeszetWithChildren(tenyeszet);
+            innerSubConnectors.put(tenaz, connector);
+        }
+
+        if (sdCardSubConnectors.get(tenaz) == null) {
+            DBConnector connector = new DBConnector(context, getSdCardSubDBPath(tenaz), DB_VERSION);
+            connector.insertTenyeszetWithChildren(tenyeszet);
+            sdCardSubConnectors.put(tenaz, connector);
+        }
     }
 
     public void removeTenyeszet(String TENAZ) {
         Log.i(LogUtil.TAG, "removeTenyeszet from innerConnector:" + TENAZ);
-        removeTenyeszet(innerConnector, TENAZ);
+        if (innerConnector.removeTenyeszet(TENAZ) == 1) {
+            innerSubConnectors.remove(TENAZ);
+            new File(getInnerSubDBPath(TENAZ)).delete();
+        }
         Log.i(LogUtil.TAG, "removeTenyeszet from sdCardConnector:" + TENAZ);
-        removeTenyeszet(sdCardConnector, TENAZ);
-    }
-
-    private void removeTenyeszet(DBConnector connector, String TENAZ) {
-        int ok = connector.removeTenyeszet(TENAZ);
-        Log.i(LogUtil.TAG, "removeTenyeszet:" + TENAZ + " - tenyeszet:" + ok);
-        if (ok == 1) {
-            int egyedCounter = connector.removeEgyedByTENAZ(TENAZ);
-            Log.i(LogUtil.TAG, "removeTenyeszet:" + TENAZ + " - egyed:" + egyedCounter);
-            int biralatCounter = connector.removeBiralatByTENAZ(TENAZ);
-            Log.i(LogUtil.TAG, "removeTenyeszet:" + TENAZ + " - biralat:" + biralatCounter);
+        if (sdCardConnector.removeTenyeszet(TENAZ) == 1) {
+            sdCardSubConnectors.remove(TENAZ);
+            new File(getSdCardSubDBPath(TENAZ)).delete();
         }
     }
 
     public void invalidateTenyeszetByTENAZ(String TENAZ) {
         innerConnector.invalidateTenyeszetByTENAZ(TENAZ);
         sdCardConnector.invalidateTenyeszetByTENAZ(TENAZ);
+
+        innerSubConnectors.remove(TENAZ);
+        new File(getInnerSubDBPath(TENAZ)).delete();
+
+        sdCardSubConnectors.remove(TENAZ);
+        new File(getSdCardSubDBPath(TENAZ)).delete();
+    }
+
+    private List<DBConnector> getSubDbConnectorsByTENAZ(String TENAZ) {
+        ArrayList<DBConnector> connectors = new ArrayList<>();
+
+        DBConnector connector = innerSubConnectors.get(TENAZ);
+        if (connector != null) {
+            connectors.add(connector);
+        }
+        connector = sdCardSubConnectors.get(TENAZ);
+        if (connector != null) {
+            connectors.add(connector);
+        }
+
+        return connectors;
     }
 
     public void removeSelectionFromTenyeszet(String TENAZ) {
-        innerConnector.removeSelectionFromTenyeszet(TENAZ);
-        sdCardConnector.removeSelectionFromTenyeszet(TENAZ);
+        for (DBConnector dbConnector : getSubDbConnectorsByTENAZ(TENAZ)) {
+            dbConnector.removeSelectionFromTenyeszet(TENAZ);
+        }
     }
 
     public void addEgyed(Egyed egyed) {
-        innerConnector.addEgyed(egyed);
-        sdCardConnector.addEgyed(egyed);
+        for (DBConnector dbConnector : getSubDbConnectorsByTENAZ(egyed.getTENAZ())) {
+            dbConnector.insertEgyed(egyed);
+        }
     }
 
-    public void updateEgyedByAZONOWithKIVALASZTOTT(String AZONO, Boolean KIVALASZTOTT) {
-        innerConnector.updateEgyedByAZONOWithKIVALASZTOTT(AZONO, KIVALASZTOTT);
-        sdCardConnector.updateEgyedByAZONOWithKIVALASZTOTT(AZONO, KIVALASZTOTT);
+    public void updateEgyedByAZONOWithKIVALASZTOTT(String TENAZ, String AZONO, Boolean KIVALASZTOTT) {
+        for (DBConnector dbConnector : getSubDbConnectorsByTENAZ(TENAZ)) {
+            dbConnector.updateEgyedByAZONOWithKIVALASZTOTT(AZONO, KIVALASZTOTT);
+        }
     }
 
     public void updateBiralat(Biralat biralat) {
-        innerConnector.updateBiralat(biralat);
-        sdCardConnector.updateBiralat(biralat);
+        for (DBConnector dbConnector : getSubDbConnectorsByTENAZ(biralat.getTENAZ())) {
+            dbConnector.updateBiralat(biralat);
+        }
     }
 
     public void removeBiralat(Biralat biralat) {
-        innerConnector.removeBiralat(biralat);
-        sdCardConnector.removeBiralat(biralat);
+        for (DBConnector dbConnector : getSubDbConnectorsByTENAZ(biralat.getTENAZ())) {
+            dbConnector.deleteBiralat(biralat);
+        }
     }
 
     public Tenyeszet getTenyeszetByTENAZ(String tenaz) {
@@ -114,53 +178,57 @@ public class DBController {
         return getEgyedTehenCountByTENAZ(tenyeszet.getTENAZ());
     }
 
-    public List<Egyed> getEgyedByTENAZ(String tenaz) {
-        return innerConnector.getEgyedByTENAZ(tenaz);
+    public int getEgyedTehenCountByTENAZ(String tenaz) {
+        return innerSubConnectors.get(tenaz).getEgyedTehenCountByTENAZ(tenaz);
     }
 
-    public int getEgyedTehenCountByTENAZ(String tenaz) {
-        return innerConnector.getEgyedTehenCountByTENAZ(tenaz);
+    public List<Egyed> getEgyedByTENAZ(String tenaz) {
+        return innerSubConnectors.get(tenaz).getEgyedByTENAZ(tenaz);
     }
 
     public List<Egyed> getEgyedByTENAZAndKIVALASZTOTT(String TENAZ, boolean KIVALASZTOTT) {
-        return innerConnector.getEgyedByTENAZAndKIVALASZTOTT(TENAZ, KIVALASZTOTT);
+        return innerSubConnectors.get(TENAZ).getEgyedByTENAZAndKIVALASZTOTT(TENAZ, KIVALASZTOTT);
     }
 
     public int getEgyedCountByTENAZAndKIVALASZTOTT(String TENAZ, boolean KIVALASZTOTT) {
-        return innerConnector.getEgyedCountByTENAZAndKIVALASZTOTT(TENAZ, KIVALASZTOTT);
+        return innerSubConnectors.get(TENAZ).getEgyedCountByTENAZAndKIVALASZTOTT(TENAZ, KIVALASZTOTT);
     }
 
     public List<Biralat> getBiralatByTENAZ(String tenaz) {
-        return innerConnector.getBiralatByTENAZ(tenaz);
+        return innerSubConnectors.get(tenaz).getBiralatByTENAZ(tenaz);
     }
 
     public int getBiralatCountByTENAZ(String tenaz) {
-        return innerConnector.getBiralatCountByTENAZ(tenaz);
+        return innerSubConnectors.get(tenaz).getBiralatCountByTENAZ(tenaz);
     }
 
-    public List<Biralat> getBiralatByAZONO(String azono) {
-        return innerConnector.getBiralatByAZONO(azono);
+    public List<Biralat> getBiralatByAZONO(String TENAZ, String azono) {
+        return innerSubConnectors.get(TENAZ).getBiralatByAZONO(azono);
     }
 
     public List<Biralat> getBiralatByTenyeszetAndFeltoltetlen(String TENAZ, Boolean FELTOLTETLEN) {
-        return innerConnector.getBiralatByTENAZAndFELTOLTETLEN(TENAZ, FELTOLTETLEN);
+        return innerSubConnectors.get(TENAZ).getBiralatByTENAZAndFELTOLTETLEN(TENAZ, FELTOLTETLEN);
     }
 
     public int getBiralatCountByTenyeszetAndFeltoltetlen(String TENAZ, Boolean FELTOLTETLEN) {
-        return innerConnector.getBiralatCountByTENAZAndFELTOLTETLEN(TENAZ, FELTOLTETLEN);
+        return innerSubConnectors.get(TENAZ).getBiralatCountByTENAZAndFELTOLTETLEN(TENAZ, FELTOLTETLEN);
     }
 
     public int getBiralatCountByFeltoltetlen(Boolean FELTOLTETLEN) {
-        return innerConnector.getBiralatCountByFELTOLTETLEN(FELTOLTETLEN);
+        int count = 0;
+        for (Tenyeszet tenyeszet : innerConnector.getTenyeszetAll()) {
+            count += innerSubConnectors.get(tenyeszet.getTENAZ()).getBiralatCountByFELTOLTETLEN(FELTOLTETLEN);
+        }
+        return count;
     }
 
     public int getBiralatCountByTenyeszetAndExported(String TENAZ, boolean unexported) {
-        return innerConnector.getBiralatCountByTenyeszetAndExported(TENAZ, unexported);
+        return innerSubConnectors.get(TENAZ).getBiralatCountByTenyeszetAndExported(TENAZ, unexported);
     }
 
-    public void checkDbConsistency() throws Exception {
-        String innerMD5 = getMD5EncryptedString(innerDBPath);
-        String sdCardMD5 = getMD5EncryptedString(sdCardDBPath);
+    public void checkDbConsistency(String tenaz) throws Exception {
+        String innerMD5 = getMD5EncryptedString(innerSubConnectors.get(tenaz).path);
+        String sdCardMD5 = getMD5EncryptedString(sdCardSubConnectors.get(tenaz).path);
         if (!innerMD5.equals(sdCardMD5)) {
             throw new Exception(LogUtil.TAG + ":checkDbConsistency:different db");
         }
@@ -198,7 +266,7 @@ public class DBController {
         if (innerConnector.isEmpty()) {
             src.delete();
             dst.delete();
-            createDBConnector();
+            createDBConnectors();
         } else {
             try {
                 FileUtil.copyFile(src, dst);

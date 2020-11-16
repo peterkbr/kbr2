@@ -122,6 +122,7 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
                     public void onLongClick(Egyed egyed) {
                         Intent intent = new Intent(LevalogatasActivity.this, BiralatDialogActivity.class);
                         Bundle extras = new Bundle();
+                        extras.putString(BiralatDialogActivity.KEY_TENAZ, egyed.getTENAZ());
                         extras.putString(BiralatDialogActivity.KEY_AZONO, egyed.getAZONO());
                         intent.putExtras(extras);
                         startActivity(intent);
@@ -513,7 +514,7 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
     private void saveEgyedList() {
         for (Egyed egyed : egyedList) {
             if (allChanged || selectionChangedEgyedAzonoList.contains(egyed.getAZONO())) {
-                app.updateEgyedWithSelection(egyed.getAZONO(), egyed.getKIVALASZTOTT());
+                app.updateEgyedWithSelection(egyed.getTENAZ(), egyed.getAZONO(), egyed.getKIVALASZTOTT());
             }
         }
     }

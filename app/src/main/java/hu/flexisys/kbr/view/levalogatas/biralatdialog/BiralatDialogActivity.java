@@ -15,12 +15,14 @@ import java.util.List;
 public class BiralatDialogActivity extends KbrActivity {
 
     public static String KEY_AZONO = "KEY_AZONO";
+    public static String KEY_TENAZ = "KEY_TENAZ";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String tenaz = getIntent().getExtras().getString(KEY_TENAZ);
         String azono = getIntent().getExtras().getString(KEY_AZONO);
-        List<Biralat> biralatList = app.getBiralatByAZONO(azono);
+        List<Biralat> biralatList = app.getBiralatByAZONO(tenaz, azono);
         Collections.sort(biralatList, new Comparator<Biralat>() {
             @Override
             public int compare(Biralat lhs, Biralat rhs) {

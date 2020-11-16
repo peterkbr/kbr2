@@ -15,14 +15,26 @@ import java.util.List;
 
 public class DBConnector {
 
+    public final String path;
     private SQLiteDatabase database;
 
     public DBConnector(Context context, String path, int version) {
+        this.path = path;
         DBOpenHelper openHelper = new DBOpenHelper(context, path, version);
         database = openHelper.getWritableDatabase();
     }
 
-    public void addTenyeszet(Tenyeszet tenyeszet) {
+    public void insertTenyeszetWithChildren(Tenyeszet tenyeszet) {
+        insertTenyeszet(tenyeszet);
+        for (Egyed egyed : tenyeszet.getEgyedList()) {
+            insertEgyed(egyed);
+            for (Biralat biralat : egyed.getBiralatList()) {
+                updateBiralat(biralat);
+            }
+        }
+    }
+
+    public void insertTenyeszet(Tenyeszet tenyeszet) {
         ContentValues values = DBUtil.mapTenyeszetToContentValues(tenyeszet);
         database.insert(DBScripts.TABLE_TENYESZET, null, values);
     }
@@ -79,13 +91,9 @@ public class DBConnector {
         return tenyeszet;
     }
 
-    public void addEgyed(Egyed egyed) {
+    public void insertEgyed(Egyed egyed) {
         ContentValues values = DBUtil.mapEgyedToContentValues(egyed);
         database.insert(DBScripts.TABLE_EGYED, null, values);
-    }
-
-    public int removeEgyedByTENAZ(String TENAZ) {
-        return database.delete(DBScripts.TABLE_EGYED, DBScripts.COLUMN_EGYED_TENAZ + " = ?", new String[]{TENAZ});
     }
 
     public void updateEgyedByAZONOWithKIVALASZTOTT(String AZONO, Boolean KIVALASZTOTT) {
@@ -165,11 +173,7 @@ public class DBConnector {
 
     // BÍRÁLATOK KEZELÉSE
 
-    public int removeBiralatByTENAZ(String TENAZ) {
-        return database.delete(DBScripts.TABLE_BIRALAT, DBScripts.COLUMN_BIRALAT_TENAZ + " = ?", new String[]{TENAZ});
-    }
-
-    private void addBiralat(Biralat biralat) {
+    private void insertBiralat(Biralat biralat) {
         ContentValues values = DBUtil.mapBiralatToContentValues(biralat);
         database.insert(DBScripts.TABLE_BIRALAT, null, values);
     }
@@ -177,7 +181,7 @@ public class DBConnector {
     public void updateBiralat(Biralat biralat) {
         Long id = biralat.getId();
         if (id == null) {
-            addBiralat(biralat);
+            insertBiralat(biralat);
             return;
         }
         ContentValues values = DBUtil.mapBiralatToContentValues(biralat);
@@ -185,7 +189,7 @@ public class DBConnector {
     }
 
     // itt kihasználjuk, hogy csak egy db exportálatlan bírálat tartozhat egy egyedhez
-    public void removeBiralat(Biralat biralat) {
+    public void deleteBiralat(Biralat biralat) {
         String where = DBScripts.COLUMN_BIRALAT_TENAZ + " = ?" +
                 " AND " +
                 DBScripts.COLUMN_BIRALAT_AZONO + " = ?" +

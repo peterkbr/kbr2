@@ -79,62 +79,52 @@ public class KbrApplication extends Application {
 
     public void insertEgyed(Egyed egyed) {
         dbController.addEgyed(egyed);
-        checkDbConsistency();
+        checkDbConsistency(egyed.getTENAZ());
     }
 
     public void updateBiralat(Biralat biralat) {
         dbController.updateBiralat(biralat);
-        checkDbConsistency();
+        checkDbConsistency(biralat.getTENAZ());
     }
 
     public void insertTenyeszetWithChildren(Tenyeszet tenyeszet) {
         dbController.addTenyeszet(tenyeszet);
-        for (Egyed egyed : tenyeszet.getEgyedList()) {
-            dbController.addEgyed(egyed);
-            for (Biralat biralat : egyed.getBiralatList()) {
-                dbController.updateBiralat(biralat);
-            }
-        }
-        checkDbConsistency();
+        checkDbConsistency(tenyeszet.getTENAZ());
     }
 
     public void invalidateTenyeszetByTENAZ(String TENAZ) {
         dbController.invalidateTenyeszetByTENAZ(TENAZ);
-        checkDbConsistency();
     }
 
     public void deleteTenyeszet(String tenaz) {
         dbController.removeTenyeszet(tenaz);
-        checkDbConsistency();
     }
 
     public void removeSelectionFromTenyeszetList(List<String> tenazList) {
         for (String tenaz : tenazList) {
-            dbController.removeSelectionFromTenyeszet(tenaz);
+            removeSelectionFromTenyeszet(tenaz);
         }
-        checkDbConsistency();
     }
 
     public void removeSelectionFromTenyeszetList(String[] tenazArray) {
         for (String tenaz : tenazArray) {
-            dbController.removeSelectionFromTenyeszet(tenaz);
+            removeSelectionFromTenyeszet(tenaz);
         }
-        checkDbConsistency();
     }
 
     public void removeSelectionFromTenyeszet(String tenaz) {
         dbController.removeSelectionFromTenyeszet(tenaz);
-        checkDbConsistency();
+        checkDbConsistency(tenaz);
     }
 
     public void removeBiralat(Biralat biralat) {
         dbController.removeBiralat(biralat);
-        checkDbConsistency();
+        checkDbConsistency(biralat.getTENAZ());
     }
 
-    public void updateEgyedWithSelection(String azono, Boolean selection) {
-        dbController.updateEgyedByAZONOWithKIVALASZTOTT(azono, selection);
-        checkDbConsistency();
+    public void updateEgyedWithSelection(String tenaz, String azono, Boolean selection) {
+        dbController.updateEgyedByAZONOWithKIVALASZTOTT(tenaz, azono, selection);
+        checkDbConsistency(tenaz);
     }
 
     public List<TenyeszetListModel> getTenyeszetListModels() {
@@ -272,13 +262,13 @@ public class KbrApplication extends Application {
         return biralatList;
     }
 
-    public List<Biralat> getBiralatByAZONO(String AZONO) {
-        return dbController.getBiralatByAZONO(AZONO);
+    public List<Biralat> getBiralatByAZONO(String TENAZ, String AZONO) {
+        return dbController.getBiralatByAZONO(TENAZ, AZONO);
     }
 
-    public void checkDbConsistency() {
+    public void checkDbConsistency(String tenaz) {
         try {
-            dbController.checkDbConsistency();
+            dbController.checkDbConsistency(tenaz);
         } catch (Exception e) {
             Log.e(LogUtil.TAG, "checkDbConsistency", e);
             Intent intent = new Intent(currentActivity, DbInconsistencyHandlerActivity.class);

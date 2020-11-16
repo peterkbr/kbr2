@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
+
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.emptytask.EmptyTask;
 import hu.flexisys.kbr.controller.emptytask.Executable;
@@ -20,6 +21,7 @@ import hu.flexisys.kbr.view.NotificationDialog;
 import hu.flexisys.kbr.view.bongeszo.BongeszoActivity;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModelComparatorByLetda;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -192,7 +194,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
                         for (Biralat biralat : feltoltetlenBiralatList) {
                             biralat.setFELTOLTETLEN(false);
                             app.updateBiralat(biralat);
-                            app.updateEgyedWithSelection(biralat.getAZONO(), false);
+                            app.updateEgyedWithSelection(biralat.getTENAZ(), biralat.getAZONO(), false);
                         }
                         reloadData();
                     }
