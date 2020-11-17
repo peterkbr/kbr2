@@ -35,6 +35,9 @@ import hu.flexisys.kbr.view.db.DbInconsistencyHandlerActivity;
 import hu.flexisys.kbr.view.db.SendDbActivity;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
 
+import static hu.flexisys.kbr.view.db.SendDbActivity.KEY_INNER_PATH;
+import static hu.flexisys.kbr.view.db.SendDbActivity.KEY_SDCARD_PATH;
+
 @ReportsCrashes(formKey = "",
         mailTo = "kbr@flexisys.hu",
         mode = ReportingInteractionMode.TOAST,
@@ -287,8 +290,8 @@ public class KbrApplication extends Application {
 
     private Bundle getDbPathExtras() {
         Bundle extras = new Bundle();
-        extras.putString(DbInconsistencyHandlerActivity.KEY_INNER_PATH, dbController.getInnerDBPath());
-        extras.putString(DbInconsistencyHandlerActivity.KEY_SDCARD_PATH, dbController.getSdCardDBPath());
+        extras.putStringArrayList(KEY_INNER_PATH, dbController.getInnerDBPaths());
+        extras.putStringArrayList(KEY_SDCARD_PATH, dbController.getSdCardDBPaths());
         return extras;
     }
 

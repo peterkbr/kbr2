@@ -16,15 +16,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by peter on 27/09/14.
- */
 public class SendDbActivity extends KbrActivity {
 
     public static String KEY_INNER_PATH = "KEY_INNER_PATH";
     public static String KEY_SDCARD_PATH = "KEY_SDCARD_PATH";
-    private File innerErrorFile;
-    private File sdcardErrorFile;
+    private File errorZip;
 
     @Override
     protected void onResume() {
@@ -59,37 +55,29 @@ public class SendDbActivity extends KbrActivity {
     }
 
     protected void copyDbFiles() throws IOException {
-        String dirPath = FileUtil.innerAppPath + File.separator + "DataBase" + File.separator + "ErrorFiles";
-        File dir = new File(dirPath);
-        dir.mkdirs();
-
         Bundle extras = getIntent().getExtras();
-        String innerPath = extras.getString(KEY_INNER_PATH);
-        String sdCardPath = extras.getString(KEY_SDCARD_PATH);
-
+        if (extras == null) {
+            return;
+        }
+        List<String> paths = new ArrayList<>();
+        paths.addAll(extras.getStringArrayList(KEY_INNER_PATH));
+        paths.addAll(extras.getStringArrayList(KEY_SDCARD_PATH));
         String time = DateUtil.formatTimestampFileName(new Date());
 
-        File innerOrig = new File(innerPath);
-        File sdcardOrig = new File(sdCardPath);
+        String zipPath = FileUtil.innerAppPath + File.separator + "DataBase" + File.separator + "ErrorFiles" + File.separator + time + "_" + app.getBiraloUserId() + ".zip";
+        errorZip = new File(zipPath);
+        errorZip.getParentFile().mkdirs();
+        ZipManager.zip(paths.toArray(new String[0]), errorZip.getAbsolutePath());
 
-        innerErrorFile = new File(dirPath + File.separator + time + "_" + app.getBiraloUserId() + "_inner");
-        FileUtil.copyFile(innerOrig, innerErrorFile);
-
-
-        sdcardErrorFile = new File(dirPath + File.separator + time + "_" + app.getBiraloUserId() + "_sdCard");
-        FileUtil.copyFile(sdcardOrig, sdcardErrorFile);
-
-        dirPath = FileUtil.externalAppPath + File.separator + "DataBase" + File.separator + "ErrorFiles";
-        dir = new File(dirPath);
-        dir.mkdirs();
-        FileUtil.copyFile(innerOrig, new File(dirPath + File.separator + time + "_" + app.getBiraloUserId() + "_inner"));
-        FileUtil.copyFile(sdcardOrig, new File(dirPath + File.separator + time + "_" + app.getBiraloUserId() + "_sdCard"));
+        String externalZipPath = FileUtil.externalAppPath + File.separator + "DataBase" + File.separator + "ErrorFiles" + File.separator + time + "_" + app.getBiraloUserId() + ".zip";
+        File externalZip = new File(externalZipPath);
+        externalZip.mkdirs();
+        FileUtil.copyFile(errorZip, externalZip);
     }
 
     protected void sendDbEmail(String subject) {
-        List<String> pathList = new ArrayList<String>();
-        pathList.add(innerErrorFile.getAbsolutePath());
-        pathList.add(sdcardErrorFile.getAbsolutePath());
+        List<String> pathList = new ArrayList<>();
+        pathList.add(errorZip.getAbsolutePath());
         EmailUtil.sendMailWithAttachments(new String[]{KbrApplicationUtil.getSupportEmail()}, subject + app.getBiraloNev(), null, pathList);
     }
 }

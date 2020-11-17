@@ -276,11 +276,21 @@ public class DBController {
         }
     }
 
-    public String getInnerDBPath() {
-        return innerDBPath;
+    public ArrayList<String> getInnerDBPaths() {
+        ArrayList<String> paths = new ArrayList<>();
+        paths.add(innerDBPath);
+        for (Tenyeszet tenyeszet : innerConnector.getTenyeszetAll()) {
+            paths.add(innerSubConnectors.get(tenyeszet.getTENAZ()).path);
+        }
+        return paths;
     }
 
-    public String getSdCardDBPath() {
-        return sdCardDBPath;
+    public ArrayList<String> getSdCardDBPaths() {
+        ArrayList<String> paths = new ArrayList<>();
+        paths.add(sdCardDBPath);
+        for (Tenyeszet tenyeszet : sdCardConnector.getTenyeszetAll()) {
+            paths.add(sdCardSubConnectors.get(tenyeszet.getTENAZ()).path);
+        }
+        return paths;
     }
 }
