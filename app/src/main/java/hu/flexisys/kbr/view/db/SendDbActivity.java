@@ -62,16 +62,16 @@ public class SendDbActivity extends KbrActivity {
         List<String> paths = new ArrayList<>();
         paths.addAll(extras.getStringArrayList(KEY_INNER_PATH));
         paths.addAll(extras.getStringArrayList(KEY_SDCARD_PATH));
-        String time = DateUtil.formatTimestampFileName(new Date());
+        String zipName = DateUtil.formatTimestampFileName(new Date()) + "_" + app.getBiraloUserId() + ".zip";
 
-        String zipPath = FileUtil.innerAppPath + File.separator + "DataBase" + File.separator + "ErrorFiles" + File.separator + time + "_" + app.getBiraloUserId() + ".zip";
+        String zipPath = FileUtil.innerAppPath + File.separator + "DataBaseArchives" + File.separator + zipName;
         errorZip = new File(zipPath);
         errorZip.getParentFile().mkdirs();
         ZipManager.zip(paths.toArray(new String[0]), errorZip.getAbsolutePath());
 
-        String externalZipPath = FileUtil.externalAppPath + File.separator + "DataBase" + File.separator + "ErrorFiles" + File.separator + time + "_" + app.getBiraloUserId() + ".zip";
+        String externalZipPath = FileUtil.externalAppPath + File.separator + "DataBaseArchives" + File.separator + zipName;
         File externalZip = new File(externalZipPath);
-        externalZip.mkdirs();
+        externalZip.getParentFile().mkdirs();
         FileUtil.copyFile(errorZip, externalZip);
     }
 

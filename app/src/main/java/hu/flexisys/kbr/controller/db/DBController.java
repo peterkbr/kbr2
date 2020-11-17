@@ -20,7 +20,6 @@ import java.util.Map;
 
 public class DBController {
 
-    private static final String DB_NAME = "KBR2_DB";
     private static final int DB_VERSION = 1;
     private final Context context;
 
@@ -30,29 +29,24 @@ public class DBController {
     private Map<String, DBConnector> innerSubConnectors = new HashMap<>();
     private Map<String, DBConnector> sdCardSubConnectors = new HashMap<>();
 
+    private String innerDBName;
+    private String sdCardDBName;
     private String innerDBPath;
     private String sdCardDBPath;
 
-    public DBController(Context context, String userid) throws Exception {
+    public DBController(Context context, String userid) {
         this.context = context;
-        getDBPath(userid);
+        innerDBName = "innerDB_" + userid;
+        sdCardDBName = "sdcardDB_" + userid;
+        innerDBPath = FileUtil.innerAppPath + File.separator + innerDBName;
+        sdCardDBPath = FileUtil.externalAppPath + File.separator + sdCardDBName;
         createDBConnectors();
     }
 
-    private void getDBPath(String userid) throws Exception {
-        innerDBPath = FileUtil.innerAppPath + File.separator + DB_NAME + "_innerDB_" + userid;
-        String dirPath = FileUtil.externalAppPath + File.separator + "DataBase";
-        File dir = new File(dirPath);
-        boolean dirCreated = dir.mkdirs();
-        if (!dirCreated && !dir.exists()) {
-            throw new Exception("External directory creation error.");
-        }
-        sdCardDBPath = dir.getPath() + File.separator + DB_NAME + "_sdcardDB_" + userid;
-    }
-
     private String getSubDBPath(String tenaz, boolean inner) {
+        String dbName = inner ? innerDBName : sdCardDBName;
         String dbPath = inner ? innerDBPath : sdCardDBPath;
-        return dbPath + "_" + tenaz;
+        return dbPath + "_" + tenaz + File.separator + dbName + "_" + tenaz;
     }
 
     private String getInnerSubDBPath(String tenaz) {
