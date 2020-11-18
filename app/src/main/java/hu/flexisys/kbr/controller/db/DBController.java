@@ -29,17 +29,17 @@ public class DBController {
     private Map<String, DBConnector> innerSubConnectors = new HashMap<>();
     private Map<String, DBConnector> sdCardSubConnectors = new HashMap<>();
 
-    private String innerDBName;
-    private String sdCardDBName;
-    private String innerDBPath;
-    private String sdCardDBPath;
+    private final String innerDBName;
+    private final String sdCardDBName;
+    private final String innerDBPath;
+    private final String sdCardDBPath;
 
     public DBController(Context context, String userid) {
         this.context = context;
         innerDBName = "innerDB_" + userid;
         sdCardDBName = "sdcardDB_" + userid;
         innerDBPath = FileUtil.innerAppPath + File.separator + innerDBName;
-        sdCardDBPath = FileUtil.externalAppPath + File.separator + sdCardDBName;
+        sdCardDBPath = FileUtil.externalAppPath + File.separator + "DataBase" + File.separator + sdCardDBName;
         createDBConnectors();
     }
 
@@ -66,9 +66,22 @@ public class DBController {
 
         for (Tenyeszet tenyeszet : innerConnector.getTenyeszetAll()) {
             String tenaz = tenyeszet.getTENAZ();
-            DBConnector connector = new DBConnector(context, getInnerSubDBPath(tenaz), DB_VERSION);
+            String innerSubPath = getInnerSubDBPath(tenaz);
+            String sdSubPath = getSdCardSubDBPath(tenaz);
+
+            DBConnector connector = new DBConnector(context, innerSubPath, DB_VERSION);
             innerSubConnectors.put(tenaz, connector);
-            connector = new DBConnector(context, getSdCardSubDBPath(tenaz), DB_VERSION);
+
+            File sd = new File(sdSubPath);
+            if (!sd.exists()) {
+                try {
+                    FileUtil.copyFile(new File(innerSubPath), sd);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            connector = new DBConnector(context, sdSubPath, DB_VERSION);
             sdCardSubConnectors.put(tenaz, connector);
         }
     }
@@ -261,12 +274,15 @@ public class DBController {
             src.delete();
             dst.delete();
             createDBConnectors();
-        } else {
-            try {
-                FileUtil.copyFile(src, dst);
-            } catch (IOException e) {
-                Log.e(LogUtil.TAG, "synchronizeDb", e);
-            }
+            return;
+        }
+        try {
+            File sdDir = new File(FileUtil.externalAppPath + File.separator + "DataBase");
+            sdDir.delete();
+            FileUtil.copyFile(src, dst);
+            createDBConnectors();
+        } catch (IOException e) {
+            Log.e(LogUtil.TAG, "synchronizeDb", e);
         }
     }
 
