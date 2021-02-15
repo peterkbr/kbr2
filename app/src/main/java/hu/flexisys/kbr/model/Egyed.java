@@ -4,11 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Peter on 2014.07.01..
  */
-public class Egyed implements Serializable{
+public class Egyed implements Serializable {
 
     private String AZONO;
     private String TENAZ;
@@ -137,5 +138,29 @@ public class Egyed implements Serializable{
 
     public void setBiralatList(List<Biralat> biralatList) {
         this.biralatList = biralatList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Egyed egyed = (Egyed) o;
+        return Objects.equals(AZONO, egyed.AZONO) &&
+                Objects.equals(TENAZ, egyed.TENAZ) &&
+                Objects.equals(ORSKO, egyed.ORSKO) &&
+                Objects.equals(ELLSO, egyed.ELLSO) &&
+                Objects.equals(ELLDA, egyed.ELLDA) &&
+                Objects.equals(SZULD, egyed.SZULD) &&
+                Objects.equals(FAJKO, egyed.FAJKO) &&
+                Objects.equals(KONSK, egyed.KONSK) &&
+                Objects.equals(SZINE, egyed.SZINE) &&
+                Objects.equals(ITVJE, egyed.ITVJE) &&
+                Objects.equals(KIVALASZTOTT, egyed.KIVALASZTOTT) &&
+                Objects.equals(UJ, egyed.UJ);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(AZONO, TENAZ, ORSKO, ELLSO, ELLDA, SZULD, FAJKO, KONSK, SZINE, ITVJE, KIVALASZTOTT, UJ);
     }
 }

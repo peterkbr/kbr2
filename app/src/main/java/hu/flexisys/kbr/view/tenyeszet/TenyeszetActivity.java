@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
+
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.emptytask.EmptyTask;
 import hu.flexisys.kbr.controller.emptytask.Executable;
@@ -134,16 +135,16 @@ public class TenyeszetActivity extends KbrActivity implements DownloadTenyeszetH
                 } else if (isDuplicate(tenaz)) {
                     toast(R.string.teny_felvesz_error_duplicate);
                 } else {
-                    Tenyeszet tenyeszet = new Tenyeszet(tenaz);
-                    tenyeszet.setERVENYES(false);
-                    tenyeszet.setLEDAT(new Date(1));
-                    app.insertTenyeszetWithChildren(tenyeszet);
+            Tenyeszet tenyeszet = new Tenyeszet(tenaz);
+            tenyeszet.setERVENYES(false);
+            tenyeszet.setLEDAT(new Date(1));
+            app.insertTenyeszetWithChildren(tenyeszet);
 
-                    TenyeszetListModel model = new TenyeszetListModel(app, tenyeszet);
-                    tenyeszetList.add(0, model);
-                    selectedList.add(model.getTENAZ());
-                    adapter.notifyDataSetChanged();
-                }
+            TenyeszetListModel model = new TenyeszetListModel(app, tenyeszet);
+            tenyeszetList.add(0, model);
+            selectedList.add(model.getTENAZ());
+            adapter.notifyDataSetChanged();
+        }
             }
         });
         newFragment.show(ft, "felveszDialog");

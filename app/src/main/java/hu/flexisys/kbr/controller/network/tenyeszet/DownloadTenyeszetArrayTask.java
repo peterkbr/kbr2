@@ -15,6 +15,8 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.util.HashMap;
 
+import static hu.flexisys.kbr.controller.KbrApplication.DbCheckType.FULL;
+
 /**
  * Created by Peter on 2014.07.02..
  */
@@ -65,6 +67,7 @@ public class DownloadTenyeszetArrayTask extends AsyncTask<Object, Void, Void> {
                 Log.e(LogUtil.TAG, "parsing xml", e);
             }
         }
+        app.checkDbConsistency(FULL);
         return null;
     }
 

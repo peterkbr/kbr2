@@ -48,8 +48,6 @@ public class MenuActivity extends KbrActivity {
             return;
         }
 
-        app.checkDbConsistency();
-
         TextView counter = findViewById(R.id.menu_biralat_counter);
         int counterValue = app.getFeltoltetlenBiralatCount();
         counter.setText(getString(R.string.menu_biralat_counter, counterValue));
