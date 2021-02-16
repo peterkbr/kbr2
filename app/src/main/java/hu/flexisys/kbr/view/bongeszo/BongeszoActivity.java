@@ -39,6 +39,8 @@ import java.io.File;
 import java.text.ParseException;
 import java.util.*;
 
+import static hu.flexisys.kbr.controller.KbrApplication.DbCheckType.BIRALAT;
+
 public class BongeszoActivity extends KbrActivity {
 
     public static final String ert1 = "16";
@@ -141,6 +143,7 @@ public class BongeszoActivity extends KbrActivity {
                                             dialog2.dismiss();
                                             startProgressDialog(getString(R.string.bong_progress_delete));
                                             app.removeBiralat(currentBiralat);
+                                            app.checkDbConsistency(BIRALAT);
                                             EmptyTask task = new EmptyTask(new Executable() {
                                                 @Override
                                                 public void execute() {
@@ -469,6 +472,7 @@ public class BongeszoActivity extends KbrActivity {
                                     app.updateBiralat(biralat);
                                 }
                             }
+                            app.checkDbConsistency(BIRALAT);
                             reloadData();
                             reorderData();
                         }

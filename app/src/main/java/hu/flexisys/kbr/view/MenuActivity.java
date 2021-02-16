@@ -15,9 +15,12 @@ import hu.flexisys.kbr.view.bongeszo.tenyeszet.BongeszoTenyeszetActivity;
 import hu.flexisys.kbr.view.levalogatas.LevalogatasTenyeszetActivity;
 import hu.flexisys.kbr.view.tenyeszet.TenyeszetActivity;
 
+import static hu.flexisys.kbr.controller.KbrApplication.DbCheckType.FULL;
+
 public class MenuActivity extends KbrActivity {
 
     private Boolean startedAdminSettings = false;
+    private boolean checked = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,10 @@ public class MenuActivity extends KbrActivity {
             return;
         }
 
-        app.checkDbConsistency();
+        if (!checked) {
+            checked = true;
+            app.checkDbConsistency(FULL);
+        }
 
         TextView counter = findViewById(R.id.menu_biralat_counter);
         int counterValue = app.getFeltoltetlenBiralatCount();

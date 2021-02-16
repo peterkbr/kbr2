@@ -17,6 +17,8 @@ import hu.flexisys.kbr.view.levalogatas.biralatdialog.BiralatDialog;
 
 import java.util.*;
 
+import static hu.flexisys.kbr.controller.KbrApplication.DbCheckType.BIRALAT;
+
 /**
  * Created by peter on 04/09/14.
  */
@@ -219,6 +221,7 @@ public class BiralatDialogEditActivity extends KbrActivity {
 
     public void saveBiralat(Biralat biralat) {
         app.updateBiralat(biralat);
+        app.checkDbConsistency(BIRALAT);
         biralFragment.setBiralatSaved();
         dismissDialog();
         finish();

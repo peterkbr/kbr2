@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
+
 import hu.flexisys.kbr.R;
 import hu.flexisys.kbr.controller.emptytask.EmptyTask;
 import hu.flexisys.kbr.controller.emptytask.Executable;
@@ -22,6 +23,9 @@ import hu.flexisys.kbr.view.KbrActivity;
 import hu.flexisys.kbr.view.NotificationDialog;
 
 import java.util.*;
+
+import static hu.flexisys.kbr.controller.KbrApplication.DbCheckType.FULL;
+import static hu.flexisys.kbr.controller.KbrApplication.DbCheckType.TENYESZET;
 
 /**
  * Created by Peter on 2014.07.04..
@@ -138,6 +142,7 @@ public class TenyeszetActivity extends KbrActivity implements DownloadTenyeszetH
                     tenyeszet.setERVENYES(false);
                     tenyeszet.setLEDAT(new Date(1));
                     app.insertTenyeszetWithChildren(tenyeszet);
+                    app.checkDbConsistency(TENYESZET);
 
                     TenyeszetListModel model = new TenyeszetListModel(app, tenyeszet);
                     tenyeszetList.add(0, model);
@@ -265,6 +270,7 @@ public class TenyeszetActivity extends KbrActivity implements DownloadTenyeszetH
                         for (String tenaz : selectedList) {
                             app.deleteTenyeszet(tenaz);
                         }
+                        app.checkDbConsistency(FULL);
                     }
                 }, new ExecutableFinishedListener() {
                     @Override

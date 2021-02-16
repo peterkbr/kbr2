@@ -22,6 +22,12 @@ public class DBConnector {
         database = openHelper.getWritableDatabase();
     }
 
+    public void close() {
+        if (database != null && database.isOpen()) {
+            database.close();
+        }
+    }
+
     public void addTenyeszet(Tenyeszet tenyeszet) {
         ContentValues values = DBUtil.mapTenyeszetToContentValues(tenyeszet);
         database.insert(DBScripts.TABLE_TENYESZET, null, values);
@@ -92,6 +98,13 @@ public class DBConnector {
         ContentValues values = new ContentValues();
         values.put(DBScripts.COLUMN_EGYED_KIVALASZTOTT, KIVALASZTOTT);
         database.update(DBScripts.TABLE_EGYED, values, DBScripts.COLUMN_EGYED_AZONO + " = ?", new String[]{AZONO});
+    }
+
+    public List<Egyed> getEgyedAll() {
+        Cursor cursor = database.query(DBScripts.TABLE_EGYED, DBScripts.COLUMNS_EGYED, null, null, null, null, null);
+        List<Egyed> list = getEgyedListFromCursor(cursor);
+        cursor.close();
+        return list;
     }
 
     public List<Egyed> getEgyedByTENAZ(String TENAZ) {
@@ -192,6 +205,13 @@ public class DBConnector {
                 " AND " +
                 DBScripts.COLUMN_BIRALAT_EXPORTALT + " = ?";
         database.delete(DBScripts.TABLE_BIRALAT, where, new String[]{biralat.getTENAZ(), biralat.getAZONO(), "0"});
+    }
+
+    public List<Biralat> getBiralatAll() {
+        Cursor cursor = database.query(DBScripts.TABLE_BIRALAT, DBScripts.COLUMNS_BIRALAT, null, null, null, null, null);
+        List<Biralat> list = getBiralatListFromCursor(cursor);
+        cursor.close();
+        return list;
     }
 
     public List<Biralat> getBiralatByTENAZ(String TENAZ) {

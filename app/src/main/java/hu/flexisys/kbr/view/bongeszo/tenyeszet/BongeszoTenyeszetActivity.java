@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static hu.flexisys.kbr.controller.KbrApplication.DbCheckType.FULL;
+
 /**
  * Created by Peter on 2014.07.04..
  */
@@ -194,6 +196,7 @@ public class BongeszoTenyeszetActivity extends KbrActivity {
                             app.updateBiralat(biralat);
                             app.updateEgyedWithSelection(biralat.getAZONO(), false);
                         }
+                        app.checkDbConsistency(FULL);
                         reloadData();
                     }
                 } catch (IOException e) {

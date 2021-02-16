@@ -3,6 +3,7 @@ package hu.flexisys.kbr.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by Peter on 2014.07.02..
@@ -828,5 +829,89 @@ public class Biralat implements Serializable {
 
     public void setERT30(String ERT30) {
         this.ERT30 = ERT30;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Biralat biralat = (Biralat) o;
+        return Objects.equals(id, biralat.id) &&
+                Objects.equals(AZONO, biralat.AZONO) &&
+                Objects.equals(TENAZ, biralat.TENAZ) &&
+                Objects.equals(ORSKO, biralat.ORSKO) &&
+                Objects.equals(BIRDA, biralat.BIRDA) &&
+                Objects.equals(BIRTI, biralat.BIRTI) &&
+                Objects.equals(KULAZ, biralat.KULAZ) &&
+                Objects.equals(AKAKO, biralat.AKAKO) &&
+                Objects.equals(FELTOLTETLEN, biralat.FELTOLTETLEN) &&
+                Objects.equals(EXPORTALT, biralat.EXPORTALT) &&
+                Objects.equals(LETOLTOTT, biralat.LETOLTOTT) &&
+                Objects.equals(MEGJEGYZES, biralat.MEGJEGYZES) &&
+                Objects.equals(KOD01, biralat.KOD01) &&
+                Objects.equals(ERT01, biralat.ERT01) &&
+                Objects.equals(KOD02, biralat.KOD02) &&
+                Objects.equals(ERT02, biralat.ERT02) &&
+                Objects.equals(KOD03, biralat.KOD03) &&
+                Objects.equals(ERT03, biralat.ERT03) &&
+                Objects.equals(KOD04, biralat.KOD04) &&
+                Objects.equals(ERT04, biralat.ERT04) &&
+                Objects.equals(KOD05, biralat.KOD05) &&
+                Objects.equals(ERT05, biralat.ERT05) &&
+                Objects.equals(KOD06, biralat.KOD06) &&
+                Objects.equals(ERT06, biralat.ERT06) &&
+                Objects.equals(KOD07, biralat.KOD07) &&
+                Objects.equals(ERT07, biralat.ERT07) &&
+                Objects.equals(KOD08, biralat.KOD08) &&
+                Objects.equals(ERT08, biralat.ERT08) &&
+                Objects.equals(KOD09, biralat.KOD09) &&
+                Objects.equals(ERT09, biralat.ERT09) &&
+                Objects.equals(KOD10, biralat.KOD10) &&
+                Objects.equals(ERT10, biralat.ERT10) &&
+                Objects.equals(KOD11, biralat.KOD11) &&
+                Objects.equals(ERT11, biralat.ERT11) &&
+                Objects.equals(KOD12, biralat.KOD12) &&
+                Objects.equals(ERT12, biralat.ERT12) &&
+                Objects.equals(KOD13, biralat.KOD13) &&
+                Objects.equals(ERT13, biralat.ERT13) &&
+                Objects.equals(KOD14, biralat.KOD14) &&
+                Objects.equals(ERT14, biralat.ERT14) &&
+                Objects.equals(KOD15, biralat.KOD15) &&
+                Objects.equals(ERT15, biralat.ERT15) &&
+                Objects.equals(KOD16, biralat.KOD16) &&
+                Objects.equals(ERT16, biralat.ERT16) &&
+                Objects.equals(KOD17, biralat.KOD17) &&
+                Objects.equals(ERT17, biralat.ERT17) &&
+                Objects.equals(KOD18, biralat.KOD18) &&
+                Objects.equals(ERT18, biralat.ERT18) &&
+                Objects.equals(KOD19, biralat.KOD19) &&
+                Objects.equals(ERT19, biralat.ERT19) &&
+                Objects.equals(KOD20, biralat.KOD20) &&
+                Objects.equals(ERT20, biralat.ERT20) &&
+                Objects.equals(KOD21, biralat.KOD21) &&
+                Objects.equals(ERT21, biralat.ERT21) &&
+                Objects.equals(KOD22, biralat.KOD22) &&
+                Objects.equals(ERT22, biralat.ERT22) &&
+                Objects.equals(KOD23, biralat.KOD23) &&
+                Objects.equals(ERT23, biralat.ERT23) &&
+                Objects.equals(KOD24, biralat.KOD24) &&
+                Objects.equals(ERT24, biralat.ERT24) &&
+                Objects.equals(KOD25, biralat.KOD25) &&
+                Objects.equals(ERT25, biralat.ERT25) &&
+                Objects.equals(KOD26, biralat.KOD26) &&
+                Objects.equals(ERT26, biralat.ERT26) &&
+                Objects.equals(KOD27, biralat.KOD27) &&
+                Objects.equals(ERT27, biralat.ERT27) &&
+                Objects.equals(KOD28, biralat.KOD28) &&
+                Objects.equals(ERT28, biralat.ERT28) &&
+                Objects.equals(KOD29, biralat.KOD29) &&
+                Objects.equals(ERT29, biralat.ERT29) &&
+                Objects.equals(KOD30, biralat.KOD30) &&
+                Objects.equals(ERT30, biralat.ERT30);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, AZONO, TENAZ, ORSKO, BIRDA, BIRTI, KULAZ, AKAKO, FELTOLTETLEN, EXPORTALT, LETOLTOTT, MEGJEGYZES, KOD01, ERT01, KOD02, ERT02, KOD03, ERT03, KOD04, ERT04, KOD05, ERT05, KOD06, ERT06, KOD07, ERT07, KOD08, ERT08, KOD09, ERT09, KOD10, ERT10, KOD11, ERT11, KOD12, ERT12, KOD13, ERT13, KOD14, ERT14, KOD15, ERT15, KOD16, ERT16, KOD17, ERT17, KOD18, ERT18, KOD19, ERT19, KOD20, ERT20, KOD21, ERT21, KOD22, ERT22, KOD23, ERT23, KOD24, ERT24, KOD25, ERT25, KOD26, ERT26, KOD27, ERT27, KOD28, ERT28, KOD29, ERT29, KOD30, ERT30);
     }
 }

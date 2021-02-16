@@ -59,35 +59,40 @@ public class SendDbActivity extends KbrActivity {
     }
 
     protected void copyDbFiles() throws IOException {
-        String dirPath = FileUtil.innerAppPath + File.separator + "DataBase" + File.separator + "ErrorFiles";
-        File dir = new File(dirPath);
-        dir.mkdirs();
-
         Bundle extras = getIntent().getExtras();
         String innerPath = extras.getString(KEY_INNER_PATH);
         String sdCardPath = extras.getString(KEY_SDCARD_PATH);
 
         String time = DateUtil.formatTimestampFileName(new Date());
 
+        app.closeDB();
+
         File innerOrig = new File(innerPath);
         File sdcardOrig = new File(sdCardPath);
 
+        String dirPath = FileUtil.innerAppPath + File.separator + "ErrorFiles";
+        File dir = new File(dirPath);
+        dir.mkdirs();
+
         innerErrorFile = new File(dirPath + File.separator + time + "_" + app.getBiraloUserId() + "_inner");
-        FileUtil.copyFile(innerOrig, innerErrorFile);
-
-
         sdcardErrorFile = new File(dirPath + File.separator + time + "_" + app.getBiraloUserId() + "_sdCard");
+        FileUtil.copyFile(innerOrig, innerErrorFile);
         FileUtil.copyFile(sdcardOrig, sdcardErrorFile);
 
-        dirPath = FileUtil.externalAppPath + File.separator + "DataBase" + File.separator + "ErrorFiles";
+        dirPath = FileUtil.externalAppPath + File.separator + "ErrorFiles";
         dir = new File(dirPath);
         dir.mkdirs();
-        FileUtil.copyFile(innerOrig, new File(dirPath + File.separator + time + "_" + app.getBiraloUserId() + "_inner"));
-        FileUtil.copyFile(sdcardOrig, new File(dirPath + File.separator + time + "_" + app.getBiraloUserId() + "_sdCard"));
+
+        innerErrorFile = new File(dirPath + File.separator + time + "_" + app.getBiraloUserId() + "_inner");
+        sdcardErrorFile = new File(dirPath + File.separator + time + "_" + app.getBiraloUserId() + "_sdCard");
+        FileUtil.copyFile(innerOrig, innerErrorFile);
+        FileUtil.copyFile(sdcardOrig, sdcardErrorFile);
+
+        app.openDB();
     }
 
     protected void sendDbEmail(String subject) {
-        List<String> pathList = new ArrayList<String>();
+        List<String> pathList = new ArrayList<>();
         pathList.add(innerErrorFile.getAbsolutePath());
         pathList.add(sdcardErrorFile.getAbsolutePath());
         EmailUtil.sendMailWithAttachments(new String[]{KbrApplicationUtil.getSupportEmail()}, subject + app.getBiraloNev(), null, pathList);

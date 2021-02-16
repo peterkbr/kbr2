@@ -10,9 +10,6 @@ import hu.flexisys.kbr.util.FileUtil;
 import hu.flexisys.kbr.util.LogUtil;
 
 import java.io.*;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class DBController {
@@ -34,19 +31,24 @@ public class DBController {
     }
 
     private void getDBPath(String userid) throws Exception {
-        innerDBPath = FileUtil.innerAppPath + File.separator + DB_NAME + "_innerDB_" + userid;
+        innerDBPath = FileUtil.innerAppPath + File.separator + DB_NAME + "_innerDB_" + userid + ".sqlite";
         String dirPath = FileUtil.externalAppPath + File.separator + "DataBase";
         File dir = new File(dirPath);
         boolean dirCreated = dir.mkdirs();
         if (!dirCreated && !dir.exists()) {
             throw new Exception("External directory creation error.");
         }
-        sdCardDBPath = dir.getPath() + File.separator + DB_NAME + "_sdcardDB_" + userid;
+        sdCardDBPath = dir.getPath() + File.separator + DB_NAME + "_sdcardDB_" + userid + ".sqlite";
     }
 
-    private void createDBConnector() {
+    public void createDBConnector() {
         innerConnector = new DBConnector(context, innerDBPath, DB_VERSION);
         sdCardConnector = new DBConnector(context, sdCardDBPath, DB_VERSION);
+    }
+
+    public void closeDBConnector() {
+        innerConnector.close();
+        sdCardConnector.close();
     }
 
     public void addTenyeszet(Tenyeszet tenyeszet) {
@@ -159,52 +161,64 @@ public class DBController {
     }
 
     public void checkDbConsistency() throws Exception {
-        String innerMD5 = getMD5EncryptedString(innerDBPath);
-        String sdCardMD5 = getMD5EncryptedString(sdCardDBPath);
-        if (!innerMD5.equals(sdCardMD5)) {
-            throw new Exception(LogUtil.TAG + ":checkDbConsistency:different db");
+        checkTenyeszetConsistency();
+        checkEgyedConsistency();
+        checkBiralatConsistency();
+    }
+
+    public void checkTenyeszetConsistency() throws Exception {
+        List<Tenyeszet> il = innerConnector.getTenyeszetAll();
+        List<Tenyeszet> sl = sdCardConnector.getTenyeszetAll();
+        if (il.size() != sl.size()) {
+            throw new Exception(LogUtil.TAG + ":checkDbConsistency:different tenyeszetList");
+        }
+        for (int i = 0; i < il.size(); i++) {
+            if (!il.get(i).equals(sl.get(i))) {
+                throw new Exception(LogUtil.TAG + ":checkDbConsistency:different tenyeszet");
+            }
         }
     }
 
-    private String getMD5EncryptedString(String path) {
-        File file = new File(path);
-        int size = (int) file.length();
-        byte[] bytes = new byte[size];
-        try {
-            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
-            buf.read(bytes, 0, bytes.length);
-            buf.close();
-        } catch (IOException e) {
-            Log.e(LogUtil.TAG, "getMD5EncryptedString", e);
+    public void checkEgyedConsistency() throws Exception {
+        List<Egyed> il = innerConnector.getEgyedAll();
+        List<Egyed> sl = sdCardConnector.getEgyedAll();
+        if (il.size() != sl.size()) {
+            throw new Exception(LogUtil.TAG + ":checkDbConsistency:different egyedList");
         }
-        MessageDigest mdEnc = null;
-        try {
-            mdEnc = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            Log.e(LogUtil.TAG, "getMD5EncryptedString", e);
+        for (int i = 0; i < il.size(); i++) {
+            if (!il.get(i).equals(sl.get(i))) {
+                throw new Exception(LogUtil.TAG + ":checkDbConsistency:different egyed");
+            }
         }
-        mdEnc.update(bytes, 0, bytes.length);
-        StringBuilder md5 = new StringBuilder(new BigInteger(1, mdEnc.digest()).toString(16));
-        while (md5.length() < 32) {
-            md5.insert(0, "0");
+    }
+
+    public void checkBiralatConsistency() throws Exception {
+        List<Biralat> il = innerConnector.getBiralatAll();
+        List<Biralat> sl = sdCardConnector.getBiralatAll();
+        if (il.size() != sl.size()) {
+            throw new Exception(LogUtil.TAG + ":checkDbConsistency:different biralatList");
         }
-        return md5.toString();
+        for (int i = 0; i < il.size(); i++) {
+            if (!il.get(i).equals(sl.get(i))) {
+                throw new Exception(LogUtil.TAG + ":checkDbConsistency:different biralat");
+            }
+        }
     }
 
     public void synchronizeDb() {
         File src = new File(innerDBPath);
         File dst = new File(sdCardDBPath);
 
-        if (innerConnector.isEmpty()) {
-            src.delete();
-            dst.delete();
-            createDBConnector();
-        } else {
-            try {
+        try {
+            if (innerConnector.isEmpty()) {
+                src.delete();
+                dst.delete();
+            } else {
                 FileUtil.copyFile(src, dst);
-            } catch (IOException e) {
-                Log.e(LogUtil.TAG, "synchronizeDb", e);
             }
+            createDBConnector();
+        } catch (IOException e) {
+            Log.e(LogUtil.TAG, "synchronizeDb", e);
         }
     }
 

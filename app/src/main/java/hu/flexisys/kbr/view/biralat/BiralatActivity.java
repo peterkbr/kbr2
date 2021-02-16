@@ -25,6 +25,9 @@ import hu.flexisys.kbr.view.component.numpad.NumPadInput;
 
 import java.util.*;
 
+import static hu.flexisys.kbr.controller.KbrApplication.DbCheckType.BIRALAT;
+import static hu.flexisys.kbr.controller.KbrApplication.DbCheckType.EGYED;
+
 /**
  * Created by Peter on 2014.07.04..
  */
@@ -318,6 +321,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
         egyed.setKIVALASZTOTT(false);
         egyed.setUJ(true);
         app.insertEgyed(egyed);
+        app.checkDbConsistency(EGYED);
         reloadData();
         selectedEgyed = findEgyedByAzono(azono);
         keresoFragment.updateKeresoButtons(egyedList);
@@ -491,6 +495,7 @@ public class BiralatActivity extends KbrActivity implements BirKerNotfoundListen
 
     public void saveBiralat(Biralat biralat) {
         app.updateBiralat(biralat);
+        app.checkDbConsistency(BIRALAT);
         biralFragment.setBiralatSaved();
         String azono = selectedEgyed.getAZONO();
         reloadData();

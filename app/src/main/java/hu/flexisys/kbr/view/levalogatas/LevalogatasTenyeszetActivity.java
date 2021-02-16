@@ -31,6 +31,8 @@ import hu.flexisys.kbr.view.tenyeszet.TorlesAlertListener;
 import java.io.File;
 import java.util.*;
 
+import static hu.flexisys.kbr.controller.KbrApplication.DbCheckType.EGYED;
+
 public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesAlertListener {
 
     public static String EXTRAKEY_SELECTEDTENAZLIST = "selectedTenazArray";
@@ -261,6 +263,7 @@ public class LevalogatasTenyeszetActivity extends KbrActivity implements TorlesA
             @Override
             public void execute() {
                 app.removeSelectionFromTenyeszetList(selectedList);
+                app.checkDbConsistency(EGYED);
                 reloadData();
             }
         }, new ExecutableFinishedListener() {

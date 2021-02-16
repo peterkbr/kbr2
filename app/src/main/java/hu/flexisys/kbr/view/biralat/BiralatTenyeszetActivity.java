@@ -20,6 +20,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
+import static hu.flexisys.kbr.controller.KbrApplication.DbCheckType.EGYED;
+
 public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlertListener {
 
     public static String EXTRAKEY_SELECTEDTENAZLIST = "selectedTenazArray";
@@ -83,6 +85,7 @@ public class BiralatTenyeszetActivity extends KbrActivity implements TorlesAlert
             @Override
             public void execute() {
                 app.removeSelectionFromTenyeszetList(selectedList);
+                app.checkDbConsistency(EGYED);
                 reloadData();
             }
         }, new ExecutableFinishedListener() {

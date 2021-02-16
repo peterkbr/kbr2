@@ -31,6 +31,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static hu.flexisys.kbr.controller.KbrApplication.DbCheckType.EGYED;
+
 /**
  * Created by Peter on 2014.07.21..
  */
@@ -442,6 +444,7 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
             @Override
             public void execute() {
                 app.removeSelectionFromTenyeszetList(selectedTenazArray);
+                app.checkDbConsistency(EGYED);
                 reloadData();
             }
         }, new ExecutableFinishedListener() {
@@ -516,6 +519,7 @@ public class LevalogatasActivity extends KbrActivity implements SelectionChanged
                 app.updateEgyedWithSelection(egyed.getAZONO(), egyed.getKIVALASZTOTT());
             }
         }
+        app.checkDbConsistency(EGYED);
     }
 
     public void torles() {

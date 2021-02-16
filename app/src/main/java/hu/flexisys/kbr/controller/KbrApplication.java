@@ -79,12 +79,10 @@ public class KbrApplication extends Application {
 
     public void insertEgyed(Egyed egyed) {
         dbController.addEgyed(egyed);
-        checkDbConsistency();
     }
 
     public void updateBiralat(Biralat biralat) {
         dbController.updateBiralat(biralat);
-        checkDbConsistency();
     }
 
     public void insertTenyeszetWithChildren(Tenyeszet tenyeszet) {
@@ -95,46 +93,38 @@ public class KbrApplication extends Application {
                 dbController.updateBiralat(biralat);
             }
         }
-        checkDbConsistency();
     }
 
     public void invalidateTenyeszetByTENAZ(String TENAZ) {
         dbController.invalidateTenyeszetByTENAZ(TENAZ);
-        checkDbConsistency();
     }
 
     public void deleteTenyeszet(String tenaz) {
         dbController.removeTenyeszet(tenaz);
-        checkDbConsistency();
     }
 
     public void removeSelectionFromTenyeszetList(List<String> tenazList) {
         for (String tenaz : tenazList) {
             dbController.removeSelectionFromTenyeszet(tenaz);
         }
-        checkDbConsistency();
     }
 
     public void removeSelectionFromTenyeszetList(String[] tenazArray) {
         for (String tenaz : tenazArray) {
             dbController.removeSelectionFromTenyeszet(tenaz);
         }
-        checkDbConsistency();
     }
 
     public void removeSelectionFromTenyeszet(String tenaz) {
         dbController.removeSelectionFromTenyeszet(tenaz);
-        checkDbConsistency();
     }
 
     public void removeBiralat(Biralat biralat) {
         dbController.removeBiralat(biralat);
-        checkDbConsistency();
     }
 
     public void updateEgyedWithSelection(String azono, Boolean selection) {
         dbController.updateEgyedByAZONOWithKIVALASZTOTT(azono, selection);
-        checkDbConsistency();
     }
 
     public List<TenyeszetListModel> getTenyeszetListModels() {
@@ -276,9 +266,36 @@ public class KbrApplication extends Application {
         return dbController.getBiralatByAZONO(AZONO);
     }
 
-    public void checkDbConsistency() {
+    public void closeDB() {
+        dbController.closeDBConnector();
+    }
+
+    public void openDB() {
+        dbController.createDBConnector();
+    }
+
+    public enum DbCheckType {FULL, TENYESZET, EGYED, BIRALAT}
+
+    public void checkDbConsistency(DbCheckType type) {
         try {
-            dbController.checkDbConsistency();
+            switch (type) {
+                case FULL: {
+                    dbController.checkDbConsistency();
+                    break;
+                }
+                case TENYESZET: {
+                    dbController.checkTenyeszetConsistency();
+                    break;
+                }
+                case EGYED: {
+                    dbController.checkEgyedConsistency();
+                    break;
+                }
+                case BIRALAT: {
+                    dbController.checkBiralatConsistency();
+                    break;
+                }
+            }
         } catch (Exception e) {
             Log.e(LogUtil.TAG, "checkDbConsistency", e);
             Intent intent = new Intent(currentActivity, DbInconsistencyHandlerActivity.class);
