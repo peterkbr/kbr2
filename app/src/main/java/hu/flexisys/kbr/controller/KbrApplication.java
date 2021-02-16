@@ -41,6 +41,7 @@ import hu.flexisys.kbr.view.tenyeszet.TenyeszetListModel;
         resToastText = R.string.crash_toast_text)
 public class KbrApplication extends Application {
 
+    public boolean checked = false;
     public static String errorOnInit = null;
     private DBController dbController;
     private KbrActivity currentActivity;

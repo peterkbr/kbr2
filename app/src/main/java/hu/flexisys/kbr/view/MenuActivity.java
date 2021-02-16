@@ -20,7 +20,6 @@ import static hu.flexisys.kbr.controller.KbrApplication.DbCheckType.FULL;
 public class MenuActivity extends KbrActivity {
 
     private Boolean startedAdminSettings = false;
-    private boolean checked = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,8 +50,8 @@ public class MenuActivity extends KbrActivity {
             return;
         }
 
-        if (!checked) {
-            checked = true;
+        if (!app.checked) {
+            app.checked = true;
             app.checkDbConsistency(FULL);
         }
 
